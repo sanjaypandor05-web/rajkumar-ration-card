@@ -175,6 +175,3 @@ function closePopup(){
 
 
 window.closePopup = closePopup;
-
-
-window.closePopup = closePopup;
