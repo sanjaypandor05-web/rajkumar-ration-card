@@ -1,80 +1,150 @@
+// ================= GOOGLE APPS SCRIPT URL =================
+
 const SCRIPT_URL =
 "https://script.google.com/macros/s/AKfycbzPzeal1vevXUO1zCFSGNJg3TUvS1YQwB9ZM7kGD9GFkQmW-LrevGgw3Pa_g9Sj8eM3pA/exec";
 
 
-document.addEventListener("DOMContentLoaded",()=>{
+
+// ================= PAGE LOAD =================
+
+document.addEventListener("DOMContentLoaded", function(){
+
 
 
 const form = document.querySelector(".application-form");
 
 
-if(!form) return;
+// ================= FORM SUBMIT =================
+
+if(form){
 
 
-form.addEventListener("submit", async function(e){
+form.addEventListener("submit", function(e){
+
 
 e.preventDefault();
 
 
+
+// SHOW LOADING
+
+let loading = document.getElementById("loading");
+
+if(loading){
+
+loading.style.display="flex";
+
+}
+
+
+
+// COLLECT DATA
+
 let data = {
 
-gujaratiName: document.getElementById("gujaratiName").value,
 
-englishName: document.getElementById("englishName").value,
+gujaratiName:
+document.getElementById("gujaratiName").value,
 
-mobile: document.getElementById("mobile").value,
 
-village: document.getElementById("village").value,
+englishName:
+document.getElementById("englishName").value,
 
-taluka: document.getElementById("taluka").value,
 
-district: document.getElementById("district").value,
+mobile:
+document.getElementById("mobile").value,
 
-address: document.getElementById("address").value,
 
-pincode: document.getElementById("pincode").value,
+village:
+document.getElementById("village").value,
 
-email: document.getElementById("email").value,
 
-service: document.getElementById("service").value,
+taluka:
+document.getElementById("taluka").value,
 
-details: document.getElementById("details").value
+
+district:
+document.getElementById("district").value,
+
+
+address:
+document.getElementById("address").value,
+
+
+pincode:
+document.getElementById("pincode").value,
+
+
+email:
+document.getElementById("email").value,
+
+
+service:
+document.getElementById("service").value,
+
+
+details:
+document.getElementById("details").value
+
 
 };
 
 
 
-document.getElementById("loading").style.display="flex";
 
+// SEND DATA
 
-try{
+fetch(SCRIPT_URL,{
 
-
-let response = await fetch(SCRIPT_URL,{
 
 method:"POST",
 
 body:JSON.stringify(data)
 
-});
+
+})
 
 
-let result = await response.json();
+.then(response=>response.json())
 
 
-document.getElementById("loading").style.display="none";
+.then(result=>{
 
+
+
+// HIDE LOADING
+
+if(loading){
+
+loading.style.display="none";
+
+}
+
+
+
+// SUCCESS
 
 if(result.success){
 
 
-document.getElementById("successPopup").style.display="flex";
+
+let popup =
+document.getElementById("successPopup");
 
 
-form.reset();
+if(popup){
+
+popup.style.display="flex";
+
+}
+
 
 
 }
+
+
+
+// ERROR
 
 else{
 
@@ -85,14 +155,29 @@ alert(result.error);
 }
 
 
+
+})
+
+
+
+.catch(error=>{
+
+
+if(loading){
+
+loading.style.display="none";
+
 }
 
-catch(error){
+
+alert("Error : "+error);
 
 
-document.getElementById("loading").style.display="none";
+});
 
-alert("Submit Error : "+error);
+
+
+});
 
 
 }
@@ -102,4 +187,49 @@ alert("Submit Error : "+error);
 });
 
 
+
+
+// ================= CLOSE POPUP =================
+
+
+function closePopup(){
+
+
+let popup =
+document.getElementById("successPopup");
+
+
+if(popup){
+
+popup.style.display="none";
+
+}
+
+
+// RESET FORM
+
+let form =
+document.querySelector(".application-form");
+
+
+if(form){
+
+form.reset();
+
+}
+
+
+// SCROLL TOP APPLY
+
+document.getElementById("apply")
+.scrollIntoView({
+behavior:"smooth"
 });
+
+
+}
+
+
+// MAKE FUNCTION GLOBAL
+
+window.closePopup = closePopup;
