@@ -1,12 +1,12 @@
-// =====================================
+// =======================================
 // RAJKUMAR ONLINE SERVICES
-// DOCUMENT UPLOAD SYSTEM
-// SCRIPT.JS PART 1
-// =====================================
+// FINAL SCRIPT.JS
+// =======================================
 
 
 const SCRIPT_URL =
 "https://script.google.com/macros/s/AKfycbzIRYI0APQXVc-Opi2ySYH7n9_tWBVm8JeCFwGwGZvWSk6Zl6cM9kTpoDwQHGKAPoeNhg/exec";
+
 
 
 
@@ -16,22 +16,15 @@ document.addEventListener("DOMContentLoaded",()=>{
 
 
 const form =
-document.querySelector(".application-form");
+document.getElementById("applicationForm");
 
 
 
 
-
-if(form){
-
-
-
-form.addEventListener("submit", async function(e){
-
+form.addEventListener("submit",async function(e){
 
 
 e.preventDefault();
-
 
 
 
@@ -54,33 +47,39 @@ document.getElementById("paymentFile").files[0];
 
 
 
-// Aadhaar PDF Check
+
+// PDF CHECK
 
 
-if(aadhaar && aadhaar.type !== "application/pdf"){
+if(!aadhaar){
 
-
-alert("Aadhaar Card PDF format ma upload karo");
+alert("Aadhaar PDF upload karo");
 
 return;
 
+}
+
+
+if(aadhaar.type !== "application/pdf"){
+
+alert("Aadhaar PDF format ma hovu joie");
+
+return;
 
 }
 
 
 
 
-
-// Ration PDF Check
 
 
 if(ration && ration.type !== "application/pdf"){
 
 
-alert("Ration Card PDF format ma upload karo");
+alert("Ration Card PDF format ma hovu joie");
+
 
 return;
-
 
 }
 
@@ -88,7 +87,9 @@ return;
 
 
 
-// Payment Check
+
+
+// PAYMENT CHECK
 
 
 if(!payment){
@@ -96,11 +97,10 @@ if(!payment){
 
 alert("Payment Screenshot upload karo");
 
+
 return;
 
-
 }
-
 
 
 
@@ -111,12 +111,14 @@ payment.type !== "image/png"
 ){
 
 
-alert("Payment Screenshot JPG/PNG format ma hovu joie");
+alert("Payment Screenshot JPG/PNG hovu joie");
+
 
 return;
 
 
 }
+
 
 
 
@@ -130,95 +132,89 @@ document.getElementById("loading").style.display="block";
 
 
 
+
 let data = {
 
 
 
 gujaratiName:
-
 document.getElementById("gujaratiName").value,
 
 
 
 englishName:
-
 document.getElementById("englishName").value,
 
 
 
 mobile:
-
 document.getElementById("mobile").value,
 
 
 
 village:
-
 document.getElementById("village").value,
 
 
 
 taluka:
-
 document.getElementById("taluka").value,
 
 
 
 district:
-
 document.getElementById("district").value,
 
 
 
 address:
-
 document.getElementById("address").value,
 
 
 
 pincode:
-
 document.getElementById("pincode").value,
 
 
 
 email:
-
 document.getElementById("email").value,
 
 
 
 service:
-
 document.getElementById("service").value,
 
 
 
 details:
-
 document.getElementById("details").value,
 
 
 
-// FILE DATA CONTINUE
+
+
 
 
 aadhaarFile:
-await convertFile(aadhaar),
+await fileConvert(aadhaar),
 
 
 aadhaarName:
-aadhaar ? aadhaar.name : "",
+aadhaar.name,
 
 
 aadhaarType:
-aadhaar ? aadhaar.type : "",
+aadhaar.type,
+
+
+
 
 
 
 
 rationFile:
-await convertFile(ration),
+ration ? await fileConvert(ration) : "",
 
 
 rationName:
@@ -231,8 +227,10 @@ ration ? ration.type : "",
 
 
 
+
+
 paymentFile:
-await convertFile(payment),
+await fileConvert(payment),
 
 
 paymentName:
@@ -280,13 +278,10 @@ document.getElementById("loading").style.display="none";
 if(result.success){
 
 
-
 document.getElementById("successPopup").style.display="block";
 
 
-
 form.reset();
-
 
 
 }
@@ -305,27 +300,17 @@ alert(result.error);
 
 
 
-
 .catch(error=>{
 
 
 document.getElementById("loading").style.display="none";
 
 
-alert("Error : "+error);
+alert(error);
 
 
 });
 
-
-
-
-
-});
-
-
-
-}
 
 
 
@@ -334,47 +319,37 @@ alert("Error : "+error);
 
 
 
+});
 
 
 
 
-// ============================
-// FILE TO BASE64
-// ============================
 
 
-function convertFile(file){
+
+
+
+// FILE CONVERT
+
+
+function fileConvert(file){
 
 
 return new Promise(resolve=>{
-
-
-if(!file){
-
-
-resolve("");
-
-return;
-
-
-}
-
-
 
 
 let reader = new FileReader();
 
 
 
-
 reader.onload=function(){
 
 
-let result = reader.result.split(",")[1];
+let base64 =
+reader.result.split(",")[1];
 
 
-resolve(result);
-
+resolve(base64);
 
 
 };
@@ -396,9 +371,7 @@ reader.readAsDataURL(file);
 
 
 
-// ============================
 // POPUP CLOSE
-// ============================
 
 
 function closePopup(){
@@ -408,7 +381,6 @@ document.getElementById("successPopup").style.display="none";
 
 
 }
-
 
 
 window.closePopup = closePopup;
