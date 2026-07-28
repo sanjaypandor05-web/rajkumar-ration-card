@@ -86,24 +86,19 @@ form.addEventListener("submit", async function (e) {
             body: JSON.stringify(data)
         });
 
-        const result = await response.json();
+       const result = await res.json();
 
-        hideLoading();
+console.log(result);
 
-        if (result.success) {
+hideLoading();
 
-            showSuccess();
-
-            form.reset();
-
-            amount.innerHTML = "₹0";
-
-            console.log(result);
-
-        } else {
-
-            alert("Error : " + result.error);
-
+if (result.success) {
+    showSuccess();
+    form.reset();
+    amount.innerHTML = "₹0";
+} else {
+    alert("Error: " + result.error);
+}
             console.log(result);
 
         }
