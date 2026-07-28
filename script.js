@@ -14,45 +14,33 @@ document.addEventListener("DOMContentLoaded",()=>{
 
 const form=document.querySelector(".application-form");
 
-const service=document.getElementById("service");
-
 const paymentFile=document.getElementById("paymentFile");
 
-const submitBtn=document.getElementById("submitBtn");
-
-const paymentBox=document.getElementById("paymentBox");
+const service=document.getElementById("service");
 
 
-
-
-// SERVICE SELECT
 
 if(service){
 
 service.addEventListener("change",()=>{
 
+let box=document.getElementById("paymentBox");
 
-if(service.value!=""){
+if(box){
 
-if(paymentBox){
-
-paymentBox.style.display="block";
-
-}
+box.style.display="block";
 
 }
 
 });
 
-
 }
 
 
 
-// PAYMENT SCREENSHOT CHECK
+// Payment Screenshot Check
 
 if(paymentFile){
-
 
 paymentFile.addEventListener("change",()=>{
 
@@ -60,48 +48,26 @@ paymentFile.addEventListener("change",()=>{
 let file=paymentFile.files[0];
 
 
-if(!file) return;
+if(file){
 
+if(file.type!="image/jpeg" && file.type!="image/png"){
 
-
-let type=file.type;
-
-
-
-if(
-type!="image/jpeg" &&
-type!="image/png"
-){
-
-alert("Payment Screenshot JPG/PNG format ma hovu joie");
+alert("Payment Screenshot JPG/PNG format ma upload karo");
 
 paymentFile.value="";
 
-return;
-
 }
 
-
-
-if(submitBtn){
-
-submitBtn.disabled=false;
-
 }
-
 
 
 });
 
-
 }
 
 
 
-
-
-// SUBMIT
-
+// FORM SUBMIT
 
 if(form){
 
@@ -113,39 +79,40 @@ e.preventDefault();
 
 
 
-
-// FILES
-
-
-let aadhaar=
+let aadhaar =
 document.getElementById("aadhaarFile").files[0];
 
 
-let ration=
+let ration =
 document.getElementById("rationFile").files[0];
 
 
-let payment=
+let payment =
 document.getElementById("paymentFile").files[0];
 
 
 
+// Aadhaar PDF Check
 
+if(aadhaar){
 
-// PDF CHECK
+if(aadhaar.type!="application/pdf"){
 
-
-if(aadhaar && aadhaar.type!="application/pdf"){
-
-alert("Aadhaar Card PDF format ma upload karo");
+alert("Aadhaar PDF format ma upload karo");
 
 return;
 
 }
 
+}
 
 
-if(ration && ration.type!="application/pdf"){
+
+// Ration PDF Check
+
+if(ration){
+
+if(ration.type!="application/pdf"){
 
 alert("Ration Card PDF format ma upload karo");
 
@@ -153,7 +120,11 @@ return;
 
 }
 
+}
 
+
+
+// Payment Required
 
 if(!payment){
 
@@ -162,7 +133,6 @@ alert("Payment Screenshot upload karo");
 return;
 
 }
-
 
 
 
@@ -175,98 +145,67 @@ document.getElementById("loading").style.display="flex";
 let data={
 
 
-
 gujaratiName:
-gujaratiName.value,
+document.getElementById("gujaratiName").value,
 
 
 englishName:
-englishName.value,
+document.getElementById("englishName").value,
 
 
 mobile:
-mobile.value,
+document.getElementById("mobile").value,
 
 
 village:
-village.value,
+document.getElementById("village").value,
 
 
 taluka:
-taluka.value,
+document.getElementById("taluka").value,
 
 
 district:
-district.value,
+document.getElementById("district").value,
 
 
 address:
-address.value,
+document.getElementById("address").value,
 
 
 pincode:
-pincode.value,
+document.getElementById("pincode").value,
 
 
 email:
-email.value,
+document.getElementById("email").value,
 
 
 service:
-service.value,
+document.getElementById("service").value,
 
 
 details:
-details.value,
+document.getElementById("details").value,
 
 
 
+// FILES
 
 aadhaarFile:
-await fileToBase64(aadhaar),
-
-
-aadhaarName:
-aadhaar ? aadhaar.name:"",
-
-
-aadhaarType:
-aadhaar ? aadhaar.type:"",
-
-
-
+await convertFile(aadhaar),
 
 
 rationFile:
-await fileToBase64(ration),
-
-
-rationName:
-ration ? ration.name:"",
-
-
-rationType:
-ration ? ration.type:"",
-
-
-
+await convertFile(ration),
 
 
 paymentFile:
-await fileToBase64(payment),
+await convertFile(payment)
 
-
-paymentName:
-payment.name,
-
-
-paymentType:
-payment.type
 
 
 };
-
-
 
 
 
@@ -277,10 +216,10 @@ method:"POST",
 
 body:JSON.stringify(data)
 
-
 })
 
-.then(r=>r.json())
+
+.then(res=>res.json())
 
 
 .then(result=>{
@@ -299,13 +238,6 @@ document.getElementById("successPopup").style.display="flex";
 form.reset();
 
 
-if(submitBtn){
-
-submitBtn.disabled=true;
-
-}
-
-
 }
 
 else{
@@ -316,31 +248,27 @@ alert(result.error);
 }
 
 
-
 })
 
 
-.catch(err=>{
+.catch(error=>{
 
 
 document.getElementById("loading").style.display="none";
 
-alert(err);
+
+alert(error);
 
 
 });
 
 
 
-
 });
-
-
 
 }
 
 
-
 });
 
 
@@ -348,10 +276,10 @@ alert(err);
 
 
 
-// FILE CONVERT
+// FILE CONVERT FUNCTION
 
 
-function fileToBase64(file){
+function convertFile(file){
 
 
 return new Promise(resolve=>{
@@ -359,7 +287,7 @@ return new Promise(resolve=>{
 
 if(!file){
 
-resolve("");
+resolve(null);
 
 return;
 
@@ -370,7 +298,26 @@ return;
 let reader=new FileReader();
 
 
-reader.onload=()=>resolve(reader.result);
+reader.onload=()=>{
+
+
+let base64 =
+reader.result.split(",")[1];
+
+
+resolve({
+
+name:file.name,
+
+type:file.type,
+
+data:base64
+
+});
+
+
+};
+
 
 
 reader.readAsDataURL(file);
@@ -386,11 +333,7 @@ reader.readAsDataURL(file);
 
 
 
-// POPUP CLOSE
-
-
 function closePopup(){
-
 
 document.getElementById("successPopup").style.display="none";
 
