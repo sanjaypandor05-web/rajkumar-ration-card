@@ -2,7 +2,7 @@
 // ONLINE RATION WORK V4
 // =====================================
 
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwLThL8hK8iodxL-Flv9V2Wl_W5e3lBFej60_1C7Lx4MCDaTZKsF-4dGk6eSYelFLkZbQ/exec";
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxqF-PjpgCbWYZTwwDXgSiD-bjZLqvYg4Y1w-a0W2ajtAnvFLh0xTon6CqSsubtDAkQiw/exec";
 
 const form = document.querySelector(".application-form");
 const service = document.getElementById("service");
