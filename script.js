@@ -5,8 +5,7 @@
 
 
 const SCRIPT_URL =
-"https://script.google.com/macros/s/AKfycbzPzeal1vevXUO1zCFSGNJg3TUvS1YQwB9ZM7kGD9GFkQmW-LrevGgw3Pa_g9Sj8eM3pA/exec";
-
+"https://script.google.com/macros/s/AKfycbz8Y3peuiLYfLQIWsDZrbrW7II8-i0RgC2PXLbv0EaAY_JGIiTZNLuPa31poCCA4VObrQ/exec";
 
 
 document.addEventListener("DOMContentLoaded",()=>{
