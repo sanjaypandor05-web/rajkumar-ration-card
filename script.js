@@ -10,12 +10,14 @@ const form=document.querySelector(".application-form");
 
 if(form){
 
-form.addEventListener("submit",function(e){
+
+form.addEventListener("submit",async function(e){
+
 
 e.preventDefault();
 
 
-let data={
+const data={
 
 name:document.getElementById("name").value,
 
@@ -35,17 +37,19 @@ email:document.getElementById("email").value
 
 
 
-fetch(SCRIPT_URL,{
+try{
+
+
+let response = await fetch(SCRIPT_URL,{
 
 method:"POST",
 
 body:JSON.stringify(data)
 
-})
+});
 
-.then(res=>res.json())
 
-.then(result=>{
+let result = await response.json();
 
 
 if(result.success){
@@ -63,13 +67,14 @@ alert(result.error);
 }
 
 
-})
+}
 
-.catch(error=>{
+catch(err){
 
-alert(error);
+alert("Server Error : "+err);
 
-});
+}
+
 
 
 });
