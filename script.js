@@ -4,34 +4,32 @@ const SCRIPT_URL =
 
 document.addEventListener("DOMContentLoaded",()=>{
 
-
-const form=document.querySelector(".application-form");
-
-
-if(form){
+const form = document.querySelector(".application-form");
 
 
-form.addEventListener("submit",async function(e){
+if(!form) return;
 
+
+form.addEventListener("submit", async(e)=>{
 
 e.preventDefault();
 
 
 const data={
 
-name:document.getElementById("name").value,
+name: form.querySelector('[name="name"]')?.value || "",
 
-mobile:document.getElementById("mobile").value,
+mobile: form.querySelector('[name="mobile"]')?.value || "",
 
-service:document.getElementById("service").value,
+service: form.querySelector('[name="service"]')?.value || "",
 
-address:document.getElementById("address").value,
+address: form.querySelector('[name="address"]')?.value || "",
 
-district:document.getElementById("district").value,
+district: form.querySelector('[name="district"]')?.value || "",
 
-pincode:document.getElementById("pincode").value,
+pincode: form.querySelector('[name="pincode"]')?.value || "",
 
-email:document.getElementById("email").value
+email: form.querySelector('[name="email"]')?.value || ""
 
 };
 
@@ -40,7 +38,7 @@ email:document.getElementById("email").value
 try{
 
 
-let response = await fetch(SCRIPT_URL,{
+const res = await fetch(SCRIPT_URL,{
 
 method:"POST",
 
@@ -49,7 +47,7 @@ body:JSON.stringify(data)
 });
 
 
-let result = await response.json();
+const result = await res.json();
 
 
 if(result.success){
@@ -58,29 +56,22 @@ alert("Application Submit Successfully");
 
 form.reset();
 
-}
-
-else{
+}else{
 
 alert(result.error);
 
 }
 
 
-}
+}catch(error){
 
-catch(err){
-
-alert("Server Error : "+err);
+alert("Error: "+error);
 
 }
 
 
 
 });
-
-
-}
 
 
 });
