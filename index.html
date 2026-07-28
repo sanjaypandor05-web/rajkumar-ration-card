@@ -7,7 +7,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Rajkumar Ration Card Services</title>
+<title>Rajkumar Online Services</title>
 
 <link rel="stylesheet" href="style.css">
 
@@ -17,16 +17,22 @@
 <body>
 
 
-<header>
+<header class="header">
+
 
 <div class="logo-area">
 
-<img src="Logo.png" alt="Rajkumar Logo">
+<img src="Logo.png" class="logo">
 
-<div>
+
+<div class="logo-text">
+
 <h2>Rajkumar Online Services</h2>
+
 <p>Government Online Services</p>
+
 </div>
+
 
 </div>
 
@@ -48,8 +54,10 @@
 
 
 
-<a class="call-btn" href="tel:+916351700215">
+<a href="tel:+916351700215" class="call-btn">
+
 ☎ Call Now
+
 </a>
 
 
@@ -59,19 +67,23 @@
 
 
 
+
+
 <!-- SLIDER -->
+
 
 <section id="home" class="slider">
 
 
+<img src="slide2.png" class="slide active">
 
-<img src="slide2.png">
 
-
-<img src="slide3.png">
+<img src="slide3.png" class="slide">
 
 
 </section>
+
+
 
 
 
@@ -81,42 +93,54 @@
 <!-- SERVICES -->
 
 
-<section id="services">
+<section id="services" class="services">
 
 
 <h1>Ration Card Services</h1>
 
 
 
-<div class="service-box">
+<div class="service-grid">
 
 
-<div>
+<div class="service-card">
+
 <h3>New Ration Card</h3>
-<p>નવું રેશન કાર્ડ બનાવવું</p>
+
+<p>નવું રેશન કાર્ડ</p>
+
 </div>
 
 
 
-<div>
+<div class="service-card">
+
 <h3>Name Add</h3>
-<p>રેશન કાર્ડમાં નામ ઉમેરવું</p>
+
+<p>નામ ઉમેરવું</p>
+
 </div>
 
 
 
 
-<div>
+<div class="service-card">
+
 <h3>Name Remove</h3>
-<p>રેશન કાર્ડમાંથી નામ કમી કરવું</p>
+
+<p>નામ કમી કરવું</p>
+
 </div>
 
 
 
 
-<div>
+<div class="service-card">
+
 <h3>Correction</h3>
-<p>રેશન કાર્ડ સુધારા</p>
+
+<p>સુધારો</p>
+
 </div>
 
 
@@ -132,13 +156,14 @@
 
 
 
-<!-- APPLY FORM -->
+<!-- APPLICATION FORM -->
 
 
-<section id="apply">
+<section id="apply" class="apply">
 
 
-<h1>Apply Online</h1>
+<h1>Online Application Form</h1>
+
 
 
 
@@ -146,57 +171,74 @@
 
 
 
-<label>Gujarati Name</label>
+<label>ગુજરાતી નામ</label>
 
-<input id="gujaratiName" required>
+<input type="text" id="gujaratiName" required>
+
+
 
 
 
 <label>English Name</label>
 
-<input id="englishName" required>
+<input type="text" id="englishName" required>
+
+
 
 
 
 <label>Mobile Number</label>
 
-<input id="mobile" type="number" required>
+<input type="tel" id="mobile" maxlength="10" required>
+
+
 
 
 
 <label>Village</label>
 
-<input id="village" required>
+<input type="text" id="village" required>
+
+
 
 
 
 <label>Taluka</label>
 
-<input id="taluka" required>
+<input type="text" id="taluka" required>
+
+
 
 
 
 <label>District</label>
 
-<input id="district" required>
+<input type="text" id="district" required>
 
 
 
-<label>Address</label>
 
-<textarea id="address"></textarea>
+
+<label>Full Address</label>
+
+<textarea id="address" required></textarea>
+
+
 
 
 
 <label>Pincode</label>
 
-<input id="pincode">
+<input type="number" id="pincode" required>
+
+
 
 
 
 <label>Email</label>
 
-<input id="email" type="email">
+<input type="email" id="email">
+
 
 
 
@@ -208,7 +250,6 @@
 
 <option value="">Select Service</option>
 
-
 <option>New Ration Card</option>
 
 <option>Name Add</option>
@@ -219,24 +260,27 @@
 
 
 </select>
+<!-- DETAILS -->
 
-
-
-<label>Details</label>
+<label>
+Details
+</label>
 
 <textarea id="details"></textarea>
-<!-- PAYMENT SECTION -->
 
-<section id="payment">
+
+
+
+
+<!-- PAYMENT -->
+
+<section id="payment" class="payment">
 
 
 <h2>Payment</h2>
 
 
-<img src="QR.jpeg"
-width="250"
-alt="Payment QR">
-
+<img src="QR.jpeg" class="qr-code">
 
 
 <p>
@@ -251,10 +295,15 @@ Payment કર્યા પછી Screenshot Upload કરવો જરૂરી
 
 
 
+
 <!-- DOCUMENT UPLOAD -->
 
 
+<section class="documents">
+
+
 <h2>Upload Documents</h2>
+
 
 
 
@@ -262,8 +311,7 @@ Payment કર્યા પછી Screenshot Upload કરવો જરૂરી
 Aadhaar Card PDF
 </label>
 
-
-<input
+<input 
 type="file"
 id="aadhaarFile"
 accept="application/pdf"
@@ -273,15 +321,9 @@ required>
 
 
 
-<br><br>
-
-
-
-
 <label>
 Ration Card PDF
 </label>
-
 
 <input
 type="file"
@@ -292,15 +334,10 @@ accept="application/pdf">
 
 
 
-<br><br>
-
-
-
 
 <label>
-Payment Screenshot
+Payment Screenshot JPG/PNG
 </label>
-
 
 <input
 type="file"
@@ -310,15 +347,16 @@ required>
 
 
 
+</section>
 
 
 
 
-<br><br>
 
 
 
-<button
+
+<button 
 type="submit"
 id="submitBtn">
 
@@ -344,15 +382,15 @@ Submit Application
 <!-- LOADING -->
 
 
-<div id="loading"
-style="display:none;">
+<div id="loading">
+
 
 <h3>
 Please Wait...
 </h3>
 
-</div>
 
+</div>
 
 
 
@@ -363,15 +401,14 @@ Please Wait...
 <!-- SUCCESS POPUP -->
 
 
-<div id="successPopup"
-style="display:none;">
+<div id="successPopup">
 
 
 <div class="popup-box">
 
 
 <h2>
-✅ Success
+✅
 </h2>
 
 
@@ -385,12 +422,12 @@ Application Submitted Successfully
 </p>
 
 
-
 <button onclick="closePopup()">
 
 OK
 
 </button>
+
 
 
 </div>
@@ -426,6 +463,7 @@ Contact Us
 </p>
 
 
+
 </section>
 
 
@@ -434,11 +472,14 @@ Contact Us
 
 
 
-<!-- WHATSAPP -->
 
 
-<a class="whatsapp"
+<!-- WHATSAPP BUTTON -->
+
+
+<a 
 href="https://wa.me/916351700215"
+class="whatsapp"
 target="_blank">
 
 WhatsApp
@@ -450,7 +491,9 @@ WhatsApp
 
 
 
+
 <script src="script.js"></script>
+
 
 
 </body>
