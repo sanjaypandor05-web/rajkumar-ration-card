@@ -2,106 +2,111 @@ const SCRIPT_URL =
 "https://script.google.com/macros/s/AKfycbzPzeal1vevXUO1zCFSGNJg3TUvS1YQwB9ZM7kGD9GFkQmW-LrevGgw3Pa_g9Sj8eM3pA/exec";
 
 
-document.addEventListener("DOMContentLoaded", function(){
+document.addEventListener("DOMContentLoaded",()=>{
 
 
-const form = document.querySelector(".application-form");
+const form=document.querySelector(".application-form");
 
 
 if(form){
 
 
-form.addEventListener("submit", async function(e){
-
+form.addEventListener("submit",async function(e){
 
 e.preventDefault();
 
 
-
-let loading = document.getElementById("loading");
-
-if(loading){
-loading.style.display="flex";
-}
+document.getElementById("loading").style.display="flex";
 
 
 
-let data = {
+let data={
+
 
 gujaratiName:
 document.getElementById("gujaratiName").value,
 
+
 englishName:
 document.getElementById("englishName").value,
+
 
 mobile:
 document.getElementById("mobile").value,
 
+
 village:
 document.getElementById("village").value,
+
 
 taluka:
 document.getElementById("taluka").value,
 
+
 district:
 document.getElementById("district").value,
+
 
 address:
 document.getElementById("address").value,
 
+
 pincode:
 document.getElementById("pincode").value,
+
 
 email:
 document.getElementById("email").value,
 
+
 service:
 document.getElementById("service").value,
 
+
 details:
-document.getElementById("details").value
+document.getElementById("details").value,
+
+
+
+// FILE UPLOAD
+
+aadhaarFile:
+await getFile("aadhaarFile"),
+
+
+rationFile:
+await getFile("rationFile"),
+
+
+paymentFile:
+await getFile("paymentFile")
+
+
 
 };
 
 
 
-try{
-
-
-let response = await fetch(SCRIPT_URL,{
+fetch(SCRIPT_URL,{
 
 method:"POST",
 
-mode:"cors",
-
-headers:{
-"Content-Type":"text/plain;charset=utf-8"
-},
-
 body:JSON.stringify(data)
 
-});
+})
 
 
-
-let text = await response.text();
-
-
-console.log(text);
+.then(res=>res.json())
 
 
+.then(result=>{
 
-let result = JSON.parse(text);
+
+document.getElementById("loading").style.display="none";
 
 
 
 if(result.success){
-
-
-if(loading){
-loading.style.display="none";
-}
-
 
 
 document.getElementById("successPopup").style.display="flex";
@@ -122,20 +127,18 @@ alert(result.error);
 
 
 
-}
-
-catch(error){
+})
 
 
-if(loading){
-loading.style.display="none";
-}
+.catch(error=>{
 
+
+document.getElementById("loading").style.display="none";
 
 alert("Submit Error : "+error);
 
 
-}
+});
 
 
 
@@ -145,32 +148,108 @@ alert("Submit Error : "+error);
 }
 
 
+
 });
 
 
 
-// CLOSE POPUP
-
-function closePopup(){
 
 
-document.getElementById("successPopup").style.display="flex";
+// GET FILE FUNCTION
 
-}
-function closePopup(){
 
-    let popup = document.getElementById("successPopup");
+async function getFile(id){
 
-    if(popup){
-        popup.style.display = "flex";";
-    }
 
-    window.scrollTo({
-        top:0,
-        behavior:"smooth"
-    });
+let input=document.getElementById(id);
+
+
+if(!input || !input.files[0]){
+
+return null;
 
 }
 
 
-window.closePopup = closePopup;
+let file=input.files[0];
+
+
+let base64=await fileToBase64(file);
+
+
+
+return {
+
+
+name:file.name,
+
+type:file.type,
+
+data:base64.split(",")[1]
+
+
+};
+
+
+}
+
+
+
+
+function fileToBase64(file){
+
+
+return new Promise((resolve)=>{
+
+
+let reader=new FileReader();
+
+
+reader.onload=()=>{
+
+resolve(reader.result);
+
+};
+
+
+reader.readAsDataURL(file);
+
+
+});
+
+
+}
+
+
+
+
+
+// POPUP CLOSE
+
+
+function closePopup(){
+
+
+let popup=document.getElementById("successPopup");
+
+
+if(popup){
+
+popup.style.display="none";
+
+}
+
+
+window.scrollTo({
+
+top:0,
+
+behavior:"smooth"
+
+});
+
+
+}
+
+
+window.closePopup=closePopup;
