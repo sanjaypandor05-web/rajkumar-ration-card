@@ -1,198 +1,304 @@
-// ===============================
-// RAJKUMAR RATION CARD API
-// GOOGLE SHEET + DRIVE UPLOAD
-// ===============================
+// =====================================
+// RAJKUMAR RATION CARD WEBSITE SCRIPT
+// FORM + GOOGLE SHEET + DRIVE UPLOAD
+// =====================================
 
 
-const SHEET_ID = "1qd8e9u_6bNsrHJ_UR1EpqxGRX6TeRp27OkHqOFGAhfg";
-
-const SHEET_NAME = "Applications";
-
-
-// Google Drive Folder ID
-
-const FOLDER_ID = "19NSwU-WyLPSATmYaAfqCnTAVc2tXE6HG";
+const SCRIPT_URL =
+"https://script.google.com/macros/s/AKfycbzPzeal1vevXUO1zCFSGNJg3TUvS1YQwB9ZM7kGD9GFkQmW-LrevGgw3Pa_g9Sj8eM3pA/exec";
 
 
 
-// TEST API
+// FILE TO BASE64 FUNCTION
 
-function doGet(){
+function convertFile(file){
 
-  return ContentService
-  .createTextOutput(JSON.stringify({
+return new Promise((resolve,reject)=>{
 
-    success:true,
-    message:"API Working"
 
-  }))
-  .setMimeType(ContentService.MimeType.JSON);
+if(!file){
+
+resolve("");
+
+return;
+
+}
+
+
+let reader = new FileReader();
+
+
+reader.onload = function(){
+
+resolve(reader.result);
+
+};
+
+
+reader.onerror = reject;
+
+
+reader.readAsDataURL(file);
+
+
+
+});
+
 
 }
 
 
 
-// RECEIVE DATA
-
-function doPost(e){
 
 
-try{
-
-
-const sheet = SpreadsheetApp
-.openById(SHEET_ID)
-.getSheetByName(SHEET_NAME);
+document.addEventListener("DOMContentLoaded",()=>{
 
 
 
-const data = JSON.parse(e.postData.contents);
+const form = document.querySelector(".application-form");
 
 
 
-// Application ID
-
-const applicationId = "RC-" + new Date().getTime();
+if(form){
 
 
 
-// DRIVE FOLDER
-
-const folder = DriveApp.getFolderById(FOLDER_ID);
+form.addEventListener("submit",async function(e){
 
 
+e.preventDefault();
 
-// Upload Aadhaar
 
-let aadhaarURL = "";
 
-if(data.aadhaarFile){
+// LOADING
 
-let file1 = folder.createFile(
-  Utilities.newBlob(
-    Utilities.base64Decode(data.aadhaarFile.split(",")[1]),
-    data.aadhaarType,
-    data.aadhaarName
-  )
-);
+let loading=document.getElementById("loading");
 
-aadhaarURL = file1.getUrl();
+if(loading){
+
+loading.style.display="block";
 
 }
 
 
 
-// Upload Ration Card
 
-let rationURL = "";
 
-if(data.rationFile){
+// GET FILES
 
-let file2 = folder.createFile(
- Utilities.newBlob(
-  Utilities.base64Decode(data.rationFile.split(",")[1]),
-  data.rationType,
-  data.rationName
- )
-);
 
-rationURL = file2.getUrl();
+let aadhaar = document.getElementById("aadhaarFile").files[0];
+
+let ration = document.getElementById("rationFile").files[0];
+
+let payment = document.getElementById("paymentFile").files[0];
+
+
+
+
+
+let data={
+
+
+
+gujaratiName:
+document.getElementById("gujaratiName").value,
+
+
+englishName:
+document.getElementById("englishName").value,
+
+
+mobile:
+document.getElementById("mobile").value,
+
+
+village:
+document.getElementById("village").value,
+
+
+taluka:
+document.getElementById("taluka").value,
+
+
+district:
+document.getElementById("district").value,
+
+
+address:
+document.getElementById("address").value,
+
+
+pincode:
+document.getElementById("pincode").value,
+
+
+email:
+document.getElementById("email").value,
+
+
+service:
+document.getElementById("service").value,
+
+
+details:
+document.getElementById("details").value,
+
+
+
+
+
+aadhaarFile:
+await convertFile(aadhaar),
+
+
+aadhaarName:
+aadhaar ? aadhaar.name : "",
+
+
+aadhaarType:
+aadhaar ? aadhaar.type : "",
+
+
+
+
+
+rationFile:
+await convertFile(ration),
+
+
+rationName:
+ration ? ration.name : "",
+
+
+rationType:
+ration ? ration.type : "",
+
+
+
+
+
+paymentFile:
+await convertFile(payment),
+
+
+paymentName:
+payment ? payment.name : "",
+
+
+paymentType:
+payment ? payment.type : ""
+
+
+
+};
+
+
+
+
+
+
+fetch(SCRIPT_URL,{
+
+
+method:"POST",
+
+
+body:JSON.stringify(data)
+
+
+
+})
+
+
+.then(response=>response.json())
+
+
+.then(result=>{
+
+
+
+if(loading){
+
+loading.style.display="none";
 
 }
 
 
 
-// Upload Payment Screenshot
 
-let paymentURL = "";
-
-if(data.paymentFile){
-
-let file3 = folder.createFile(
- Utilities.newBlob(
-  Utilities.base64Decode(data.paymentFile.split(",")[1]),
-  data.paymentType,
-  data.paymentName
- )
-);
-
-paymentURL = file3.getUrl();
-
-}
+if(result.success){
 
 
 
-// SAVE SHEET
+document.getElementById("successPopup").style.display="flex";
 
 
-sheet.appendRow([
-
-applicationId,
-
-new Date(),
-
-data.gujaratiName,
-
-data.englishName,
-
-data.mobile,
-
-data.village,
-
-data.taluka,
-
-data.district,
-
-data.address,
-
-data.pincode,
-
-data.email,
-
-data.service,
-
-data.details,
-
-aadhaarURL,
-
-rationURL,
-
-paymentURL
-
-
-]);
-
-
-
-
-
-return ContentService
-.createTextOutput(JSON.stringify({
-
-success:true,
-
-message:"Application Saved"
-
-}))
-.setMimeType(ContentService.MimeType.JSON);
+form.reset();
 
 
 
 }
 
-catch(error){
+else{
 
 
-return ContentService
-.createTextOutput(JSON.stringify({
+alert(result.error);
 
-success:false,
 
-error:error.toString()
+}
 
-}))
-.setMimeType(ContentService.MimeType.JSON);
 
+
+})
+
+
+.catch(error=>{
+
+
+if(loading){
+
+loading.style.display="none";
+
+}
+
+
+alert("Submit Error : "+error);
+
+
+
+});
+
+
+
+});
+
+
+
+}
+
+
+
+
+
+});
+
+
+
+
+
+// CLOSE POPUP
+
+
+function closePopup(){
+
+
+let popup=document.getElementById("successPopup");
+
+
+if(popup){
+
+popup.style.display="none";
 
 
 }
