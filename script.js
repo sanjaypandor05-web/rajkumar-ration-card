@@ -1,87 +1,72 @@
-// =======================================
-// RAJKUMAR RATION CARD SERVICES
-// =======================================
+// ==========================================
+// RAJKUMAR ONLINE SERVICES V4.0
+// ==========================================
 
-// =============================
-// APPWRITE CONFIG
-// =============================
+// Google Apps Script URL
 
-const { Client, Storage, Databases, ID } = Appwrite;
-
-const client = new Client();
-
-client
-    .setEndpoint("https://nyc.cloud.appwrite.io/v1")
-    .setProject("6a6764fe00186aba36b0");
-
-const storage = new Storage(client);
-const databases = new Databases(client);
-
-// =============================
-// APPWRITE IDS
-// =============================
-
-const DATABASE_ID = "6a677b120036838182b66";
-const COLLECTION_ID = "applications";
-const BUCKET_ID = "documents";
+const SCRIPT_URL="https://script.google.com/macros/s/AKfycbwJOQozq9qtGMQ0NEfU2c5zLZ6TYcdkj1Mei8D94qXegxxXWq_Ch7jfJmy2Wx1kDjzZBg/exec";
 
 // =============================
 // HTML ELEMENTS
 // =============================
 
-const form = document.querySelector(".application-form");
+const form=document.querySelector(".application-form");
 
-const service = document.getElementById("service");
-const amount = document.getElementById("amount");
+const service=document.getElementById("service");
 
-const loading = document.getElementById("loading");
-const successPopup = document.getElementById("successPopup");
+const amount=document.getElementById("amount");
+
+const loading=document.getElementById("loading");
+
+const successPopup=document.getElementById("successPopup");
+
+const topBtn=document.getElementById("topBtn");
 
 // =============================
 // PRICE LIST
 // =============================
 
-const priceList = {
+const priceList={
 
-    "New Ration Card":100,
+"New Ration Card":100,
 
-    "Name Add":100,
+"Name Add":100,
 
-    "Name Remove":100,
+"Name Remove":100,
 
-    "Correction":200,
+"Correction":200,
 
-    "Address Change":250,
+"Address Change":250,
 
-    "Father Name Update":350
+"Father Name Update":350
 
 };
 
 // =============================
-// SERVICE PRICE CHANGE
+// SERVICE CHANGE
 // =============================
 
-service.addEventListener("change",function(){
+service.addEventListener("change",()=>{
 
-    amount.innerHTML="₹"+(priceList[this.value] || 0);
+amount.innerHTML="₹"+(priceList[service.value]||0);
 
 });
 
 // =============================
-// SERVICE CARD CLICK
+// CARD CLICK
 // =============================
 
 function selectService(serviceName){
 
-    service.value=serviceName;
+service.value=serviceName;
 
-    amount.innerHTML="₹"+(priceList[serviceName] || 0);
+amount.innerHTML="₹"+(priceList[serviceName]||0);
 
-    document
-    .getElementById("apply")
-    .scrollIntoView({
-        behavior:"smooth"
-    });
+document.getElementById("apply").scrollIntoView({
+
+behavior:"smooth"
+
+});
 
 }
 
@@ -95,27 +80,27 @@ let currentSlide=0;
 
 function showSlide(index){
 
-    slides.forEach(slide=>{
+slides.forEach(slide=>{
 
-        slide.classList.remove("active");
+slide.classList.remove("active");
 
-    });
+});
 
-    slides[index].classList.add("active");
+slides[index].classList.add("active");
 
 }
 
 setInterval(()=>{
 
-    currentSlide++;
+currentSlide++;
 
-    if(currentSlide>=slides.length){
+if(currentSlide>=slides.length){
 
-        currentSlide=0;
+currentSlide=0;
 
-    }
+}
 
-    showSlide(currentSlide);
+showSlide(currentSlide);
 
 },4000);
 
@@ -123,133 +108,43 @@ setInterval(()=>{
 // BACK TO TOP
 // =============================
 
-const topBtn=document.getElementById("topBtn");
-
 window.addEventListener("scroll",()=>{
 
-    if(window.scrollY>400){
+if(window.scrollY>300){
 
-        topBtn.style.display="block";
+topBtn.style.display="block";
 
-    }else{
+}else{
 
-        topBtn.style.display="none";
+topBtn.style.display="none";
 
-    }
+}
 
 });
 
 topBtn.addEventListener("click",()=>{
 
-    window.scrollTo({
+window.scrollTo({
 
-        top:0,
+top:0,
 
-        behavior:"smooth"
-
-    });
+behavior:"smooth"
 
 });
-
 // =============================
-// POPUP CLOSE
-// =============================
-
-function closePopup(){
-
-    successPopup.style.display="none";
-
-}
-// =======================================
-// File Upload Functions
-// =======================================
-
-// =============================
-// FILE INPUTS
+// MOBILE VALIDATION
 // =============================
 
-const aadhaarInput = document.getElementById("aadhaarFile");
-const rationInput = document.getElementById("rationFile");
-const paymentInput = document.getElementById("paymentFile");
+function validateMobile(number){
 
-// =============================
-// UPLOAD SINGLE FILE
-// =============================
+    const regex=/^[6-9]\d{9}$/;
 
-async function uploadFile(file){
-
-    if(!file) return "";
-
-    try{
-
-        const response = await storage.createFile(
-
-            BUCKET_ID,
-
-            ID.unique(),
-
-            file
-
-        );
-
-        return response.$id;
-
-    }
-
-    catch(error){
-
-        console.error("Upload Error :",error);
-
-        throw error;
-
-    }
+    return regex.test(number);
 
 }
 
 // =============================
-// UPLOAD ALL FILES
-// =============================
-
-async function uploadDocuments(){
-
-    const aadhaarId = await uploadFile(
-
-        aadhaarInput.files[0]
-
-    );
-
-    let rationId="";
-
-    if(rationInput.files.length>0){
-
-        rationId = await uploadFile(
-
-            rationInput.files[0]
-
-        );
-
-    }
-
-    const paymentId = await uploadFile(
-
-        paymentInput.files[0]
-
-    );
-
-    return{
-
-        aadhaarId,
-
-        rationId,
-
-        paymentId
-
-    };
-
-}
-
-// =============================
-// SHOW LOADING
+// LOADING
 // =============================
 
 function showLoading(){
@@ -257,10 +152,6 @@ function showLoading(){
     loading.style.display="flex";
 
 }
-
-// =============================
-// HIDE LOADING
-// =============================
 
 function hideLoading(){
 
@@ -278,6 +169,12 @@ function showSuccess(){
 
 }
 
+function closePopup(){
+
+    successPopup.style.display="none";
+
+}
+
 // =============================
 // RESET FORM
 // =============================
@@ -291,112 +188,208 @@ function clearForm(){
 }
 
 // =============================
-// MOBILE VALIDATION
+// FORM SUBMIT
 // =============================
 
-function validateMobile(number){
-
-    const regex=/^[6-9]\d{9}$/;
-
-    return regex.test(number);
-
-}
-// =======================================
-// Form Submit + Database Save
-// =======================================
-
-form.addEventListener("submit", async function (e) {
+form.addEventListener("submit",async function(e){
 
     e.preventDefault();
 
-    const mobile = document.getElementById("mobile").value.trim();
+    const mobile=document.getElementById("mobile").value.trim();
 
-    if (!validateMobile(mobile)) {
+    if(!validateMobile(mobile)){
+
         alert("કૃપા કરીને સાચો 10 અંકનો મોબાઇલ નંબર દાખલ કરો.");
+
         return;
+
     }
 
     showLoading();
 
-    try {
+    const data={
 
-        // ==========================
-        // Upload Files
-        // ==========================
+        gujaratiName:document.getElementById("gujaratiName").value,
 
-        const files = await uploadDocuments();
+        englishName:document.getElementById("englishName").value,
 
-        // ==========================
-        // Save Data in Appwrite
-        // ==========================
+        mobile:mobile,
 
-        await databases.createDocument(
+        village:document.getElementById("village").value,
 
-            DATABASE_ID,
-            COLLECTION_ID,
-            ID.unique(),
+        taluka:document.getElementById("taluka").value,
 
-            {
-                gujaratiName: document.getElementById("gujaratiName").value,
-                englishName: document.getElementById("englishName").value,
-                mobile: mobile,
-                village: document.getElementById("village").value,
-                taluka: document.getElementById("taluka").value,
-                district: document.getElementById("district").value,
-                address: document.getElementById("address").value,
-                pincode: document.getElementById("pincode").value,
-                email: document.getElementById("email").value,
-                service: service.value,
-                amount: priceList[service.value] || 0,
-                details: document.getElementById("details").value,
+        district:document.getElementById("district").value,
 
-                aadhaarFile: files.aadhaarId,
-                rationFile: files.rationId,
-                paymentFile: files.paymentId,
+        address:document.getElementById("address").value,
 
-                status: "Pending",
-                createdAt: new Date().toISOString()
+        pincode:document.getElementById("pincode").value,
 
-            }
+        email:document.getElementById("email").value,
 
-        );
+        service:service.value,
+
+        amount:priceList[service.value]||0,
+
+        details:document.getElementById("details").value
+
+    };
+
+    try{
+
+        const response=await fetch(SCRIPT_URL,{
+
+            method:"POST",
+
+            headers:{
+
+                "Content-Type":"application/json"
+
+            },
+
+            body:JSON.stringify(data)
+
+        });
+
+        const result=await response.json();
 
         hideLoading();
 
-        showSuccess();
+        if(result.success){
 
-        clearForm();
+            showSuccess();
+
+            clearForm();
+
+        }else{
+
+            alert("અરજી સબમિટ થઈ નથી.");
+
+        }
 
     }
 
-    catch (error) {
+    catch(error){
 
         hideLoading();
 
         console.error(error);
 
-        alert("અરજી સબમિટ કરવામાં ભૂલ થઈ. કૃપા કરીને ફરી પ્રયાસ કરો.");
+        alert("Server સાથે જોડાણ થઈ શક્યું નથી.");
+
+    }
+
+});
+    
+});
+// =====================================
+// PAGE LOAD
+// =====================================
+
+window.addEventListener("load",()=>{
+
+    amount.innerHTML="₹0";
+
+});
+
+// =====================================
+// FILE VALIDATION
+// =====================================
+
+const aadhaarFile=document.getElementById("aadhaarFile");
+
+const rationFile=document.getElementById("rationFile");
+
+const paymentFile=document.getElementById("paymentFile");
+
+function checkFile(file){
+
+    if(!file) return true;
+
+    const maxSize=5*1024*1024;
+
+    if(file.size>maxSize){
+
+        alert("File size 5MB થી વધુ ન હોવી જોઈએ.");
+
+        return false;
+
+    }
+
+    return true;
+
+}
+
+aadhaarFile.addEventListener("change",()=>{
+
+    checkFile(aadhaarFile.files[0]);
+
+});
+
+rationFile.addEventListener("change",()=>{
+
+    if(rationFile.files.length>0){
+
+        checkFile(rationFile.files[0]);
 
     }
 
 });
 
-// =======================================
-// SUCCESS POPUP BUTTON
-// =======================================
+paymentFile.addEventListener("change",()=>{
 
-function closePopup() {
+    checkFile(paymentFile.files[0]);
 
-    successPopup.style.display = "none";
+});
+
+// =====================================
+// ENTER KEY SUPPORT
+// =====================================
+
+document.addEventListener("keydown",(e)=>{
+
+    if(e.key==="Escape"){
+
+        closePopup();
+
+    }
+
+});
+
+// =====================================
+// DISABLE BUTTON DURING SUBMIT
+// =====================================
+
+const submitBtn=document.querySelector(".submit-btn");
+
+function disableSubmit(){
+
+    submitBtn.disabled=true;
+
+    submitBtn.innerHTML="Submitting...";
 
 }
 
-// =======================================
-// PAGE LOADED
-// =======================================
+function enableSubmit(){
 
-window.addEventListener("load", () => {
+    submitBtn.disabled=false;
 
-    amount.innerHTML = "₹0";
+    submitBtn.innerHTML="Submit Application";
+
+}
+
+// =====================================
+// ERROR HANDLER
+// =====================================
+
+window.addEventListener("error",(e)=>{
+
+    console.error("JavaScript Error :",e.message);
 
 });
+
+// =====================================
+// READY
+// =====================================
+
+console.log("Rajkumar Online Services V4 Loaded Successfully");
