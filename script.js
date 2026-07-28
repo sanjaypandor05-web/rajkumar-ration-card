@@ -20,8 +20,8 @@ const priceList = {
 };
 
 // Amount Change
-if (service) {
-    service.addEventListener("change", () => {
+if (service && amount) {
+    service.addEventListener("change", function () {
         amount.innerHTML = "₹" + (priceList[service.value] || 0);
     });
 }
@@ -33,78 +33,104 @@ function validateMobile(number) {
 
 // Loading
 function showLoading() {
-    loading.style.display = "flex";
+    if (loading) loading.style.display = "flex";
 }
 
 function hideLoading() {
-    loading.style.display = "none";
+    if (loading) loading.style.display = "none";
 }
 
 // Success Popup
 function showSuccess() {
-    successPopup.style.display = "flex";
+    if (successPopup) successPopup.style.display = "flex";
 }
 
 function closePopup() {
-    successPopup.style.display = "none";
+    if (successPopup) successPopup.style.display = "none";
 }
 
-// Form Submit
-form.addEventListener("submit", async function (e) {
+window.closePopup = closePopup;
 
-    e.preventDefault();
+// Submit Form
+if (form) {
 
-    if (!validateMobile(document.getElementById("mobile").value)) {
-        alert("Please enter a valid Mobile Number.");
-        return;
-    }
+    form.addEventListener("submit", async function (e) {
 
-    showLoading();
+        e.preventDefault();
 
-    const data = {
-        gujaratiName: document.getElementById("gujaratiName").value,
-        englishName: document.getElementById("englishName").value,
-        mobile: document.getElementById("mobile").value,
-        village: document.getElementById("village").value,
-        taluka: document.getElementById("taluka").value,
-        district: document.getElementById("district").value,
-        address: document.getElementById("address").value,
-        pincode: document.getElementById("pincode").value,
-        email: document.getElementById("email").value,
-        service: service.value,
-        amount: priceList[service.value] || 0,
-        details: document.getElementById("details").value
-    };
+        const mobile = document.getElementById("mobile").value;
 
- try {
+        if (!validateMobile(mobile)) {
+            alert("Please Enter Valid Mobile Number");
+            return;
+        }
 
-    const res = await fetch(SCRIPT_URL, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(data)
+        showLoading();
+
+        const data = {
+            gujaratiName: document.getElementById("gujaratiName").value,
+            englishName: document.getElementById("englishName").value,
+            mobile: mobile,
+            village: document.getElementById("village").value,
+            taluka: document.getElementById("taluka").value,
+            district: document.getElementById("district").value,
+            address: document.getElementById("address").value,
+            pincode: document.getElementById("pincode").value,
+            email: document.getElementById("email").value,
+            service: service.value,
+            amount: priceList[service.value] || 0,
+            details: document.getElementById("details").value
+        };
+
+        try {
+
+            const response = await fetch(SCRIPT_URL, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data)
+            });
+
+            const text = await response.text();
+
+            console.log("Server Response:", text);
+
+            let result;
+
+            try {
+                result = JSON.parse(text);
+            } catch (e) {
+                throw new Error("Invalid JSON Response : " + text);
+            }
+
+            hideLoading();
+
+            if (result.success) {
+
+                showSuccess();
+                form.reset();
+
+                if (amount) {
+                    amount.innerHTML = "₹0";
+                }
+
+            } else {
+
+                alert(result.error || "Submit Failed");
+
+            }
+
+        } catch (err) {
+
+            hideLoading();
+
+            console.error(err);
+
+            alert("Server Error\n\n" + err.message);
+
+        }
+
     });
-
-    const text = await res.text();
-    console.log("Server Response:", text);
-
-    const result = JSON.parse(text);
-
-    hideLoading();
-
-    if (result.success) {
-        showSuccess();
-        form.reset();
-        amount.innerHTML = "₹0";
-    } else {
-        alert(result.error || "Submit Failed");
-    }
-
-} catch (err) {
-
-    hideLoading();
-    console.error(err);
-    alert("Server Error");
 
 }
