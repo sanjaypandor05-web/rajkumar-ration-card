@@ -9,6 +9,8 @@
 
 <title>Rajkumar Online Services</title>
 
+<meta name="description" content="Rajkumar Online Services - Ration Card, PAN Card, Government Online Services">
+
 <link rel="stylesheet" href="style.css">
 
 </head>
@@ -17,12 +19,14 @@
 <body>
 
 
+<!-- HEADER -->
+
 <header class="header">
 
 
 <div class="logo-area">
 
-<img src="Logo.png" class="logo">
+<img src="Logo.png" class="logo" alt="Rajkumar Online Services Logo">
 
 
 <div class="logo-text">
@@ -38,6 +42,7 @@
 
 
 
+
 <nav>
 
 <a href="#home">Home</a>
@@ -49,6 +54,7 @@
 <a href="#payment">Payment</a>
 
 <a href="#contact">Contact</a>
+
 
 </nav>
 
@@ -69,16 +75,20 @@
 
 
 
+
 <!-- SLIDER -->
 
 
 <section id="home" class="slider">
 
 
-<img src="slide2.png" class="slide active">
+<img src="slide1.png" class="slide active" alt="Service Banner">
 
 
-<img src="slide3.png" class="slide">
+<img src="slide2.png" class="slide" alt="Service Banner">
+
+
+<img src="slide3.png" class="slide" alt="Service Banner">
 
 
 </section>
@@ -99,17 +109,18 @@
 <h1>Ration Card Services</h1>
 
 
-
 <div class="service-grid">
+
 
 
 <div class="service-card">
 
 <h3>New Ration Card</h3>
 
-<p>નવું રેશન કાર્ડ</p>
+<p>નવું રેશન કાર્ડ બનાવવું</p>
 
 </div>
+
 
 
 
@@ -117,7 +128,7 @@
 
 <h3>Name Add</h3>
 
-<p>નામ ઉમેરવું</p>
+<p>રેશન કાર્ડમાં નામ ઉમેરવું</p>
 
 </div>
 
@@ -128,9 +139,10 @@
 
 <h3>Name Remove</h3>
 
-<p>નામ કમી કરવું</p>
+<p>રેશન કાર્ડમાંથી નામ કમી કરવું</p>
 
 </div>
+
 
 
 
@@ -139,9 +151,10 @@
 
 <h3>Correction</h3>
 
-<p>સુધારો</p>
+<p>રેશન કાર્ડમાં સુધારા</p>
 
 </div>
+
 
 
 
@@ -156,7 +169,8 @@
 
 
 
-<!-- APPLICATION FORM -->
+
+<!-- APPLY FORM -->
 
 
 <section id="apply" class="apply">
@@ -166,129 +180,209 @@
 
 
 
-
 <form id="applicationForm">
 
 
 
-<label>ગુજરાતી નામ</label>
+<label>
+ગુજરાતી નામ
+</label>
 
-<input type="text" id="gujaratiName" required>
-
-
-
-
-
-<label>English Name</label>
-
-<input type="text" id="englishName" required>
+<input 
+type="text"
+id="gujaratiName"
+required>
 
 
 
 
 
-<label>Mobile Number</label>
+<label>
+English Name
+</label>
 
-<input type="tel" id="mobile" maxlength="10" required>
-
-
-
-
-
-<label>Village</label>
-
-<input type="text" id="village" required>
+<input 
+type="text"
+id="englishName"
+required>
 
 
 
 
 
-<label>Taluka</label>
+<label>
+Mobile Number
+</label>
 
-<input type="text" id="taluka" required>
-
-
-
-
-
-<label>District</label>
-
-<input type="text" id="district" required>
+<input
+type="tel"
+id="mobile"
+maxlength="10"
+required>
 
 
 
 
 
-<label>Full Address</label>
+<label>
+Village
+</label>
 
-<textarea id="address" required></textarea>
-
-
-
-
-
-<label>Pincode</label>
-
-<input type="number" id="pincode" required>
+<input
+type="text"
+id="village"
+required>
 
 
 
 
 
-<label>Email</label>
+<label>
+Taluka
+</label>
 
-<input type="email" id="email">
+<input
+type="text"
+id="taluka"
+required>
 
 
 
 
-<label>Select Service</label>
+
+<label>
+District
+</label>
+
+<input
+type="text"
+id="district"
+required>
+<!-- ADDRESS -->
+
+<label>
+Full Address
+</label>
+
+<textarea
+id="address"
+required></textarea>
+
+
+
+
+
+<label>
+Pincode
+</label>
+
+<input
+type="number"
+id="pincode"
+required>
+
+
+
+
+
+<label>
+Email
+</label>
+
+<input
+type="email"
+id="email">
+
+
+
+
+
+
+<label>
+Select Service
+</label>
 
 
 <select id="service" required>
 
 
-<option value="">Select Service</option>
+<option value="">
+Select Service
+</option>
 
-<option>New Ration Card</option>
 
-<option>Name Add</option>
+<option>
+New Ration Card
+</option>
 
-<option>Name Remove</option>
 
-<option>Correction</option>
+<option>
+Name Add
+</option>
+
+
+<option>
+Name Remove
+</option>
+
+
+<option>
+Correction
+</option>
 
 
 </select>
-<!-- DETAILS -->
+
+
+
+
+
+
 
 <label>
 Details
 </label>
 
-<textarea id="details"></textarea>
+
+<textarea
+id="details"></textarea>
 
 
 
 
 
-<!-- PAYMENT -->
+
+
+
+
+<!-- PAYMENT SECTION -->
+
 
 <section id="payment" class="payment">
 
 
-<h2>Payment</h2>
+<h2>
+Payment
+</h2>
 
 
-<img src="QR.jpeg" class="qr-code">
+
+<img 
+src="QR.jpeg"
+class="qr-code"
+alt="Payment QR">
+
 
 
 <p>
-Payment કર્યા પછી Screenshot Upload કરવો જરૂરી છે.
+QR Code Scan કરીને Payment કરો અને Screenshot Upload કરો.
 </p>
 
 
+
 </section>
+
+
 
 
 
@@ -302,7 +396,10 @@ Payment કર્યા પછી Screenshot Upload કરવો જરૂરી
 <section class="documents">
 
 
-<h2>Upload Documents</h2>
+<h2>
+Upload Documents
+</h2>
+
 
 
 
@@ -311,11 +408,20 @@ Payment કર્યા પછી Screenshot Upload કરવો જરૂરી
 Aadhaar Card PDF
 </label>
 
-<input 
+
+<input
+
 type="file"
+
 id="aadhaarFile"
+
 accept="application/pdf"
+
 required>
+
+
+
+<br><br>
 
 
 
@@ -325,24 +431,37 @@ required>
 Ration Card PDF
 </label>
 
+
 <input
+
 type="file"
+
 id="rationFile"
+
 accept="application/pdf">
 
+
+
+<br><br>
 
 
 
 
 
 <label>
-Payment Screenshot JPG/PNG
+Payment Screenshot
+(JPG / PNG)
 </label>
 
+
 <input
+
 type="file"
+
 id="paymentFile"
+
 accept="image/png,image/jpeg"
+
 required>
 
 
@@ -356,13 +475,19 @@ required>
 
 
 
-<button 
+<button
+
 type="submit"
+
 id="submitBtn">
+
 
 Submit Application
 
+
 </button>
+
+
 
 
 
@@ -370,25 +495,21 @@ Submit Application
 
 
 </section>
-
-
-
-
-
-
-
-
-
 <!-- LOADING -->
-
 
 <div id="loading">
 
+<div class="loading-box">
 
 <h3>
 Please Wait...
 </h3>
 
+<p>
+તમારી અરજી સબમિટ થઈ રહી છે.
+</p>
+
+</div>
 
 </div>
 
@@ -417,9 +538,11 @@ Application Submitted Successfully
 </h3>
 
 
+
 <p>
 તમારી અરજી સફળતાપૂર્વક સબમિટ થઈ ગઈ છે.
 </p>
+
 
 
 <button onclick="closePopup()">
@@ -441,11 +564,10 @@ OK
 
 
 
-
 <!-- CONTACT -->
 
 
-<section id="contact">
+<section id="contact" class="contact">
 
 
 <h2>
@@ -454,14 +576,13 @@ Contact Us
 
 
 <p>
-📞 +91 63517 00215
+📞 Mobile: +91 63517 00215
 </p>
 
 
 <p>
 📍 Panchmahudi, Ta. Shamlaji, Dist. Aravalli
 </p>
-
 
 
 </section>
@@ -472,17 +593,20 @@ Contact Us
 
 
 
+<!-- WHATSAPP -->
 
 
-<!-- WHATSAPP BUTTON -->
+<a
 
-
-<a 
 href="https://wa.me/916351700215"
+
 class="whatsapp"
+
 target="_blank">
 
+
 WhatsApp
+
 
 </a>
 
@@ -497,5 +621,6 @@ WhatsApp
 
 
 </body>
+
 
 </html>
