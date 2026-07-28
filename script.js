@@ -154,8 +154,7 @@ alert("Submit Error : "+error);
 function closePopup(){
 
 
-document.getElementById("successPopup").style.display="none";
-
+document.getElementById("successPopup").style.display="flex";
 
 }
 function closePopup(){
@@ -163,7 +162,7 @@ function closePopup(){
     let popup = document.getElementById("successPopup");
 
     if(popup){
-        popup.style.display = "none";
+        popup.style.display = "flex";";
     }
 
     window.scrollTo({
