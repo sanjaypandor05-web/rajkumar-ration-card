@@ -76,41 +76,25 @@ form.addEventListener("submit", async function (e) {
         details: document.getElementById("details").value
     };
 
-    try {
+    try const res = await fetch(SCRIPT_URL, {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify(data)
+});
 
-        const response = await fetch(SCRIPT_URL, {
-            method: "POST",
-            headers: {
-                "Content-Type": "text/plain;charset=utf-8"
-            },
-            body: JSON.stringify(data)
-        });
+const text = await res.text();
+console.log("Server Response:", text);
 
-       const result = await res.json();
-
-console.log(result);
+const result = JSON.parse(text);
 
 hideLoading();
 
 if (result.success) {
-    showSuccess();
-    form.reset();
-    amount.innerHTML = "₹0";
+  showSuccess();
+  form.reset();
+  amount.innerHTML = "₹0";
 } else {
-    alert("Error: " + result.error);
+  alert(result.error || "Submit Failed");
 }
-            console.log(result);
-
-        }
-
-    } catch (error) {
-
-        hideLoading();
-
-        console.error(error);
-
-        alert("Server Error\n\n" + error);
-
-    }
-
-});
