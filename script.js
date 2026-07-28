@@ -158,7 +158,23 @@ document.getElementById("successPopup").style.display="none";
 
 
 }
+function closePopup(){
 
+    let popup = document.getElementById("successPopup");
+
+    if(popup){
+        popup.style.display = "none";
+    }
+
+    window.scrollTo({
+        top:0,
+        behavior:"smooth"
+    });
+
+}
+
+
+window.closePopup = closePopup;
 
 
 window.closePopup = closePopup;
