@@ -2,73 +2,79 @@ const SCRIPT_URL =
 "https://script.google.com/macros/s/AKfycbzPzeal1vevXUO1zCFSGNJg3TUvS1YQwB9ZM7kGD9GFkQmW-LrevGgw3Pa_g9Sj8eM3pA/exec";
 
 
-document.addEventListener("DOMContentLoaded",()=>{
+document.addEventListener("DOMContentLoaded", function(){
 
 const form = document.querySelector(".application-form");
 
+if(!form){
+console.log("Form not found");
+return;
+}
 
-if(!form) return;
 
-
-form.addEventListener("submit", async(e)=>{
+form.addEventListener("submit", function(e){
 
 e.preventDefault();
 
 
-const data={
+let data = {};
 
-name: form.querySelector('[name="name"]')?.value || "",
-
-mobile: form.querySelector('[name="mobile"]')?.value || "",
-
-service: form.querySelector('[name="service"]')?.value || "",
-
-address: form.querySelector('[name="address"]')?.value || "",
-
-district: form.querySelector('[name="district"]')?.value || "",
-
-pincode: form.querySelector('[name="pincode"]')?.value || "",
-
-email: form.querySelector('[name="email"]')?.value || ""
-
-};
+let fields = [
+"name",
+"mobile",
+"service",
+"address",
+"district",
+"pincode",
+"email"
+];
 
 
+fields.forEach(function(id){
 
-try{
+let element = document.getElementById(id);
 
-
-const res = await fetch(SCRIPT_URL,{
-
-method:"POST",
-
-body:JSON.stringify(data)
+if(element){
+data[id] = element.value;
+}
+else{
+data[id] = "";
+console.log(id+" missing");
+}
 
 });
 
 
-const result = await res.json();
+fetch(SCRIPT_URL,{
+method:"POST",
+body:JSON.stringify(data)
+})
 
+.then(res=>res.json())
+
+.then(result=>{
+
+console.log(result);
 
 if(result.success){
 
 alert("Application Submit Successfully");
-
 form.reset();
 
-}else{
+}
+else{
 
 alert(result.error);
 
 }
 
+})
 
-}catch(error){
+.catch(err=>{
 
-alert("Error: "+error);
+alert(err);
 
-}
-
+});
 
 
 });
