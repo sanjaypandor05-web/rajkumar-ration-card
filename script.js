@@ -6,8 +6,7 @@
 
 
 const SCRIPT_URL =
-"https://script.google.com/macros/s/AKfycbz4dmeD7H-AMwhJYRn0CHGlkGnbXCy4bEstvR0INigrAzuqnVNjKQ5cL1VBFHqN4jJwTg/exec";
-
+"https://script.google.com/macros/s/AKfycbyFrg_3lB5WKelkE2vsRW4ZaK7PyvM5F93A-Jfzqla3y8gSQIKei_QZBet9VwewQIXg/exec";
 
 
 
