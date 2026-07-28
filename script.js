@@ -1,15 +1,68 @@
-// =======================================
+// =====================================
 // RAJKUMAR ONLINE SERVICES
 // FINAL SCRIPT.JS
-// =======================================
+// PART 1
+// =====================================
 
 
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzIRYI0APQXVc-Opi2ySYH7n9_tWBVm8JeCFwGwGZvWSk6Zl6cM9kTpoDwQHGKAPoeNhg/exec";
+const SCRIPT_URL =
+"https://script.google.com/macros/s/AKfycbz4dmeD7H-AMwhJYRn0CHGlkGnbXCy4bEstvR0INigrAzuqnVNjKQ5cL1VBFHqN4jJwTg/exec";
 
+
+
+
+
+// SLIDER
+
+let slideIndex = 0;
+
+
+function showSlides(){
+
+
+let slides = document.querySelectorAll(".slider img");
+
+
+slides.forEach((img)=>{
+
+img.style.display="none";
+
+});
+
+
+
+slideIndex++;
+
+
+if(slideIndex > slides.length){
+
+slideIndex = 1;
+
+}
+
+
+
+if(slides[slideIndex-1]){
+
+slides[slideIndex-1].style.display="block";
+
+}
+
+
+
+setTimeout(showSlides,3000);
+
+
+
+}
 
 
 
 document.addEventListener("DOMContentLoaded",()=>{
+
+
+showSlides();
+
 
 
 
@@ -18,13 +71,12 @@ document.getElementById("applicationForm");
 
 
 
-if(!form) return;
+
+if(form){
 
 
 
-
-
-form.addEventListener("submit",async(e)=>{
+form.addEventListener("submit",async function(e){
 
 
 e.preventDefault();
@@ -35,8 +87,12 @@ e.preventDefault();
 let aadhaar =
 document.getElementById("aadhaarFile").files[0];
 
+
+
 let ration =
 document.getElementById("rationFile").files[0];
+
+
 
 let payment =
 document.getElementById("paymentFile").files[0];
@@ -46,15 +102,16 @@ document.getElementById("paymentFile").files[0];
 
 
 
-
-// Aadhaar PDF check
+// CHECK PDF
 
 
 if(!aadhaar){
 
+
 alert("Aadhaar PDF upload karo");
 
 return;
+
 
 }
 
@@ -62,26 +119,26 @@ return;
 
 if(aadhaar.type !== "application/pdf"){
 
-alert("Aadhaar PDF format ma hovu joie");
+
+alert("Aadhaar PDF file j hovi joie");
 
 return;
+
 
 }
 
 
 
 
-
-
-
-// Ration PDF check
 
 
 if(ration && ration.type !== "application/pdf"){
 
-alert("Ration Card PDF format ma hovu joie");
+
+alert("Ration Card PDF format ma upload karo");
 
 return;
+
 
 }
 
@@ -91,14 +148,16 @@ return;
 
 
 
-// Payment check
+// PAYMENT CHECK
 
 
 if(!payment){
 
+
 alert("Payment Screenshot upload karo");
 
 return;
+
 
 }
 
@@ -107,11 +166,14 @@ return;
 if(
 payment.type !== "image/jpeg" &&
 payment.type !== "image/png"
+
 ){
+
 
 alert("Payment Screenshot JPG/PNG hovu joie");
 
 return;
+
 
 }
 
@@ -126,11 +188,7 @@ document.getElementById("loading").style.display="flex";
 
 
 
-
-
-
-let data={
-
+let data = {
 
 
 gujaratiName:
@@ -178,10 +236,8 @@ document.getElementById("details").value,
 
 
 
-
-
 aadhaarFile:
-await convertFile(aadhaar),
+await fileToBase64(aadhaar),
 
 
 aadhaarName:
@@ -192,11 +248,8 @@ aadhaarType:
 aadhaar.type,
 
 
-
-
-
 rationFile:
-ration ? await convertFile(ration) : "",
+ration ? await fileToBase64(ration) : "",
 
 
 rationName:
@@ -208,11 +261,8 @@ ration ? ration.type : "",
 
 
 
-
-
-
 paymentFile:
-await convertFile(payment),
+await fileToBase64(payment),
 
 
 paymentName:
@@ -225,12 +275,7 @@ payment.type
 
 
 };
-
-
-
-
-
-
+  // SEND DATA TO GOOGLE SCRIPT
 
 
 fetch(SCRIPT_URL,{
@@ -256,10 +301,13 @@ document.getElementById("loading").style.display="none";
 if(result.success){
 
 
+
 document.getElementById("successPopup").style.display="flex";
 
 
+
 form.reset();
+
 
 
 }
@@ -273,6 +321,7 @@ alert(result.error);
 }
 
 
+
 })
 
 
@@ -283,20 +332,26 @@ alert(result.error);
 document.getElementById("loading").style.display="none";
 
 
-alert("Error : "+error);
+alert(
+"Server Error : "+error
+);
 
 
 });
 
 
 
-
 });
 
 
 
-});
+}
 
+
+
+
+
+});
 
 
 
@@ -308,24 +363,23 @@ alert("Error : "+error);
 // FILE TO BASE64
 
 
-function convertFile(file){
+function fileToBase64(file){
 
 
 return new Promise((resolve)=>{
 
 
-let reader=new FileReader();
+let reader = new FileReader();
 
 
 
-reader.onload=()=>{
+reader.onload = function(){
 
 
-let base64 =
-reader.result.split(",")[1];
+let result = reader.result.split(",")[1];
 
 
-resolve(base64);
+resolve(result);
 
 
 };
@@ -339,6 +393,7 @@ reader.readAsDataURL(file);
 });
 
 
+
 }
 
 
@@ -347,7 +402,7 @@ reader.readAsDataURL(file);
 
 
 
-// CLOSE POPUP
+// CLOSE SUCCESS POPUP
 
 
 function closePopup(){
@@ -359,4 +414,4 @@ document.getElementById("successPopup").style.display="none";
 }
 
 
-window.closePopup=closePopup;
+window.closePopup = closePopup;
