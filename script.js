@@ -1,11 +1,13 @@
-// =====================================
+// =======================================
 // RAJKUMAR RATION CARD
-// PAYMENT + DOCUMENT UPLOAD SYSTEM
-// =====================================
+// PAYMENT + DOCUMENT UPLOAD
+// SCRIPT.JS
+// =======================================
 
 
 const SCRIPT_URL =
 "https://script.google.com/macros/s/AKfycbz8Y3peuiLYfLQIWsDZrbrW7II8-i0RgC2PXLbv0EaAY_JGIiTZNLuPa31poCCA4VObrQ/exec";
+
 
 
 document.addEventListener("DOMContentLoaded",()=>{
@@ -15,63 +17,15 @@ const form=document.querySelector(".application-form");
 
 const paymentFile=document.getElementById("paymentFile");
 
-const service=document.getElementById("service");
+const submitBtn=document.getElementById("submitBtn");
 
 
 
-if(service){
 
-service.addEventListener("change",()=>{
-
-let box=document.getElementById("paymentBox");
-
-if(box){
-
-box.style.display="block";
-
-}
-
-});
-
-}
+// SUBMIT BUTTON START
 
 
-
-// Payment Screenshot Check
-
-if(paymentFile){
-
-paymentFile.addEventListener("change",()=>{
-
-
-let file=paymentFile.files[0];
-
-
-if(file){
-
-if(file.type!="image/jpeg" && file.type!="image/png"){
-
-alert("Payment Screenshot JPG/PNG format ma upload karo");
-
-paymentFile.value="";
-
-}
-
-}
-
-
-});
-
-}
-
-
-
-// FORM SUBMIT
-
-if(form){
-
-
-form.addEventListener("submit",async(e)=>{
+form.addEventListener("submit",async function(e){
 
 
 e.preventDefault();
@@ -91,27 +45,24 @@ document.getElementById("paymentFile").files[0];
 
 
 
+
+
 // Aadhaar PDF Check
 
-if(aadhaar){
+if(aadhaar && aadhaar.type !== "application/pdf"){
 
-if(aadhaar.type!="application/pdf"){
-
-alert("Aadhaar PDF format ma upload karo");
+alert("Aadhaar Card PDF format ma upload karo");
 
 return;
 
 }
 
-}
 
 
 
 // Ration PDF Check
 
-if(ration){
-
-if(ration.type!="application/pdf"){
+if(ration && ration.type !== "application/pdf"){
 
 alert("Ration Card PDF format ma upload karo");
 
@@ -119,11 +70,10 @@ return;
 
 }
 
-}
 
 
 
-// Payment Required
+// Payment Check
 
 if(!payment){
 
@@ -135,6 +85,22 @@ return;
 
 
 
+
+
+if(
+payment.type !== "image/jpeg" &&
+payment.type !== "image/png"
+){
+
+alert("Payment Screenshot JPG/PNG format ma hovu joie");
+
+return;
+
+}
+
+
+
+
 document.getElementById("loading").style.display="flex";
 
 
@@ -142,6 +108,7 @@ document.getElementById("loading").style.display="flex";
 
 
 let data={
+
 
 
 gujaratiName:
@@ -189,22 +156,53 @@ document.getElementById("details").value,
 
 
 
-// FILES
+
 
 aadhaarFile:
 await convertFile(aadhaar),
+
+
+aadhaarName:
+aadhaar ? aadhaar.name:"",
+
+
+aadhaarType:
+aadhaar ? aadhaar.type:"",
+
+
 
 
 rationFile:
 await convertFile(ration),
 
 
+rationName:
+ration ? ration.name:"",
+
+
+rationType:
+ration ? ration.type:"",
+
+
+
+
+
 paymentFile:
-await convertFile(payment)
+await convertFile(payment),
+
+
+paymentName:
+payment.name,
+
+
+paymentType:
+payment.type
 
 
 
 };
+
+
 
 
 
@@ -218,7 +216,9 @@ body:JSON.stringify(data)
 })
 
 
-.then(res=>res.json())
+
+.then(response=>response.json())
+
 
 
 .then(result=>{
@@ -244,10 +244,12 @@ else{
 
 alert(result.error);
 
+
 }
 
 
 })
+
 
 
 .catch(error=>{
@@ -256,7 +258,7 @@ alert(result.error);
 document.getElementById("loading").style.display="none";
 
 
-alert(error);
+alert("Submit Error : "+error);
 
 
 });
@@ -265,7 +267,6 @@ alert(error);
 
 });
 
-}
 
 
 });
@@ -275,7 +276,8 @@ alert(error);
 
 
 
-// FILE CONVERT FUNCTION
+
+// FILE TO BASE64
 
 
 function convertFile(file){
@@ -286,15 +288,15 @@ return new Promise(resolve=>{
 
 if(!file){
 
-resolve(null);
+resolve("");
 
 return;
 
 }
 
 
-
 let reader=new FileReader();
+
 
 
 reader.onload=()=>{
@@ -304,15 +306,7 @@ let base64 =
 reader.result.split(",")[1];
 
 
-resolve({
-
-name:file.name,
-
-type:file.type,
-
-data:base64
-
-});
+resolve(base64);
 
 
 };
@@ -332,7 +326,12 @@ reader.readAsDataURL(file);
 
 
 
+
+// POPUP CLOSE
+
+
 function closePopup(){
+
 
 document.getElementById("successPopup").style.display="none";
 
