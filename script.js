@@ -1,255 +1,201 @@
-const SCRIPT_URL =
-"https://script.google.com/macros/s/AKfycbzPzeal1vevXUO1zCFSGNJg3TUvS1YQwB9ZM7kGD9GFkQmW-LrevGgw3Pa_g9Sj8eM3pA/exec";
+// ===============================
+// RAJKUMAR RATION CARD API
+// GOOGLE SHEET + DRIVE UPLOAD
+// ===============================
 
 
-document.addEventListener("DOMContentLoaded",()=>{
+const SHEET_ID = "1qd8e9u_6bNsrHJ_UR1EpqxGRX6TeRp27OkHqOFGAhfg";
 
+const SHEET_NAME = "Applications";
 
-const form=document.querySelector(".application-form");
 
+// Google Drive Folder ID
 
-if(form){
+const FOLDER_ID = "19NSwU-WyLPSATmYaAfqCnTAVc2tXE6HG";
 
 
-form.addEventListener("submit",async function(e){
 
-e.preventDefault();
+// TEST API
 
+function doGet(){
 
-document.getElementById("loading").style.display="flex";
+  return ContentService
+  .createTextOutput(JSON.stringify({
 
+    success:true,
+    message:"API Working"
 
-
-let data={
-
-
-gujaratiName:
-document.getElementById("gujaratiName").value,
-
-
-englishName:
-document.getElementById("englishName").value,
-
-
-mobile:
-document.getElementById("mobile").value,
-
-
-village:
-document.getElementById("village").value,
-
-
-taluka:
-document.getElementById("taluka").value,
-
-
-district:
-document.getElementById("district").value,
-
-
-address:
-document.getElementById("address").value,
-
-
-pincode:
-document.getElementById("pincode").value,
-
-
-email:
-document.getElementById("email").value,
-
-
-service:
-document.getElementById("service").value,
-
-
-details:
-document.getElementById("details").value,
-
-
-
-// FILE UPLOAD
-
-aadhaarFile:
-await getFile("aadhaarFile"),
-
-
-rationFile:
-await getFile("rationFile"),
-
-
-paymentFile:
-await getFile("paymentFile")
-
-
-
-};
-
-
-
-fetch(SCRIPT_URL,{
-
-method:"POST",
-
-body:JSON.stringify(data)
-
-})
-
-
-.then(res=>res.json())
-
-
-.then(result=>{
-
-
-document.getElementById("loading").style.display="none";
-
-
-
-if(result.success){
-
-
-document.getElementById("successPopup").style.display="flex";
-
-
-form.reset();
-
-
-}
-
-else{
-
-
-alert(result.error);
-
+  }))
+  .setMimeType(ContentService.MimeType.JSON);
 
 }
 
 
 
-})
+// RECEIVE DATA
+
+function doPost(e){
 
 
-.catch(error=>{
+try{
 
 
-document.getElementById("loading").style.display="none";
-
-alert("Submit Error : "+error);
-
-
-});
-
-
-
-});
-
-
-}
+const sheet = SpreadsheetApp
+.openById(SHEET_ID)
+.getSheetByName(SHEET_NAME);
 
 
 
-});
+const data = JSON.parse(e.postData.contents);
 
 
 
+// Application ID
 
-
-// GET FILE FUNCTION
-
-
-async function getFile(id){
-
-
-let input=document.getElementById(id);
-
-
-if(!input || !input.files[0]){
-
-return null;
-
-}
-
-
-let file=input.files[0];
-
-
-let base64=await fileToBase64(file);
+const applicationId = "RC-" + new Date().getTime();
 
 
 
-return {
+// DRIVE FOLDER
+
+const folder = DriveApp.getFolderById(FOLDER_ID);
 
 
-name:file.name,
 
-type:file.type,
+// Upload Aadhaar
 
-data:base64.split(",")[1]
+let aadhaarURL = "";
 
+if(data.aadhaarFile){
 
-};
+let file1 = folder.createFile(
+  Utilities.newBlob(
+    Utilities.base64Decode(data.aadhaarFile.split(",")[1]),
+    data.aadhaarType,
+    data.aadhaarName
+  )
+);
 
+aadhaarURL = file1.getUrl();
 
 }
 
 
 
+// Upload Ration Card
 
-function fileToBase64(file){
+let rationURL = "";
 
+if(data.rationFile){
 
-return new Promise((resolve)=>{
+let file2 = folder.createFile(
+ Utilities.newBlob(
+  Utilities.base64Decode(data.rationFile.split(",")[1]),
+  data.rationType,
+  data.rationName
+ )
+);
 
-
-let reader=new FileReader();
-
-
-reader.onload=()=>{
-
-resolve(reader.result);
-
-};
-
-
-reader.readAsDataURL(file);
-
-
-});
-
+rationURL = file2.getUrl();
 
 }
 
 
 
+// Upload Payment Screenshot
 
+let paymentURL = "";
 
-// POPUP CLOSE
+if(data.paymentFile){
 
+let file3 = folder.createFile(
+ Utilities.newBlob(
+  Utilities.base64Decode(data.paymentFile.split(",")[1]),
+  data.paymentType,
+  data.paymentName
+ )
+);
 
-function closePopup(){
-
-
-let popup=document.getElementById("successPopup");
-
-
-if(popup){
-
-popup.style.display="none";
-
-}
-
-
-window.scrollTo({
-
-top:0,
-
-behavior:"smooth"
-
-});
-
+paymentURL = file3.getUrl();
 
 }
 
 
-window.closePopup=closePopup;
+
+// SAVE SHEET
+
+
+sheet.appendRow([
+
+applicationId,
+
+new Date(),
+
+data.gujaratiName,
+
+data.englishName,
+
+data.mobile,
+
+data.village,
+
+data.taluka,
+
+data.district,
+
+data.address,
+
+data.pincode,
+
+data.email,
+
+data.service,
+
+data.details,
+
+aadhaarURL,
+
+rationURL,
+
+paymentURL
+
+
+]);
+
+
+
+
+
+return ContentService
+.createTextOutput(JSON.stringify({
+
+success:true,
+
+message:"Application Saved"
+
+}))
+.setMimeType(ContentService.MimeType.JSON);
+
+
+
+}
+
+catch(error){
+
+
+return ContentService
+.createTextOutput(JSON.stringify({
+
+success:false,
+
+error:error.toString()
+
+}))
+.setMimeType(ContentService.MimeType.JSON);
+
+
+
+}
+
+
+}
