@@ -2,7 +2,7 @@
 // RAJKUMAR RATION CARD ONLINE WORK V5
 // =====================================
 
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyRFf0TBMRlq7l3LNJhHIIoWINrmxD6e5_CKNxZrG9xdvPc4ifSHwt3vf4fUTS9jyYBRA/exec";
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwwLeMAzvROHyx0lHjcTyKbYe5VVvXO_G1j9g5FYKptfK42FfzorwJ3sOEvhah9SjbGgA/exec";
 
 
 document.addEventListener("DOMContentLoaded", () => {
