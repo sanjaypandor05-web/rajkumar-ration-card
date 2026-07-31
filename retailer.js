@@ -1,496 +1,664 @@
 // ==========================================
-// RETAILER.JS - PART 1
 // RAJKUMAR RATION CARD PORTAL
+// RETAILER.JS - PART 1
 // ==========================================
 
-// ----------------------------
-// GOOGLE APPS SCRIPT URL
-// ----------------------------
+// ---------- GOOGLE APPS SCRIPT URL ----------
 
 const SCRIPT_URL =
-"https://script.google.com/macros/s/AKfycbwNrtXJTgotJP4pRGv3j2cfwI4RrJ5PM0j0Yk9LLSANoXxgv07n0zfbXshuCHOR-C3uBA/exec";
+"https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec";
 
-// ----------------------------
-// PAGE LOAD
-// ----------------------------
+// ---------- GLOBAL VARIABLES ----------
+
+let applications = [];
+let currentApplication = null;
+
+// ---------- PAGE LOAD ----------
 
 document.addEventListener("DOMContentLoaded", () => {
 
     checkRetailerLogin();
 
-    loadProfile();
-
     loadDashboard();
 
-    loadApplications();
+    loadHistory();
+
+    loadProfile();
+
+    const retailerName =
+        localStorage.getItem("userName") || "Retailer";
+
+    document.getElementById("retailerName").textContent =
+        retailerName;
 
 });
 
-// ----------------------------
-// LOGIN CHECK
-// ----------------------------
+// ==========================================
+// CHECK LOGIN
+// ==========================================
 
 function checkRetailerLogin(){
 
-    if(localStorage.getItem("retailerLogin") !== "true"){
+    const userType =
+        localStorage.getItem("userType");
 
-        alert("Please Login First");
+    if(userType !== "retailer"){
+
+        alert("Access Denied!");
 
         window.location.href = "login.html";
 
-        return;
-
     }
 
 }
 
-// ----------------------------
+// ==========================================
+// LOAD DASHBOARD
+// ==========================================
+
+function loadDashboard(){
+
+    const retailerId =
+        localStorage.getItem("userId");
+
+    fetch(
+
+        SCRIPT_URL +
+
+        "?action=retailerDashboard&id=" +
+
+        encodeURIComponent(retailerId)
+
+    )
+
+    .then(res => res.json())
+
+    .then(data => {
+
+        document.getElementById("totalWork").textContent =
+            data.total || 0;
+
+        document.getElementById("pendingWork").textContent =
+            data.pending || 0;
+
+        document.getElementById("successWork").textContent =
+            data.success || 0;
+
+        document.getElementById("failedWork").textContent =
+            data.failed || 0;
+
+    })
+
+    .catch(err => {
+
+        console.error("Dashboard Error:", err);
+
+    });
+
+}
+
+// ==========================================
 // LOAD PROFILE
-// ----------------------------
+// ==========================================
 
 function loadProfile(){
 
-    const retailerId =
-    localStorage.getItem("retailerId") || "";
+    document.getElementById("profileName").value =
+        localStorage.getItem("userName") || "";
 
-    const retailerName =
-    localStorage.getItem("retailerName") || "";
-
-    const retailerMobile =
-    localStorage.getItem("retailerMobile") || "";
-
-    document.getElementById("retailerName").innerText =
-    retailerName;
-
-    document.getElementById("profileRetailerId").innerText =
-    retailerId;
-
-    document.getElementById("profileRetailerName").innerText =
-    retailerName;
-
-    document.getElementById("profileRetailerMobile").innerText =
-    retailerMobile;
+    document.getElementById("profileId").value =
+        localStorage.getItem("userId") || "";
 
 }
-
-// ----------------------------
-// LOAD DASHBOARD
-// ----------------------------
-
-async function loadDashboard(){
-
-    try{
-
-        const response = await fetch(
-            SCRIPT_URL + "?action=dashboard"
-        );
-
-        const result = await response.json();
-
-        if(!result.success) return;
-
-        document.getElementById("totalApplications").innerText =
-        result.total || 0;
-
-        document.getElementById("pendingApplications").innerText =
-        result.pending || 0;
-
-        document.getElementById("approvedApplications").innerText =
-        result.approved || 0;
-
-        document.getElementById("rejectedApplications").innerText =
-        result.rejected || 0;
-
-    }catch(err){
-
-        console.error(err);
-
-    }
-  // ==========================================
+// ==========================================
 // RETAILER.JS - PART 2
-// LOAD APPLICATIONS + SEARCH + VIEW
+// NEW APPLICATION SUBMIT
 // ==========================================
 
-// ----------------------------
-// LOAD APPLICATIONS
-// ----------------------------
+// ---------- APPLICATION FORM ----------
 
-async function loadApplications(){
+const applicationForm =
+document.getElementById("applicationForm");
 
-    const tbody =
-    document.getElementById("applicationTable");
+if(applicationForm){
 
-    if(!tbody) return;
-
-    tbody.innerHTML =
-    "<tr><td colspan='7'>Loading...</td></tr>";
-
-    try{
-
-        const response =
-        await fetch(SCRIPT_URL + "?action=history");
-
-        const result =
-        await response.json();
-
-        if(!result.success){
-
-            tbody.innerHTML =
-            "<tr><td colspan='7'>No Data Found</td></tr>";
-
-            return;
-
-        }
-
-        tbody.innerHTML = "";
-
-        result.data.forEach(app=>{
-
-            tbody.innerHTML += `
-
-            <tr>
-
-                <td>${app.applicationId}</td>
-
-                <td>${app.englishName}</td>
-
-                <td>${app.mobile}</td>
-
-                <td>${app.service}</td>
-
-                <td>${app.status}</td>
-
-                <td>${app.date}</td>
-
-                <td>
-
-                    <button onclick="viewApplication('${app.applicationId}')">
-
-                    View
-
-                    </button>
-
-                </td>
-
-            </tr>
-
-            `;
-
-        });
-
-    }catch(err){
-
-        console.error(err);
-
-        tbody.innerHTML =
-        "<tr><td colspan='7'>Server Error</td></tr>";
-
-    }
+applicationForm.addEventListener("submit",submitApplication);
 
 }
 
-// ----------------------------
-// SEARCH APPLICATION
-// ----------------------------
+function submitApplication(e){
 
-function searchApplication(){
+e.preventDefault();
 
-    const text =
-    document.getElementById("searchText")
-    .value
-    .trim()
-    .toLowerCase();
+const retailerId =
+localStorage.getItem("userId");
 
-    const rows =
-    document.querySelectorAll("#applicationTable tr");
+const data={
 
-    rows.forEach(row=>{
+action:"submitApplication",
 
-        const data =
-        row.innerText.toLowerCase();
+retailerId:retailerId,
 
-        if(data.indexOf(text)>-1){
+name:document.getElementById("applicantName").value.trim(),
 
-            row.style.display="";
+mobile:document.getElementById("mobileNumber").value.trim(),
 
-        }else{
+aadhaar:document.getElementById("aadhaarNumber").value.trim(),
 
-            row.style.display="none";
+rationCard:document.getElementById("rationCardNumber").value.trim(),
 
-        }
+service:document.getElementById("serviceType").value,
 
-    });
+village:document.getElementById("village").value.trim(),
+
+remarks:document.getElementById("remarks").value.trim()
+
+};
+
+fetch(SCRIPT_URL,{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify(data)
+
+})
+
+.then(res=>res.json())
+
+.then(response=>{
+
+if(response.success){
+
+showSuccess(
+
+response.message ||
+
+"Application Submitted Successfully"
+
+);
+
+applicationForm.reset();
+
+loadDashboard();
+
+loadHistory();
+
+}else{
+
+showError(
+
+response.message ||
+
+"Application Submit Failed"
+
+);
+
+}
+
+})
+
+.catch(error=>{
+
+console.error(error);
+
+showError("Server Error");
+
+});
 
 }
 
-// ----------------------------
-// VIEW APPLICATION
-// ----------------------------
-
-async function viewApplication(id){
-
-    try{
-
-        const response =
-        await fetch(
-
-            SCRIPT_URL +
-            "?action=searchId&id=" +
-            encodeURIComponent(id)
-
-        );
-
-        const result =
-        await response.json();
-
-        if(result.success){
-
-            const app = result.data;
-
-            alert(
-
-                "Application ID : " + app.applicationId +
-
-                "\n\nName : " + app.englishName +
-
-                "\nMobile : " + app.mobile +
-
-                "\nService : " + app.service +
-
-                "\nStatus : " + app.status +
-
-                "\nDate : " + app.date
-
-            );
-
-        }else{
-
-            alert("Application Not Found");
-
-        }
-
-    }catch(err){
-
-        console.error(err);
-
-        alert("Server Error");
-
-    }
-
-}
-  // ==========================================
-// RETAILER.JS - PART 3
-// FILTER + POPUPS
+// ==========================================
+// DOCUMENT FILE NAME
 // ==========================================
 
-// ----------------------------
-// FILTER BY STATUS
-// ----------------------------
+const documentInput =
+document.getElementById("documents");
 
-function filterStatus(){
+if(documentInput){
 
-    const status =
-    document.getElementById("statusFilter").value.toLowerCase();
+documentInput.addEventListener("change",()=>{
 
-    const rows =
-    document.querySelectorAll("#applicationTable tr");
+if(documentInput.files.length>0){
 
-    rows.forEach(row=>{
+console.log(
 
-        if(status===""){
+"Selected Files :",
 
-            row.style.display="";
+documentInput.files
 
-            return;
-
-        }
-
-        const text =
-        row.innerText.toLowerCase();
-
-        row.style.display =
-        text.includes(status) ? "" : "none";
-
-    });
+);
 
 }
 
-// ----------------------------
-// FILTER BY DATE
-// ----------------------------
-
-function filterDate(){
-
-    const date =
-    document.getElementById("dateFilter").value;
-
-    const rows =
-    document.querySelectorAll("#applicationTable tr");
-
-    rows.forEach(row=>{
-
-        if(date===""){
-
-            row.style.display="";
-
-            return;
-
-        }
-
-        row.style.display =
-        row.innerText.includes(date)
-        ? ""
-        : "none";
-
-    });
+});
 
 }
 
-// ----------------------------
+// ==========================================
 // SUCCESS POPUP
-// ----------------------------
+// ==========================================
 
 function showSuccess(message){
 
-    document.getElementById("successMessage").innerText =
-    message;
+document.getElementById("successMessage").innerHTML=
+message;
 
-    document.getElementById("successPopup").style.display =
-    "flex";
+document.getElementById("successPopup").style.display=
+"flex";
 
 }
 
 function closePopup(){
 
-    document.getElementById("successPopup").style.display =
-    "none";
+document.getElementById("successPopup").style.display=
+"none";
 
 }
 
-// ----------------------------
-// DELETE POPUP
-// ----------------------------
-
-function openDeletePopup(){
-
-    document.getElementById("deletePopup").style.display =
-    "flex";
-
-}
-
-function closeDeletePopup(){
-
-    document.getElementById("deletePopup").style.display =
-    "none";
-
-}
-  // ==========================================
-// RETAILER.JS - PART 4 (FINAL)
-// LOGOUT + PASSWORD + AUTO REFRESH
+// ==========================================
+// ERROR POPUP
 // ==========================================
 
-// ----------------------------
-// LOGOUT
-// ----------------------------
+function showError(message){
 
-function logout(){
+document.getElementById("errorMessage").innerHTML=
+message;
 
-    if(confirm("Are you sure you want to logout?")){
-
-        localStorage.removeItem("retailerLogin");
-        localStorage.removeItem("retailerId");
-        localStorage.removeItem("retailerName");
-        localStorage.removeItem("retailerMobile");
-
-        window.location.href = "login.html";
-
-    }
+document.getElementById("errorPopup").style.display=
+"flex";
 
 }
 
-// ----------------------------
-// CHANGE PASSWORD
-// ----------------------------
+function closeErrorPopup(){
 
-function changePassword(){
-
-    const newPassword = prompt("Enter New Password");
-
-    if(!newPassword) return;
-
-    const retailerId =
-    localStorage.getItem("retailerId");
-
-    fetch(
-
-        SCRIPT_URL +
-        "?action=changeRetailerPassword" +
-        "&id=" + encodeURIComponent(retailerId) +
-        "&password=" + encodeURIComponent(newPassword)
-
-    )
-
-    .then(response => response.json())
-
-    .then(result=>{
-
-        if(result.success){
-
-            showSuccess("Password Changed Successfully");
-
-        }else{
-
-            alert(result.message);
-
-        }
-
-    })
-
-    .catch(error=>{
-
-        console.error(error);
-
-        alert("Server Error");
-
-    });
+document.getElementById("errorPopup").style.display=
+"none";
 
 }
+// ==========================================
+// RETAILER.JS - PART 3
+// WORK HISTORY
+// ==========================================
 
-// ----------------------------
-// REFRESH
-// ----------------------------
+// ---------- LOAD HISTORY ----------
 
-function refreshDashboard(){
+function loadHistory(){
 
-    loadDashboard();
-    loadApplications();
+const retailerId =
+localStorage.getItem("userId");
 
-}
+fetch(
 
-// ----------------------------
-// AUTO REFRESH
-// ----------------------------
+SCRIPT_URL +
 
-setInterval(()=>{
+"?action=getRetailerHistory&id=" +
 
-    refreshDashboard();
+encodeURIComponent(retailerId)
 
-},60000);
+)
 
-// ----------------------------
-// PAGE LOAD
-// ----------------------------
+.then(res=>res.json())
 
-document.addEventListener("DOMContentLoaded",()=>{
+.then(data=>{
 
-    checkRetailerLogin();
+applications=data || [];
 
-    loadProfile();
+renderHistory(applications);
 
-    loadDashboard();
+})
 
-    loadApplications();
+.catch(error=>{
+
+console.error(error);
+
+showError("History Load Failed");
 
 });
 
 }
+
+// ---------- RENDER HISTORY ----------
+
+function renderHistory(data){
+
+const tbody =
+document.getElementById("historyTable");
+
+tbody.innerHTML="";
+
+if(data.length===0){
+
+tbody.innerHTML=`
+
+<tr>
+
+<td colspan="7">
+
+No Records Found
+
+</td>
+
+</tr>
+
+`;
+
+return;
+
+}
+
+data.forEach(app=>{
+
+tbody.innerHTML+=`
+
+<tr>
+
+<td>${app.id}</td>
+
+<td>${app.name}</td>
+
+<td>${app.mobile}</td>
+
+<td>${app.service}</td>
+
+<td>
+
+<span class="status-${String(app.status).toLowerCase()}">
+
+${app.status}
+
+</span>
+
+</td>
+
+<td>${app.date}</td>
+
+<td>
+
+<button
+class="print-btn"
+onclick="viewApplication('${app.id}')">
+
+View
+
+</button>
+
+</td>
+
+</tr>
+
+`;
+
+});
+
+}
+
+// ---------- SEARCH ----------
+
+document.getElementById("searchHistory")
+
+.addEventListener("keyup",function(){
+
+const value=this.value.toLowerCase();
+
+const result=applications.filter(app=>
+
+String(app.name).toLowerCase().includes(value)||
+
+String(app.mobile).includes(value)||
+
+String(app.id).includes(value)
+
+);
+
+renderHistory(result);
+
+});
+
+// ---------- STATUS FILTER ----------
+
+document.getElementById("historyStatus")
+
+.addEventListener("change",function(){
+
+const status=this.value;
+
+if(status===""){
+
+renderHistory(applications);
+
+return;
+
+}
+
+const result=
+
+applications.filter(app=>app.status===status);
+
+renderHistory(result);
+
+});
+
+// ---------- VIEW APPLICATION ----------
+
+function viewApplication(id){
+
+currentApplication=
+
+applications.find(app=>app.id==id);
+
+if(!currentApplication){
+
+showError("Application Not Found");
+
+return;
+
+}
+
+document.getElementById("applicationDetails").innerHTML=`
+
+<b>Application ID :</b> ${currentApplication.id}<br><br>
+
+<b>Applicant :</b> ${currentApplication.name}<br><br>
+
+<b>Mobile :</b> ${currentApplication.mobile}<br><br>
+
+<b>Aadhaar :</b> ${currentApplication.aadhaar}<br><br>
+
+<b>Ration Card :</b> ${currentApplication.rationCard}<br><br>
+
+<b>Service :</b> ${currentApplication.service}<br><br>
+
+<b>Status :</b> ${currentApplication.status}<br><br>
+
+<b>Date :</b> ${currentApplication.date}<br><br>
+
+<b>Remarks :</b> ${currentApplication.remarks || "-"}
+
+`;
+
+document.getElementById("viewModal").style.display="flex";
+
+}
+
+// ---------- CLOSE MODAL ----------
+
+function closeViewModal(){
+
+document.getElementById("viewModal").style.display="none";
+
+}
+
+// ---------- PRINT ----------
+
+function printApplication(){
+
+window.print();
+
+}
+
+// ---------- PDF DOWNLOAD ----------
+
+function downloadApplicationPDF(){
+
+if(!currentApplication){
+
+showError("No Application Selected");
+
+return;
+
+}
+
+alert(
+
+"PDF Download feature will be connected in Code.gs."
+
+);
+
+}
+// ==========================================
+// RETAILER.JS - PART 4 (FINAL)
+// PROFILE + PASSWORD + LOGOUT
+// ==========================================
+
+// ---------- CHANGE PASSWORD ----------
+
+function changePassword(){
+
+const oldPassword =
+document.getElementById("oldPassword").value.trim();
+
+const newPassword =
+document.getElementById("newPassword").value.trim();
+
+const confirmPassword =
+document.getElementById("confirmPassword").value.trim();
+
+if(oldPassword==="" || newPassword===""){
+
+showError("Please Fill All Fields");
+
+return;
+
+}
+
+if(newPassword!==confirmPassword){
+
+showError("Confirm Password Not Match");
+
+return;
+
+}
+
+fetch(SCRIPT_URL,{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({
+
+action:"changeRetailerPassword",
+
+retailerId:
+localStorage.getItem("userId"),
+
+oldPassword:oldPassword,
+
+newPassword:newPassword
+
+})
+
+})
+
+.then(res=>res.json())
+
+.then(response=>{
+
+if(response.success){
+
+showSuccess(response.message);
+
+document.getElementById("oldPassword").value="";
+document.getElementById("newPassword").value="";
+document.getElementById("confirmPassword").value="";
+
+}else{
+
+showError(response.message);
+
+}
+
+})
+
+.catch(error=>{
+
+console.error(error);
+
+showError("Server Error");
+
+});
+
+}
+
+// ---------- AUTO REFRESH DASHBOARD ----------
+
+setInterval(()=>{
+
+loadDashboard();
+
+loadHistory();
+
+},60000);
+
+// ---------- LOGOUT ----------
+
+function logout(){
+
+if(confirm("Are you want to Logout?")){
+
+localStorage.clear();
+
+window.location.href="login.html";
+
+}
+
+}
+
+// ---------- SESSION CHECK ----------
+
+window.addEventListener("load",()=>{
+
+const type=
+localStorage.getItem("userType");
+
+if(type!=="retailer"){
+
+window.location.href="login.html";
+
+}
+
+});
+
+// ---------- CLOSE MODAL ON OUTSIDE CLICK ----------
+
+window.onclick=function(event){
+
+const modal=document.getElementById("viewModal");
+
+if(event.target===modal){
+
+closeViewModal();
+
+}
+
+};
+
+// ---------- READY ----------
+
+console.log("Retailer Panel Ready");
