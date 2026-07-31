@@ -8,21 +8,21 @@
 // ----------------------------
 
 const SCRIPT_URL =
-"https://script.google.com/macros/s/AKfycbyFrg_3lB5WKelkE2vsRW4ZaK7PyvM5F93A-Jfzqla3y8gSQIKei_QZBet9VwewQIXg/exec";
+"https://script.google.com/macros/s/AKfycbwNrtXJTgotJP4pRGv3j2cfwI4RrJ5PM0j0Yk9LLSANoXxgv07n0zfbXshuCHOR-C3uBA/exec";
 
 // ----------------------------
 // PAGE LOAD
 // ----------------------------
 
-document.addEventListener("DOMContentLoaded",()=>{
+document.addEventListener("DOMContentLoaded", () => {
 
-checkRetailerLogin();
+    checkRetailerLogin();
 
-loadDashboard();
+    loadProfile();
 
-loadApplications();
+    loadDashboard();
 
-loadProfile();
+    loadApplications();
 
 });
 
@@ -32,124 +32,15 @@ loadProfile();
 
 function checkRetailerLogin(){
 
-const retailerId =
-localStorage.getItem("retailerId");
+    if(localStorage.getItem("retailerLogin") !== "true"){
 
-if(!retailerId){
+        alert("Please Login First");
 
-alert("Please Login First");
+        window.location.href = "login.html";
 
-window.location.href="index.html";
+        return;
 
-}
-
-}
-
-// ----------------------------
-// LOAD DASHBOARD
-// ----------------------------
-
-async function loadDashboard(){
-
-try{
-
-const response =
-await fetch(SCRIPT_URL+"?action=dashboard");
-
-const result =
-await response.json();
-
-if(result.success){
-
-document.getElementById("totalApplications").innerText=result.total;
-document.getElementById("pendingApplications").innerText=result.pending;
-document.getElementById("approvedApplications").innerText=result.approved;
-document.getElementById("rejectedApplications").innerText=result.rejected;
-
-}
-
-}catch(err){
-
-console.log(err);
-
-}
-
-}
-
-// ----------------------------
-// LOAD APPLICATIONS
-// ----------------------------
-
-async function loadApplications(){
-
-const tbody =
-document.getElementById("applicationTable");
-
-tbody.innerHTML =
-"<tr><td colspan='7'>Loading...</td></tr>";
-
-try{
-
-const response =
-await fetch(SCRIPT_URL+"?action=history");
-
-const result =
-await response.json();
-
-tbody.innerHTML="";
-
-const retailer =
-localStorage.getItem("retailerId");
-
-result.data.forEach(app=>{
-
-if(app.retailer==retailer){
-
-tbody.innerHTML +=`
-
-<tr>
-
-<td>${app.applicationId}</td>
-
-<td>${app.englishName}</td>
-
-<td>${app.mobile}</td>
-
-<td>${app.service}</td>
-
-<td>${app.status}</td>
-
-<td>${app.date}</td>
-
-<td>
-
-<button onclick="viewApplication('${app.applicationId}')">
-
-View
-
-</button>
-
-<button onclick="changeStatus('${app.applicationId}')">
-
-Status
-
-</button>
-
-</td>
-
-</tr>
-
-`;
-
-}
-
-});
-
-}catch(err){
-
-console.log(err);
-
-}
+    }
 
 }
 
@@ -159,20 +50,144 @@ console.log(err);
 
 function loadProfile(){
 
-document.getElementById("retailerId").value =
-localStorage.getItem("retailerId") || "";
+    const retailerId =
+    localStorage.getItem("retailerId") || "";
 
-document.getElementById("retailerName").value =
-localStorage.getItem("retailerName") || "";
+    const retailerName =
+    localStorage.getItem("retailerName") || "";
 
-document.getElementById("retailerMobile").value =
-localStorage.getItem("retailerMobile") || "";
+    const retailerMobile =
+    localStorage.getItem("retailerMobile") || "";
+
+    document.getElementById("retailerName").innerText =
+    retailerName;
+
+    document.getElementById("profileRetailerId").innerText =
+    retailerId;
+
+    document.getElementById("profileRetailerName").innerText =
+    retailerName;
+
+    document.getElementById("profileRetailerMobile").innerText =
+    retailerMobile;
 
 }
-// ==========================================
+
+// ----------------------------
+// LOAD DASHBOARD
+// ----------------------------
+
+async function loadDashboard(){
+
+    try{
+
+        const response = await fetch(
+            SCRIPT_URL + "?action=dashboard"
+        );
+
+        const result = await response.json();
+
+        if(!result.success) return;
+
+        document.getElementById("totalApplications").innerText =
+        result.total || 0;
+
+        document.getElementById("pendingApplications").innerText =
+        result.pending || 0;
+
+        document.getElementById("approvedApplications").innerText =
+        result.approved || 0;
+
+        document.getElementById("rejectedApplications").innerText =
+        result.rejected || 0;
+
+    }catch(err){
+
+        console.error(err);
+
+    }
+  // ==========================================
 // RETAILER.JS - PART 2
-// SEARCH + VIEW + STATUS
+// LOAD APPLICATIONS + SEARCH + VIEW
 // ==========================================
+
+// ----------------------------
+// LOAD APPLICATIONS
+// ----------------------------
+
+async function loadApplications(){
+
+    const tbody =
+    document.getElementById("applicationTable");
+
+    if(!tbody) return;
+
+    tbody.innerHTML =
+    "<tr><td colspan='7'>Loading...</td></tr>";
+
+    try{
+
+        const response =
+        await fetch(SCRIPT_URL + "?action=history");
+
+        const result =
+        await response.json();
+
+        if(!result.success){
+
+            tbody.innerHTML =
+            "<tr><td colspan='7'>No Data Found</td></tr>";
+
+            return;
+
+        }
+
+        tbody.innerHTML = "";
+
+        result.data.forEach(app=>{
+
+            tbody.innerHTML += `
+
+            <tr>
+
+                <td>${app.applicationId}</td>
+
+                <td>${app.englishName}</td>
+
+                <td>${app.mobile}</td>
+
+                <td>${app.service}</td>
+
+                <td>${app.status}</td>
+
+                <td>${app.date}</td>
+
+                <td>
+
+                    <button onclick="viewApplication('${app.applicationId}')">
+
+                    View
+
+                    </button>
+
+                </td>
+
+            </tr>
+
+            `;
+
+        });
+
+    }catch(err){
+
+        console.error(err);
+
+        tbody.innerHTML =
+        "<tr><td colspan='7'>Server Error</td></tr>";
+
+    }
+
+}
 
 // ----------------------------
 // SEARCH APPLICATION
@@ -180,23 +195,31 @@ localStorage.getItem("retailerMobile") || "";
 
 function searchApplication(){
 
-const text =
-document.getElementById("searchText").value
-.toLowerCase()
-.trim();
+    const text =
+    document.getElementById("searchText")
+    .value
+    .trim()
+    .toLowerCase();
 
-const rows =
-document.querySelectorAll("#applicationTable tr");
+    const rows =
+    document.querySelectorAll("#applicationTable tr");
 
-rows.forEach(row=>{
+    rows.forEach(row=>{
 
-const value =
-row.innerText.toLowerCase();
+        const data =
+        row.innerText.toLowerCase();
 
-row.style.display =
-value.includes(text) ? "" : "none";
+        if(data.indexOf(text)>-1){
 
-});
+            row.style.display="";
+
+        }else{
+
+            row.style.display="none";
+
+        }
+
+    });
 
 }
 
@@ -206,112 +229,120 @@ value.includes(text) ? "" : "none";
 
 async function viewApplication(id){
 
-try{
+    try{
 
-const response =
-await fetch(
-SCRIPT_URL +
-"?action=searchId&id=" +
-encodeURIComponent(id)
-);
+        const response =
+        await fetch(
 
-const result =
-await response.json();
+            SCRIPT_URL +
+            "?action=searchId&id=" +
+            encodeURIComponent(id)
 
-if(result.success){
+        );
 
-const app=result.data;
+        const result =
+        await response.json();
 
-alert(
+        if(result.success){
 
-"Application ID : " + app.applicationId +
+            const app = result.data;
 
-"\n\nName : " + app.englishName +
+            alert(
 
-"\nMobile : " + app.mobile +
+                "Application ID : " + app.applicationId +
 
-"\nService : " + app.service +
+                "\n\nName : " + app.englishName +
 
-"\nStatus : " + app.status +
+                "\nMobile : " + app.mobile +
 
-"\nVillage : " + app.village +
+                "\nService : " + app.service +
 
-"\nTaluka : " + app.taluka +
+                "\nStatus : " + app.status +
 
-"\nDistrict : " + app.district
+                "\nDate : " + app.date
 
-);
+            );
 
-}else{
+        }else{
 
-alert("Application Not Found");
+            alert("Application Not Found");
+
+        }
+
+    }catch(err){
+
+        console.error(err);
+
+        alert("Server Error");
+
+    }
 
 }
+  // ==========================================
+// RETAILER.JS - PART 3
+// FILTER + POPUPS
+// ==========================================
 
-}catch(err){
+// ----------------------------
+// FILTER BY STATUS
+// ----------------------------
 
-console.log(err);
+function filterStatus(){
 
-alert("Server Error");
+    const status =
+    document.getElementById("statusFilter").value.toLowerCase();
 
-}
+    const rows =
+    document.querySelectorAll("#applicationTable tr");
+
+    rows.forEach(row=>{
+
+        if(status===""){
+
+            row.style.display="";
+
+            return;
+
+        }
+
+        const text =
+        row.innerText.toLowerCase();
+
+        row.style.display =
+        text.includes(status) ? "" : "none";
+
+    });
 
 }
 
 // ----------------------------
-// CHANGE STATUS
+// FILTER BY DATE
 // ----------------------------
 
-async function changeStatus(id){
+function filterDate(){
 
-const status =
-prompt(
+    const date =
+    document.getElementById("dateFilter").value;
 
-"Enter Status\n\nPending\nApproved\nRejected"
+    const rows =
+    document.querySelectorAll("#applicationTable tr");
 
-);
+    rows.forEach(row=>{
 
-if(!status) return;
+        if(date===""){
 
-try{
+            row.style.display="";
 
-const response =
-await fetch(
+            return;
 
-SCRIPT_URL +
+        }
 
-"?action=updateStatus" +
+        row.style.display =
+        row.innerText.includes(date)
+        ? ""
+        : "none";
 
-"&id=" + encodeURIComponent(id) +
-
-"&status=" + encodeURIComponent(status)
-
-);
-
-const result =
-await response.json();
-
-if(result.success){
-
-showSuccess("Status Updated");
-
-loadDashboard();
-
-loadApplications();
-
-}else{
-
-alert(result.message);
-
-}
-
-}catch(err){
-
-console.log(err);
-
-alert("Server Error");
-
-}
+    });
 
 }
 
@@ -321,87 +352,42 @@ alert("Server Error");
 
 function showSuccess(message){
 
-const popup =
-document.getElementById("successPopup");
+    document.getElementById("successMessage").innerText =
+    message;
 
-const text =
-document.getElementById("successMessage");
-
-text.innerText=message;
-
-popup.style.display="flex";
+    document.getElementById("successPopup").style.display =
+    "flex";
 
 }
 
 function closePopup(){
 
-document.getElementById("successPopup").style.display="none";
+    document.getElementById("successPopup").style.display =
+    "none";
 
 }
-// ==========================================
-// RETAILER.JS - PART 3
-// PROFILE + PASSWORD + LOGOUT
-// ==========================================
 
 // ----------------------------
-// CHANGE PASSWORD
+// DELETE POPUP
 // ----------------------------
 
-async function changePassword(){
+function openDeletePopup(){
 
-const retailerId =
-localStorage.getItem("retailerId");
-
-const newPassword =
-document.getElementById("newPassword").value.trim();
-
-if(newPassword===""){
-
-alert("Enter New Password");
-
-return;
+    document.getElementById("deletePopup").style.display =
+    "flex";
 
 }
 
-try{
+function closeDeletePopup(){
 
-const response =
-await fetch(
-
-SCRIPT_URL +
-
-"?action=changeRetailerPassword" +
-
-"&id=" + encodeURIComponent(retailerId) +
-
-"&password=" + encodeURIComponent(newPassword)
-
-);
-
-const result =
-await response.json();
-
-if(result.success){
-
-showSuccess("Password Changed Successfully");
-
-document.getElementById("newPassword").value="";
-
-}else{
-
-alert(result.message);
+    document.getElementById("deletePopup").style.display =
+    "none";
 
 }
-
-}catch(err){
-
-console.log(err);
-
-alert("Server Error");
-
-}
-
-}
+  // ==========================================
+// RETAILER.JS - PART 4 (FINAL)
+// LOGOUT + PASSWORD + AUTO REFRESH
+// ==========================================
 
 // ----------------------------
 // LOGOUT
@@ -409,27 +395,75 @@ alert("Server Error");
 
 function logout(){
 
-if(confirm("Are you sure you want to Logout?")){
+    if(confirm("Are you sure you want to logout?")){
 
-localStorage.removeItem("retailerId");
-localStorage.removeItem("retailerName");
-localStorage.removeItem("retailerMobile");
+        localStorage.removeItem("retailerLogin");
+        localStorage.removeItem("retailerId");
+        localStorage.removeItem("retailerName");
+        localStorage.removeItem("retailerMobile");
 
-window.location.href="index.html";
+        window.location.href = "login.html";
 
-}
+    }
 
 }
 
 // ----------------------------
-// REFRESH DASHBOARD
+// CHANGE PASSWORD
+// ----------------------------
+
+function changePassword(){
+
+    const newPassword = prompt("Enter New Password");
+
+    if(!newPassword) return;
+
+    const retailerId =
+    localStorage.getItem("retailerId");
+
+    fetch(
+
+        SCRIPT_URL +
+        "?action=changeRetailerPassword" +
+        "&id=" + encodeURIComponent(retailerId) +
+        "&password=" + encodeURIComponent(newPassword)
+
+    )
+
+    .then(response => response.json())
+
+    .then(result=>{
+
+        if(result.success){
+
+            showSuccess("Password Changed Successfully");
+
+        }else{
+
+            alert(result.message);
+
+        }
+
+    })
+
+    .catch(error=>{
+
+        console.error(error);
+
+        alert("Server Error");
+
+    });
+
+}
+
+// ----------------------------
+// REFRESH
 // ----------------------------
 
 function refreshDashboard(){
 
-loadDashboard();
-
-loadApplications();
+    loadDashboard();
+    loadApplications();
 
 }
 
@@ -439,52 +473,24 @@ loadApplications();
 
 setInterval(()=>{
 
-refreshDashboard();
+    refreshDashboard();
 
 },60000);
 
 // ----------------------------
-// WINDOW LOAD
+// PAGE LOAD
 // ----------------------------
 
-window.onload=()=>{
+document.addEventListener("DOMContentLoaded",()=>{
 
-checkRetailerLogin();
+    checkRetailerLogin();
 
-loadDashboard();
+    loadProfile();
 
-loadApplications();
+    loadDashboard();
 
-loadProfile();
+    loadApplications();
 
-};
-
-// ----------------------------
-// LOADING FUNCTIONS
-// ----------------------------
-
-function showLoading(){
-
-const loading =
-document.getElementById("loading");
-
-if(loading){
-
-loading.style.display="flex";
-
-}
-
-}
-
-function hideLoading(){
-
-const loading =
-document.getElementById("loading");
-
-if(loading){
-
-loading.style.display="none";
-
-}
+});
 
 }
