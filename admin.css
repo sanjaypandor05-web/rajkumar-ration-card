@@ -670,3 +670,164 @@ Retailer + Settings + Popup + Responsive
 }
 
 }
+/* =========================================
+ADMIN.CSS - PART 4 (FINAL)
+Extra Design
+========================================= */
+
+/* ================= SECTION ================= */
+
+section{
+
+    margin-bottom:35px;
+
+}
+
+section h1,
+section h2{
+
+    color:#0d6efd;
+
+    margin-bottom:15px;
+
+}
+
+/* ================= STATUS BADGES ================= */
+
+.status-pending{
+
+    background:#ffc107;
+
+    color:#000;
+
+    padding:6px 12px;
+
+    border-radius:20px;
+
+    font-size:13px;
+
+    font-weight:bold;
+
+}
+
+.status-approved{
+
+    background:#198754;
+
+    color:#fff;
+
+    padding:6px 12px;
+
+    border-radius:20px;
+
+    font-size:13px;
+
+    font-weight:bold;
+
+}
+
+.status-rejected{
+
+    background:#dc3545;
+
+    color:#fff;
+
+    padding:6px 12px;
+
+    border-radius:20px;
+
+    font-size:13px;
+
+    font-weight:bold;
+
+}
+
+/* ================= INPUT FOCUS ================= */
+
+input:focus,
+select:focus,
+textarea:focus{
+
+    outline:none;
+
+    border-color:#0d6efd;
+
+    box-shadow:0 0 6px rgba(13,110,253,.3);
+
+}
+
+/* ================= SCROLLBAR ================= */
+
+::-webkit-scrollbar{
+
+    width:10px;
+
+    height:10px;
+
+}
+
+::-webkit-scrollbar-track{
+
+    background:#f1f1f1;
+
+}
+
+::-webkit-scrollbar-thumb{
+
+    background:#0d6efd;
+
+    border-radius:20px;
+
+}
+
+::-webkit-scrollbar-thumb:hover{
+
+    background:#0b5ed7;
+
+}
+
+/* ================= TABLE ROW COLORS ================= */
+
+.admin-table tbody tr:nth-child(even){
+
+    background:#fafafa;
+
+}
+
+.admin-table tbody tr:hover{
+
+    background:#eaf4ff;
+
+}
+
+/* ================= ANIMATION ================= */
+
+.card,
+.search-section,
+.retailer-form,
+.settings-box,
+.admin-table{
+
+    animation:fadeIn .4s ease-in-out;
+
+}
+
+@keyframes fadeIn{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(15px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+}
