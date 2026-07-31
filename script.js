@@ -2,7 +2,11 @@
 // RAJKUMAR RATION CARD PORTAL
 // SCRIPT.JS - PART 1
 // ==========================================
+// ==========================================
+// GOOGLE APPS SCRIPT API URL
+// ==========================================
 
+const API_URL = "https://script.google.com/macros/s/AKfycbzsdUwiDg17gl8r1EUOypp1-lXXJkqZwpnD_B8q3NzZ/dev";
 // ---------- PAGE LOADED ----------
 
 document.addEventListener("DOMContentLoaded", function () {
