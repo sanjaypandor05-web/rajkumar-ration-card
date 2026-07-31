@@ -6,80 +6,322 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Login | Rajkumar Ration Card Portal</title>
+<title>Retailer Dashboard | Rajkumar Ration Card Portal</title>
 
 <link rel="stylesheet" href="style.css">
-<link rel="stylesheet" href="login.css">
+<link rel="stylesheet" href="retailer.css">
 
 </head>
 
 <body>
 
-<div class="login-container">
+<!-- ================= HEADER ================= -->
 
-<div class="login-card">
+<header class="admin-header">
 
-<div class="login-logo">
+<div class="admin-logo">
 
-<img src="Logo.png" alt="Logo">
+<h2>🏪 Retailer Dashboard</h2>
 
-<h2>Rajkumar Ration Card Portal</h2>
-
-<p>Secure Login System</p>
+<p>Rajkumar Ration Card Portal</p>
 
 </div>
 
-<h3>Login Panel</h3>
+<div class="admin-user">
 
-<select id="loginType">
+<span id="retailerName">Retailer</span>
 
-<option value="admin">👑 Admin Login</option>
+<button onclick="logout()" class="logout-btn">
 
-<option value="retailer">🏪 Retailer Login</option>
+🚪 Logout
+
+</button>
+
+</div>
+
+</header>
+
+<!-- ================= SIDEBAR ================= -->
+
+<div class="admin-container">
+
+<aside class="sidebar">
+
+<h3>MENU</h3>
+
+<ul>
+
+<li><a href="#dashboard">📊 Dashboard</a></li>
+
+<li><a href="#applications">📋 My Applications</a></li>
+
+<li><a href="#profile">👤 Profile</a></li>
+
+<li><a href="#" onclick="logout()">🚪 Logout</a></li>
+
+</ul>
+
+</aside>
+
+<!-- ================= MAIN ================= -->
+
+<main class="admin-main">
+
+<section id="dashboard">
+
+<h1>Retailer Dashboard</h1>
+
+<div class="dashboard-cards">
+
+<div class="card total">
+
+<h2 id="totalApplications">0</h2>
+
+<p>Total Applications</p>
+
+</div>
+
+<div class="card pending">
+
+<h2 id="pendingApplications">0</h2>
+
+<p>Pending</p>
+
+</div>
+
+<div class="card success">
+
+<h2 id="approvedApplications">0</h2>
+
+<p>Successful</p>
+
+</div>
+
+<div class="card failed">
+
+<h2 id="rejectedApplications">0</h2>
+
+<p>Failed</p>
+
+</div>
+
+</div>
+  <!-- ================= SEARCH ================= -->
+
+<section class="search-section">
+
+<h2>📋 My Applications</h2>
+
+<div class="search-bar">
+
+<input
+type="text"
+id="searchText"
+placeholder="Search by Name / Mobile / Application ID">
+
+<select id="statusFilter" onchange="filterStatus()">
+
+<option value="">All Status</option>
+
+<option value="Pending">Pending</option>
+
+<option value="Approved">Successful</option>
+
+<option value="Rejected">Failed</option>
 
 </select>
 
 <input
-type="text"
-id="username"
-placeholder="Username / Retailer ID">
+type="date"
+id="dateFilter"
+onchange="filterDate()">
 
-<div class="password-box">
+<button onclick="searchApplication()">
 
-<input
-type="password"
-id="password"
-placeholder="Password">
+🔍 Search
 
-<button
-type="button"
-id="togglePassword">
-👁
+</button>
+
+<button onclick="loadApplications()">
+
+🔄 Refresh
+
 </button>
 
 </div>
 
-<button id="loginBtn">
-Login
+</section>
+
+<!-- ================= MY APPLICATIONS TABLE ================= -->
+
+<section id="applications">
+
+<h2>My Application History</h2>
+
+<table class="admin-table">
+
+<thead>
+
+<tr>
+
+<th>Application ID</th>
+
+<th>Name</th>
+
+<th>Mobile</th>
+
+<th>Service</th>
+
+<th>Status</th>
+
+<th>Date</th>
+
+<th>Action</th>
+
+</tr>
+
+</thead>
+
+<tbody id="applicationTable">
+
+<tr>
+
+<td colspan="7" align="center">
+
+Loading Applications...
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</section>
+  <!-- ================= PROFILE ================= -->
+
+<section id="profile">
+
+<h2>👤 Retailer Profile</h2>
+
+<div class="settings-box">
+
+<p><strong>Retailer ID :</strong>
+<span id="profileRetailerId">-</span></p>
+
+<p><strong>Name :</strong>
+<span id="profileRetailerName">-</span></p>
+
+<p><strong>Mobile :</strong>
+<span id="profileRetailerMobile">-</span></p>
+
+<p><strong>Status :</strong>
+<span id="profileRetailerStatus">Active</span></p>
+
+<br>
+
+<button onclick="changePassword()">
+
+🔑 Change Password
+
 </button>
 
-<p id="loginMessage"></p>
-<!-- Error / Success Message -->
+</div>
 
-<div id="loginError" class="login-error"></div>
+</section>
 
-<div class="login-footer">
+<!-- ================= FOOTER ================= -->
 
-<a href="index.html">⬅ Back to Home</a>
+<footer class="admin-footer">
+
+<p>
+
+© 2026 Rajkumar Ration Card Portal |
+Retailer Dashboard
+
+</p>
+
+</footer>
+
+</main>
+
+</div>
+
+<!-- ================= LOADING ================= -->
+
+<div id="loading" style="display:none;">
+
+<div class="loading-box">
+
+<h3>Please Wait...</h3>
+
+<p>Processing Request...</p>
 
 </div>
 
 </div>
 
+<!-- ================= SUCCESS POPUP ================= -->
+
+<div id="successPopup" style="display:none;">
+
+<div class="popup-box">
+
+<h2>✅</h2>
+
+<h3>Success</h3>
+
+<p id="successMessage">
+
+Operation Completed Successfully
+
+</p>
+
+<button onclick="closePopup()">
+
+OK
+
+</button>
+
 </div>
 
-<script src="login.js"></script>
+</div>
+
+<!-- ================= DELETE POPUP ================= -->
+
+<div id="deletePopup" style="display:none;">
+
+<div class="popup-box">
+
+<h3>Delete Application?</h3>
+
+<p>
+
+Are you sure you want to delete this application?
+
+</p>
+
+<button id="confirmDeleteBtn">
+
+🗑 Yes Delete
+
+</button>
+
+<button onclick="closeDeletePopup()">
+
+❌ Cancel
+
+</button>
+
+</div>
+
+</div>
+
+<script src="retailer.js"></script>
 
 </body>
 
 </html>
+
+</section>
