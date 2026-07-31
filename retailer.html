@@ -4,104 +4,159 @@
 <head>
 
 <meta charset="UTF-8">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Retailer Panel | Rajkumar Ration Card Portal</title>
+<title>Retailer Dashboard | Rajkumar Ration Card Portal</title>
 
 <link rel="stylesheet" href="style.css">
-
-<link rel="stylesheet" href="admin.css">
+<link rel="stylesheet" href="retailer.css">
 
 </head>
 
 <body>
 
-<header class="header">
+<!-- ================= HEADER ================= -->
 
-<div class="logo-area">
+<header class="admin-header">
 
-<img src="Logo.png" class="logo">
+<div class="admin-logo">
 
-<div>
-
-<h2>Retailer Panel</h2>
+<h2>🏪 Retailer Dashboard</h2>
 
 <p>Rajkumar Ration Card Portal</p>
 
 </div>
 
-</div>
+<div class="admin-user">
+
+<span id="retailerName">Retailer</span>
 
 <button onclick="logout()" class="logout-btn">
 
-Logout
+🚪 Logout
 
 </button>
 
+</div>
+
 </header>
 
-<section class="dashboard">
+<!-- ================= SIDEBAR ================= -->
 
-<h2>Retailer Dashboard</h2>
+<div class="admin-container">
+
+<aside class="sidebar">
+
+<h3>MENU</h3>
+
+<ul>
+
+<li><a href="#dashboard">📊 Dashboard</a></li>
+
+<li><a href="#applications">📋 My Applications</a></li>
+
+<li><a href="#profile">👤 Profile</a></li>
+
+<li><a href="#" onclick="logout()">🚪 Logout</a></li>
+
+</ul>
+
+</aside>
+
+<!-- ================= MAIN ================= -->
+
+<main class="admin-main">
+
+<section id="dashboard">
+
+<h1>Retailer Dashboard</h1>
 
 <div class="dashboard-cards">
 
-<div class="card">
-
-<h3>Total Applications</h3>
+<div class="card total">
 
 <h2 id="totalApplications">0</h2>
 
+<p>Total Applications</p>
+
 </div>
 
-<div class="card">
-
-<h3>Pending</h3>
+<div class="card pending">
 
 <h2 id="pendingApplications">0</h2>
 
+<p>Pending</p>
+
 </div>
 
-<div class="card">
-
-<h3>Approved</h3>
+<div class="card success">
 
 <h2 id="approvedApplications">0</h2>
 
+<p>Successful</p>
+
 </div>
 
-<div class="card">
-
-<h3>Rejected</h3>
+<div class="card failed">
 
 <h2 id="rejectedApplications">0</h2>
 
-</div>
+<p>Failed</p>
 
 </div>
 
-</section>
+</div>
+  <!-- ================= SEARCH ================= -->
 
-<section class="search-box">
+<section class="search-section">
+
+<h2>📋 My Applications</h2>
+
+<div class="search-bar">
 
 <input
 type="text"
 id="searchText"
 placeholder="Search by Name / Mobile / Application ID">
 
+<select id="statusFilter" onchange="filterStatus()">
+
+<option value="">All Status</option>
+
+<option value="Pending">Pending</option>
+
+<option value="Approved">Successful</option>
+
+<option value="Rejected">Failed</option>
+
+</select>
+
+<input
+type="date"
+id="dateFilter"
+onchange="filterDate()">
+
 <button onclick="searchApplication()">
 
-Search
+🔍 Search
 
 </button>
 
+<button onclick="loadApplications()">
+
+🔄 Refresh
+
+</button>
+
+</div>
+
 </section>
-<!-- ================= APPLICATION LIST ================= -->
 
-<section class="applications">
+<!-- ================= MY APPLICATIONS TABLE ================= -->
 
-<h2>My Applications</h2>
+<section id="applications">
+
+<h2>My Application History</h2>
 
 <table class="admin-table">
 
@@ -145,117 +200,33 @@ Loading Applications...
 
 </section>
 
+</section>
 <!-- ================= PROFILE ================= -->
 
-<section class="profile">
+<section id="profile">
 
-<h2>Retailer Profile</h2>
+<h2>👤 Retailer Profile</h2>
 
-<div class="profile-box">
+<div class="settings-box">
 
-<label>Retailer ID</label>
+<p><strong>Retailer ID :</strong>
+<span id="profileRetailerId">-</span></p>
 
-<input
-type="text"
-id="retailerId"
-readonly>
+<p><strong>Name :</strong>
+<span id="profileRetailerName">-</span></p>
 
-<label>Retailer Name</label>
+<p><strong>Mobile :</strong>
+<span id="profileRetailerMobile">-</span></p>
 
-<input
-type="text"
-id="retailerName"
-readonly>
+<p><strong>Status :</strong>
+<span id="profileRetailerStatus">Active</span></p>
 
-<label>Mobile</label>
-
-<input
-type="text"
-id="retailerMobile"
-readonly>
-
-</div>
-
-</section>
-
-<!-- ================= CHANGE PASSWORD ================= -->
-
-<section class="change-password">
-
-<h2>Change Password</h2>
-
-<div class="password-box">
-
-<input
-type="password"
-id="newPassword"
-placeholder="Enter New Password">
+<br>
 
 <button onclick="changePassword()">
-
-Update Password
-
+🔑 Change Password
 </button>
 
 </div>
 
 </section>
-
-<!-- ================= SUCCESS POPUP ================= -->
-
-<div id="successPopup" style="display:none;">
-
-<div class="popup-box">
-
-<h2>✅</h2>
-
-<h3>Success</h3>
-
-<p id="successMessage">
-
-Operation Completed Successfully
-
-</p>
-
-<button onclick="closePopup()">
-
-OK
-
-</button>
-
-</div>
-
-</div>
-<!-- ================= LOADING ================= -->
-
-<div id="loading" style="display:none;">
-
-<div class="loading-box">
-
-<h3>Please Wait...</h3>
-
-<p>Loading...</p>
-
-</div>
-
-</div>
-
-<!-- ================= FOOTER ================= -->
-
-<footer class="footer">
-
-<p>
-
-© 2026 Rajkumar Ration Card Portal
-
-</p>
-
-</footer>
-
-<!-- ================= JAVASCRIPT ================= -->
-
-<script src="retailer.js"></script>
-
-</body>
-
-</html>
