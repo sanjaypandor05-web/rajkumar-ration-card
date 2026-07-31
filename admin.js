@@ -3,23 +3,20 @@
 // RAJKUMAR RATION CARD PORTAL
 // ==========================================
 
-// ================================
+// ----------------------------
 // GOOGLE APPS SCRIPT URL
-// ================================
+// ----------------------------
 
 const SCRIPT_URL =
-"https://script.google.com/macros/s/AKfycbyFrg_3lB5WKelkE2vsRW4ZaK7PyvM5F93A-Jfzqla3y8gSQIKei_QZBet9VwewQIXg/exec";
+"https://script.google.com/macros/s/AKfycbwNrtXJTgotJP4pRGv3j2cfwI4RrJ5PM0j0Yk9LLSANoXxgv07n0zfbXshuCHOR-C3uBA/exec";
 
-
-// ================================
+// ----------------------------
 // PAGE LOAD
-// ================================
+// ----------------------------
 
 document.addEventListener("DOMContentLoaded", () => {
 
     checkAdminLogin();
-
-    generateRetailerId();
 
     loadDashboard();
 
@@ -29,16 +26,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
 });
 
-
-// ================================
-// LOGIN CHECK
-// ================================
+// ----------------------------
+// ADMIN LOGIN CHECK
+// ----------------------------
 
 function checkAdminLogin() {
 
-    const login = localStorage.getItem("adminLogin");
-
-    if (login !== "true") {
+    if (localStorage.getItem("adminLogin") !== "true") {
 
         alert("Please Login First");
 
@@ -48,50 +42,44 @@ function checkAdminLogin() {
 
     }
 
+    const adminName = localStorage.getItem("adminName") || "Administrator";
+
+    const adminLabel = document.getElementById("adminName");
+
+    if (adminLabel) {
+
+        adminLabel.innerText = adminName;
+
+    }
+
 }
 
-
-// ================================
-// DASHBOARD
-// ================================
+// ----------------------------
+// LOAD DASHBOARD
+// ----------------------------
 
 async function loadDashboard() {
 
     try {
 
-        const response = await fetch(
-
-            SCRIPT_URL + "?action=dashboard"
-
-        );
+        const response =
+        await fetch(SCRIPT_URL + "?action=dashboard");
 
         const result = await response.json();
 
         if (!result.success) return;
 
-        document.getElementById("totalApplications").innerHTML =
-            result.total || 0;
+        document.getElementById("totalApplications").innerText =
+        result.total || 0;
 
-        document.getElementById("pendingApplications").innerHTML =
-            result.pending || 0;
+        document.getElementById("pendingApplications").innerText =
+        result.pending || 0;
 
-        document.getElementById("successfulApplications").innerHTML =
-            result.successful || 0;
+        document.getElementById("approvedApplications").innerText =
+        result.approved || 0;
 
-        document.getElementById("failedApplications").innerHTML =
-            result.failed || 0;
-
-        document.getElementById("totalRetailers").innerHTML =
-            result.retailers || 0;
-
-        document.getElementById("todayApplications").innerHTML =
-            result.today || 0;
-
-        document.getElementById("completedToday").innerHTML =
-            result.completedToday || 0;
-
-        document.getElementById("pendingToday").innerHTML =
-            result.pendingToday || 0;
+        document.getElementById("rejectedApplications").innerText =
+        result.rejected || 0;
 
     } catch (err) {
 
@@ -101,96 +89,94 @@ async function loadDashboard() {
 
 }
 
-
-// ================================
+// ----------------------------
 // LOAD APPLICATIONS
-// ================================
+// ----------------------------
 
 async function loadApplications() {
 
-    const table = document.getElementById("applicationTable");
+    const tbody =
+    document.getElementById("applicationTable");
 
-    if (!table) return;
+    if (!tbody) return;
 
-    table.innerHTML = `
-<tr>
-<td colspan="9" align="center">
-Loading...
-</td>
-</tr>`;
+    tbody.innerHTML =
+    "<tr><td colspan='8'>Loading...</td></tr>";
 
     try {
 
-        const response = await fetch(
+        const response =
+        await fetch(SCRIPT_URL + "?action=history");
 
-            SCRIPT_URL + "?action=history"
-
-        );
-
-        const result = await response.json();
+        const result =
+        await response.json();
 
         if (!result.success) {
 
-            table.innerHTML = `
-<tr>
-<td colspan="9" align="center">
-No Applications Found
-</td>
-</tr>`;
+            tbody.innerHTML =
+            "<tr><td colspan='8'>No Applications Found</td></tr>";
 
             return;
 
         }
 
-        table.innerHTML = "";
+        tbody.innerHTML = "";
 
         result.data.forEach(app => {
 
-            table.innerHTML += `
+            let badge = "";
 
-<tr>
+            if (app.status === "Pending") {
 
-<td>${app.applicationId}</td>
+                badge = "<span class='status-pending'>Pending</span>";
 
-<td>${app.englishName}</td>
+            } else if (app.status === "Approved") {
 
-<td>${app.mobile}</td>
+                badge = "<span class='status-approved'>Successful</span>";
 
-<td>${app.service}</td>
+            } else {
 
-<td>${app.status}</td>
+                badge = "<span class='status-rejected'>Failed</span>";
 
-<td>${app.retailer || "-"}</td>
+            }
 
-<td>${app.remarks || "-"}</td>
+            tbody.innerHTML += `
 
-<td>${app.date}</td>
+            <tr>
 
-<td>
+                <td>${app.applicationId}</td>
 
-<button onclick="viewApplication('${app.applicationId}')">
+                <td>${app.englishName}</td>
 
-👁 View
+                <td>${app.mobile}</td>
 
-</button>
+                <td>${app.service}</td>
 
-<button onclick="changeStatus('${app.applicationId}')">
+                <td>${badge}</td>
 
-✏ Status
+                <td>${app.retailer || "-"}</td>
 
-</button>
+                <td>${app.date}</td>
 
-<button onclick="deleteApplication('${app.applicationId}')">
+                <td>
 
-🗑 Delete
+                    <button onclick="viewApplication('${app.applicationId}')">
+                    View
+                    </button>
 
-</button>
+                    <button onclick="changeStatus('${app.applicationId}')">
+                    Status
+                    </button>
 
-</td>
+                    <button onclick="deleteApplication('${app.applicationId}')">
+                    Delete
+                    </button>
 
-</tr>
+                </td>
 
-`;
+            </tr>
+
+            `;
 
         });
 
@@ -198,54 +184,36 @@ No Applications Found
 
         console.error(err);
 
-        table.innerHTML = `
-<tr>
-<td colspan="9" align="center">
-Server Error
-</td>
-</tr>`;
+        tbody.innerHTML =
+        "<tr><td colspan='8'>Server Error</td></tr>";
 
     }
-
-}
-
-
-// ================================
-// REFRESH
-// ================================
-
-function refreshDashboard() {
-
-    loadDashboard();
-
-    loadApplications();
-
-    loadRetailers();
-
-}
 // ==========================================
 // ADMIN.JS - PART 2
-// SEARCH + FILTER + STATUS + DELETE
+// SEARCH + FILTER + VIEW
 // ==========================================
 
-// ================================
+// ----------------------------
 // SEARCH APPLICATION
-// ================================
+// ----------------------------
 
 function searchApplication() {
 
-    const search = document
-        .getElementById("searchText")
-        .value
-        .trim()
-        .toLowerCase();
+    const text =
+    document.getElementById("searchText")
+    .value
+    .trim()
+    .toLowerCase();
 
     const rows =
-        document.querySelectorAll("#applicationTable tr");
+    document.querySelectorAll("#applicationTable tr");
 
     rows.forEach(row => {
 
-        if (row.innerText.toLowerCase().includes(search)) {
+        const data =
+        row.innerText.toLowerCase();
+
+        if (data.indexOf(text) > -1) {
 
             row.style.display = "";
 
@@ -259,851 +227,81 @@ function searchApplication() {
 
 }
 
+// ----------------------------
+// FILTER STATUS
+// ----------------------------
 
-// ================================
-// STATUS FILTER
-// ================================
-
-function filterApplications() {
+function filterStatus() {
 
     const status =
-        document.getElementById("statusFilter").value;
-
-    const fromDate =
-        document.getElementById("fromDate").value;
-
-    const toDate =
-        document.getElementById("toDate").value;
+    document.getElementById("statusFilter").value;
 
     const rows =
-        document.querySelectorAll("#applicationTable tr");
+    document.querySelectorAll("#applicationTable tr");
 
     rows.forEach(row => {
 
-        if (!row.cells.length) return;
+        if (!status) {
 
-        const rowStatus = row.cells[4].innerText.trim();
-        const rowDate = row.cells[7].innerText.trim();
+            row.style.display = "";
 
-        let visible = true;
-
-        if (status && rowStatus !== status) {
-
-            visible = false;
+            return;
 
         }
 
-        if (fromDate && rowDate < fromDate) {
+        if (row.innerText.includes(status)) {
 
-            visible = false;
+            row.style.display = "";
 
-        }
+        } else {
 
-        if (toDate && rowDate > toDate) {
-
-            visible = false;
+            row.style.display = "none";
 
         }
-
-        row.style.display = visible ? "" : "none";
 
     });
 
 }
 
+// ----------------------------
+// FILTER DATE
+// ----------------------------
 
-// ================================
-// VIEW APPLICATION
-// ================================
+function filterDate() {
 
-async function viewApplication(id) {
+    const date =
+    document.getElementById("dateFilter").value;
 
-    try {
+    if (!date) {
 
-        const response = await fetch(
-
-            SCRIPT_URL +
-            "?action=searchId&id=" +
-            encodeURIComponent(id)
-
-        );
-
-        const result = await response.json();
-
-        if (!result.success) {
-
-            alert("Application Not Found");
-
-            return;
-
-        }
-
-        const app = result.data;
-
-        document.getElementById("applicationDetails").innerHTML = `
-
-<b>Application ID :</b> ${app.applicationId}<br><br>
-
-<b>Name :</b> ${app.englishName}<br><br>
-
-<b>Gujarati Name :</b> ${app.gujaratiName || "-"}<br><br>
-
-<b>Mobile :</b> ${app.mobile}<br><br>
-
-<b>Service :</b> ${app.service}<br><br>
-
-<b>Status :</b> ${app.status}<br><br>
-
-<b>Retailer :</b> ${app.retailer || "-"}<br><br>
-
-<b>Remarks :</b> ${app.remarks || "-"}<br><br>
-
-<b>Date :</b> ${app.date}
-
-`;
-
-        document.getElementById("viewPopup").style.display = "flex";
-
-    } catch (err) {
-
-        console.error(err);
-
-        alert("Server Error");
-
-    }
-
-}
-
-function closeViewPopup() {
-
-    document.getElementById("viewPopup").style.display = "none";
-
-}
-
-
-// ================================
-// CHANGE STATUS
-// ================================
-
-function changeStatus(id) {
-
-    document.getElementById("editApplicationId").value = id;
-
-    document.getElementById("statusPopup").style.display = "flex";
-
-}
-
-function closeStatusPopup() {
-
-    document.getElementById("statusPopup").style.display = "none";
-
-}
-
-
-// ================================
-// SAVE STATUS
-// ================================
-
-async function saveStatus() {
-
-    const id =
-        document.getElementById("editApplicationId").value;
-
-    const status =
-        document.getElementById("editStatus").value;
-
-    const remarks =
-        document.getElementById("editRemarks").value;
-
-    try {
-
-        const response = await fetch(
-
-            SCRIPT_URL +
-
-            "?action=updateStatus" +
-
-            "&id=" + encodeURIComponent(id) +
-
-            "&status=" + encodeURIComponent(status) +
-
-            "&remarks=" + encodeURIComponent(remarks)
-
-        );
-
-        const result = await response.json();
-
-        if (result.success) {
-
-            closeStatusPopup();
-
-            showSuccess("Status Updated Successfully");
-
-            refreshDashboard();
-
-        } else {
-
-            alert(result.message);
-
-        }
-
-    } catch (err) {
-
-        console.error(err);
-
-        alert("Server Error");
-
-    }
-
-}
-
-
-// ================================
-// DELETE APPLICATION
-// ================================
-
-let deleteApplicationId = "";
-
-function deleteApplication(id) {
-
-    deleteApplicationId = id;
-
-    document.getElementById("deletePopup").style.display = "flex";
-
-}
-
-function closeDeletePopup() {
-
-    document.getElementById("deletePopup").style.display = "none";
-
-}
-
-document.addEventListener("DOMContentLoaded", () => {
-
-    const btn =
-        document.getElementById("confirmDeleteBtn");
-
-    if (btn) {
-
-        btn.onclick = confirmDelete;
-
-    }
-
-});
-
-
-async function confirmDelete() {
-
-    try {
-
-        const response = await fetch(
-
-            SCRIPT_URL +
-
-            "?action=deleteApplication&id=" +
-
-            encodeURIComponent(deleteApplicationId)
-
-        );
-
-        const result = await response.json();
-
-        closeDeletePopup();
-
-        if (result.success) {
-
-            showSuccess("Application Deleted Successfully");
-
-            refreshDashboard();
-
-        } else {
-
-            alert(result.message);
-
-        }
-
-    } catch (err) {
-
-        console.error(err);
-
-        alert("Server Error");
-
-    }
-
-}
-// ==========================================
-// ADMIN.JS - PART 3
-// RETAILER MANAGEMENT
-// ==========================================
-
-
-// ================================
-// AUTO GENERATE RETAILER ID
-// ================================
-
-function generateRetailerId() {
-
-    const number = Math.floor(Math.random() * 9000) + 1000;
-
-    document.getElementById("generatedRetailerId").value =
-        "RTL" + number;
-
-}
-
-
-// ================================
-// CREATE RETAILER
-// ================================
-
-async function createRetailer() {
-
-    const name =
-        document.getElementById("retailerName").value.trim();
-
-    const mobile =
-        document.getElementById("retailerMobile").value.trim();
-
-    const id =
-        document.getElementById("generatedRetailerId").value.trim();
-
-    const password =
-        document.getElementById("retailerPassword").value.trim();
-
-    if (!name || !mobile || !password) {
-
-        alert("Please Fill All Fields");
+        loadApplications();
 
         return;
 
     }
 
-    try {
+    const rows =
+    document.querySelectorAll("#applicationTable tr");
 
-        const response = await fetch(
+    rows.forEach(row => {
 
-            SCRIPT_URL +
+        if (row.innerText.includes(date)) {
 
-            "?action=createRetailer" +
-
-            "&id=" + encodeURIComponent(id) +
-
-            "&name=" + encodeURIComponent(name) +
-
-            "&mobile=" + encodeURIComponent(mobile) +
-
-            "&password=" + encodeURIComponent(password)
-
-        );
-
-        const result = await response.json();
-
-        if (result.success) {
-
-            showSuccess("Retailer Created Successfully");
-
-            document.getElementById("retailerName").value = "";
-            document.getElementById("retailerMobile").value = "";
-            document.getElementById("retailerPassword").value = "";
-
-            generateRetailerId();
-
-            loadRetailers();
+            row.style.display = "";
 
         } else {
 
-            alert(result.message);
+            row.style.display = "none";
 
         }
 
-    } catch (err) {
-
-        console.error(err);
-
-        alert("Server Error");
-
-    }
+    });
 
 }
 
-
-// ================================
-// LOAD RETAILERS
-// ================================
-
-async function loadRetailers() {
-
-    const table =
-        document.getElementById("retailerTable");
-
-    if (!table) return;
-
-    table.innerHTML =
-        "<tr><td colspan='6' align='center'>Loading...</td></tr>";
-
-    try {
-
-        const response = await fetch(
-
-            SCRIPT_URL + "?action=retailers"
-
-        );
-
-        const result = await response.json();
-
-        if (!result.success) {
-
-            table.innerHTML =
-                "<tr><td colspan='6'>No Retailers Found</td></tr>";
-
-            return;
-
-        }
-
-        table.innerHTML = "";
-
-        result.data.forEach(retailer => {
-
-            table.innerHTML += `
-
-<tr>
-
-<td>${retailer.id}</td>
-
-<td>${retailer.name}</td>
-
-<td>${retailer.mobile}</td>
-
-<td>${retailer.status}</td>
-
-<td>${retailer.totalWork || 0}</td>
-
-<td>
-
-<button onclick="resetRetailerPassword('${retailer.id}')">
-
-🔑 Reset
-
-</button>
-
-<button onclick="toggleRetailerStatus('${retailer.id}','${retailer.status}')">
-
-${retailer.status==="Blocked"?"✅ Unblock":"🚫 Block"}
-
-</button>
-
-<button onclick="removeRetailer('${retailer.id}')">
-
-🗑 Delete
-
-</button>
-
-</td>
-
-</tr>
-
-`;
-
-        });
-
-    } catch (err) {
-
-        console.error(err);
-
-    }
-
-}
-
-
-// ================================
-// RESET PASSWORD
-// ================================
-
-function resetRetailerPassword(id) {
-
-    document.getElementById("resetRetailerId").value = id;
-
-    document.getElementById("resetPasswordPopup").style.display = "flex";
-
-}
-
-function closeResetPasswordPopup() {
-
-    document.getElementById("resetPasswordPopup").style.display = "none";
-
-}
-
-async function saveRetailerPassword() {
-
-    const id =
-        document.getElementById("resetRetailerId").value;
-
-    const password =
-        document.getElementById("newRetailerPassword").value;
-
-    if (!password) {
-
-        alert("Enter Password");
-
-        return;
-
-    }
-
-    try {
-
-        const response = await fetch(
-
-            SCRIPT_URL +
-
-            "?action=resetPassword" +
-
-            "&id=" + encodeURIComponent(id) +
-
-            "&password=" + encodeURIComponent(password)
-
-        );
-
-        const result = await response.json();
-
-        if (result.success) {
-
-            closeResetPasswordPopup();
-
-            showSuccess("Password Updated");
-
-        } else {
-
-            alert(result.message);
-
-        }
-
-    } catch (err) {
-
-        console.error(err);
-
-    }
-
-}
-
-
-// ================================
-// BLOCK / UNBLOCK
-// ================================
-
-async function toggleRetailerStatus(id, status) {
-
-    const newStatus =
-        status === "Blocked" ? "Active" : "Blocked";
-
-    try {
-
-        const response = await fetch(
-
-            SCRIPT_URL +
-
-            "?action=blockRetailer" +
-
-            "&id=" + encodeURIComponent(id) +
-
-            "&status=" + encodeURIComponent(newStatus)
-
-        );
-
-        const result = await response.json();
-
-        if (result.success) {
-
-            showSuccess("Retailer Status Updated");
-
-            loadRetailers();
-
-        } else {
-
-            alert(result.message);
-
-        }
-
-    } catch (err) {
-
-        console.error(err);
-
-    }
-
-}
-
-
-// ================================
-// DELETE RETAILER
-// ================================
-
-async function removeRetailer(id) {
-
-    if (!confirm("Delete Retailer?")) return;
-
-    try {
-
-        const response = await fetch(
-
-            SCRIPT_URL +
-
-            "?action=deleteRetailer&id=" +
-
-            encodeURIComponent(id)
-
-        );
-
-        const result = await response.json();
-
-        if (result.success) {
-
-            showSuccess("Retailer Deleted");
-
-            loadRetailers();
-
-        } else {
-
-            alert(result.message);
-
-        }
-
-    } catch (err) {
-
-        console.error(err);
-
-    }
-
-}
-// ==========================================
-// ADMIN.JS - PART 4
-// REPORTS + SETTINGS + LOGOUT + UTILITIES
-// ==========================================
-
-
-// ================================
-// LOGOUT
-// ================================
-
-function logout() {
-
-    document.getElementById("logoutPopup").style.display = "flex";
-
-}
-
-function closeLogoutPopup() {
-
-    document.getElementById("logoutPopup").style.display = "none";
-
-}
-
-function confirmLogout() {
-
-    localStorage.removeItem("adminLogin");
-    localStorage.removeItem("adminId");
-
-    window.location.href = "login.html";
-
-}
-
-
-// ================================
-// BACKUP DATA
-// ================================
-
-async function backupData() {
-
-    try {
-
-        showLoading();
-
-        const response = await fetch(
-
-            SCRIPT_URL + "?action=backup"
-
-        );
-
-        const result = await response.json();
-
-        hideLoading();
-
-        if (result.success) {
-
-            showSuccess("Backup Created Successfully");
-
-        } else {
-
-            showError(result.message);
-
-        }
-
-    } catch (err) {
-
-        hideLoading();
-
-        console.error(err);
-
-        showError("Backup Failed");
-
-    }
-
-}
-
-
-// ================================
-// EXPORT EXCEL
-// ================================
-
-function exportExcel() {
-
-    window.open(
-
-        SCRIPT_URL + "?action=exportExcel",
-
-        "_blank"
-
-    );
-
-}
-
-
-// ================================
-// PRINT REPORT
-// ================================
-
-function printReport() {
-
-    window.print();
-
-}
-
-
-// ================================
-// CHANGE ADMIN PASSWORD
-// ================================
-
-async function changeAdminPassword() {
-
-    const password =
-        document.getElementById("newAdminPassword").value.trim();
-
-    if (!password) {
-
-        alert("Enter New Password");
-
-        return;
-
-    }
-
-    try {
-
-        const response = await fetch(
-
-            SCRIPT_URL +
-
-            "?action=changeAdminPassword" +
-
-            "&password=" +
-
-            encodeURIComponent(password)
-
-        );
-
-        const result = await response.json();
-
-        if (result.success) {
-
-            document.getElementById("newAdminPassword").value = "";
-
-            showSuccess("Password Changed Successfully");
-
-        } else {
-
-            showError(result.message);
-
-        }
-
-    } catch (err) {
-
-        console.error(err);
-
-        showError("Server Error");
-
-    }
-
-}
-
-
-// ================================
-// SUCCESS POPUP
-// ================================
-
-function showSuccess(message) {
-
-    document.getElementById("successMessage").innerHTML = message;
-
-    document.getElementById("successPopup").style.display = "flex";
-
-}
-
-function closePopup() {
-
-    document.getElementById("successPopup").style.display = "none";
-
-}
-
-
-// ================================
-// ERROR POPUP
-// ================================
-
-function showError(message) {
-
-    document.getElementById("errorMessage").innerHTML = message;
-
-    document.getElementById("errorPopup").style.display = "flex";
-
-}
-
-function closeErrorPopup() {
-
-    document.getElementById("errorPopup").style.display = "none";
-
-}
-
-
-// ================================
-// LOADING
-// ================================
-
-function showLoading() {
-
-    document.getElementById("loading").style.display = "flex";
-
-}
-
-function hideLoading() {
-
-    document.getElementById("loading").style.display = "none";
-
-}
-
-
-// ================================
-// AUTO REFRESH
-// ================================
-
-setInterval(() => {
-
-    loadDashboard();
-
-    loadApplications();
-
-    loadRetailers();
-
-}, 60000);
-
-
-// ================================
-// REFRESH DASHBOARD
-// ================================
+// ----------------------------
+// REFRESH
+// ----------------------------
 
 function refreshDashboard() {
 
@@ -1115,15 +313,472 @@ function refreshDashboard() {
 
 }
 
+// ----------------------------
+// VIEW APPLICATION
+// ----------------------------
 
-// ================================
-// PAGE RELOAD
-// ================================
+async function viewApplication(id) {
 
-window.onfocus = function () {
+    try {
 
-    refreshDashboard();
+        const response =
+        await fetch(
+            SCRIPT_URL +
+            "?action=searchId&id=" +
+            encodeURIComponent(id)
+        );
 
-};
+        const result =
+        await response.json();
 
+        if (!result.success) {
 
+            alert("Application Not Found");
+
+            return;
+
+        }
+
+        const app = result.data;
+
+        alert(
+
+            "Application ID : " + app.applicationId +
+
+            "\n\nName : " + app.englishName +
+
+            "\nGujarati Name : " + app.gujaratiName +
+
+            "\nMobile : " + app.mobile +
+
+            "\nVillage : " + app.village +
+
+            "\nTaluka : " + app.taluka +
+
+            "\nDistrict : " + app.district +
+
+            "\nService : " + app.service +
+
+            "\nStatus : " + app.status +
+
+            "\nDate : " + app.date
+
+        );
+
+    }
+
+    catch(err){
+
+        console.error(err);
+
+        alert("Server Error");
+
+    }
+
+}
+    
+}
+// ==========================================
+// ADMIN.JS - PART 3
+// STATUS UPDATE + DELETE + POPUPS
+// ==========================================
+
+// ----------------------------
+// CHANGE STATUS
+// ----------------------------
+
+async function changeStatus(id){
+
+    const status = prompt(
+
+        "Select Status\n\nPending\nApproved\nRejected"
+
+    );
+
+    if(!status) return;
+
+    try{
+
+        const response = await fetch(
+
+            SCRIPT_URL +
+            "?action=updateStatus&id=" +
+            encodeURIComponent(id) +
+            "&status=" +
+            encodeURIComponent(status)
+
+        );
+
+        const result = await response.json();
+
+        if(result.success){
+
+            showSuccess("Application Status Updated Successfully");
+
+            refreshDashboard();
+
+        }else{
+
+            alert(result.message);
+
+        }
+
+    }catch(err){
+
+        console.error(err);
+
+        alert("Server Error");
+
+    }
+
+}
+
+// ----------------------------
+// DELETE APPLICATION
+// ----------------------------
+
+let deleteApplicationId = "";
+
+// Open Delete Popup
+
+function deleteApplication(id){
+
+    deleteApplicationId = id;
+
+    document.getElementById("deletePopup").style.display = "flex";
+
+}
+
+// Close Delete Popup
+
+function closeDeletePopup(){
+
+    document.getElementById("deletePopup").style.display = "none";
+
+}
+
+// ----------------------------
+// CONFIRM DELETE
+// ----------------------------
+
+document.addEventListener("DOMContentLoaded",()=>{
+
+    const btn = document.getElementById("confirmDeleteBtn");
+
+    if(btn){
+
+        btn.onclick = confirmDelete;
+
+    }
+
+});
+
+async function confirmDelete(){
+
+    try{
+
+        const response = await fetch(
+
+            SCRIPT_URL +
+            "?action=deleteApplication&id=" +
+            encodeURIComponent(deleteApplicationId)
+
+        );
+
+        const result = await response.json();
+
+        closeDeletePopup();
+
+        if(result.success){
+
+            showSuccess("Application Deleted Successfully");
+
+            refreshDashboard();
+
+        }else{
+
+            alert(result.message);
+
+        }
+
+    }catch(err){
+
+        console.error(err);
+
+        alert("Server Error");
+
+    }
+
+}
+
+// ----------------------------
+// SUCCESS POPUP
+// ----------------------------
+
+function showSuccess(message){
+
+    document.getElementById("successMessage").innerText = message;
+
+    document.getElementById("successPopup").style.display = "flex";
+
+}
+
+function closePopup(){
+
+    document.getElementById("successPopup").style.display = "none";
+
+}
+// ==========================================
+// ADMIN.JS - PART 4 (FINAL)
+// RETAILER + LOGOUT + AUTO REFRESH
+// ==========================================
+
+// ----------------------------
+// CREATE RETAILER
+// ----------------------------
+
+async function createRetailer(){
+
+    const name =
+    document.getElementById("retailerName").value.trim();
+
+    const mobile =
+    document.getElementById("retailerMobile").value.trim();
+
+    const id =
+    document.getElementById("retailerId").value.trim();
+
+    const password =
+    document.getElementById("retailerPassword").value.trim();
+
+    if(!name || !mobile || !id || !password){
+
+        alert("Please Fill All Fields");
+
+        return;
+
+    }
+
+    try{
+
+        const response = await fetch(
+
+            SCRIPT_URL +
+            "?action=createRetailer" +
+            "&id=" + encodeURIComponent(id) +
+            "&password=" + encodeURIComponent(password) +
+            "&name=" + encodeURIComponent(name) +
+            "&mobile=" + encodeURIComponent(mobile)
+
+        );
+
+        const result = await response.json();
+
+        if(result.success){
+
+            showSuccess("Retailer Created Successfully");
+
+            document.getElementById("retailerName").value = "";
+            document.getElementById("retailerMobile").value = "";
+            document.getElementById("retailerId").value = "";
+            document.getElementById("retailerPassword").value = "";
+
+            loadRetailers();
+
+        }else{
+
+            alert(result.message);
+
+        }
+
+    }catch(err){
+
+        console.error(err);
+
+        alert("Server Error");
+
+    }
+
+}
+
+// ----------------------------
+// LOAD RETAILERS
+// ----------------------------
+
+async function loadRetailers(){
+
+    const table =
+    document.getElementById("retailerTable");
+
+    if(!table) return;
+
+    table.innerHTML =
+    "<tr><td colspan='6'>Loading...</td></tr>";
+
+    try{
+
+        const response =
+        await fetch(SCRIPT_URL + "?action=retailers");
+
+        const result =
+        await response.json();
+
+        table.innerHTML = "";
+
+        if(!result.success){
+
+            table.innerHTML =
+            "<tr><td colspan='6'>No Retailers Found</td></tr>";
+
+            return;
+
+        }
+
+        document.getElementById("totalRetailers").innerText =
+        result.data.length;
+
+        result.data.forEach(retailer=>{
+
+            table.innerHTML += `
+
+            <tr>
+
+                <td>${retailer.id}</td>
+
+                <td>${retailer.name}</td>
+
+                <td>${retailer.mobile}</td>
+
+                <td>${retailer.status}</td>
+
+                <td>${retailer.created || "-"}</td>
+
+                <td>
+
+                    <button onclick="removeRetailer('${retailer.id}')">
+
+                    Delete
+
+                    </button>
+
+                </td>
+
+            </tr>
+
+            `;
+
+        });
+
+    }catch(err){
+
+        console.error(err);
+
+    }
+
+}
+
+// ----------------------------
+// DELETE RETAILER
+// ----------------------------
+
+async function removeRetailer(id){
+
+    if(!confirm("Delete this Retailer?")) return;
+
+    try{
+
+        const response =
+        await fetch(
+
+            SCRIPT_URL +
+            "?action=deleteRetailer&id=" +
+            encodeURIComponent(id)
+
+        );
+
+        const result =
+        await response.json();
+
+        if(result.success){
+
+            showSuccess("Retailer Deleted Successfully");
+
+            loadRetailers();
+
+        }else{
+
+            alert(result.message);
+
+        }
+
+    }catch(err){
+
+        console.error(err);
+
+        alert("Server Error");
+
+    }
+
+}
+
+// ----------------------------
+// LOGOUT
+// ----------------------------
+
+function logout(){
+
+    if(confirm("Are you sure you want to Logout?")){
+
+        localStorage.removeItem("adminLogin");
+        localStorage.removeItem("adminName");
+
+        window.location.href = "login.html";
+
+    }
+
+}
+
+// ----------------------------
+// BACKUP
+// ----------------------------
+
+function backupData(){
+
+    alert("Backup Feature Coming Soon...");
+
+}
+
+// ----------------------------
+// CHANGE PASSWORD
+// ----------------------------
+
+function changeAdminPassword(){
+
+    const password =
+    document.getElementById("newAdminPassword").value;
+
+    if(password.length < 6){
+
+        alert("Password must be at least 6 characters.");
+
+        return;
+
+    }
+
+    alert("Password Change Feature Coming Soon.");
+
+}
+
+// ----------------------------
+// AUTO REFRESH
+// ----------------------------
+
+setInterval(()=>{
+
+    loadDashboard();
+
+    loadApplications();
+
+    loadRetailers();
+
+},60000);
