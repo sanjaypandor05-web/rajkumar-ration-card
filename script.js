@@ -412,3 +412,33 @@ document.getElementById("successPopup").style.display="none";
 
 
 window.closePopup = closePopup;
+// =============================
+// LOGIN POPUP
+// =============================
+
+function openLogin() {
+
+    document.getElementById("loginPopup").style.display = "flex";
+
+}
+
+function closeLogin() {
+
+    document.getElementById("loginPopup").style.display = "none";
+
+}
+
+
+// Close popup when clicking outside
+
+window.onclick = function(event){
+
+    const popup = document.getElementById("loginPopup");
+
+    if(event.target === popup){
+
+        popup.style.display = "none";
+
+    }
+
+};
