@@ -1,0 +1,261 @@
+/* =========================================
+LOGIN.CSS - PART 1
+RAJKUMAR RATION CARD PORTAL
+========================================= */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, sans-serif;
+}
+
+body{
+
+    background:linear-gradient(135deg,#0d6efd,#00b894);
+    min-height:100vh;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    padding:20px;
+
+}
+
+.login-container{
+
+    width:100%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+}
+
+.login-card{
+
+    width:100%;
+    max-width:420px;
+
+    background:#fff;
+
+    border-radius:18px;
+
+    padding:35px;
+
+    box-shadow:0 15px 40px rgba(0,0,0,.25);
+
+}
+
+.login-logo{
+
+    text-align:center;
+    margin-bottom:25px;
+
+}
+
+.login-logo img{
+
+    width:90px;
+    height:90px;
+    object-fit:contain;
+    margin-bottom:10px;
+
+}
+
+.login-logo h2{
+
+    color:#0d6efd;
+    margin-bottom:5px;
+
+}
+
+.login-logo p{
+
+    color:#666;
+    font-size:15px;
+
+}
+
+.login-card h3{
+
+    text-align:center;
+    margin-bottom:20px;
+    color:#222;
+
+}
+/* =========================================
+LOGIN.CSS - PART 2
+Inputs + Buttons + Responsive
+========================================= */
+
+#loginType,
+#username,
+#password{
+
+    width:100%;
+    padding:14px;
+    margin-bottom:15px;
+
+    border:1px solid #ccc;
+    border-radius:10px;
+
+    font-size:16px;
+    outline:none;
+
+    transition:.3s;
+
+}
+
+#loginType:focus,
+#username:focus,
+#password:focus{
+
+    border-color:#0d6efd;
+    box-shadow:0 0 8px rgba(13,110,253,.25);
+
+}
+
+.password-box{
+
+    position:relative;
+    margin-bottom:15px;
+
+}
+
+.password-box input{
+
+    width:100%;
+    padding:14px;
+    padding-right:50px;
+
+    border:1px solid #ccc;
+    border-radius:10px;
+
+    font-size:16px;
+
+}
+
+#togglePassword{
+
+    position:absolute;
+    right:10px;
+    top:50%;
+
+    transform:translateY(-50%);
+
+    border:none;
+    background:none;
+
+    cursor:pointer;
+
+    font-size:20px;
+
+}
+
+#loginBtn{
+
+    width:100%;
+
+    padding:15px;
+
+    border:none;
+
+    border-radius:10px;
+
+    background:#0d6efd;
+
+    color:#fff;
+
+    font-size:18px;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+
+#loginBtn:hover{
+
+    background:#0b5ed7;
+
+}
+
+.login-error{
+
+    margin-top:15px;
+
+    color:#dc3545;
+
+    text-align:center;
+
+    font-size:15px;
+
+    font-weight:bold;
+
+    min-height:22px;
+
+}
+
+.login-footer{
+
+    margin-top:25px;
+
+    text-align:center;
+
+}
+
+.login-footer a{
+
+    color:#0d6efd;
+
+    text-decoration:none;
+
+    font-weight:bold;
+
+}
+
+.login-footer a:hover{
+
+    text-decoration:underline;
+
+}
+
+/* MOBILE */
+
+@media(max-width:768px){
+
+.login-card{
+
+    padding:25px;
+
+}
+
+.login-logo img{
+
+    width:70px;
+    height:70px;
+
+}
+
+.login-logo h2{
+
+    font-size:22px;
+
+}
+
+.login-card h3{
+
+    font-size:20px;
+
+}
+
+#loginBtn{
+
+    font-size:17px;
+
+}
+
+}
