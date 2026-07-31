@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Admin Dashboard | Rajkumar Ration Card Portal</title>
+
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="admin.css">
+
+</head>
+
+<body>
+
+<!-- ================= ADMIN HEADER ================= -->
+
+<header class="admin-header">
+
+<div class="admin-logo">
+
+<h2>👑 Admin Dashboard</h2>
+
+<p>Rajkumar Ration Card Portal</p>
+
+</div>
+
+<div class="admin-user">
+
+<span id="adminName">Administrator</span>
+
+<button onclick="logout()">Logout</button>
+
+</div>
+
+</header>
+
+<!-- ================= SIDEBAR ================= -->
+
+<div class="admin-container">
+
+<aside class="sidebar">
+
+<h3>MENU</h3>
+
+<ul>
+
+<li><a href="#dashboard">📊 Dashboard</a></li>
+
+<li><a href="#applications">📋 Applications</a></li>
+
+<li><a href="#retailers">🏪 Retailers</a></li>
+
+<li><a href="#reports">📈 Reports</a></li>
+
+<li><a href="#settings">⚙ Settings</a></li>
+
+<li><a href="#" onclick="logout()">🚪 Logout</a></li>
+
+</ul>
+
+</aside>
+
+<!-- ================= MAIN CONTENT ================= -->
+
+<main class="admin-main">
+
+<section id="dashboard">
+
+<h1>Dashboard</h1>
+
+<div class="dashboard-cards">
+
+<div class="card">
+
+<h2 id="totalApplications">0</h2>
+
+<p>Total Applications</p>
+
+</div>
+
+<div class="card">
+
+<h2 id="pendingApplications">0</h2>
+
+<p>Pending</p>
+
+</div>
+
+<div class="card">
+
+<h2 id="approvedApplications">0</h2>
+
+<p>Approved</p>
+
+</div>
+
+<div class="card">
+
+<h2 id="rejectedApplications">0</h2>
+
+<p>Rejected</p>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ================= SEARCH ================= -->
+
+<section class="search-section">
+
+<h2>Search Application</h2>
+
+<input
+type="text"
+id="searchText"
+placeholder="Application ID / Mobile / Name">
+
+<button onclick="searchApplication()">
+
+Search
+
+</button>
+
+<button onclick="loadApplications()">
+
+Refresh
+
+</button>
+
+</section>
+
+<!-- ================= APPLICATION TABLE ================= -->
+
+<section id="applications">
+
+<h2>All Applications</h2>
+
+<table class="admin-table">
+
+<thead>
+
+<tr>
+
+<th>ID</th>
+
+<th>Name</th>
+
+<th>Mobile</th>
+
+<th>Service</th>
+
+<th>Status</th>
+
+<th>Retailer</th>
+
+<th>Date</th>
+
+<th>Action</th>
+
+</tr>
+
+</thead>
+
+<tbody id="applicationTable">
+
+<tr>
+
+<td colspan="8" align="center">
+
+Loading...
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</section>
+<!-- ================= RETAILER MANAGEMENT ================= -->
+
+<section id="retailers">
+
+<h2>🏪 Retailer Management</h2>
+
+<div class="retailer-form">
+
+<h3>Create New Retailer</h3>
+
+<input
+type="text"
+id="retailerName"
+placeholder="Retailer Name">
+
+<input
+type="text"
+id="retailerMobile"
+placeholder="Mobile Number">
+
+<input
+type="text"
+id="retailerId"
+placeholder="Retailer ID">
+
+<input
+type="password"
+id="retailerPassword"
+placeholder="Password">
+
+<button onclick="createRetailer()">
+➕ Create Retailer
+</button>
+
+</div>
+
+<br>
+
+<h3>Retailer List</h3>
+
+<table class="admin-table">
+
+<thead>
+
+<tr>
+
+<th>Retailer ID</th>
+
+<th>Name</th>
+
+<th>Mobile</th>
+
+<th>Status</th>
+
+<th>Action</th>
+
+</tr>
+
+</thead>
+
+<tbody id="retailerTable">
+
+<tr>
+
+<td colspan="5" align="center">
+
+No Retailers Found
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</section>
+
+<!-- ================= REPORTS ================= -->
+
+<section id="reports">
+
+<h2>📊 Reports</h2>
+
+<div class="dashboard-cards">
+
+<div class="card">
+
+<h3>Total Retailers</h3>
+
+<h2 id="totalRetailers">0</h2>
+
+</div>
+
+<div class="card">
+
+<h3>Today's Applications</h3>
+
+<h2 id="todayApplications">0</h2>
+
+</div>
+
+<div class="card">
+
+<h3>Completed Today</h3>
+
+<h2 id="completedToday">0</h2>
+
+</div>
+
+<div class="card">
+
+<h3>Pending Today</h3>
+
+<h2 id="pendingToday">0</h2>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ================= SETTINGS ================= -->
+
+<section id="settings">
+
+<h2>⚙️ Settings</h2>
+
+<div class="settings-box">
+
+<h3>Admin Password</h3>
+
+<input
+type="password"
+id="newAdminPassword"
+placeholder="New Password">
+
+<button onclick="changeAdminPassword()">
+
+Save Password
+
+</button>
+
+</div>
+
+<br>
+
+<div class="settings-box">
+
+<h3>System</h3>
+
+<button onclick="backupData()">
+
+📥 Backup Data
+
+</button>
+
+<button onclick="refreshDashboard()">
+
+🔄 Refresh Dashboard
+
+</button>
+
+</div>
+
+</section>
+<!-- ================= FOOTER ================= -->
+
+<footer class="admin-footer">
+
+<p>
+© 2026 Rajkumar Ration Card Portal | Admin Panel
+</p>
+
+</footer>
+
+</main>
+
+</div>
+
+<!-- ================= LOADING ================= -->
+
+<div id="loading" style="display:none;">
+
+<div class="loading-box">
+
+<h3>Please Wait...</h3>
+
+<p>Processing Request...</p>
+
+</div>
+
+</div>
+
+<!-- ================= SUCCESS POPUP ================= -->
+
+<div id="successPopup" style="display:none;">
+
+<div class="popup-box">
+
+<h2>✅</h2>
+
+<h3>Success</h3>
+
+<p id="successMessage">
+Operation Completed Successfully
+</p>
+
+<button onclick="closePopup()">
+
+OK
+
+</button>
+
+</div>
+
+</div>
+
+<!-- ================= CONFIRM DELETE ================= -->
+
+<div id="deletePopup" style="display:none;">
+
+<div class="popup-box">
+
+<h3>Delete Application?</h3>
+
+<p>
+Are you sure you want to delete this application?
+</p>
+
+<button id="confirmDeleteBtn">
+
+Yes Delete
+
+</button>
+
+<button onclick="closeDeletePopup()">
+
+Cancel
+
+</button>
+
+</div>
+
+</div>
+
+<!-- ================= JAVASCRIPT ================= -->
+
+<script src="admin.js"></script>
+
+</body>
+
+</html>
