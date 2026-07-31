@@ -6,7 +6,7 @@
 // GOOGLE APPS SCRIPT API URL
 // ==========================================
 
-const API_URL = "https://script.google.com/macros/s/AKfycbzsdUwiDg17gl8r1EUOypp1-lXXJkqZwpnD_B8q3NzZ/dev";
+const API_URL = "https://script.google.com/macros/s/AKfycbw3ESOk2lbvEvEjR1TCv_AreBBibLsDcdK4R449vDPhl9Fv71sTYN8F728etwhn385Zxw/exec";
 // ---------- PAGE LOADED ----------
 
 document.addEventListener("DOMContentLoaded", function () {
