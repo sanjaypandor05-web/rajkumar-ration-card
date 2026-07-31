@@ -9,9 +9,15 @@
 <title>Rajkumar Ration Card Portal</title>
 
 <meta name="description"
-content="Rajkumar Ration Card Portal - All Ration Card Services">
+content="Rajkumar Ration Card Portal - Gujarat Ration Card Online Services">
 
 <link rel="stylesheet" href="style.css">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 </head>
 
@@ -21,15 +27,15 @@ content="Rajkumar Ration Card Portal - All Ration Card Services">
 
 <header class="header">
 
-<div class="logo-area">
+<div class="container">
 
-<img src="Logo.png"
-class="logo"
-alt="Rajkumar Ration Card">
+<div class="logo-box">
 
-<div class="logo-text">
+<img src="Logo.png" alt="Logo" class="logo">
 
-<h2>Rajkumar Ration Card Portal</h2>
+<div>
+
+<h2>Rajkumar Ration Card</h2>
 
 <p>All Ration Card Services</p>
 
@@ -37,422 +43,188 @@ alt="Rajkumar Ration Card">
 
 </div>
 
-<nav>
+<nav class="menu">
 
 <a href="#home">Home</a>
 
-<a href="#services">Services</a>
-
-<a href="#apply">Apply</a>
-
-<a href="#user-panel">User Panel</a>
+<a href="#about">About</a>
 
 <a href="#contact">Contact</a>
 
-<a href="#" onclick="openLogin();return false;">🔐 Login</a>
+<a href="login.html" class="login-btn">
+
+🔐 Login
+
+</a>
 
 </nav>
 
-<a href="tel:+916351700215"
-class="call-btn">
+<a href="tel:+916351700215" class="call-btn">
 
 ☎ Call Now
 
 </a>
 
+</div>
+
 </header>
 
-<!-- ================= LOGIN POPUP ================= -->
+<!-- ================= HERO ================= -->
 
-<div id="loginPopup"
-class="login-popup">
+<section class="hero" id="home">
 
-<div class="login-box">
+<div class="hero-content">
 
-<span
-class="close-btn"
-onclick="closeLogin()">
+<h1>
 
-&times;
+Rajkumar Ration Card Portal
 
-</span>
-
-<h2>Login Panel</h2>
-
-<p>Select Login Type</p>
-
-<br>
-
-<button
-class="admin-btn"
-onclick="window.location.href='login.html?type=admin'">
-
-👑 Admin Login
-
-</button>
-
-<br><br>
-
-<button
-class="retailer-btn"
-onclick="window.location.href='login.html?type=retailer'">
-
-🏪 Retailer Login
-
-</button>
-
-</div>
-
-</div>
-<!-- ================= SLIDER ================= -->
-
-<section id="home" class="slider">
-
-<img src="slide1.png" class="slide active" alt="Slide 1">
-
-<img src="slide2.png" class="slide" alt="Slide 2">
-
-<img src="slide3.png" class="slide" alt="Slide 3">
-
-</section>
-
-<!-- ================= SERVICES ================= -->
-
-<section id="services" class="services">
-
-<h1>Ration Card Services</h1>
-
-<div class="service-grid">
-
-<div class="service-card">
-<h3>🆕 New Ration Card</h3>
-<p>નવું રેશન કાર્ડ બનાવવું</p>
-</div>
-
-<div class="service-card">
-<h3>➕ Name Add</h3>
-<p>રેશન કાર્ડમાં નામ ઉમેરવું</p>
-</div>
-
-<div class="service-card">
-<h3>➖ Name Remove</h3>
-<p>રેશન કાર્ડમાંથી નામ દૂર કરવું</p>
-</div>
-
-<div class="service-card">
-<h3>✏️ Correction</h3>
-<p>રેશન કાર્ડમાં સુધારા</p>
-</div>
-
-<div class="service-card">
-<h3>📄 Duplicate Card</h3>
-<p>ડુપ્લિકેટ રેશન કાર્ડ</p>
-</div>
-
-<div class="service-card">
-<h3>🏠 Address Change</h3>
-<p>સરનામું બદલવું</p>
-</div>
-
-<div class="service-card">
-<h3>🔄 Member Transfer</h3>
-<p>સભ્ય ટ્રાન્સફર</p>
-</div>
-
-<div class="service-card">
-<h3>👨‍👩‍👧 Family Split</h3>
-<p>અલગ રેશન કાર્ડ</p>
-</div>
-
-<div class="service-card">
-<h3>🔁 APL / BPL Change</h3>
-<p>રેશન કાર્ડનો પ્રકાર બદલવો</p>
-</div>
-
-<div class="service-card">
-<h3>📋 Status Check</h3>
-<p>અરજીની સ્થિતિ તપાસો</p>
-</div>
-
-</div>
-
-</section>
-
-<!-- ================= APPLY FORM ================= -->
-
-<section id="apply" class="apply">
-
-<h1>Online Ration Card Application</h1>
-
-<form id="applicationForm">
-  <!-- ================= APPLICATION FORM ================= -->
-
-<label>ગુજરાતી નામ</label>
-<input type="text" id="gujaratiName" required>
-
-<label>English Name</label>
-<input type="text" id="englishName" required>
-
-<label>Mobile Number</label>
-<input type="tel" id="mobile" maxlength="10" required>
-
-<label>Village</label>
-<input type="text" id="village" required>
-
-<label>Taluka</label>
-<input type="text" id="taluka" required>
-
-<label>District</label>
-<input type="text" id="district" required>
-
-<label>Full Address</label>
-<textarea id="address" required></textarea>
-
-<label>Pincode</label>
-<input type="number" id="pincode" required>
-
-<label>Email</label>
-<input type="email" id="email">
-
-<label>Select Ration Card Service</label>
-
-<select id="service" required>
-
-<option value="">Select Service</option>
-
-<option>New Ration Card</option>
-<option>Name Add</option>
-<option>Name Remove</option>
-<option>Correction</option>
-<option>Duplicate Card</option>
-<option>Address Change</option>
-<option>Member Transfer</option>
-<option>Family Split</option>
-<option>APL / BPL Change</option>
-
-</select>
-
-<label>Application Details</label>
-
-<textarea id="details"></textarea>
-
-<!-- ================= PAYMENT ================= -->
-
-<section id="payment" class="payment">
-
-<h2>Payment</h2>
-
-<img src="QR.jpeg" class="qr-code" alt="QR Code">
+</h1>
 
 <p>
-QR Scan કરીને Payment કરો અને Screenshot Upload કરો.
+
+ગુજરાતની તમામ રેશન કાર્ડ સેવાઓ હવે ઓનલાઈન.
+
+</p>
+<!-- ================= HERO BUTTONS ================= -->
+
+<div class="hero-buttons">
+
+<a href="login.html" class="btn-primary">
+
+🔐 Login Now
+
+</a>
+
+<a href="tel:+916351700215" class="btn-secondary">
+
+📞 Call Now
+
+</a>
+
+</div>
+
+</div>
+
+<div class="hero-image">
+
+<img src="banner.png" alt="Rajkumar Ration Card">
+
+</div>
+
+</section>
+
+<!-- ================= ABOUT ================= -->
+
+<section class="about" id="about">
+
+<div class="container">
+
+<h2>
+
+Welcome to Rajkumar Ration Card Portal
+
+</h2>
+
+<p>
+
+Rajkumar Ration Card Portal માં ગુજરાતની તમામ રેશન કાર્ડ સેવાઓ
+ઝડપી, સુરક્ષિત અને વિશ્વાસપાત્ર રીતે ઉપલબ્ધ છે.
+
 </p>
 
-</section>
+<div class="about-box">
 
-<!-- ================= DOCUMENTS ================= -->
+<div class="about-card">
 
-<section class="documents">
+<h3>⚡ Fast Service</h3>
 
-<h2>Upload Documents</h2>
+<p>
 
-<label>Aadhaar Card PDF</label>
-<input
-type="file"
-id="aadhaarFile"
-accept="application/pdf"
-required>
+ઝડપી ઓનલાઈન પ્રક્રિયા
 
-<label>Ration Card PDF (Optional)</label>
-<input
-type="file"
-id="rationFile"
-accept="application/pdf">
-
-<label>Payment Screenshot</label>
-<input
-type="file"
-id="paymentFile"
-accept="image/*"
-required>
-
-</section>
-
-<button
-type="submit"
-id="submitBtn">
-
-Submit Application
-
-</button>
-
-</form>
-
-</section>
-<!-- ================= USER PANEL ================= -->
-
-<section id="user-panel" class="user-panel">
-
-<h1>User Panel</h1>
-
-<div class="status-box">
-
-<h3>Application Status Check</h3>
-
-<input
-type="text"
-id="searchMobile"
-placeholder="Enter Mobile Number">
-
-<button onclick="searchByMobile()">
-Search
-</button>
-
-<br><br>
-
-<input
-type="text"
-id="searchApplication"
-placeholder="Application ID">
-
-<button onclick="searchByApplicationId()">
-Search ID
-</button>
+</p>
 
 </div>
 
-<br>
+<div class="about-card">
 
-<table class="status-table">
+<h3>🔒 Secure</h3>
 
-<tr>
-<th>Application ID</th>
-<td id="appId">-</td>
-</tr>
+<p>
 
-<tr>
-<th>Name</th>
-<td id="appName">-</td>
-</tr>
+તમારા ડેટાની સંપૂર્ણ સુરક્ષા
 
-<tr>
-<th>Mobile</th>
-<td id="appMobile">-</td>
-</tr>
+</p>
 
-<tr>
-<th>Service</th>
-<td id="appService">-</td>
-</tr>
+</div>
 
-<tr>
-<th>Status</th>
-<td id="appStatus">Pending</td>
-</tr>
+<div class="about-card">
 
-<tr>
-<th>Date</th>
-<td id="appDate">-</td>
-</tr>
+<h3>📱 Online Support</h3>
 
-</table>
+<p>
 
-<br>
+WhatsApp અને Call દ્વારા સહાય
 
-<button onclick="printReceipt()">
+</p>
 
-🖨 Print Receipt
+</div>
 
-</button>
+</div>
+
+</div>
 
 </section>
-
-<!-- ================= LOADING ================= -->
-
-<div id="loading" style="display:none;">
-
-<div class="loading-box">
-
-<h2>Please Wait...</h2>
-
-<p>તમારી અરજી સબમિટ થઈ રહી છે.</p>
-
-</div>
-
-</div>
-
-<!-- ================= SUCCESS POPUP ================= -->
-
-<div id="successPopup" style="display:none;">
-
-<div class="popup-box">
-
-<h2>✅</h2>
-
-<h3>Application Submitted Successfully</h3>
-
-<p>તમારી અરજી સફળતાપૂર્વક સબમિટ થઈ ગઈ છે.</p>
-
-<button onclick="closePopup()">
-
-OK
-
-</button>
-
-</div>
-
-</div>
-
 <!-- ================= CONTACT ================= -->
 
-<section id="contact" class="contact">
+<section class="contact" id="contact">
+
+<div class="container">
 
 <h2>Contact Us</h2>
 
-<p><strong>Rajkumar Ration Card Portal</strong></p>
+<div class="contact-grid">
 
-<p>📞 Mobile : +91 63517 00215</p>
+<div class="contact-card">
 
-<p>📍 Panchmahudi, Ta. Shamlaji, Dist. Aravalli</p>
+<h3>📞 Mobile</h3>
 
-<p>🕒 Monday - Saturday : 09:00 AM - 07:00 PM</p>
+<p>+91 63517 00215</p>
 
-</section>
-<!-- ================= FOOTER ================= -->
+</div>
 
-<footer class="footer">
+<div class="contact-card">
 
-<div class="footer-box">
-
-<h3>Rajkumar Ration Card Portal</h3>
-
-<p>All Ration Card Services Available Here</p>
+<h3>📍 Address</h3>
 
 <p>
-
-✔ New Ration Card |
-✔ Name Add |
-✔ Name Remove |
-✔ Correction |
-✔ Duplicate Card |
-✔ Address Change |
-✔ Member Transfer |
-✔ Family Split |
-✔ APL / BPL Change
-
+Panchmahudi,<br>
+Ta. Shamlaji,<br>
+Dist. Aravalli, Gujarat
 </p>
 
+</div>
+
+<div class="contact-card">
+
+<h3>🕒 Office Time</h3>
+
 <p>
 
-© 2026 Rajkumar Ration Card Portal
-<br>
-Developed By Rajkumar Online Work
+Monday - Saturday<br>
+
+09:00 AM - 07:00 PM
 
 </p>
 
 </div>
 
-</footer>
+</div>
+
+</div>
+
+</section>
 
 <!-- ================= WHATSAPP ================= -->
 
@@ -464,6 +236,39 @@ target="_blank">
 💬 WhatsApp
 
 </a>
+
+<!-- ================= FOOTER ================= -->
+
+<footer class="footer">
+
+<div class="container">
+
+<h3>
+
+Rajkumar Ration Card Portal
+
+</h3>
+
+<p>
+
+All Ration Card Services Available Online
+
+</p>
+<p>
+
+© 2026 Rajkumar Ration Card Portal
+
+</p>
+
+<p>
+
+Developed with ❤️ for Gujarat Ration Card Services
+
+</p>
+
+</div>
+
+</footer>
 
 <!-- ================= JAVASCRIPT ================= -->
 
