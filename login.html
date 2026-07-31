@@ -4,105 +4,259 @@
 <head>
 
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Login | Rajkumar Ration Card Portal</title>
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
 
-<link rel="stylesheet" href="login.css">
+<title>
+
+Login | Rajkumar Ration Card Portal
+
+</title>
+
+<meta name="description"
+content="Admin & Retailer Login">
+
+<link rel="stylesheet"
+href="login.css">
+
+<link rel="preconnect"
+href="https://fonts.googleapis.com">
+
+<link rel="preconnect"
+href="https://fonts.gstatic.com"
+crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+rel="stylesheet">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 
 </head>
 
 <body>
 
-<!-- ================= LOGIN CONTAINER ================= -->
+<!-- ================= LOGIN PAGE ================= -->
+
+<section class="login-page">
+
+<div class="overlay"></div>
 
 <div class="login-container">
 
-<div class="login-box">
+<div class="login-left">
 
-<div class="login-header">
+<img
+src="Logo.png"
+alt="Logo"
+class="login-logo">
 
-<h2>🔐 Login Panel</h2>
+<h1>
 
-<p>Rajkumar Ration Card Portal</p>
+Rajkumar Ration Card Portal
+
+</h1>
+
+<p>
+
+Secure Login System
+
+</p>
 
 </div>
 
-<!-- ================= LOGIN FORM ================= -->
+<div class="login-right">
 
-<div class="login-form">
+<h2>
 
-<label>Login Type</label>
+Welcome Back
 
-<select id="loginType">
+</h2>
 
-<option value="admin">👑 Admin</option>
+<p>
 
-<option value="retailer">🏪 Retailer</option>
+Please login to continue
+
+</p>
+
+<form id="loginForm">
+
+<label>
+
+Login Type
+
+</label>
+
+<select id="loginType" required>
+
+<option value="">
+
+Select Login
+
+</option>
+
+<option value="admin">
+
+👑 Admin
+
+</option>
+
+<option value="retailer">
+
+🏪 Retailer
+
+</option>
 
 </select>
 
-<label>User ID</label>
+<label>
+
+User ID
+
+</label>
 
 <input
 type="text"
-id="username"
-placeholder="Enter User ID">
+id="userId"
+placeholder="Enter User ID"
+required>
 
-<label>Password</label>
+<label>
+
+Password
+
+</label>
 
 <input
 type="password"
 id="password"
-placeholder="Enter Password">
-<!-- ================= LOGIN BUTTON ================= -->
+placeholder="Enter Password"
+required>
+<!-- ================= PASSWORD ================= -->
 
-<br>
+<div class="password-box">
+
+<input
+type="password"
+id="loginPassword"
+placeholder="Enter Password"
+required>
 
 <button
-id="loginBtn"
-onclick="loginUser()">
+type="button"
+id="togglePassword">
 
-🔓 Login
+<i class="fa-solid fa-eye"></i>
 
 </button>
 
-<p
-id="loginError"
-class="error-message">
+</div>
 
-</p>
+<!-- ================= LOGIN BUTTON ================= -->
+
+<button
+type="submit"
+class="login-btn">
+
+<i class="fa-solid fa-right-to-bracket"></i>
+
+Login
+
+</button>
+
+<div id="loginMessage"></div>
+
+</form>
+
+<!-- ================= EXTRA BUTTONS ================= -->
 
 <div class="login-links">
 
 <a href="index.html">
 
-🏠 Back to Home
+<i class="fa-solid fa-house"></i>
+
+Back to Home
+
+</a>
+
+<a href="tel:+916351700215">
+
+<i class="fa-solid fa-phone"></i>
+
+Call Support
 
 </a>
 
 </div>
 
 </div>
-<!-- login-form END -->
-<!-- ================= LOGIN FOOTER ================= -->
 
-<div class="login-footer">
+</div>
+
+</section>
+
+<!-- ================= LOADING ================= -->
+
+<div id="loadingScreen">
+
+<div class="loader"></div>
 
 <p>
 
-© 2026 Rajkumar Ration Card Portal
+Please wait...
 
 </p>
 
 </div>
+<!-- ================= SUCCESS POPUP ================= -->
+
+<div id="successPopup" class="popup">
+
+    <div class="popup-box">
+
+        <i class="fa-solid fa-circle-check success-icon"></i>
+
+        <h2>Login Successful</h2>
+
+        <p>
+
+            Redirecting to your dashboard...
+
+        </p>
+
+    </div>
 
 </div>
-<!-- login-box END -->
+
+<!-- ================= ERROR POPUP ================= -->
+
+<div id="errorPopup" class="popup">
+
+    <div class="popup-box">
+
+        <i class="fa-solid fa-circle-xmark error-icon"></i>
+
+        <h2>Login Failed</h2>
+
+        <p id="errorText">
+
+            Invalid User ID or Password.
+
+        </p>
+
+        <button onclick="closeErrorPopup()">
+
+            OK
+
+        </button>
+
+    </div>
 
 </div>
-<!-- login-container END -->
-  <!-- ================= JAVASCRIPT ================= -->
+
+<!-- ================= JAVASCRIPT ================= -->
 
 <script src="login.js"></script>
 
