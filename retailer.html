@@ -1,15 +1,21 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="gu">
 
 <head>
 
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Retailer Dashboard | Rajkumar Ration Card Portal</title>
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
 
-<link rel="stylesheet" href="style.css">
-<link rel="stylesheet" href="retailer.css">
+<title>
+
+Retailer Panel | Rajkumar Ration Card Portal
+
+</title>
+
+<link rel="stylesheet"
+href="retailer.css">
 
 </head>
 
@@ -21,19 +27,39 @@
 
 <div class="admin-logo">
 
-<h2>🏪 Retailer Dashboard</h2>
+<h2>
 
-<p>Rajkumar Ration Card Portal</p>
+Rajkumar Ration Card Portal
+
+</h2>
+
+<p>
+
+Retailer Panel
+
+</p>
 
 </div>
 
 <div class="admin-user">
 
-<span id="retailerName">Retailer</span>
+<span>
 
-<button onclick="logout()" class="logout-btn">
+Welcome,
 
-🚪 Logout
+<b id="retailerName">
+
+Retailer
+
+</b>
+
+</span>
+
+<button
+class="logout-btn"
+onclick="logout()">
+
+Logout
 
 </button>
 
@@ -47,17 +73,63 @@
 
 <aside class="sidebar">
 
-<h3>MENU</h3>
+<h3>
+
+Menu
+
+</h3>
 
 <ul>
 
-<li><a href="#dashboard">📊 Dashboard</a></li>
+<li>
 
-<li><a href="#applications">📋 My Applications</a></li>
+<a href="#dashboard">
 
-<li><a href="#profile">👤 Profile</a></li>
+🏠 Dashboard
 
-<li><a href="#" onclick="logout()">🚪 Logout</a></li>
+</a>
+
+</li>
+
+<li>
+
+<a href="#services">
+
+📋 Services
+
+</a>
+
+</li>
+
+<li>
+
+<a href="#apply">
+
+📝 Apply Form
+
+</a>
+
+</li>
+
+<li>
+
+<a href="#history">
+
+📂 Work History
+
+</a>
+
+</li>
+
+<li>
+
+<a href="#profile">
+
+👤 My Profile
+
+</a>
+
+</li>
 
 </ul>
 
@@ -69,13 +141,21 @@
 
 <section id="dashboard">
 
-<h1>Retailer Dashboard</h1>
+<h1>
+
+Retailer Dashboard
+
+</h1>
 
 <div class="dashboard-cards">
 
 <div class="card total">
 
-<h2 id="totalApplications">0</h2>
+<h2 id="totalApplications">
+
+0
+
+</h2>
 
 <p>Total Applications</p>
 
@@ -83,7 +163,11 @@
 
 <div class="card pending">
 
-<h2 id="pendingApplications">0</h2>
+<h2 id="pendingApplications">
+
+0
+
+</h2>
 
 <p>Pending</p>
 
@@ -91,7 +175,11 @@
 
 <div class="card success">
 
-<h2 id="approvedApplications">0</h2>
+<h2 id="approvedApplications">
+
+0
+
+</h2>
 
 <p>Successful</p>
 
@@ -99,42 +187,207 @@
 
 <div class="card failed">
 
-<h2 id="rejectedApplications">0</h2>
+<h2 id="rejectedApplications">
+
+0
+
+</h2>
 
 <p>Failed</p>
 
 </div>
 
 </div>
-  <!-- ================= SEARCH ================= -->
+  <!-- ================= SERVICES ================= -->
 
-<section class="search-section">
+<section id="services">
 
-<h2>📋 My Applications</h2>
+<h2>Ration Card Services</h2>
+
+<div class="service-grid">
+
+<div class="service-card">
+<h3>🆕 New Ration Card</h3>
+<p>નવું રેશન કાર્ડ બનાવવું</p>
+</div>
+
+<div class="service-card">
+<h3>➕ Name Add</h3>
+<p>રેશન કાર્ડમાં નામ ઉમેરવું</p>
+</div>
+
+<div class="service-card">
+<h3>➖ Name Remove</h3>
+<p>રેશન કાર્ડમાંથી નામ દૂર કરવું</p>
+</div>
+
+<div class="service-card">
+<h3>✏️ Correction</h3>
+<p>નામ, જન્મ તારીખ વગેરેમાં સુધારો</p>
+</div>
+
+<div class="service-card">
+<h3>🏠 Address Change</h3>
+<p>સરનામું બદલવું</p>
+</div>
+
+<div class="service-card">
+<h3>👨‍👩‍👧 Member Transfer</h3>
+<p>સભ્ય ટ્રાન્સફર</p>
+</div>
+
+<div class="service-card">
+<h3>📄 Duplicate Card</h3>
+<p>ડુપ્લિકેટ રેશન કાર્ડ</p>
+</div>
+
+<div class="service-card">
+<h3>👪 Family Split</h3>
+<p>અલગ રેશન કાર્ડ બનાવવું</p>
+</div>
+
+<div class="service-card">
+<h3>🔄 APL / BPL Change</h3>
+<p>કાર્ડનો પ્રકાર બદલવો</p>
+</div>
+
+<div class="service-card">
+<h3>📊 Status Check</h3>
+<p>અરજીની સ્થિતિ તપાસો</p>
+</div>
+
+</div>
+
+</section>
+  <!-- ================= APPLY FORM ================= -->
+
+<section id="apply">
+
+<h2>Online Ration Card Application</h2>
+
+<form id="applicationForm">
+
+<label>ગુજરાતી નામ</label>
+<input type="text" id="gujaratiName" required>
+
+<label>English Name</label>
+<input type="text" id="englishName" required>
+
+<label>Mobile Number</label>
+<input type="tel" id="mobile" maxlength="10" required>
+
+<label>Village</label>
+<input type="text" id="village" required>
+
+<label>Taluka</label>
+<input type="text" id="taluka" required>
+
+<label>District</label>
+<input type="text" id="district" required>
+
+<label>Full Address</label>
+<textarea id="address" required></textarea>
+
+<label>Pincode</label>
+<input type="number" id="pincode" required>
+
+<label>Email</label>
+<input type="email" id="email">
+
+<label>Select Service</label>
+
+<select id="service" required>
+
+<option value="">Select Service</option>
+
+<option>New Ration Card</option>
+<option>Name Add</option>
+<option>Name Remove</option>
+<option>Correction</option>
+<option>Duplicate Card</option>
+<option>Address Change</option>
+<option>Member Transfer</option>
+<option>Family Split</option>
+<option>APL / BPL Change</option>
+
+</select>
+
+<label>Application Details</label>
+
+<textarea id="details"></textarea>
+
+<!-- ================= PAYMENT ================= -->
+
+<div class="payment-box">
+
+<h3>QR Payment</h3>
+
+<img src="QR.jpeg" class="qr-code" alt="QR Code">
+
+<p>
+
+QR Scan કરીને Payment કરો અને Screenshot Upload કરો.
+
+</p>
+
+</div>
+
+<!-- ================= DOCUMENTS ================= -->
+
+<div class="documents">
+
+<h3>Upload Documents</h3>
+
+<label>Aadhaar Card PDF</label>
+
+<input
+type="file"
+id="aadhaarFile"
+accept="application/pdf"
+required>
+
+<label>Ration Card PDF (Optional)</label>
+
+<input
+type="file"
+id="rationFile"
+accept="application/pdf">
+
+<label>Payment Screenshot</label>
+
+<input
+type="file"
+id="paymentFile"
+accept="image/*"
+required>
+
+<br><br>
+
+<button
+type="submit"
+id="submitBtn">
+
+Submit Application
+
+</button>
+
+</div>
+
+</form>
+
+</section>
+  <!-- ================= WORK HISTORY ================= -->
+
+<section id="history">
+
+<h2>My Work History</h2>
 
 <div class="search-bar">
 
 <input
 type="text"
 id="searchText"
-placeholder="Search by Name / Mobile / Application ID">
-
-<select id="statusFilter" onchange="filterStatus()">
-
-<option value="">All Status</option>
-
-<option value="Pending">Pending</option>
-
-<option value="Approved">Successful</option>
-
-<option value="Rejected">Failed</option>
-
-</select>
-
-<input
-type="date"
-id="dateFilter"
-onchange="filterDate()">
+placeholder="Search by Mobile / Application ID">
 
 <button onclick="searchApplication()">
 
@@ -142,21 +395,16 @@ onchange="filterDate()">
 
 </button>
 
-<button onclick="loadApplications()">
+<select id="statusFilter" onchange="filterStatus()">
 
-🔄 Refresh
+<option value="">All Status</option>
+<option value="Pending">Pending</option>
+<option value="Approved">Successful</option>
+<option value="Rejected">Failed</option>
 
-</button>
+</select>
 
 </div>
-
-</section>
-
-<!-- ================= MY APPLICATIONS TABLE ================= -->
-
-<section id="applications">
-
-<h2>My Application History</h2>
 
 <table class="admin-table">
 
@@ -165,17 +413,11 @@ onchange="filterDate()">
 <tr>
 
 <th>Application ID</th>
-
 <th>Name</th>
-
 <th>Mobile</th>
-
 <th>Service</th>
-
 <th>Status</th>
-
 <th>Date</th>
-
 <th>Action</th>
 
 </tr>
@@ -186,9 +428,9 @@ onchange="filterDate()">
 
 <tr>
 
-<td colspan="7" align="center">
+<td colspan="7">
 
-Loading Applications...
+No Applications Found
 
 </td>
 
@@ -200,33 +442,121 @@ Loading Applications...
 
 </section>
 
-</section>
 <!-- ================= PROFILE ================= -->
 
 <section id="profile">
 
-<h2>👤 Retailer Profile</h2>
+<h2>My Profile</h2>
 
 <div class="settings-box">
 
-<p><strong>Retailer ID :</strong>
-<span id="profileRetailerId">-</span></p>
+<p>
 
-<p><strong>Name :</strong>
-<span id="profileRetailerName">-</span></p>
+<b>Retailer ID :</b>
 
-<p><strong>Mobile :</strong>
-<span id="profileRetailerMobile">-</span></p>
+<span id="profileRetailerId">-</span>
 
-<p><strong>Status :</strong>
-<span id="profileRetailerStatus">Active</span></p>
+</p>
+
+<p>
+
+<b>Name :</b>
+
+<span id="profileRetailerName">-</span>
+
+</p>
+
+<p>
+
+<b>Mobile :</b>
+
+<span id="profileRetailerMobile">-</span>
+
+</p>
 
 <br>
 
-<button onclick="changePassword()">
+<button
+class="save-btn"
+onclick="changePassword()">
+
 🔑 Change Password
+
 </button>
 
 </div>
+
+</section>
+
+<!-- ================= SUCCESS POPUP ================= -->
+
+<div id="successPopup" class="popup">
+
+<div class="popup-box">
+
+<h2>✅ Success</h2>
+
+<p id="successMessage">
+
+Operation Completed Successfully
+
+</p>
+
+<button onclick="closePopup()">
+
+OK
+
+</button>
+
+</div>
+
+</div>
+
+<!-- ================= DELETE POPUP ================= -->
+
+<div id="deletePopup" class="popup">
+
+<div class="popup-box">
+
+<h2>⚠ Confirmation</h2>
+
+<p>
+
+Are you sure?
+
+</p>
+
+<button onclick="closeDeletePopup()">
+
+Cancel
+
+</button>
+
+</div>
+
+</div>
+
+<!-- ================= FOOTER ================= -->
+
+<footer class="footer">
+
+<p>
+
+© 2026 Rajkumar Ration Card Portal
+
+</p>
+
+<p>
+
+Retailer Panel
+
+</p>
+
+</footer>
+
+<script src="retailer.js"></script>
+
+</body>
+</html>
 
 </section>
