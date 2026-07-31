@@ -1,246 +1,279 @@
 // ==========================================
-// LOGIN.JS - PART 1
 // RAJKUMAR RATION CARD PORTAL
+// LOGIN.JS - PART 1
 // ==========================================
-
-// ----------------------------
-// GOOGLE APPS SCRIPT URL
-// ----------------------------
 
 const SCRIPT_URL =
 "https://script.google.com/macros/s/AKfycbwNrtXJTgotJP4pRGv3j2cfwI4RrJ5PM0j0Yk9LLSANoXxgv07n0zfbXshuCHOR-C3uBA/exec";
 
-// ----------------------------
-// PAGE LOAD
-// ----------------------------
+// ================= SHOW / HIDE PASSWORD =================
 
-document.addEventListener("DOMContentLoaded", () => {
+const passwordField =
+document.getElementById("loginPassword");
 
-    // URL માં ?type=admin અથવા ?type=retailer હોય તો
-    const params = new URLSearchParams(window.location.search);
-    const type = params.get("type");
+const togglePassword =
+document.getElementById("togglePassword");
 
-    if (type === "retailer") {
-        document.getElementById("loginType").value = "retailer";
-        document.getElementById("username").placeholder = "Retailer ID";
-    }
+togglePassword.addEventListener("click",()=>{
 
-    // Login Type બદલાય ત્યારે Placeholder બદલવો
-    document.getElementById("loginType").addEventListener("change", function () {
+if(passwordField.type==="password"){
 
-        if (this.value === "admin") {
+passwordField.type="text";
 
-            document.getElementById("username").placeholder = "Admin Username";
+togglePassword.innerHTML=
+'<i class="fa-solid fa-eye-slash"></i>';
 
-        } else {
+}else{
 
-            document.getElementById("username").placeholder = "Retailer ID";
+passwordField.type="password";
 
-        }
+togglePassword.innerHTML=
+'<i class="fa-solid fa-eye"></i>';
 
-    });
-
-    // Show / Hide Password
-    document.getElementById("togglePassword").addEventListener("click", function () {
-
-        const password = document.getElementById("password");
-
-        if (password.type === "password") {
-
-            password.type = "text";
-            this.innerHTML = "🙈";
-
-        } else {
-
-            password.type = "password";
-            this.innerHTML = "👁";
-
-        }
-
-    });
-
-    // Login Button
-    document.getElementById("loginBtn").addEventListener("click", loginUser);
+}
 
 });
+
+// ================= LOGIN FORM =================
+
+const loginForm =
+document.getElementById("loginForm");
+
+loginForm.addEventListener("submit",loginUser);
+
+function loginUser(e){
+
+e.preventDefault();
+
+document.getElementById("loadingScreen").style.display="flex";
+
+const data={
+
+action:"login",
+
+type:
+document.getElementById("loginType").value,
+
+userId:
+document.getElementById("userId").value.trim(),
+
+password:
+document.getElementById("loginPassword").value.trim()
+
+};
+
+fetch(SCRIPT_URL,{
+
+method:"POST",
+
+body:JSON.stringify(data)
+
+})
+
+.then(res=>res.json())
+
+.then(handleLogin)
+
+.catch(showServerError);
+
+}
+
 // ==========================================
 // LOGIN.JS - PART 2
-// LOGIN FUNCTION
+// LOGIN RESPONSE
 // ==========================================
 
-async function loginUser() {
+function handleLogin(result){
 
-    const type = document.getElementById("loginType").value;
+document.getElementById("loadingScreen").style.display="none";
 
-    const username = document.getElementById("username").value.trim();
+if(result.success){
 
-    const password = document.getElementById("password").value.trim();
+localStorage.setItem(
+"userType",
+result.userType
+);
 
-    const message = document.getElementById("loginError");
+localStorage.setItem(
+"userName",
+result.name
+);
 
-    message.innerHTML = "";
+localStorage.setItem(
+"userId",
+result.userId
+);
 
-    if (!username || !password) {
+document.getElementById(
+"successPopup"
+).style.display="flex";
 
-        message.innerHTML = "⚠ Please enter Username and Password.";
+setTimeout(()=>{
 
-        return;
+if(result.userType==="admin"){
 
-    }
+window.location.href="admin.html";
 
-    document.getElementById("loginBtn").innerHTML = "Please Wait...";
+}else{
 
-    document.getElementById("loginBtn").disabled = true;
-
-    try {
-
-        let url = "";
-
-        if (type === "admin") {
-
-            url =
-                SCRIPT_URL +
-                "?action=adminLogin" +
-                "&username=" + encodeURIComponent(username) +
-                "&password=" + encodeURIComponent(password);
-
-        } else {
-
-            url =
-                SCRIPT_URL +
-                "?action=retailerLogin" +
-                "&id=" + encodeURIComponent(username) +
-                "&password=" + encodeURIComponent(password);
-
-        }
-
-        const response = await fetch(url);
-
-        const result = await response.json();
-
-        if (result.success) {
-
-            if (type === "admin") {
-
-                localStorage.setItem("adminLogin", "true");
-                localStorage.setItem("adminName", username);
-
-                window.location.href = "admin.html";
-
-            } else {
-
-                localStorage.setItem("retailerLogin", "true");
-                localStorage.setItem("retailerId", result.retailerId);
-                localStorage.setItem("retailerName", result.retailerName);
-
-                window.location.href = "retailer.html";
-
-            }
-
-        } else {
-
-            message.innerHTML = "❌ " + result.message;
-
-        }
-
-    } catch (err) {
-
-        console.error(err);
-
-        message.innerHTML = "❌ Server Error. Please try again.";
-
-    }
-
-    document.getElementById("loginBtn").innerHTML = "Login";
-    document.getElementById("loginBtn").disabled = false;
-
-}
-// ==========================================
-// LOGIN.JS - PART 3
-// EXTRA FEATURES
-// ==========================================
-
-// ----------------------------
-// PRESS ENTER TO LOGIN
-// ----------------------------
-
-document.addEventListener("keydown", function (e) {
-
-    if (e.key === "Enter") {
-
-        loginUser();
-
-    }
-
-});
-
-// ----------------------------
-// AUTO FOCUS
-// ----------------------------
-
-window.addEventListener("load", function () {
-
-    document.getElementById("username").focus();
-
-});
-
-// ----------------------------
-// ALREADY LOGIN CHECK
-// ----------------------------
-
-window.addEventListener("load", function () {
-
-    const type = document.getElementById("loginType").value;
-
-    if (type === "admin" && localStorage.getItem("adminLogin") === "true") {
-
-        window.location.href = "admin.html";
-
-    }
-
-    if (type === "retailer" && localStorage.getItem("retailerLogin") === "true") {
-
-        window.location.href = "retailer.html";
-
-    }
-
-});
-
-// ----------------------------
-// LOGOUT HELPERS
-// ----------------------------
-
-function adminLogout() {
-
-    localStorage.removeItem("adminLogin");
-    localStorage.removeItem("adminName");
-
-    window.location.href = "login.html?type=admin";
+window.location.href="retailer.html";
 
 }
 
-function retailerLogout() {
+},1500);
 
-    localStorage.removeItem("retailerLogin");
-    localStorage.removeItem("retailerId");
-    localStorage.removeItem("retailerName");
+}else{
 
-    window.location.href = "login.html?type=retailer";
+document.getElementById(
+"errorText"
+).innerHTML=
+result.message || "Invalid User ID or Password";
+
+document.getElementById(
+"errorPopup"
+).style.display="flex";
 
 }
 
-// ----------------------------
-// CLEAR ERROR ON TYPING
-// ----------------------------
+}
 
-document.getElementById("username").addEventListener("input", function () {
+// ==========================================
+// SERVER ERROR
+// ==========================================
 
-    document.getElementById("loginError").innerHTML = "";
+function showServerError(error){
+
+document.getElementById(
+"loadingScreen"
+).style.display="none";
+
+document.getElementById(
+"errorText"
+).innerHTML=
+
+"Server Error : "+error;
+
+document.getElementById(
+"errorPopup"
+).style.display="flex";
+
+console.error(error);
+
+}
+
+// ==========================================
+// CLOSE ERROR POPUP
+// ==========================================
+
+function closeErrorPopup(){
+
+document.getElementById(
+"errorPopup"
+).style.display="none";
+
+}
+
+// ==========================================
+// LOGOUT FUNCTION
+// ==========================================
+
+function logout(){
+
+localStorage.clear();
+
+window.location.href="login.html";
+
+}
+
+// ==========================================
+// LOGIN.JS - PART 3 (FINAL)
+// SESSION CHECK
+// ==========================================
+
+// ---------- AUTO LOGIN ----------
+
+window.addEventListener("load",()=>{
+
+const userType =
+localStorage.getItem("userType");
+
+if(userType==="admin"){
+
+window.location.href="admin.html";
+
+}
+
+if(userType==="retailer"){
+
+window.location.href="retailer.html";
+
+}
 
 });
 
-document.getElementById("password").addEventListener("input", function () {
+// ---------- ENTER KEY LOGIN ----------
 
-    document.getElementById("loginError").innerHTML = "";
+document.addEventListener("keydown",(e)=>{
+
+if(e.key==="Enter"){
+
+const form =
+document.getElementById("loginForm");
+
+if(form){
+
+form.requestSubmit();
+
+}
+
+}
 
 });
+
+// ---------- CLEAR FORM ----------
+
+function clearLoginForm(){
+
+document.getElementById("loginType").value="";
+
+document.getElementById("userId").value="";
+
+document.getElementById("loginPassword").value="";
+
+}
+
+// ---------- SUCCESS POPUP CLOSE ----------
+
+function closeSuccessPopup(){
+
+document.getElementById(
+"successPopup"
+).style.display="none";
+
+}
+
+// ---------- SESSION CHECK ----------
+
+function isLoggedIn(){
+
+return localStorage.getItem("userType")!==null;
+
+}
+
+// ---------- GET USER ----------
+
+function getUser(){
+
+return{
+
+type:localStorage.getItem("userType"),
+
+id:localStorage.getItem("userId"),
+
+name:localStorage.getItem("userName")
+
+};
+
+}
+
+console.log("Login System Ready");
