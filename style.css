@@ -46,10 +46,12 @@ header .container{
     gap:12px;
 }
 
-.logo img{
-    width:65px;
-    height:65px;
-    object-fit:contain;
+.logo img {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    display: block;
+}
 }
 
 .logo h2{
