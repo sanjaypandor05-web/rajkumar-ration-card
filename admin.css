@@ -1,833 +1,683 @@
-/* =========================================
-ADMIN.CSS - PART 1
+/* ==========================================
 RAJKUMAR RATION CARD PORTAL
-========================================= */
+ADMIN.CSS - PART 1
+========================================== */
 
 *{
     margin:0;
     padding:0;
     box-sizing:border-box;
-    font-family:Arial, Helvetica, sans-serif;
 }
 
 body{
+    font-family:'Poppins',sans-serif;
     background:#f4f7fb;
     color:#333;
-}
-
-/* ================= HEADER ================= */
-
-.admin-header{
-
-    height:70px;
-
-    background:#0d6efd;
-
-    color:#fff;
-
     display:flex;
-
-    justify-content:space-between;
-
-    align-items:center;
-
-    padding:0 30px;
-
-    position:fixed;
-
-    top:0;
-
-    left:0;
-
-    right:0;
-
-    z-index:999;
-
-    box-shadow:0 3px 10px rgba(0,0,0,.2);
-
-}
-
-.admin-logo h2{
-
-    font-size:24px;
-
-}
-
-.admin-logo p{
-
-    font-size:14px;
-
-    opacity:.9;
-
-}
-
-.admin-user{
-
-    display:flex;
-
-    align-items:center;
-
-    gap:15px;
-
-}
-
-.logout-btn{
-
-    background:#dc3545;
-
-    color:#fff;
-
-    border:none;
-
-    padding:10px 18px;
-
-    border-radius:8px;
-
-    cursor:pointer;
-
-    font-weight:bold;
-
-}
-
-.logout-btn:hover{
-
-    background:#bb2d3b;
-
-}
-
-/* ================= LAYOUT ================= */
-
-.admin-container{
-
-    display:flex;
-
-    margin-top:70px;
-
 }
 
 /* ================= SIDEBAR ================= */
 
 .sidebar{
-
-    width:250px;
-
-    min-height:calc(100vh - 70px);
-
-    background:#1e293b;
-
+    width:260px;
+    height:100vh;
+    background:#0d6efd;
     color:#fff;
-
     position:fixed;
-
     left:0;
-
-    top:70px;
-
-    padding:25px 0;
-
+    top:0;
+    overflow:auto;
 }
 
-.sidebar h3{
-
+.logo{
     text-align:center;
+    padding:30px 20px;
+    border-bottom:1px solid rgba(255,255,255,.15);
+}
 
-    margin-bottom:25px;
+.logo img{
+    width:80px;
+    height:80px;
+    object-fit:contain;
+    margin-bottom:10px;
+}
 
-    font-size:20px;
+.logo h2{
+    font-size:22px;
+    margin-bottom:5px;
+}
 
+.logo p{
+    font-size:14px;
+    opacity:.9;
 }
 
 .sidebar ul{
-
     list-style:none;
-
+    margin-top:20px;
 }
 
 .sidebar ul li{
-
-    margin:5px 0;
-
+    margin:8px 15px;
 }
 
 .sidebar ul li a{
-
-    display:block;
-
-    color:#fff;
-
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:14px 18px;
     text-decoration:none;
-
-    padding:15px 25px;
-
+    color:#fff;
+    border-radius:10px;
     transition:.3s;
-
 }
 
+.sidebar ul li.active a,
 .sidebar ul li a:hover{
-
-    background:#0d6efd;
-
+    background:rgba(255,255,255,.18);
 }
 
 /* ================= MAIN ================= */
 
-.admin-main{
-
-    margin-left:250px;
-
-    width:calc(100% - 250px);
-
-    padding:30px;
-
+.main{
+    margin-left:260px;
+    width:calc(100% - 260px);
+    min-height:100vh;
 }
-/* =========================================
+
+/* ================= TOPBAR ================= */
+
+.topbar{
+    background:#fff;
+    padding:20px 30px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    box-shadow:0 2px 10px rgba(0,0,0,.08);
+}
+
+.topbar h1{
+    font-size:28px;
+    color:#0d6efd;
+}
+
+.admin-profile{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-weight:600;
+}
+
+.admin-profile i{
+    font-size:28px;
+    color:#0d6efd;
+}
+/* ==========================================
 ADMIN.CSS - PART 2
-Dashboard + Search + Table
-========================================= */
+DASHBOARD + CARDS
+========================================== */
+
+/* ================= SECTIONS ================= */
+
+section{
+    padding:30px;
+}
+
+.section-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:25px;
+}
+
+.section-header h2{
+    font-size:26px;
+    color:#0d6efd;
+}
 
 /* ================= DASHBOARD CARDS ================= */
 
-.dashboard-cards{
-
+.cards{
     display:grid;
-
     grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-
     gap:20px;
-
-    margin:25px 0;
-
 }
 
 .card{
-
     background:#fff;
-
     border-radius:15px;
-
     padding:25px;
-
-    text-align:center;
-
-    box-shadow:0 5px 15px rgba(0,0,0,.08);
-
+    box-shadow:0 8px 20px rgba(0,0,0,.08);
     transition:.3s;
-
+    position:relative;
+    overflow:hidden;
 }
 
 .card:hover{
+    transform:translateY(-8px);
+    box-shadow:0 15px 30px rgba(0,0,0,.15);
+}
 
-    transform:translateY(-5px);
+.card::before{
+    content:"";
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:5px;
+}
 
+/* ================= CARD COLORS ================= */
+
+.card.total::before{
+    background:#0d6efd;
+}
+
+.card.pending::before{
+    background:#ffc107;
+}
+
+.card.success::before{
+    background:#198754;
+}
+
+.card.failed::before{
+    background:#dc3545;
 }
 
 .card h2{
-
-    font-size:34px;
-
+    font-size:40px;
     margin-bottom:10px;
-
+    color:#222;
 }
 
 .card p{
-
+    color:#666;
     font-size:16px;
-
-    font-weight:bold;
-
+    font-weight:500;
 }
 
-.card.total{
+/* ================= REPORT CARDS ================= */
 
-    border-left:6px solid #0d6efd;
-
+#reports .card{
+    text-align:center;
 }
 
-.card.pending{
-
-    border-left:6px solid #ffc107;
-
+#reports .card h3{
+    font-size:18px;
+    color:#555;
+    margin-bottom:10px;
 }
 
-.card.success{
-
-    border-left:6px solid #198754;
-
+#reports .card h2{
+    color:#0d6efd;
 }
 
-.card.failed{
+/* ================= SETTINGS ================= */
 
-    border-left:6px solid #dc3545;
-
-}
-
-/* ================= SEARCH ================= */
-
-.search-section{
-
+.settings-box{
     background:#fff;
-
-    padding:20px;
-
+    padding:25px;
     border-radius:15px;
-
-    box-shadow:0 4px 10px rgba(0,0,0,.08);
-
-    margin-bottom:25px;
-
-}
-
-.search-bar{
-
+    box-shadow:0 8px 20px rgba(0,0,0,.08);
     display:flex;
-
     flex-wrap:wrap;
-
-    gap:12px;
-
-    margin-top:15px;
-
+    gap:15px;
 }
 
-.search-bar input,
-
-.search-bar select{
-
-    flex:1;
-
-    min-width:180px;
-
-    padding:12px;
-
-    border:1px solid #ccc;
-
-    border-radius:8px;
-
-    font-size:15px;
-
-}
-
-.search-bar button{
-
-    padding:12px 20px;
-
-    border:none;
-
-    border-radius:8px;
-
+.save-btn{
     background:#0d6efd;
-
     color:#fff;
-
-    font-weight:bold;
-
+    border:none;
+    padding:12px 22px;
+    border-radius:8px;
     cursor:pointer;
-
+    font-size:15px;
+    font-weight:600;
+    transition:.3s;
 }
 
-.search-bar button:hover{
-
+.save-btn:hover{
     background:#0b5ed7;
+}
+/* ==========================================
+ADMIN.CSS - PART 3
+TABLES + SEARCH + MODAL
+========================================== */
 
+/* ================= TOOLBAR ================= */
+
+.toolbar{
+    display:flex;
+    flex-wrap:wrap;
+    gap:12px;
+    align-items:center;
+}
+
+.toolbar input,
+.toolbar select{
+    padding:12px 15px;
+    border:1px solid #ddd;
+    border-radius:8px;
+    outline:none;
+    font-size:14px;
+    min-width:180px;
+}
+
+.toolbar input:focus,
+.toolbar select:focus{
+    border-color:#0d6efd;
+    box-shadow:0 0 8px rgba(13,110,253,.2);
+}
+
+/* ================= BUTTONS ================= */
+
+.refresh-btn,
+.export-btn,
+.add-btn{
+    border:none;
+    padding:12px 18px;
+    border-radius:8px;
+    cursor:pointer;
+    color:#fff;
+    font-weight:600;
+    transition:.3s;
+}
+
+.refresh-btn{
+    background:#0d6efd;
+}
+
+.export-btn{
+    background:#198754;
+}
+
+.add-btn{
+    background:#6f42c1;
+}
+
+.refresh-btn:hover,
+.export-btn:hover,
+.add-btn:hover{
+    transform:translateY(-2px);
+    opacity:.9;
 }
 
 /* ================= TABLE ================= */
 
-.admin-table{
+.table-container{
+    background:#fff;
+    border-radius:15px;
+    overflow:auto;
+    box-shadow:0 8px 20px rgba(0,0,0,.08);
+}
 
+.data-table{
     width:100%;
-
     border-collapse:collapse;
-
-    background:#fff;
-
-    border-radius:15px;
-
-    overflow:hidden;
-
-    box-shadow:0 5px 15px rgba(0,0,0,.08);
-
+    min-width:1000px;
 }
 
-.admin-table thead{
-
+.data-table thead{
     background:#0d6efd;
-
     color:#fff;
-
 }
 
-.admin-table th,
-
-.admin-table td{
-
-    padding:14px;
-
+.data-table th,
+.data-table td{
+    padding:15px;
     text-align:center;
-
     border-bottom:1px solid #eee;
-
 }
 
-.admin-table tbody tr:hover{
-
-    background:#f8f9fa;
-
+.data-table tbody tr:hover{
+    background:#f8f9ff;
 }
 
-.admin-table button{
+/* ================= STATUS ================= */
 
+.status-pending{
+    color:#ff9800;
+    font-weight:700;
+}
+
+.status-success{
+    color:#198754;
+    font-weight:700;
+}
+
+.status-failed{
+    color:#dc3545;
+    font-weight:700;
+}
+
+/* ================= ACTION BUTTONS ================= */
+
+.action-btn{
     border:none;
-
     padding:8px 12px;
-
     border-radius:6px;
-
+    cursor:pointer;
     margin:2px;
-
-    cursor:pointer;
-
-    font-size:13px;
-
+    color:#fff;
 }
 
-.admin-table button:nth-child(1){
-
+.edit-btn{
     background:#0d6efd;
-
-    color:#fff;
-
 }
 
-.admin-table button:nth-child(2){
-
-    background:#198754;
-
-    color:#fff;
-
-}
-
-.admin-table button:nth-child(3){
-
+.delete-btn{
     background:#dc3545;
-
-    color:#fff;
-
-}
-/* =========================================
-ADMIN.CSS - PART 3
-Retailer + Settings + Popup + Responsive
-========================================= */
-
-/* ================= RETAILER FORM ================= */
-
-.retailer-form,
-.settings-box{
-
-    background:#fff;
-
-    padding:25px;
-
-    border-radius:15px;
-
-    margin-top:20px;
-
-    box-shadow:0 5px 15px rgba(0,0,0,.08);
-
 }
 
-.form-row{
-
-    display:flex;
-
-    gap:15px;
-
-    margin-bottom:15px;
-
-}
-
-.form-row input{
-
-    flex:1;
-
-    padding:12px;
-
-    border:1px solid #ccc;
-
-    border-radius:8px;
-
-    font-size:15px;
-
-}
-
-.create-btn,
-.settings-box button{
-
+.view-btn{
     background:#198754;
+}
 
-    color:#fff;
+/* ================= MODAL ================= */
 
-    border:none;
+.modal{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.55);
+    justify-content:center;
+    align-items:center;
+    z-index:9999;
+}
 
-    padding:12px 25px;
+.modal-content{
+    background:#fff;
+    width:90%;
+    max-width:550px;
+    border-radius:15px;
+    overflow:hidden;
+    animation:popup .25s ease;
+}
 
-    border-radius:8px;
+@keyframes popup{
 
-    cursor:pointer;
+from{
+    transform:scale(.9);
+    opacity:0;
+}
 
-    font-weight:bold;
-
-    margin-right:10px;
+to{
+    transform:scale(1);
+    opacity:1;
+}
 
 }
 
-.create-btn:hover,
-.settings-box button:hover{
+.modal-header{
+    background:#0d6efd;
+    color:#fff;
+    padding:18px 22px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
 
-    background:#157347;
+.close{
+    font-size:28px;
+    cursor:pointer;
+}
 
+.modal-body{
+    padding:25px;
+}
+
+.modal-body label{
+    display:block;
+    margin:12px 0 6px;
+    font-weight:600;
+}
+
+.modal-body input,
+.modal-body select{
+    width:100%;
+    padding:12px;
+    border:1px solid #ddd;
+    border-radius:8px;
+    outline:none;
+}
+
+.modal-body input:focus,
+.modal-body select:focus{
+    border-color:#0d6efd;
+}
+/* ==========================================
+ADMIN.CSS - PART 4 (FINAL)
+POPUPS + FOOTER + RESPONSIVE
+========================================== */
+
+/* ================= POPUP ================= */
+
+.popup{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.55);
+    justify-content:center;
+    align-items:center;
+    z-index:10000;
+}
+
+.popup-content{
+    width:90%;
+    max-width:420px;
+    background:#fff;
+    border-radius:15px;
+    padding:30px;
+    text-align:center;
+    box-shadow:0 15px 35px rgba(0,0,0,.20);
+}
+
+.popup-content h2{
+    margin-bottom:15px;
+    color:#0d6efd;
+}
+
+.popup-content p{
+    margin-bottom:20px;
+    color:#555;
+}
+
+.popup-buttons{
+    display:flex;
+    justify-content:center;
+    gap:15px;
+}
+
+.cancel-btn,
+.delete-btn{
+    border:none;
+    padding:12px 22px;
+    border-radius:8px;
+    cursor:pointer;
+    color:#fff;
+    font-weight:600;
+}
+
+.cancel-btn{
+    background:#6c757d;
+}
+
+.cancel-btn:hover{
+    background:#5c636a;
+}
+
+.delete-btn:hover{
+    background:#bb2d3b;
 }
 
 /* ================= FOOTER ================= */
 
-.admin-footer{
-
-    margin-top:40px;
-
+footer{
+    margin-top:30px;
+    background:#ffffff;
+    text-align:center;
     padding:20px;
-
-    text-align:center;
-
     color:#666;
-
-}
-
-/* ================= LOADING ================= */
-
-#loading{
-
-    display:none;
-
-    position:fixed;
-
-    inset:0;
-
-    background:rgba(0,0,0,.5);
-
-    justify-content:center;
-
-    align-items:center;
-
-    z-index:99999;
-
-}
-
-.loading-box{
-
-    background:#fff;
-
-    padding:30px;
-
-    border-radius:15px;
-
-    text-align:center;
-
-    min-width:280px;
-
-}
-
-/* ================= POPUP ================= */
-
-#successPopup,
-#deletePopup{
-
-    display:none;
-
-    position:fixed;
-
-    inset:0;
-
-    background:rgba(0,0,0,.6);
-
-    justify-content:center;
-
-    align-items:center;
-
-    z-index:99999;
-
-}
-
-.popup-box{
-
-    background:#fff;
-
-    width:90%;
-
-    max-width:420px;
-
-    padding:30px;
-
-    border-radius:15px;
-
-    text-align:center;
-
-}
-
-.popup-box button{
-
-    margin:10px;
-
-    padding:10px 20px;
-
-    border:none;
-
-    border-radius:8px;
-
-    cursor:pointer;
-
-    color:#fff;
-
-    font-weight:bold;
-
-}
-
-#confirmDeleteBtn{
-
-    background:#dc3545;
-
-}
-
-.popup-box button:last-child{
-
-    background:#6c757d;
-
-}
-
-/* ================= MOBILE ================= */
-
-@media(max-width:768px){
-
-.sidebar{
-
-    position:relative;
-
-    width:100%;
-
-    min-height:auto;
-
-    top:0;
-
-}
-
-.admin-container{
-
-    flex-direction:column;
-
-}
-
-.admin-main{
-
-    margin-left:0;
-
-    width:100%;
-
-    padding:15px;
-
-}
-
-.form-row{
-
-    flex-direction:column;
-
-}
-
-.search-bar{
-
-    flex-direction:column;
-
-}
-
-.admin-table{
-
-    display:block;
-
-    overflow-x:auto;
-
-    white-space:nowrap;
-
-}
-
-.admin-header{
-
-    flex-direction:column;
-
-    height:auto;
-
-    padding:15px;
-
-    gap:10px;
-
-}
-
-}
-/* =========================================
-ADMIN.CSS - PART 4 (FINAL)
-Extra Design
-========================================= */
-
-/* ================= SECTION ================= */
-
-section{
-
-    margin-bottom:35px;
-
-}
-
-section h1,
-section h2{
-
-    color:#0d6efd;
-
-    margin-bottom:15px;
-
-}
-
-/* ================= STATUS BADGES ================= */
-
-.status-pending{
-
-    background:#ffc107;
-
-    color:#000;
-
-    padding:6px 12px;
-
-    border-radius:20px;
-
-    font-size:13px;
-
-    font-weight:bold;
-
-}
-
-.status-approved{
-
-    background:#198754;
-
-    color:#fff;
-
-    padding:6px 12px;
-
-    border-radius:20px;
-
-    font-size:13px;
-
-    font-weight:bold;
-
-}
-
-.status-rejected{
-
-    background:#dc3545;
-
-    color:#fff;
-
-    padding:6px 12px;
-
-    border-radius:20px;
-
-    font-size:13px;
-
-    font-weight:bold;
-
-}
-
-/* ================= INPUT FOCUS ================= */
-
-input:focus,
-select:focus,
-textarea:focus{
-
-    outline:none;
-
-    border-color:#0d6efd;
-
-    box-shadow:0 0 6px rgba(13,110,253,.3);
-
+    border-top:1px solid #e5e5e5;
 }
 
 /* ================= SCROLLBAR ================= */
 
 ::-webkit-scrollbar{
-
     width:10px;
-
     height:10px;
-
-}
-
-::-webkit-scrollbar-track{
-
-    background:#f1f1f1;
-
 }
 
 ::-webkit-scrollbar-thumb{
-
     background:#0d6efd;
+    border-radius:10px;
+}
 
-    border-radius:20px;
+::-webkit-scrollbar-track{
+    background:#f1f1f1;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media(max-width:992px){
+
+.sidebar{
+    width:80px;
+}
+
+.sidebar .logo h2,
+.sidebar .logo p,
+.sidebar ul li a span{
+    display:none;
+}
+
+.main{
+    margin-left:80px;
+    width:calc(100% - 80px);
+}
+
+.topbar{
+    padding:15px;
+}
+
+.cards{
+    grid-template-columns:repeat(2,1fr);
+}
 
 }
 
-::-webkit-scrollbar-thumb:hover{
+@media(max-width:768px){
 
-    background:#0b5ed7;
+body{
+    display:block;
+}
+
+.sidebar{
+    position:relative;
+    width:100%;
+    height:auto;
+}
+
+.main{
+    width:100%;
+    margin-left:0;
+}
+
+.topbar{
+    flex-direction:column;
+    gap:15px;
+    text-align:center;
+}
+
+.cards{
+    grid-template-columns:1fr;
+}
+
+.toolbar{
+    flex-direction:column;
+    align-items:stretch;
+}
+
+.toolbar input,
+.toolbar select,
+.refresh-btn,
+.export-btn,
+.add-btn{
+    width:100%;
+}
+
+.data-table{
+    min-width:800px;
+}
+
+.modal-content{
+    width:95%;
+}
+
+.settings-box{
+    flex-direction:column;
+}
+
+.save-btn{
+    width:100%;
+}
 
 }
 
-/* ================= TABLE ROW COLORS ================= */
+@media(max-width:480px){
 
-.admin-table tbody tr:nth-child(even){
+.logo img{
+    width:60px;
+    height:60px;
+}
 
-    background:#fafafa;
+.topbar h1{
+    font-size:22px;
+}
+
+.card h2{
+    font-size:30px;
+}
+
+.section-header h2{
+    font-size:22px;
+}
+
+.popup-content{
+    padding:20px;
+}
 
 }
 
-.admin-table tbody tr:hover{
+/* ================= DARK MODE ================= */
 
-    background:#eaf4ff;
-
+.dark-mode{
+    background:#121212;
+    color:#eee;
 }
 
-/* ================= ANIMATION ================= */
-
-.card,
-.search-section,
-.retailer-form,
-.settings-box,
-.admin-table{
-
-    animation:fadeIn .4s ease-in-out;
-
+.dark-mode .topbar,
+.dark-mode .card,
+.dark-mode .table-container,
+.dark-mode .modal-content,
+.dark-mode footer,
+.dark-mode .settings-box{
+    background:#1e1e1e;
+    color:#fff;
 }
 
-@keyframes fadeIn{
+.dark-mode .data-table th{
+    background:#1565c0;
+}
 
-    from{
+.dark-mode .data-table td{
+    border-color:#333;
+}
 
-        opacity:0;
-
-        transform:translateY(15px);
-
-    }
-
-    to{
-
-        opacity:1;
-
-        transform:translateY(0);
-
-    }
-
+.dark-mode input,
+.dark-mode select{
+    background:#2b2b2b;
+    color:#fff;
+    border:1px solid #444;
 }
