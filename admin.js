@@ -3,115 +3,150 @@
 // RAJKUMAR RATION CARD PORTAL
 // ==========================================
 
-// ----------------------------
+// ================================
 // GOOGLE APPS SCRIPT URL
-// ----------------------------
+// ================================
 
 const SCRIPT_URL =
 "https://script.google.com/macros/s/AKfycbyFrg_3lB5WKelkE2vsRW4ZaK7PyvM5F93A-Jfzqla3y8gSQIKei_QZBet9VwewQIXg/exec";
 
-// ----------------------------
+
+// ================================
 // PAGE LOAD
-// ----------------------------
+// ================================
 
 document.addEventListener("DOMContentLoaded", () => {
 
-checkAdminLogin();
+    checkAdminLogin();
 
-loadDashboard();
+    generateRetailerId();
 
-loadApplications();
+    loadDashboard();
+
+    loadApplications();
+
+    loadRetailers();
 
 });
 
-// ----------------------------
-// ADMIN LOGIN CHECK
-// ----------------------------
+
+// ================================
+// LOGIN CHECK
+// ================================
 
 function checkAdminLogin() {
 
-if (localStorage.getItem("adminLogin") !== "true") {
+    const login = localStorage.getItem("adminLogin");
 
-alert("Please Login First");
+    if (login !== "true") {
 
-window.location.href = "index.html";
+        alert("Please Login First");
+
+        window.location.href = "login.html";
+
+        return;
+
+    }
 
 }
 
-}
 
-// ----------------------------
-// LOAD DASHBOARD
-// ----------------------------
+// ================================
+// DASHBOARD
+// ================================
 
 async function loadDashboard() {
 
-try {
+    try {
 
-const response = await fetch(
-SCRIPT_URL + "?action=dashboard"
-);
+        const response = await fetch(
 
-const result = await response.json();
+            SCRIPT_URL + "?action=dashboard"
 
-if (!result.success) return;
+        );
 
-document.getElementById("totalApplications").innerText =
-result.total || 0;
+        const result = await response.json();
 
-document.getElementById("pendingApplications").innerText =
-result.pending || 0;
+        if (!result.success) return;
 
-document.getElementById("approvedApplications").innerText =
-result.approved || 0;
+        document.getElementById("totalApplications").innerHTML =
+            result.total || 0;
 
-document.getElementById("rejectedApplications").innerText =
-result.rejected || 0;
+        document.getElementById("pendingApplications").innerHTML =
+            result.pending || 0;
 
-} catch (err) {
+        document.getElementById("successfulApplications").innerHTML =
+            result.successful || 0;
 
-console.error(err);
+        document.getElementById("failedApplications").innerHTML =
+            result.failed || 0;
+
+        document.getElementById("totalRetailers").innerHTML =
+            result.retailers || 0;
+
+        document.getElementById("todayApplications").innerHTML =
+            result.today || 0;
+
+        document.getElementById("completedToday").innerHTML =
+            result.completedToday || 0;
+
+        document.getElementById("pendingToday").innerHTML =
+            result.pendingToday || 0;
+
+    } catch (err) {
+
+        console.error(err);
+
+    }
 
 }
 
-}
 
-// ----------------------------
+// ================================
 // LOAD APPLICATIONS
-// ----------------------------
+// ================================
 
 async function loadApplications() {
 
-const tbody =
-document.getElementById("applicationTable");
+    const table = document.getElementById("applicationTable");
 
-if (!tbody) return;
+    if (!table) return;
 
-tbody.innerHTML =
-"<tr><td colspan='8'>Loading...</td></tr>";
+    table.innerHTML = `
+<tr>
+<td colspan="9" align="center">
+Loading...
+</td>
+</tr>`;
 
-try {
+    try {
 
-const response =
-await fetch(SCRIPT_URL + "?action=history");
+        const response = await fetch(
 
-const result =
-await response.json();
+            SCRIPT_URL + "?action=history"
 
-if (!result.success) {
+        );
 
-tbody.innerHTML =
-"<tr><td colspan='8'>No Data</td></tr>";
+        const result = await response.json();
 
-return;
+        if (!result.success) {
 
-}
+            table.innerHTML = `
+<tr>
+<td colspan="9" align="center">
+No Applications Found
+</td>
+</tr>`;
 
-tbody.innerHTML = "";
+            return;
 
-result.data.forEach(app => {
+        }
 
-tbody.innerHTML += `
+        table.innerHTML = "";
+
+        result.data.forEach(app => {
+
+            table.innerHTML += `
 
 <tr>
 
@@ -127,25 +162,27 @@ tbody.innerHTML += `
 
 <td>${app.retailer || "-"}</td>
 
+<td>${app.remarks || "-"}</td>
+
 <td>${app.date}</td>
 
 <td>
 
 <button onclick="viewApplication('${app.applicationId}')">
 
-View
+👁 View
 
 </button>
 
 <button onclick="changeStatus('${app.applicationId}')">
 
-Status
+✏ Status
 
 </button>
 
 <button onclick="deleteApplication('${app.applicationId}')">
 
-Delete
+🗑 Delete
 
 </button>
 
@@ -155,419 +192,478 @@ Delete
 
 `;
 
-});
+        });
 
-} catch (err) {
+    } catch (err) {
 
-console.error(err);
+        console.error(err);
 
-tbody.innerHTML =
-"<tr><td colspan='8'>Server Error</td></tr>";
+        table.innerHTML = `
+<tr>
+<td colspan="9" align="center">
+Server Error
+</td>
+</tr>`;
+
+    }
 
 }
 
-}
 
-// ----------------------------
-// REFRESH DASHBOARD
-// ----------------------------
+// ================================
+// REFRESH
+// ================================
 
 function refreshDashboard() {
 
-loadDashboard();
+    loadDashboard();
 
-loadApplications();
+    loadApplications();
 
-}
-
-// ----------------------------
-// VIEW APPLICATION
-// ----------------------------
-
-function viewApplication(id) {
-
-alert("Application ID : " + id);
-
-// Part 2 me details popup add karenge.
+    loadRetailers();
 
 }
 // ==========================================
 // ADMIN.JS - PART 2
-// SEARCH + STATUS + DELETE
+// SEARCH + FILTER + STATUS + DELETE
 // ==========================================
 
-// ----------------------------
+// ================================
 // SEARCH APPLICATION
-// ----------------------------
+// ================================
 
 function searchApplication() {
 
-const text =
-document.getElementById("searchText").value
-.trim()
-.toLowerCase();
+    const search = document
+        .getElementById("searchText")
+        .value
+        .trim()
+        .toLowerCase();
 
-const rows =
-document.querySelectorAll("#applicationTable tr");
+    const rows =
+        document.querySelectorAll("#applicationTable tr");
 
-rows.forEach(row => {
+    rows.forEach(row => {
 
-const data =
-row.innerText.toLowerCase();
+        if (row.innerText.toLowerCase().includes(search)) {
 
-if (data.indexOf(text) > -1) {
+            row.style.display = "";
 
-row.style.display = "";
+        } else {
 
-} else {
+            row.style.display = "none";
 
-row.style.display = "none";
+        }
 
-}
-
-});
+    });
 
 }
 
-// ----------------------------
+
+// ================================
+// STATUS FILTER
+// ================================
+
+function filterApplications() {
+
+    const status =
+        document.getElementById("statusFilter").value;
+
+    const fromDate =
+        document.getElementById("fromDate").value;
+
+    const toDate =
+        document.getElementById("toDate").value;
+
+    const rows =
+        document.querySelectorAll("#applicationTable tr");
+
+    rows.forEach(row => {
+
+        if (!row.cells.length) return;
+
+        const rowStatus = row.cells[4].innerText.trim();
+        const rowDate = row.cells[7].innerText.trim();
+
+        let visible = true;
+
+        if (status && rowStatus !== status) {
+
+            visible = false;
+
+        }
+
+        if (fromDate && rowDate < fromDate) {
+
+            visible = false;
+
+        }
+
+        if (toDate && rowDate > toDate) {
+
+            visible = false;
+
+        }
+
+        row.style.display = visible ? "" : "none";
+
+    });
+
+}
+
+
+// ================================
+// VIEW APPLICATION
+// ================================
+
+async function viewApplication(id) {
+
+    try {
+
+        const response = await fetch(
+
+            SCRIPT_URL +
+            "?action=searchId&id=" +
+            encodeURIComponent(id)
+
+        );
+
+        const result = await response.json();
+
+        if (!result.success) {
+
+            alert("Application Not Found");
+
+            return;
+
+        }
+
+        const app = result.data;
+
+        document.getElementById("applicationDetails").innerHTML = `
+
+<b>Application ID :</b> ${app.applicationId}<br><br>
+
+<b>Name :</b> ${app.englishName}<br><br>
+
+<b>Gujarati Name :</b> ${app.gujaratiName || "-"}<br><br>
+
+<b>Mobile :</b> ${app.mobile}<br><br>
+
+<b>Service :</b> ${app.service}<br><br>
+
+<b>Status :</b> ${app.status}<br><br>
+
+<b>Retailer :</b> ${app.retailer || "-"}<br><br>
+
+<b>Remarks :</b> ${app.remarks || "-"}<br><br>
+
+<b>Date :</b> ${app.date}
+
+`;
+
+        document.getElementById("viewPopup").style.display = "flex";
+
+    } catch (err) {
+
+        console.error(err);
+
+        alert("Server Error");
+
+    }
+
+}
+
+function closeViewPopup() {
+
+    document.getElementById("viewPopup").style.display = "none";
+
+}
+
+
+// ================================
 // CHANGE STATUS
-// ----------------------------
+// ================================
 
-async function changeStatus(id) {
+function changeStatus(id) {
 
-const status = prompt(
+    document.getElementById("editApplicationId").value = id;
 
-"Enter Status\n\nPending\nApproved\nRejected"
-
-);
-
-if (!status) return;
-
-try {
-
-const response = await fetch(
-
-SCRIPT_URL +
-"?action=updateStatus&id=" +
-encodeURIComponent(id) +
-"&status=" +
-encodeURIComponent(status)
-
-);
-
-const result = await response.json();
-
-if (result.success) {
-
-showSuccess("Status Updated Successfully");
-
-refreshDashboard();
-
-} else {
-
-alert(result.message);
+    document.getElementById("statusPopup").style.display = "flex";
 
 }
 
-} catch (err) {
+function closeStatusPopup() {
 
-console.error(err);
-
-alert("Server Error");
+    document.getElementById("statusPopup").style.display = "none";
 
 }
 
+
+// ================================
+// SAVE STATUS
+// ================================
+
+async function saveStatus() {
+
+    const id =
+        document.getElementById("editApplicationId").value;
+
+    const status =
+        document.getElementById("editStatus").value;
+
+    const remarks =
+        document.getElementById("editRemarks").value;
+
+    try {
+
+        const response = await fetch(
+
+            SCRIPT_URL +
+
+            "?action=updateStatus" +
+
+            "&id=" + encodeURIComponent(id) +
+
+            "&status=" + encodeURIComponent(status) +
+
+            "&remarks=" + encodeURIComponent(remarks)
+
+        );
+
+        const result = await response.json();
+
+        if (result.success) {
+
+            closeStatusPopup();
+
+            showSuccess("Status Updated Successfully");
+
+            refreshDashboard();
+
+        } else {
+
+            alert(result.message);
+
+        }
+
+    } catch (err) {
+
+        console.error(err);
+
+        alert("Server Error");
+
+    }
+
 }
 
-// ----------------------------
+
+// ================================
 // DELETE APPLICATION
-// ----------------------------
+// ================================
 
 let deleteApplicationId = "";
 
 function deleteApplication(id) {
 
-deleteApplicationId = id;
+    deleteApplicationId = id;
 
-const popup =
-document.getElementById("deletePopup");
-
-if (popup) {
-
-popup.style.display = "flex";
+    document.getElementById("deletePopup").style.display = "flex";
 
 }
 
-}
+function closeDeletePopup() {
 
-// ----------------------------
-// CONFIRM DELETE
-// ----------------------------
-
-document.addEventListener("DOMContentLoaded",()=>{
-
-const btn =
-document.getElementById("confirmDeleteBtn");
-
-if(btn){
-
-btn.onclick = confirmDelete;
+    document.getElementById("deletePopup").style.display = "none";
 
 }
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    const btn =
+        document.getElementById("confirmDeleteBtn");
+
+    if (btn) {
+
+        btn.onclick = confirmDelete;
+
+    }
 
 });
 
-async function confirmDelete(){
 
-try{
+async function confirmDelete() {
 
-const response = await fetch(
+    try {
 
-SCRIPT_URL +
-"?action=deleteApplication&id=" +
-encodeURIComponent(deleteApplicationId)
+        const response = await fetch(
 
-);
+            SCRIPT_URL +
 
-const result = await response.json();
+            "?action=deleteApplication&id=" +
 
-closeDeletePopup();
+            encodeURIComponent(deleteApplicationId)
 
-if(result.success){
+        );
 
-showSuccess("Application Deleted");
+        const result = await response.json();
 
-refreshDashboard();
+        closeDeletePopup();
 
-}else{
+        if (result.success) {
 
-alert(result.message);
+            showSuccess("Application Deleted Successfully");
 
-}
+            refreshDashboard();
 
-}catch(err){
+        } else {
 
-console.error(err);
+            alert(result.message);
 
-alert("Server Error");
+        }
 
-}
+    } catch (err) {
 
-}
+        console.error(err);
 
-// ----------------------------
-// CLOSE DELETE POPUP
-// ----------------------------
+        alert("Server Error");
 
-function closeDeletePopup(){
-
-const popup =
-document.getElementById("deletePopup");
-
-if(popup){
-
-popup.style.display="none";
-
-}
-
-}
-
-// ----------------------------
-// SUCCESS POPUP
-// ----------------------------
-
-function showSuccess(message){
-
-const popup =
-document.getElementById("successPopup");
-
-const text =
-document.getElementById("successMessage");
-
-if(text){
-
-text.innerText=message;
-
-}
-
-if(popup){
-
-popup.style.display="flex";
-
-}
-
-}
-
-function closePopup(){
-
-const popup =
-document.getElementById("successPopup");
-
-if(popup){
-
-popup.style.display="none";
-
-}
-
-}
-
-// ----------------------------
-// APPLICATION DETAILS
-// ----------------------------
-
-async function viewApplication(id){
-
-try{
-
-const response = await fetch(
-
-SCRIPT_URL +
-"?action=searchId&id=" +
-encodeURIComponent(id)
-
-);
-
-const result = await response.json();
-
-if(result.success){
-
-const app=result.data;
-
-alert(
-
-"Application ID : " + app.applicationId +
-
-"\n\nName : " + app.englishName +
-
-"\nMobile : " + app.mobile +
-
-"\nService : " + app.service +
-
-"\nStatus : " + app.status
-
-);
-
-}else{
-
-alert("Application Not Found");
-
-}
-
-}catch(err){
-
-console.error(err);
-
-alert("Server Error");
-
-}
+    }
 
 }
 // ==========================================
 // ADMIN.JS - PART 3
-// RETAILER + LOGOUT + AUTO REFRESH
+// RETAILER MANAGEMENT
 // ==========================================
 
-// ----------------------------
+
+// ================================
+// AUTO GENERATE RETAILER ID
+// ================================
+
+function generateRetailerId() {
+
+    const number = Math.floor(Math.random() * 9000) + 1000;
+
+    document.getElementById("generatedRetailerId").value =
+        "RTL" + number;
+
+}
+
+
+// ================================
 // CREATE RETAILER
-// ----------------------------
+// ================================
 
-async function createRetailer(){
+async function createRetailer() {
 
-const name =
-document.getElementById("retailerName").value.trim();
+    const name =
+        document.getElementById("retailerName").value.trim();
 
-const mobile =
-document.getElementById("retailerMobile").value.trim();
+    const mobile =
+        document.getElementById("retailerMobile").value.trim();
 
-const id =
-document.getElementById("retailerId").value.trim();
+    const id =
+        document.getElementById("generatedRetailerId").value.trim();
 
-const password =
-document.getElementById("retailerPassword").value.trim();
+    const password =
+        document.getElementById("retailerPassword").value.trim();
 
-if(!name || !mobile || !id || !password){
+    if (!name || !mobile || !password) {
 
-alert("Please Fill All Fields");
+        alert("Please Fill All Fields");
 
-return;
+        return;
+
+    }
+
+    try {
+
+        const response = await fetch(
+
+            SCRIPT_URL +
+
+            "?action=createRetailer" +
+
+            "&id=" + encodeURIComponent(id) +
+
+            "&name=" + encodeURIComponent(name) +
+
+            "&mobile=" + encodeURIComponent(mobile) +
+
+            "&password=" + encodeURIComponent(password)
+
+        );
+
+        const result = await response.json();
+
+        if (result.success) {
+
+            showSuccess("Retailer Created Successfully");
+
+            document.getElementById("retailerName").value = "";
+            document.getElementById("retailerMobile").value = "";
+            document.getElementById("retailerPassword").value = "";
+
+            generateRetailerId();
+
+            loadRetailers();
+
+        } else {
+
+            alert(result.message);
+
+        }
+
+    } catch (err) {
+
+        console.error(err);
+
+        alert("Server Error");
+
+    }
 
 }
 
-try{
 
-const response = await fetch(
-
-SCRIPT_URL +
-"?action=createRetailer" +
-"&id=" + encodeURIComponent(id) +
-"&password=" + encodeURIComponent(password) +
-"&name=" + encodeURIComponent(name) +
-"&mobile=" + encodeURIComponent(mobile)
-
-);
-
-const result = await response.json();
-
-if(result.success){
-
-showSuccess("Retailer Created Successfully");
-
-document.getElementById("retailerName").value="";
-document.getElementById("retailerMobile").value="";
-document.getElementById("retailerId").value="";
-document.getElementById("retailerPassword").value="";
-
-loadRetailers();
-
-}else{
-
-alert(result.message);
-
-}
-
-}catch(err){
-
-console.error(err);
-
-alert("Server Error");
-
-}
-
-}
-
-// ----------------------------
+// ================================
 // LOAD RETAILERS
-// ----------------------------
+// ================================
 
-async function loadRetailers(){
+async function loadRetailers() {
 
-const table =
-document.getElementById("retailerTable");
+    const table =
+        document.getElementById("retailerTable");
 
-if(!table) return;
+    if (!table) return;
 
-try{
+    table.innerHTML =
+        "<tr><td colspan='6' align='center'>Loading...</td></tr>";
 
-const response =
-await fetch(SCRIPT_URL + "?action=retailers");
+    try {
 
-const result =
-await response.json();
+        const response = await fetch(
 
-table.innerHTML="";
+            SCRIPT_URL + "?action=retailers"
 
-if(!result.success){
+        );
 
-table.innerHTML=
-"<tr><td colspan='5'>No Retailers Found</td></tr>";
+        const result = await response.json();
 
-return;
+        if (!result.success) {
 
-}
+            table.innerHTML =
+                "<tr><td colspan='6'>No Retailers Found</td></tr>";
 
-result.data.forEach(retailer=>{
+            return;
 
-table.innerHTML += `
+        }
+
+        table.innerHTML = "";
+
+        result.data.forEach(retailer => {
+
+            table.innerHTML += `
 
 <tr>
 
@@ -579,11 +675,25 @@ table.innerHTML += `
 
 <td>${retailer.status}</td>
 
+<td>${retailer.totalWork || 0}</td>
+
 <td>
+
+<button onclick="resetRetailerPassword('${retailer.id}')">
+
+🔑 Reset
+
+</button>
+
+<button onclick="toggleRetailerStatus('${retailer.id}','${retailer.status}')">
+
+${retailer.status==="Blocked"?"✅ Unblock":"🚫 Block"}
+
+</button>
 
 <button onclick="removeRetailer('${retailer.id}')">
 
-Delete
+🗑 Delete
 
 </button>
 
@@ -593,110 +703,427 @@ Delete
 
 `;
 
-});
+        });
 
-}catch(err){
+    } catch (err) {
 
-console.error(err);
+        console.error(err);
+
+    }
 
 }
 
+
+// ================================
+// RESET PASSWORD
+// ================================
+
+function resetRetailerPassword(id) {
+
+    document.getElementById("resetRetailerId").value = id;
+
+    document.getElementById("resetPasswordPopup").style.display = "flex";
+
 }
 
-// ----------------------------
+function closeResetPasswordPopup() {
+
+    document.getElementById("resetPasswordPopup").style.display = "none";
+
+}
+
+async function saveRetailerPassword() {
+
+    const id =
+        document.getElementById("resetRetailerId").value;
+
+    const password =
+        document.getElementById("newRetailerPassword").value;
+
+    if (!password) {
+
+        alert("Enter Password");
+
+        return;
+
+    }
+
+    try {
+
+        const response = await fetch(
+
+            SCRIPT_URL +
+
+            "?action=resetPassword" +
+
+            "&id=" + encodeURIComponent(id) +
+
+            "&password=" + encodeURIComponent(password)
+
+        );
+
+        const result = await response.json();
+
+        if (result.success) {
+
+            closeResetPasswordPopup();
+
+            showSuccess("Password Updated");
+
+        } else {
+
+            alert(result.message);
+
+        }
+
+    } catch (err) {
+
+        console.error(err);
+
+    }
+
+}
+
+
+// ================================
+// BLOCK / UNBLOCK
+// ================================
+
+async function toggleRetailerStatus(id, status) {
+
+    const newStatus =
+        status === "Blocked" ? "Active" : "Blocked";
+
+    try {
+
+        const response = await fetch(
+
+            SCRIPT_URL +
+
+            "?action=blockRetailer" +
+
+            "&id=" + encodeURIComponent(id) +
+
+            "&status=" + encodeURIComponent(newStatus)
+
+        );
+
+        const result = await response.json();
+
+        if (result.success) {
+
+            showSuccess("Retailer Status Updated");
+
+            loadRetailers();
+
+        } else {
+
+            alert(result.message);
+
+        }
+
+    } catch (err) {
+
+        console.error(err);
+
+    }
+
+}
+
+
+// ================================
 // DELETE RETAILER
-// ----------------------------
+// ================================
 
-async function removeRetailer(id){
+async function removeRetailer(id) {
 
-if(!confirm("Delete Retailer?")) return;
+    if (!confirm("Delete Retailer?")) return;
 
-try{
+    try {
 
-const response =
-await fetch(
+        const response = await fetch(
 
-SCRIPT_URL +
-"?action=deleteRetailer&id=" +
-encodeURIComponent(id)
+            SCRIPT_URL +
 
-);
+            "?action=deleteRetailer&id=" +
 
-const result =
-await response.json();
+            encodeURIComponent(id)
 
-if(result.success){
+        );
 
-showSuccess("Retailer Deleted");
+        const result = await response.json();
 
-loadRetailers();
+        if (result.success) {
 
-}else{
+            showSuccess("Retailer Deleted");
 
-alert(result.message);
+            loadRetailers();
+
+        } else {
+
+            alert(result.message);
+
+        }
+
+    } catch (err) {
+
+        console.error(err);
+
+    }
 
 }
+// ==========================================
+// ADMIN.JS - PART 4
+// REPORTS + SETTINGS + LOGOUT + UTILITIES
+// ==========================================
 
-}catch(err){
 
-console.error(err);
-
-}
-
-}
-
-// ----------------------------
+// ================================
 // LOGOUT
-// ----------------------------
+// ================================
 
-function logout(){
+function logout() {
 
-localStorage.removeItem("adminLogin");
-
-window.location.href="index.html";
+    document.getElementById("logoutPopup").style.display = "flex";
 
 }
 
-// ----------------------------
-// BACKUP
-// ----------------------------
+function closeLogoutPopup() {
 
-function backupData(){
-
-alert("Backup Feature Coming Soon");
+    document.getElementById("logoutPopup").style.display = "none";
 
 }
 
-// ----------------------------
-// CHANGE PASSWORD
-// ----------------------------
+function confirmLogout() {
 
-function changeAdminPassword(){
+    localStorage.removeItem("adminLogin");
+    localStorage.removeItem("adminId");
 
-alert("Password Change Feature Coming Soon");
+    window.location.href = "login.html";
 
 }
 
-// ----------------------------
+
+// ================================
+// BACKUP DATA
+// ================================
+
+async function backupData() {
+
+    try {
+
+        showLoading();
+
+        const response = await fetch(
+
+            SCRIPT_URL + "?action=backup"
+
+        );
+
+        const result = await response.json();
+
+        hideLoading();
+
+        if (result.success) {
+
+            showSuccess("Backup Created Successfully");
+
+        } else {
+
+            showError(result.message);
+
+        }
+
+    } catch (err) {
+
+        hideLoading();
+
+        console.error(err);
+
+        showError("Backup Failed");
+
+    }
+
+}
+
+
+// ================================
+// EXPORT EXCEL
+// ================================
+
+function exportExcel() {
+
+    window.open(
+
+        SCRIPT_URL + "?action=exportExcel",
+
+        "_blank"
+
+    );
+
+}
+
+
+// ================================
+// PRINT REPORT
+// ================================
+
+function printReport() {
+
+    window.print();
+
+}
+
+
+// ================================
+// CHANGE ADMIN PASSWORD
+// ================================
+
+async function changeAdminPassword() {
+
+    const password =
+        document.getElementById("newAdminPassword").value.trim();
+
+    if (!password) {
+
+        alert("Enter New Password");
+
+        return;
+
+    }
+
+    try {
+
+        const response = await fetch(
+
+            SCRIPT_URL +
+
+            "?action=changeAdminPassword" +
+
+            "&password=" +
+
+            encodeURIComponent(password)
+
+        );
+
+        const result = await response.json();
+
+        if (result.success) {
+
+            document.getElementById("newAdminPassword").value = "";
+
+            showSuccess("Password Changed Successfully");
+
+        } else {
+
+            showError(result.message);
+
+        }
+
+    } catch (err) {
+
+        console.error(err);
+
+        showError("Server Error");
+
+    }
+
+}
+
+
+// ================================
+// SUCCESS POPUP
+// ================================
+
+function showSuccess(message) {
+
+    document.getElementById("successMessage").innerHTML = message;
+
+    document.getElementById("successPopup").style.display = "flex";
+
+}
+
+function closePopup() {
+
+    document.getElementById("successPopup").style.display = "none";
+
+}
+
+
+// ================================
+// ERROR POPUP
+// ================================
+
+function showError(message) {
+
+    document.getElementById("errorMessage").innerHTML = message;
+
+    document.getElementById("errorPopup").style.display = "flex";
+
+}
+
+function closeErrorPopup() {
+
+    document.getElementById("errorPopup").style.display = "none";
+
+}
+
+
+// ================================
+// LOADING
+// ================================
+
+function showLoading() {
+
+    document.getElementById("loading").style.display = "flex";
+
+}
+
+function hideLoading() {
+
+    document.getElementById("loading").style.display = "none";
+
+}
+
+
+// ================================
 // AUTO REFRESH
-// ----------------------------
+// ================================
 
-setInterval(()=>{
+setInterval(() => {
 
-loadDashboard();
+    loadDashboard();
 
-loadApplications();
+    loadApplications();
 
-loadRetailers();
+    loadRetailers();
 
-},60000);
+}, 60000);
 
-// ----------------------------
-// PAGE LOAD
-// ----------------------------
 
-document.addEventListener("DOMContentLoaded",()=>{
+// ================================
+// REFRESH DASHBOARD
+// ================================
 
-loadRetailers();
+function refreshDashboard() {
 
-});
+    loadDashboard();
+
+    loadApplications();
+
+    loadRetailers();
+
+}
+
+
+// ================================
+// PAGE RELOAD
+// ================================
+
+window.onfocus = function () {
+
+    refreshDashboard();
+
+};
+
+
