@@ -4,175 +4,75 @@
 <head>
 
 <meta charset="UTF-8">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Login | Rajkumar Ration Card Portal</title>
 
 <link rel="stylesheet" href="style.css">
-
-<style>
-
-body{
-margin:0;
-font-family:Arial,sans-serif;
-background:#f4f6f9;
-display:flex;
-justify-content:center;
-align-items:center;
-height:100vh;
-}
-
-.login-box{
-
-width:400px;
-background:#fff;
-padding:30px;
-border-radius:12px;
-box-shadow:0 0 15px rgba(0,0,0,.2);
-
-}
-
-.login-box h2{
-
-text-align:center;
-margin-bottom:20px;
-
-}
-
-.tabs{
-
-display:flex;
-margin-bottom:20px;
-
-}
-
-.tabs button{
-
-flex:1;
-padding:12px;
-border:none;
-cursor:pointer;
-font-size:16px;
-background:#ddd;
-
-}
-
-.tabs button.active{
-
-background:#0d6efd;
-color:#fff;
-
-}
-
-input{
-
-width:100%;
-padding:12px;
-margin:10px 0;
-border:1px solid #ccc;
-border-radius:6px;
-box-sizing:border-box;
-
-}
-
-button.login-btn{
-
-width:100%;
-padding:12px;
-background:#198754;
-color:#fff;
-border:none;
-font-size:18px;
-cursor:pointer;
-border-radius:6px;
-
-}
-
-button.login-btn:hover{
-
-background:#157347;
-
-}
-
-</style>
+<link rel="stylesheet" href="login.css">
 
 </head>
 
 <body>
 
-<div class="login-box">
+<div class="login-container">
+
+<div class="login-card">
+
+<div class="login-logo">
+
+<img src="Logo.png" alt="Logo">
 
 <h2>Rajkumar Ration Card Portal</h2>
 
-<div class="tabs">
+<p>Secure Login System</p>
+
+</div>
+
+<h3>Login Panel</h3>
+
+<select id="loginType">
+
+<option value="admin">👑 Admin Login</option>
+
+<option value="retailer">🏪 Retailer Login</option>
+
+</select>
+
+<input
+type="text"
+id="username"
+placeholder="Username / Retailer ID">
+
+<div class="password-box">
+
+<input
+type="password"
+id="password"
+placeholder="Password">
 
 <button
-id="adminTab"
-class="active"
-onclick="showAdmin()">
-
-Admin
-
-</button>
-
-<button
-id="retailerTab"
-onclick="showRetailer()">
-
-Retailer
-
+type="button"
+id="togglePassword">
+👁
 </button>
 
 </div>
 
-<!-- ADMIN LOGIN -->
-
-<div id="adminLogin">
-
-<input
-type="text"
-id="adminUsername"
-placeholder="Admin Username">
-
-<input
-type="password"
-id="adminPassword"
-placeholder="Password">
-
-<button
-class="login-btn"
-onclick="adminLogin()">
-
+<button id="loginBtn">
 Login
-
 </button>
+
+<p id="loginMessage"></p>
+<!-- Error / Success Message -->
+
+<div id="loginError" class="login-error"></div>
+
+<div class="login-footer">
+
+<a href="index.html">⬅ Back to Home</a>
 
 </div>
-
-<!-- RETAILER LOGIN -->
-
-<div
-id="retailerLogin"
-style="display:none;">
-
-<input
-type="text"
-id="retailerId"
-placeholder="Retailer ID">
-
-<input
-type="password"
-id="retailerPassword"
-placeholder="Password">
-
-<button
-class="login-btn"
-onclick="retailerLogin()">
-
-Login
-
-</button>
 
 </div>
 
