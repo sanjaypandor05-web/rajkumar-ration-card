@@ -1,176 +1,246 @@
- ==========================================
- LOGIN.JS
- RAJKUMAR RATION CARD PORTAL
- ==========================================
+// ==========================================
+// LOGIN.JS - PART 1
+// RAJKUMAR RATION CARD PORTAL
+// ==========================================
 
- ----------------------------
- GOOGLE APPS SCRIPT URL
- ----------------------------
+// ----------------------------
+// GOOGLE APPS SCRIPT URL
+// ----------------------------
 
 const SCRIPT_URL =
-httpsscript.google.commacrossAKfycbyFrg_3lB5WKelkE2vsRW4ZaK7PyvM5F93A-Jfzqla3y8gSQIKei_QZBet9VwewQIXgexec;
+"https://script.google.com/macros/s/AKfycbwNrtXJTgotJP4pRGv3j2cfwI4RrJ5PM0j0Yk9LLSANoXxgv07n0zfbXshuCHOR-C3uBA/exec";
 
- ----------------------------
- TAB SWITCH
- ----------------------------
+// ----------------------------
+// PAGE LOAD
+// ----------------------------
 
-function showAdmin(){
+document.addEventListener("DOMContentLoaded", () => {
 
-document.getElementById(adminLogin).style.display=block;
-document.getElementById(retailerLogin).style.display=none;
+    // URL માં ?type=admin અથવા ?type=retailer હોય તો
+    const params = new URLSearchParams(window.location.search);
+    const type = params.get("type");
 
-document.getElementById(adminTab).classList.add(active);
-document.getElementById(retailerTab).classList.remove(active);
+    if (type === "retailer") {
+        document.getElementById("loginType").value = "retailer";
+        document.getElementById("username").placeholder = "Retailer ID";
+    }
+
+    // Login Type બદલાય ત્યારે Placeholder બદલવો
+    document.getElementById("loginType").addEventListener("change", function () {
+
+        if (this.value === "admin") {
+
+            document.getElementById("username").placeholder = "Admin Username";
+
+        } else {
+
+            document.getElementById("username").placeholder = "Retailer ID";
+
+        }
+
+    });
+
+    // Show / Hide Password
+    document.getElementById("togglePassword").addEventListener("click", function () {
+
+        const password = document.getElementById("password");
+
+        if (password.type === "password") {
+
+            password.type = "text";
+            this.innerHTML = "🙈";
+
+        } else {
+
+            password.type = "password";
+            this.innerHTML = "👁";
+
+        }
+
+    });
+
+    // Login Button
+    document.getElementById("loginBtn").addEventListener("click", loginUser);
+
+});
+// ==========================================
+// LOGIN.JS - PART 2
+// LOGIN FUNCTION
+// ==========================================
+
+async function loginUser() {
+
+    const type = document.getElementById("loginType").value;
+
+    const username = document.getElementById("username").value.trim();
+
+    const password = document.getElementById("password").value.trim();
+
+    const message = document.getElementById("loginError");
+
+    message.innerHTML = "";
+
+    if (!username || !password) {
+
+        message.innerHTML = "⚠ Please enter Username and Password.";
+
+        return;
+
+    }
+
+    document.getElementById("loginBtn").innerHTML = "Please Wait...";
+
+    document.getElementById("loginBtn").disabled = true;
+
+    try {
+
+        let url = "";
+
+        if (type === "admin") {
+
+            url =
+                SCRIPT_URL +
+                "?action=adminLogin" +
+                "&username=" + encodeURIComponent(username) +
+                "&password=" + encodeURIComponent(password);
+
+        } else {
+
+            url =
+                SCRIPT_URL +
+                "?action=retailerLogin" +
+                "&id=" + encodeURIComponent(username) +
+                "&password=" + encodeURIComponent(password);
+
+        }
+
+        const response = await fetch(url);
+
+        const result = await response.json();
+
+        if (result.success) {
+
+            if (type === "admin") {
+
+                localStorage.setItem("adminLogin", "true");
+                localStorage.setItem("adminName", username);
+
+                window.location.href = "admin.html";
+
+            } else {
+
+                localStorage.setItem("retailerLogin", "true");
+                localStorage.setItem("retailerId", result.retailerId);
+                localStorage.setItem("retailerName", result.retailerName);
+
+                window.location.href = "retailer.html";
+
+            }
+
+        } else {
+
+            message.innerHTML = "❌ " + result.message;
+
+        }
+
+    } catch (err) {
+
+        console.error(err);
+
+        message.innerHTML = "❌ Server Error. Please try again.";
+
+    }
+
+    document.getElementById("loginBtn").innerHTML = "Login";
+    document.getElementById("loginBtn").disabled = false;
+
+}
+// ==========================================
+// LOGIN.JS - PART 3
+// EXTRA FEATURES
+// ==========================================
+
+// ----------------------------
+// PRESS ENTER TO LOGIN
+// ----------------------------
+
+document.addEventListener("keydown", function (e) {
+
+    if (e.key === "Enter") {
+
+        loginUser();
+
+    }
+
+});
+
+// ----------------------------
+// AUTO FOCUS
+// ----------------------------
+
+window.addEventListener("load", function () {
+
+    document.getElementById("username").focus();
+
+});
+
+// ----------------------------
+// ALREADY LOGIN CHECK
+// ----------------------------
+
+window.addEventListener("load", function () {
+
+    const type = document.getElementById("loginType").value;
+
+    if (type === "admin" && localStorage.getItem("adminLogin") === "true") {
+
+        window.location.href = "admin.html";
+
+    }
+
+    if (type === "retailer" && localStorage.getItem("retailerLogin") === "true") {
+
+        window.location.href = "retailer.html";
+
+    }
+
+});
+
+// ----------------------------
+// LOGOUT HELPERS
+// ----------------------------
+
+function adminLogout() {
+
+    localStorage.removeItem("adminLogin");
+    localStorage.removeItem("adminName");
+
+    window.location.href = "login.html?type=admin";
 
 }
 
-function showRetailer(){
+function retailerLogout() {
 
-document.getElementById(adminLogin).style.display=none;
-document.getElementById(retailerLogin).style.display=block;
+    localStorage.removeItem("retailerLogin");
+    localStorage.removeItem("retailerId");
+    localStorage.removeItem("retailerName");
 
-document.getElementById(retailerTab).classList.add(active);
-document.getElementById(adminTab).classList.remove(active);
-
-}
-
- ----------------------------
- ADMIN LOGIN
- ----------------------------
-
-async function adminLogin(){
-
-const username =
-document.getElementById(adminUsername).value.trim();
-
-const password =
-document.getElementById(adminPassword).value.trim();
-
-if(username===  password===){
-
-alert(Enter Username & Password);
-
-return;
+    window.location.href = "login.html?type=retailer";
 
 }
 
-try{
+// ----------------------------
+// CLEAR ERROR ON TYPING
+// ----------------------------
 
-const response =
-await fetch(
+document.getElementById("username").addEventListener("input", function () {
 
-SCRIPT_URL +
+    document.getElementById("loginError").innerHTML = "";
 
-action=adminLogin +
+});
 
-&username= + encodeURIComponent(username) +
+document.getElementById("password").addEventListener("input", function () {
 
-&password= + encodeURIComponent(password)
+    document.getElementById("loginError").innerHTML = "";
 
-);
-
-const result =
-await response.json();
-
-if(result.success){
-
-localStorage.setItem(adminLogin,true);
-
-window.location.href=admin.html;
-
-}else{
-
-alert(result.message);
-
-}
-
-}catch(err){
-
-console.log(err);
-
-alert(Server Error);
-
-}
-
-}
-
- ----------------------------
- RETAILER LOGIN
- ----------------------------
-
-async function retailerLogin(){
-
-const id =
-document.getElementById(retailerId).value.trim();
-
-const password =
-document.getElementById(retailerPassword).value.trim();
-
-if(id===  password===){
-
-alert(Enter Retailer ID & Password);
-
-return;
-
-}
-
-try{
-
-const response =
-await fetch(
-
-SCRIPT_URL +
-
-action=retailerLogin +
-
-&id= + encodeURIComponent(id) +
-
-&password= + encodeURIComponent(password)
-
-);
-
-const result =
-await response.json();
-
-if(result.success){
-
-localStorage.setItem(retailerId,result.retailerId);
-localStorage.setItem(retailerName,result.retailerName);
-
-window.location.href=retailer.html;
-
-}else{
-
-alert(result.message);
-
-}
-
-}catch(err){
-
-console.log(err);
-
-alert(Server Error);
-
-}
-
-}
-
- ----------------------------
- AUTO LOGIN
- ----------------------------
-
-window.onload=()={
-
-if(localStorage.getItem(adminLogin)==true){
-
-window.location.href=admin.html;
-
-}
-
-if(localStorage.getItem(retailerId)){
-
-window.location.href=retailer.html;
-
-}
-
-};
+});
