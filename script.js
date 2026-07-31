@@ -1,444 +1,345 @@
-// =====================================
-// RAJKUMAR ONLINE SERVICES
-// FINAL SCRIPT.JS
-// PART 1
-// =====================================
+// ==========================================
+// RAJKUMAR RATION CARD PORTAL
+// SCRIPT.JS - PART 1
+// ==========================================
 
+// ---------- PAGE LOADED ----------
 
-const SCRIPT_URL =
-"https://script.google.com/macros/s/AKfycbwNrtXJTgotJP4pRGv3j2cfwI4RrJ5PM0j0Yk9LLSANoXxgv07n0zfbXshuCHOR-C3uBA/exec";
+document.addEventListener("DOMContentLoaded", function () {
 
+    console.log("Rajkumar Ration Card Portal Loaded");
 
-// SLIDER
+    smoothScroll();
 
-let slideIndex = 0;
+    activeMenu();
 
-
-function showSlides(){
-
-
-let slides = document.querySelectorAll(".slider img");
-
-
-slides.forEach((img)=>{
-
-img.style.display="none";
+    headerShadow();
 
 });
 
+// ==========================================
+// SMOOTH SCROLL
+// ==========================================
 
+function smoothScroll() {
 
-slideIndex++;
+    const links = document.querySelectorAll('nav a[href^="#"]');
 
+    links.forEach(link => {
 
-if(slideIndex > slides.length){
+        link.addEventListener("click", function (e) {
 
-slideIndex = 1;
+            e.preventDefault();
 
-}
+            const target =
+            document.querySelector(this.getAttribute("href"));
 
+            if(target){
 
+                target.scrollIntoView({
 
-if(slides[slideIndex-1]){
+                    behavior:"smooth"
 
-slides[slideIndex-1].style.display="block";
+                });
 
-}
+            }
 
+        });
 
-
-setTimeout(showSlides,3000);
-
-
-
-}
-
-
-
-document.addEventListener("DOMContentLoaded",()=>{
-
-
-showSlides();
-
-
-
-
-const form =
-document.getElementById("applicationForm");
-
-
-
-
-if(form){
-
-
-
-form.addEventListener("submit",async function(e){
-
-
-e.preventDefault();
-
-
-
-
-let aadhaar =
-document.getElementById("aadhaarFile").files[0];
-
-
-
-let ration =
-document.getElementById("rationFile").files[0];
-
-
-
-let payment =
-document.getElementById("paymentFile").files[0];
-
-
-
-
-
-
-// CHECK PDF
-
-
-if(!aadhaar){
-
-
-alert("Aadhaar PDF upload karo");
-
-return;
-
+    });
 
 }
 
+// ==========================================
+// ACTIVE MENU
+// ==========================================
 
+function activeMenu(){
 
-if(aadhaar.type !== "application/pdf"){
+    const sections =
+    document.querySelectorAll("section");
 
+    const navLinks =
+    document.querySelectorAll("nav a");
 
-alert("Aadhaar PDF file j hovi joie");
+    window.addEventListener("scroll",()=>{
 
-return;
+        let current="";
 
+        sections.forEach(section=>{
 
-}
+            const top =
+            section.offsetTop-120;
 
+            const height =
+            section.clientHeight;
 
+            if(pageYOffset>=top){
 
+                current=section.getAttribute("id");
 
+            }
 
+        });
 
-if(ration && ration.type !== "application/pdf"){
+        navLinks.forEach(link=>{
 
+            link.classList.remove("active");
 
-alert("Ration Card PDF format ma upload karo");
+            if(
 
-return;
+                link.getAttribute("href")=="#"+current
 
+            ){
 
-}
+                link.classList.add("active");
 
+            }
 
+        });
 
-
-
-
-
-// PAYMENT CHECK
-
-
-if(!payment){
-
-
-alert("Payment Screenshot upload karo");
-
-return;
-
-
-}
-
-
-
-if(
-payment.type !== "image/jpeg" &&
-payment.type !== "image/png"
-
-){
-
-
-alert("Payment Screenshot JPG/PNG hovu joie");
-
-return;
-
+    });
 
 }
 
+// ==========================================
+// HEADER SHADOW
+// ==========================================
 
+function headerShadow(){
 
+    const header =
+    document.querySelector("header");
 
+    window.addEventListener("scroll",()=>{
 
+        if(window.scrollY>30){
 
+            header.style.boxShadow =
+            "0 10px 25px rgba(0,0,0,.15)";
 
-document.getElementById("loading").style.display="flex";
+        }else{
 
+            header.style.boxShadow =
+            "0 2px 10px rgba(0,0,0,.08)";
 
+        }
 
-
-let data = {
-
-
-gujaratiName:
-document.getElementById("gujaratiName").value,
-
-
-englishName:
-document.getElementById("englishName").value,
-
-
-mobile:
-document.getElementById("mobile").value,
-
-
-village:
-document.getElementById("village").value,
-
-
-taluka:
-document.getElementById("taluka").value,
-
-
-district:
-document.getElementById("district").value,
-
-
-address:
-document.getElementById("address").value,
-
-
-pincode:
-document.getElementById("pincode").value,
-
-
-email:
-document.getElementById("email").value,
-
-
-service:
-document.getElementById("service").value,
-
-
-details:
-document.getElementById("details").value,
-
-
-
-aadhaarFile:
-await fileToBase64(aadhaar),
-
-
-aadhaarName:
-aadhaar.name,
-
-
-aadhaarType:
-aadhaar.type,
-
-
-rationFile:
-ration ? await fileToBase64(ration) : "",
-
-
-rationName:
-ration ? ration.name : "",
-
-
-rationType:
-ration ? ration.type : "",
-
-
-
-paymentFile:
-await fileToBase64(payment),
-
-
-paymentName:
-payment.name,
-
-
-paymentType:
-payment.type
-
-
-
-};
-  // SEND DATA TO GOOGLE SCRIPT
-
-
-fetch(SCRIPT_URL,{
-
-method:"POST",
-
-body:JSON.stringify(data)
-
-})
-
-
-
-.then(response=>response.json())
-
-
-.then(result=>{
-
-
-document.getElementById("loading").style.display="none";
-
-
-
-if(result.success){
-
-
-
-document.getElementById("successPopup").style.display="flex";
-
-
-
-form.reset();
-
-
+    });
 
 }
+// ==========================================
+// SCRIPT.JS - PART 2
+// SCROLL ANIMATION + BACK TO TOP
+// ==========================================
 
-else{
+// ---------- SCROLL ANIMATION ----------
 
+const observer = new IntersectionObserver((entries)=>{
 
-alert(result.error);
+    entries.forEach(entry=>{
 
+        if(entry.isIntersecting){
 
-}
+            entry.target.classList.add("show");
 
+        }
 
+    });
 
-})
+},{
+    threshold:0.15
+});
 
+document.querySelectorAll(
+".feature-card,.why-card,.contact-card"
+).forEach(el=>{
 
+    el.classList.add("hidden");
 
-.catch(error=>{
-
-
-document.getElementById("loading").style.display="none";
-
-
-alert(
-"Server Error : "+error
-);
-
+    observer.observe(el);
 
 });
 
+// ---------- BACK TO TOP BUTTON ----------
 
+const topButton = document.createElement("button");
 
-});
+topButton.id = "topBtn";
 
+topButton.innerHTML = "⬆";
 
+document.body.appendChild(topButton);
 
-}
+topButton.style.display = "none";
 
+window.addEventListener("scroll",()=>{
 
+    if(window.scrollY > 300){
 
+        topButton.style.display = "flex";
 
+    }else{
 
-});
-
-
-
-
-
-
-
-
-// FILE TO BASE64
-
-
-function fileToBase64(file){
-
-
-return new Promise((resolve)=>{
-
-
-let reader = new FileReader();
-
-
-
-reader.onload = function(){
-
-
-let result = reader.result.split(",")[1];
-
-
-resolve(result);
-
-
-};
-
-
-
-reader.readAsDataURL(file);
-
-
-
-});
-
-
-
-}
-
-
-
-
-
-
-
-// CLOSE SUCCESS POPUP
-
-
-function closePopup(){
-
-
-document.getElementById("successPopup").style.display="none";
-
-
-}
-
-
-window.closePopup = closePopup;
-// =============================
-// LOGIN POPUP
-// =============================
-
-function openLogin() {
-
-    document.getElementById("loginPopup").style.display = "flex";
-
-}
-
-function closeLogin() {
-
-    document.getElementById("loginPopup").style.display = "none";
-
-}
-
-
-// Close popup when clicking outside
-
-window.onclick = function(event){
-
-    const popup = document.getElementById("loginPopup");
-
-    if(event.target === popup){
-
-        popup.style.display = "none";
+        topButton.style.display = "none";
 
     }
 
-};
+});
+
+topButton.addEventListener("click",()=>{
+
+    window.scrollTo({
+
+        top:0,
+
+        behavior:"smooth"
+
+    });
+
+});
+
+// ---------- BUTTON STYLE ----------
+
+topButton.style.position = "fixed";
+topButton.style.right = "20px";
+topButton.style.bottom = "95px";
+topButton.style.width = "50px";
+topButton.style.height = "50px";
+topButton.style.border = "none";
+topButton.style.borderRadius = "50%";
+topButton.style.background = "#0d6efd";
+topButton.style.color = "#fff";
+topButton.style.fontSize = "22px";
+topButton.style.cursor = "pointer";
+topButton.style.zIndex = "999";
+topButton.style.alignItems = "center";
+topButton.style.justifyContent = "center";
+topButton.style.boxShadow = "0 6px 15px rgba(0,0,0,.25)";
+// ==========================================
+// SCRIPT.JS - PART 3 (FINAL)
+// DARK MODE + LOADER + RIPPLE EFFECT
+// ==========================================
+
+// ---------- PAGE LOADER ----------
+
+window.addEventListener("load",()=>{
+
+    document.body.classList.add("loaded");
+
+});
+
+// ---------- RIPPLE BUTTON EFFECT ----------
+
+document.querySelectorAll(
+".primary-btn,.secondary-btn,.login-btn,.call-btn,.contact-btn"
+).forEach(button=>{
+
+    button.addEventListener("click",function(e){
+
+        const circle =
+        document.createElement("span");
+
+        const size =
+        Math.max(this.clientWidth,this.clientHeight);
+
+        circle.style.width = size+"px";
+        circle.style.height = size+"px";
+
+        circle.style.position = "absolute";
+        circle.style.borderRadius = "50%";
+        circle.style.background =
+        "rgba(255,255,255,.45)";
+        circle.style.pointerEvents = "none";
+
+        circle.style.left =
+        e.offsetX-size/2+"px";
+
+        circle.style.top =
+        e.offsetY-size/2+"px";
+
+        circle.style.transform =
+        "scale(0)";
+
+        circle.style.transition =
+        "transform .5s, opacity .6s";
+
+        this.style.position="relative";
+        this.style.overflow="hidden";
+
+        this.appendChild(circle);
+
+        requestAnimationFrame(()=>{
+
+            circle.style.transform =
+            "scale(4)";
+
+            circle.style.opacity="0";
+
+        });
+
+        setTimeout(()=>{
+
+            circle.remove();
+
+        },600);
+
+    });
+
+});
+
+// ---------- DARK MODE ----------
+
+const darkButton =
+document.createElement("button");
+
+darkButton.id="darkModeBtn";
+
+darkButton.innerHTML="🌙";
+
+document.body.appendChild(darkButton);
+
+darkButton.style.position="fixed";
+darkButton.style.left="20px";
+darkButton.style.bottom="20px";
+darkButton.style.width="55px";
+darkButton.style.height="55px";
+darkButton.style.border="none";
+darkButton.style.borderRadius="50%";
+darkButton.style.background="#222";
+darkButton.style.color="#fff";
+darkButton.style.fontSize="22px";
+darkButton.style.cursor="pointer";
+darkButton.style.zIndex="999";
+
+darkButton.addEventListener("click",()=>{
+
+    document.body.classList.toggle("dark-mode");
+
+    if(document.body.classList.contains("dark-mode")){
+
+        darkButton.innerHTML="☀";
+
+        localStorage.setItem("theme","dark");
+
+    }else{
+
+        darkButton.innerHTML="🌙";
+
+        localStorage.setItem("theme","light");
+
+    }
+
+});
+
+// ---------- LOAD SAVED THEME ----------
+
+if(localStorage.getItem("theme")==="dark"){
+
+    document.body.classList.add("dark-mode");
+
+    darkButton.innerHTML="☀";
+
+}
+
+console.log("Script Loaded Successfully");
