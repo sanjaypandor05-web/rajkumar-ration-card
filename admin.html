@@ -1,307 +1,453 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Admin Dashboard | Rajkumar Ration Card Portal</title>
-
-<link rel="stylesheet" href="style.css">
-<link rel="stylesheet" href="admin.css">
-
-</head>
-
-<body>
-
 <!-- ================= ADMIN HEADER ================= -->
 
 <header class="admin-header">
 
-<div class="admin-logo">
+    <div class="admin-logo">
+        <h2>👑 Admin Dashboard</h2>
+        <p>Rajkumar Ration Card Portal</p>
+    </div>
 
-<h2>👑 Admin Dashboard</h2>
-
-<p>Rajkumar Ration Card Portal</p>
-
-</div>
-
-<div class="admin-user">
-
-<span id="adminName">Administrator</span>
-
-<button onclick="logout()">Logout</button>
-
-</div>
+    <div class="admin-user">
+        <span id="adminName">Administrator</span>
+        <button onclick="logout()">Logout</button>
+    </div>
 
 </header>
 
-<!-- ================= SIDEBAR ================= -->
+<!-- ================= ADMIN CONTAINER ================= -->
 
 <div class="admin-container">
 
-<aside class="sidebar">
+    <!-- ========= SIDEBAR ========= -->
 
-<h3>MENU</h3>
+    <aside class="sidebar">
 
-<ul>
+        <h3>📋 MENU</h3>
 
-<li><a href="#dashboard">📊 Dashboard</a></li>
+        <ul>
 
-<li><a href="#applications">📋 Applications</a></li>
+            <li><a href="#dashboard">📊 Dashboard</a></li>
 
-<li><a href="#retailers">🏪 Retailers</a></li>
+            <li><a href="#applications">📂 Applications</a></li>
 
-<li><a href="#reports">📈 Reports</a></li>
+            <li><a href="#retailers">🏪 Retailers</a></li>
 
-<li><a href="#settings">⚙ Settings</a></li>
+            <li><a href="#reports">📈 Reports</a></li>
 
-<li><a href="#" onclick="logout()">🚪 Logout</a></li>
+            <li><a href="#settings">⚙ Settings</a></li>
 
-</ul>
+            <li><a href="#" onclick="logout()">🚪 Logout</a></li>
 
-</aside>
+        </ul>
 
-<!-- ================= MAIN CONTENT ================= -->
+    </aside>
 
-<main class="admin-main">
+    <!-- ========= MAIN CONTENT ========= -->
 
-<section id="dashboard">
+    <main class="admin-main">
 
-<h1>Dashboard</h1>
+        <!-- ========= DASHBOARD ========= -->
 
-<div class="dashboard-cards">
+        <section id="dashboard">
 
-<div class="card">
+            <h1>Dashboard</h1>
 
-<h2 id="totalApplications">0</h2>
+            <div class="dashboard-cards">
 
-<p>Total Applications</p>
+                <div class="card total-card">
+                    <h2 id="totalApplications">0</h2>
+                    <p>Total Applications</p>
+                </div>
 
-</div>
+                <div class="card pending-card">
+                    <h2 id="pendingApplications">0</h2>
+                    <p>🟡 Pending</p>
+                </div>
 
-<div class="card">
+                <div class="card success-card">
+                    <h2 id="successfulApplications">0</h2>
+                    <p>🟢 Successful</p>
+                </div>
 
-<h2 id="pendingApplications">0</h2>
+                <div class="card failed-card">
+                    <h2 id="failedApplications">0</h2>
+                    <p>🔴 Failed</p>
+                </div>
 
-<p>Pending</p>
+            </div>
 
-</div>
+        </section>
 
-<div class="card">
+        <!-- ========= SEARCH ========= -->
 
-<h2 id="approvedApplications">0</h2>
+        <section class="search-section">
 
-<p>Approved</p>
+            <h2>🔍 Search & Filter</h2>
 
-</div>
+            <input
+                type="text"
+                id="searchText"
+                placeholder="Search by Name / Mobile / Application ID">
 
-<div class="card">
+            <select id="statusFilter">
 
-<h2 id="rejectedApplications">0</h2>
+                <option value="">All Status</option>
+                <option value="Pending">Pending</option>
+                <option value="Successful">Successful</option>
+                <option value="Failed">Failed</option>
 
-<p>Rejected</p>
+            </select>
 
-</div>
+            <input type="date" id="fromDate">
 
-</div>
+            <input type="date" id="toDate">
 
-</section>
+            <button onclick="searchApplication()">
+                🔍 Search
+            </button>
 
-<!-- ================= SEARCH ================= -->
+            <button onclick="filterApplications()">
+                📂 Filter
+            </button>
 
-<section class="search-section">
-
-<h2>Search Application</h2>
-
-<input
-type="text"
-id="searchText"
-placeholder="Application ID / Mobile / Name">
-
-<button onclick="searchApplication()">
-
-Search
-
-</button>
-
-<button onclick="loadApplications()">
-
-Refresh
-
-</button>
-
-</section>
-
-<!-- ================= APPLICATION TABLE ================= -->
+            <button onclick="loadApplications()">
+                🔄 Refresh
+            </button>
+          <!-- ================= APPLICATIONS ================= -->
 
 <section id="applications">
 
-<h2>All Applications</h2>
+    <h2>📋 All Applications</h2>
 
-<table class="admin-table">
+    <table class="admin-table">
 
-<thead>
+        <thead>
 
-<tr>
+            <tr>
 
-<th>ID</th>
+                <th>ID</th>
 
-<th>Name</th>
+                <th>Customer Name</th>
 
-<th>Mobile</th>
+                <th>Mobile</th>
 
-<th>Service</th>
+                <th>Service</th>
 
-<th>Status</th>
+                <th>Status</th>
 
-<th>Retailer</th>
+                <th>Retailer ID</th>
 
-<th>Date</th>
+                <th>Remarks</th>
 
-<th>Action</th>
+                <th>Date</th>
 
-</tr>
+                <th>Action</th>
 
-</thead>
+            </tr>
 
-<tbody id="applicationTable">
+        </thead>
 
-<tr>
+        <tbody id="applicationTable">
 
-<td colspan="8" align="center">
+            <tr>
 
-Loading...
+                <td colspan="9" align="center">
 
-</td>
+                    Loading Applications...
 
-</tr>
+                </td>
 
-</tbody>
+            </tr>
 
-</table>
+        </tbody>
+
+    </table>
 
 </section>
-<!-- ================= RETAILER MANAGEMENT ================= -->
+
+<!-- ================= VIEW APPLICATION POPUP ================= -->
+
+<div id="viewPopup" class="popup" style="display:none;">
+
+    <div class="popup-box">
+
+        <h2>📄 Application Details</h2>
+
+        <div id="applicationDetails">
+
+            Loading...
+
+        </div>
+
+        <br>
+
+        <button onclick="closeViewPopup()">
+
+            Close
+
+        </button>
+
+    </div>
+
+</div>
+
+<!-- ================= EDIT STATUS POPUP ================= -->
+
+<div id="statusPopup" class="popup" style="display:none;">
+
+    <div class="popup-box">
+
+        <h2>✏️ Update Status</h2>
+
+        <input type="hidden" id="editApplicationId">
+
+        <select id="editStatus">
+
+            <option value="Pending">🟡 Pending</option>
+
+            <option value="Successful">🟢 Successful</option>
+
+            <option value="Failed">🔴 Failed</option>
+
+        </select>
+
+        <br><br>
+
+        <textarea
+            id="editRemarks"
+            placeholder="Enter Remarks..."
+            rows="4"
+            style="width:100%;"></textarea>
+
+        <br><br>
+
+        <button onclick="saveStatus()">
+
+            💾 Save
+
+        </button>
+
+        <button onclick="closeStatusPopup()">
+
+            Cancel
+
+        </button>
+
+    </div>
+
+</div>
+          <!-- ================= RETAILER MANAGEMENT ================= -->
 
 <section id="retailers">
 
-<h2>🏪 Retailer Management</h2>
+    <h2>🏪 Retailer Management</h2>
 
-<div class="retailer-form">
+    <div class="retailer-form">
 
-<h3>Create New Retailer</h3>
+        <h3>Create New Retailer</h3>
 
-<input
-type="text"
-id="retailerName"
-placeholder="Retailer Name">
+        <div class="form-row">
 
-<input
-type="text"
-id="retailerMobile"
-placeholder="Mobile Number">
+            <input
+                type="text"
+                id="retailerName"
+                placeholder="Retailer Name">
 
-<input
-type="text"
-id="retailerId"
-placeholder="Retailer ID">
+            <input
+                type="text"
+                id="retailerMobile"
+                placeholder="Mobile Number">
 
-<input
-type="password"
-id="retailerPassword"
-placeholder="Password">
+        </div>
 
-<button onclick="createRetailer()">
-➕ Create Retailer
-</button>
+        <div class="form-row">
 
-</div>
+            <!-- Auto Generated -->
+            <input
+                type="text"
+                id="generatedRetailerId"
+                placeholder="Retailer ID (Auto Generated)"
+                readonly>
 
-<br>
+            <input
+                type="password"
+                id="retailerPassword"
+                placeholder="Password">
 
-<h3>Retailer List</h3>
+        </div>
 
-<table class="admin-table">
+        <button onclick="generateRetailerId()">
+            🔄 Generate Retailer ID
+        </button>
 
-<thead>
+        <button onclick="createRetailer()">
+            ➕ Create Retailer
+        </button>
 
-<tr>
+    </div>
 
-<th>Retailer ID</th>
+    <br>
 
-<th>Name</th>
+    <h3>📋 Retailer List</h3>
 
-<th>Mobile</th>
+    <table class="admin-table">
 
-<th>Status</th>
+        <thead>
 
-<th>Action</th>
+            <tr>
 
-</tr>
+                <th>Retailer ID</th>
+                <th>Name</th>
+                <th>Mobile</th>
+                <th>Status</th>
+                <th>Total Work</th>
+                <th>Action</th>
 
-</thead>
+            </tr>
 
-<tbody id="retailerTable">
+        </thead>
 
-<tr>
+        <tbody id="retailerTable">
 
-<td colspan="5" align="center">
+            <tr>
 
-No Retailers Found
+                <td colspan="6" align="center">
 
-</td>
+                    No Retailers Found
 
-</tr>
+                </td>
 
-</tbody>
+            </tr>
 
-</table>
+        </tbody>
+
+    </table>
 
 </section>
 
-<!-- ================= REPORTS ================= -->
+<!-- ================= RETAILER DETAILS POPUP ================= -->
+
+<div id="retailerPopup" class="popup" style="display:none;">
+
+    <div class="popup-box">
+
+        <h2>👤 Retailer Details</h2>
+
+        <div id="retailerDetails">
+
+            Loading...
+
+        </div>
+
+        <br>
+
+        <button onclick="closeRetailerPopup()">
+
+            Close
+
+        </button>
+
+    </div>
+
+</div>
+
+<!-- ================= RESET PASSWORD POPUP ================= -->
+
+<div id="resetPasswordPopup" class="popup" style="display:none;">
+
+    <div class="popup-box">
+
+        <h2>🔑 Reset Retailer Password</h2>
+
+        <input
+            type="hidden"
+            id="resetRetailerId">
+
+        <input
+            type="password"
+            id="newRetailerPassword"
+            placeholder="Enter New Password">
+
+        <br><br>
+
+        <button onclick="saveRetailerPassword()">
+
+            💾 Save Password
+
+        </button>
+
+        <button onclick="closeResetPasswordPopup()">
+
+            Cancel
+
+        </button>
+
+    </div>
+
+</div>
+          <!-- ================= REPORTS ================= -->
 
 <section id="reports">
 
-<h2>📊 Reports</h2>
+    <h2>📊 Reports</h2>
 
-<div class="dashboard-cards">
+    <div class="dashboard-cards">
 
-<div class="card">
+        <div class="card">
+            <h3>Total Retailers</h3>
+            <h2 id="totalRetailers">0</h2>
+        </div>
 
-<h3>Total Retailers</h3>
+        <div class="card">
+            <h3>Today's Applications</h3>
+            <h2 id="todayApplications">0</h2>
+        </div>
 
-<h2 id="totalRetailers">0</h2>
+        <div class="card">
+            <h3>Completed Today</h3>
+            <h2 id="completedToday">0</h2>
+        </div>
 
-</div>
+        <div class="card">
+            <h3>Pending Today</h3>
+            <h2 id="pendingToday">0</h2>
+        </div>
 
-<div class="card">
+    </div>
 
-<h3>Today's Applications</h3>
+    <br>
 
-<h2 id="todayApplications">0</h2>
+    <table class="admin-table">
 
-</div>
+        <thead>
 
-<div class="card">
+            <tr>
 
-<h3>Completed Today</h3>
+                <th>Date</th>
+                <th>Total</th>
+                <th>Successful</th>
+                <th>Pending</th>
+                <th>Failed</th>
 
-<h2 id="completedToday">0</h2>
+            </tr>
 
-</div>
+        </thead>
 
-<div class="card">
+        <tbody id="reportTable">
 
-<h3>Pending Today</h3>
+            <tr>
 
-<h2 id="pendingToday">0</h2>
+                <td colspan="5" align="center">
 
-</div>
+                    No Report Available
 
-</div>
+                </td>
+
+            </tr>
+
+        </tbody>
+
+    </table>
 
 </section>
 
@@ -309,53 +455,70 @@ No Retailers Found
 
 <section id="settings">
 
-<h2>⚙️ Settings</h2>
+    <h2>⚙ System Settings</h2>
 
-<div class="settings-box">
+    <div class="settings-box">
 
-<h3>Admin Password</h3>
+        <h3>🔐 Change Admin Password</h3>
 
-<input
-type="password"
-id="newAdminPassword"
-placeholder="New Password">
+        <input
+            type="password"
+            id="newAdminPassword"
+            placeholder="Enter New Password">
 
-<button onclick="changeAdminPassword()">
+        <button onclick="changeAdminPassword()">
 
-Save Password
+            Save Password
 
-</button>
+        </button>
 
-</div>
+    </div>
 
-<br>
+    <br>
 
-<div class="settings-box">
+    <div class="settings-box">
 
-<h3>System</h3>
+        <h3>📦 Backup & Maintenance</h3>
 
-<button onclick="backupData()">
+        <button onclick="backupData()">
 
-📥 Backup Data
+            📥 Backup Data
 
-</button>
+        </button>
 
-<button onclick="refreshDashboard()">
+        <button onclick="refreshDashboard()">
 
-🔄 Refresh Dashboard
+            🔄 Refresh Dashboard
 
-</button>
+        </button>
 
-</div>
+        <button onclick="exportExcel()">
+
+            📊 Export Excel
+
+        </button>
+
+        <button onclick="printReport()">
+
+            🖨 Print Report
+
+        </button>
+
+    </div>
 
 </section>
+
 <!-- ================= FOOTER ================= -->
 
 <footer class="admin-footer">
 
-<p>
-© 2026 Rajkumar Ration Card Portal | Admin Panel
-</p>
+    <p>
+
+        © 2026 Rajkumar Ration Card Portal
+        <br>
+        Developed by Rajkumar Online Work
+
+    </p>
 
 </footer>
 
@@ -363,69 +526,132 @@ Save Password
 
 </div>
 
-<!-- ================= LOADING ================= -->
+        </section>
+        <!-- ================= LOADING ================= -->
 
-<div id="loading" style="display:none;">
+<div id="loading" class="loading-overlay" style="display:none;">
 
-<div class="loading-box">
+    <div class="loading-box">
 
-<h3>Please Wait...</h3>
+        <div class="loader"></div>
 
-<p>Processing Request...</p>
+        <h3>Please Wait...</h3>
 
-</div>
+        <p>Processing Request...</p>
+
+    </div>
 
 </div>
 
 <!-- ================= SUCCESS POPUP ================= -->
 
-<div id="successPopup" style="display:none;">
+<div id="successPopup" class="popup" style="display:none;">
 
-<div class="popup-box">
+    <div class="popup-box">
 
-<h2>✅</h2>
+        <h1>✅</h1>
 
-<h3>Success</h3>
+        <h3>Success</h3>
 
-<p id="successMessage">
-Operation Completed Successfully
-</p>
+        <p id="successMessage">
 
-<button onclick="closePopup()">
+            Operation Completed Successfully
 
-OK
+        </p>
 
-</button>
+        <button onclick="closePopup()">
+
+            OK
+
+        </button>
+
+    </div>
+
+</div>
+
+<!-- ================= ERROR POPUP ================= -->
+
+<div id="errorPopup" class="popup" style="display:none;">
+
+    <div class="popup-box">
+
+        <h1>❌</h1>
+
+        <h3>Error</h3>
+
+        <p id="errorMessage">
+
+            Something went wrong!
+
+        </p>
+
+        <button onclick="closeErrorPopup()">
+
+            Close
+
+        </button>
+
+    </div>
 
 </div>
 
+<!-- ================= DELETE CONFIRM ================= -->
+
+<div id="deletePopup" class="popup" style="display:none;">
+
+    <div class="popup-box">
+
+        <h3>🗑 Delete Application</h3>
+
+        <p>
+
+            Are you sure you want to delete this application?
+
+        </p>
+
+        <button id="confirmDeleteBtn">
+
+            ✅ Yes Delete
+
+        </button>
+
+        <button onclick="closeDeletePopup()">
+
+            ❌ Cancel
+
+        </button>
+
+    </div>
+
 </div>
 
-<!-- ================= CONFIRM DELETE ================= -->
+<!-- ================= LOGOUT CONFIRM ================= -->
 
-<div id="deletePopup" style="display:none;">
+<div id="logoutPopup" class="popup" style="display:none;">
 
-<div class="popup-box">
+    <div class="popup-box">
 
-<h3>Delete Application?</h3>
+        <h3>🚪 Logout</h3>
 
-<p>
-Are you sure you want to delete this application?
-</p>
+        <p>
 
-<button id="confirmDeleteBtn">
+            Are you sure you want to logout?
 
-Yes Delete
+        </p>
 
-</button>
+        <button onclick="confirmLogout()">
 
-<button onclick="closeDeletePopup()">
+            ✅ Logout
 
-Cancel
+        </button>
 
-</button>
+        <button onclick="closeLogoutPopup()">
 
-</div>
+            Cancel
+
+        </button>
+
+    </div>
 
 </div>
 
