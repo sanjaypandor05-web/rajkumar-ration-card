@@ -1,12 +1,13 @@
 // ==========================================
 // RAJKUMAR RATION CARD PORTAL
 // RETAILER.JS - PART 1
+// LOGIN + DASHBOARD + PROFILE
 // ==========================================
 
 // ---------- GOOGLE APPS SCRIPT URL ----------
 
 const SCRIPT_URL =
-const API_URL = "https://script.google.com/macros/s/AKfycbzjuIA4WgEfDYqev1deYRoDoMG4LPbRXA7MUxCrxCeV16Tncsy8phTCNoNckRUpXs-umA/exec";
+"https://script.google.com/macros/s/AKfycbxsFtoh0oq7IyOgkApeMvu_knsJXFALyWwrlpiG9zsaBA54-ICYN-3jeAYGxX3YrJK-zA/exec";
 
 // ---------- GLOBAL VARIABLES ----------
 
@@ -37,12 +38,12 @@ document.addEventListener("DOMContentLoaded", () => {
 // CHECK LOGIN
 // ==========================================
 
-function checkRetailerLogin(){
+function checkRetailerLogin() {
 
     const userType =
         localStorage.getItem("userType");
 
-    if(userType !== "retailer"){
+    if (userType !== "retailer") {
 
         alert("Access Denied!");
 
@@ -56,19 +57,15 @@ function checkRetailerLogin(){
 // LOAD DASHBOARD
 // ==========================================
 
-function loadDashboard(){
+function loadDashboard() {
 
     const retailerId =
         localStorage.getItem("userId");
 
     fetch(
-
         SCRIPT_URL +
-
         "?action=retailerDashboard&id=" +
-
         encodeURIComponent(retailerId)
-
     )
 
     .then(res => res.json())
@@ -89,9 +86,9 @@ function loadDashboard(){
 
     })
 
-    .catch(err => {
+    .catch(error => {
 
-        console.error("Dashboard Error:", err);
+        console.error("Dashboard Error:", error);
 
     });
 
@@ -101,7 +98,7 @@ function loadDashboard(){
 // LOAD PROFILE
 // ==========================================
 
-function loadProfile(){
+function loadProfile() {
 
     document.getElementById("profileName").value =
         localStorage.getItem("userName") || "";
@@ -109,7 +106,15 @@ function loadProfile(){
     document.getElementById("profileId").value =
         localStorage.getItem("userId") || "";
 
+    document.getElementById("profileMobile").value =
+        localStorage.getItem("mobile") || "";
+
+    document.getElementById("profileUsername").value =
+        localStorage.getItem("username") || "";
+
 }
+
+console.log("Retailer JS Part 1 Loaded");
 // ==========================================
 // RETAILER.JS - PART 2
 // NEW APPLICATION SUBMIT
@@ -117,548 +122,629 @@ function loadProfile(){
 
 // ---------- APPLICATION FORM ----------
 
-const applicationForm =
-document.getElementById("applicationForm");
+const applicationForm = document.getElementById("applicationForm");
 
-if(applicationForm){
+if (applicationForm) {
+    applicationForm.addEventListener("submit", submitApplication);
+}
 
-applicationForm.addEventListener("submit",submitApplication);
+// ---------- SUBMIT APPLICATION ----------
+
+function submitApplication(e) {
+
+    e.preventDefault();
+
+    const retailerId = localStorage.getItem("userId");
+
+    const name = document.getElementById("applicantName").value.trim();
+    const mobile = document.getElementById("mobileNumber").value.trim();
+    const aadhaar = document.getElementById("aadhaarNumber").value.trim();
+    const rationCard = document.getElementById("rationCardNumber").value.trim();
+    const service = document.getElementById("serviceType").value;
+    const village = document.getElementById("village").value.trim();
+    const remarks = document.getElementById("remarks").value.trim();
+
+    // ---------- VALIDATION ----------
+
+    if (name === "") {
+        showError("Please Enter Applicant Name");
+        return;
+    }
+
+    if (!/^[0-9]{10}$/.test(mobile)) {
+        showError("Enter Valid Mobile Number");
+        return;
+    }
+
+    if (!/^[0-9]{12}$/.test(aadhaar)) {
+        showError("Enter Valid Aadhaar Number");
+        return;
+    }
+
+    if (service === "") {
+        showError("Please Select Service");
+        return;
+    }
+
+    const data = {
+        action: "submitApplication",
+        retailerId: retailerId,
+        name: name,
+        mobile: mobile,
+        aadhaar: aadhaar,
+        rationCard: rationCard,
+        service: service,
+        village: village,
+        remarks: remarks
+    };
+
+    fetch(SCRIPT_URL, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+    })
+
+    .then(res => res.json())
+
+    .then(response => {
+
+        if (response.success) {
+
+            showSuccess(response.message || "Application Submitted Successfully");
+
+            applicationForm.reset();
+
+            loadDashboard();
+
+            loadHistory();
+
+        } else {
+
+            showError(response.message || "Application Submit Failed");
+
+        }
+
+    })
+
+    .catch(error => {
+
+        console.error(error);
+
+        showError("Server Error");
+
+    });
 
 }
 
-function submitApplication(e){
+// ---------- DOCUMENT SELECT ----------
 
-e.preventDefault();
+const documentInput = document.getElementById("documents");
 
-const retailerId =
-localStorage.getItem("userId");
+if (documentInput) {
 
-const data={
+    documentInput.addEventListener("change", function () {
 
-action:"submitApplication",
+        if (this.files.length > 0) {
 
-retailerId:retailerId,
+            console.log("Selected Files:", this.files);
 
-name:document.getElementById("applicantName").value.trim(),
+        }
 
-mobile:document.getElementById("mobileNumber").value.trim(),
-
-aadhaar:document.getElementById("aadhaarNumber").value.trim(),
-
-rationCard:document.getElementById("rationCardNumber").value.trim(),
-
-service:document.getElementById("serviceType").value,
-
-village:document.getElementById("village").value.trim(),
-
-remarks:document.getElementById("remarks").value.trim()
-
-};
-
-fetch(SCRIPT_URL,{
-
-method:"POST",
-
-headers:{
-"Content-Type":"application/json"
-},
-
-body:JSON.stringify(data)
-
-})
-
-.then(res=>res.json())
-
-.then(response=>{
-
-if(response.success){
-
-showSuccess(
-
-response.message ||
-
-"Application Submitted Successfully"
-
-);
-
-applicationForm.reset();
-
-loadDashboard();
-
-loadHistory();
-
-}else{
-
-showError(
-
-response.message ||
-
-"Application Submit Failed"
-
-);
-
-}
-
-})
-
-.catch(error=>{
-
-console.error(error);
-
-showError("Server Error");
-
-});
-
-}
-
-// ==========================================
-// DOCUMENT FILE NAME
-// ==========================================
-
-const documentInput =
-document.getElementById("documents");
-
-if(documentInput){
-
-documentInput.addEventListener("change",()=>{
-
-if(documentInput.files.length>0){
-
-console.log(
-
-"Selected Files :",
-
-documentInput.files
-
-);
-
-}
-
-});
-
-}
-
-// ==========================================
-// SUCCESS POPUP
-// ==========================================
-
-function showSuccess(message){
-
-document.getElementById("successMessage").innerHTML=
-message;
-
-document.getElementById("successPopup").style.display=
-"flex";
-
-}
-
-function closePopup(){
-
-document.getElementById("successPopup").style.display=
-"none";
-
-}
-
-// ==========================================
-// ERROR POPUP
-// ==========================================
-
-function showError(message){
-
-document.getElementById("errorMessage").innerHTML=
-message;
-
-document.getElementById("errorPopup").style.display=
-"flex";
-
-}
-
-function closeErrorPopup(){
-
-document.getElementById("errorPopup").style.display=
-"none";
+    });
 
 }
 // ==========================================
 // RETAILER.JS - PART 3
-// WORK HISTORY
+// WORK HISTORY + SEARCH + FILTER
 // ==========================================
 
 // ---------- LOAD HISTORY ----------
 
-function loadHistory(){
+function loadHistory() {
 
-const retailerId =
-localStorage.getItem("userId");
+    const retailerId = localStorage.getItem("userId");
 
-fetch(
+    fetch(
+        SCRIPT_URL +
+        "?action=getRetailerHistory&id=" +
+        encodeURIComponent(retailerId)
+    )
 
-SCRIPT_URL +
+    .then(res => res.json())
 
-"?action=getRetailerHistory&id=" +
+    .then(data => {
 
-encodeURIComponent(retailerId)
+        applications = data || [];
 
-)
+        renderHistory(applications);
 
-.then(res=>res.json())
+    })
 
-.then(data=>{
+    .catch(error => {
 
-applications=data || [];
+        console.error(error);
 
-renderHistory(applications);
+        showError("History Load Failed");
 
-})
-
-.catch(error=>{
-
-console.error(error);
-
-showError("History Load Failed");
-
-});
+    });
 
 }
 
 // ---------- RENDER HISTORY ----------
 
-function renderHistory(data){
+function renderHistory(data) {
 
-const tbody =
-document.getElementById("historyTable");
+    const tbody = document.getElementById("historyTable");
 
-tbody.innerHTML="";
+    tbody.innerHTML = "";
 
-if(data.length===0){
+    if (data.length === 0) {
 
-tbody.innerHTML=`
+        tbody.innerHTML = `
+        <tr>
+            <td colspan="7">No Records Found</td>
+        </tr>`;
 
-<tr>
+        return;
 
-<td colspan="7">
+    }
 
-No Records Found
+    data.forEach(app => {
 
-</td>
+        tbody.innerHTML += `
 
-</tr>
+        <tr>
 
-`;
+            <td>${app.id}</td>
 
-return;
+            <td>${app.name}</td>
 
-}
+            <td>${app.mobile}</td>
 
-data.forEach(app=>{
+            <td>${app.service}</td>
 
-tbody.innerHTML+=`
+            <td>
+                <span class="status-${String(app.status).toLowerCase()}">
+                    ${app.status}
+                </span>
+            </td>
 
-<tr>
+            <td>${app.date}</td>
 
-<td>${app.id}</td>
+            <td>
 
-<td>${app.name}</td>
+                <button class="print-btn"
+                onclick="viewApplication('${app.id}')">
 
-<td>${app.mobile}</td>
+                View
 
-<td>${app.service}</td>
+                </button>
 
-<td>
+            </td>
 
-<span class="status-${String(app.status).toLowerCase()}">
+        </tr>
 
-${app.status}
+        `;
 
-</span>
-
-</td>
-
-<td>${app.date}</td>
-
-<td>
-
-<button
-class="print-btn"
-onclick="viewApplication('${app.id}')">
-
-View
-
-</button>
-
-</td>
-
-</tr>
-
-`;
-
-});
+    });
 
 }
 
 // ---------- SEARCH ----------
 
 document.getElementById("searchHistory")
+.addEventListener("keyup", function () {
 
-.addEventListener("keyup",function(){
+    const value = this.value.toLowerCase();
 
-const value=this.value.toLowerCase();
+    const result = applications.filter(app =>
 
-const result=applications.filter(app=>
+        String(app.name).toLowerCase().includes(value) ||
 
-String(app.name).toLowerCase().includes(value)||
+        String(app.mobile).includes(value) ||
 
-String(app.mobile).includes(value)||
+        String(app.id).includes(value)
 
-String(app.id).includes(value)
+    );
 
-);
-
-renderHistory(result);
+    renderHistory(result);
 
 });
 
 // ---------- STATUS FILTER ----------
 
 document.getElementById("historyStatus")
+.addEventListener("change", function () {
 
-.addEventListener("change",function(){
+    const status = this.value;
 
-const status=this.value;
+    if (status === "") {
 
-if(status===""){
+        renderHistory(applications);
 
-renderHistory(applications);
+        return;
 
-return;
+    }
 
-}
+    const result = applications.filter(app =>
+        app.status === status
+    );
 
-const result=
-
-applications.filter(app=>app.status===status);
-
-renderHistory(result);
+    renderHistory(result);
 
 });
 
-// ---------- VIEW APPLICATION ----------
+// ---------- DATE FILTER ----------
 
-function viewApplication(id){
+document.getElementById("historyFromDate")
+.addEventListener("change", filterHistoryByDate);
 
-currentApplication=
+document.getElementById("historyToDate")
+.addEventListener("change", filterHistoryByDate);
 
-applications.find(app=>app.id==id);
+function filterHistoryByDate() {
 
-if(!currentApplication){
+    const from =
+        document.getElementById("historyFromDate").value;
 
-showError("Application Not Found");
+    const to =
+        document.getElementById("historyToDate").value;
 
-return;
+    if (!from || !to) {
+
+        renderHistory(applications);
+
+        return;
+
+    }
+
+    const result = applications.filter(app => {
+
+        return app.date >= from && app.date <= to;
+
+    });
+
+    renderHistory(result);
 
 }
+// ==========================================
+// RETAILER.JS - PART 4
+// VIEW APPLICATION + PRINT + PDF
+// ==========================================
 
-document.getElementById("applicationDetails").innerHTML=`
+// ---------- VIEW APPLICATION ----------
 
-<b>Application ID :</b> ${currentApplication.id}<br><br>
+function viewApplication(id) {
 
-<b>Applicant :</b> ${currentApplication.name}<br><br>
+    currentApplication = applications.find(app => app.id == id);
 
-<b>Mobile :</b> ${currentApplication.mobile}<br><br>
+    if (!currentApplication) {
 
-<b>Aadhaar :</b> ${currentApplication.aadhaar}<br><br>
+        showError("Application Not Found");
 
-<b>Ration Card :</b> ${currentApplication.rationCard}<br><br>
+        return;
 
-<b>Service :</b> ${currentApplication.service}<br><br>
+    }
 
-<b>Status :</b> ${currentApplication.status}<br><br>
+    document.getElementById("applicationDetails").innerHTML = `
 
-<b>Date :</b> ${currentApplication.date}<br><br>
+        <p><b>Application ID :</b> ${currentApplication.id}</p>
+        <p><b>Applicant Name :</b> ${currentApplication.name}</p>
+        <p><b>Mobile :</b> ${currentApplication.mobile}</p>
+        <p><b>Aadhaar :</b> ${currentApplication.aadhaar || "-"}</p>
+        <p><b>Ration Card :</b> ${currentApplication.rationCard || "-"}</p>
+        <p><b>Service :</b> ${currentApplication.service}</p>
+        <p><b>Village :</b> ${currentApplication.village || "-"}</p>
+        <p><b>Status :</b> ${currentApplication.status}</p>
+        <p><b>Date :</b> ${currentApplication.date}</p>
+        <p><b>Remarks :</b> ${currentApplication.remarks || "-"}</p>
 
-<b>Remarks :</b> ${currentApplication.remarks || "-"}
+    `;
 
-`;
-
-document.getElementById("viewModal").style.display="flex";
+    document.getElementById("viewModal").style.display = "flex";
 
 }
 
 // ---------- CLOSE MODAL ----------
 
-function closeViewModal(){
+function closeViewModal() {
 
-document.getElementById("viewModal").style.display="none";
-
-}
-
-// ---------- PRINT ----------
-
-function printApplication(){
-
-window.print();
+    document.getElementById("viewModal").style.display = "none";
 
 }
 
-// ---------- PDF DOWNLOAD ----------
+// ---------- PRINT RECEIPT ----------
 
-function downloadApplicationPDF(){
+function printApplication() {
 
-if(!currentApplication){
+    const printContent =
+        document.getElementById("applicationDetails").innerHTML;
 
-showError("No Application Selected");
+    const newWindow = window.open("", "", "width=800,height=700");
 
-return;
+    newWindow.document.write(`
+        <html>
+        <head>
+            <title>Application Receipt</title>
+            <style>
+                body{
+                    font-family:Arial;
+                    padding:20px;
+                }
+                h2{
+                    text-align:center;
+                }
+                p{
+                    margin:8px 0;
+                    font-size:16px;
+                }
+            </style>
+        </head>
+        <body>
+
+        <h2>Rajkumar Ration Card Portal</h2>
+        ${printContent}
+
+        </body>
+        </html>
+    `);
+
+    newWindow.document.close();
+    newWindow.print();
 
 }
 
-alert(
+// ---------- DOWNLOAD PDF ----------
 
-"PDF Download feature will be connected in Code.gs."
+function downloadApplicationPDF() {
 
-);
+    if (!currentApplication) {
+
+        showError("No Application Selected");
+
+        return;
+
+    }
+
+    alert("PDF Download will be connected with Google Apps Script.");
 
 }
+
+// ---------- CLOSE MODAL OUTSIDE CLICK ----------
+
+window.onclick = function(event) {
+
+    const modal = document.getElementById("viewModal");
+
+    if (event.target === modal) {
+
+        closeViewModal();
+
+    }
+
+};
+
+console.log("Retailer JS Part 4 Loaded");
+
 // ==========================================
-// RETAILER.JS - PART 4 (FINAL)
-// PROFILE + PASSWORD + LOGOUT
+// RETAILER.JS - PART 5
+// PROFILE + CHANGE PASSWORD + POPUPS
 // ==========================================
 
 // ---------- CHANGE PASSWORD ----------
 
-function changePassword(){
+function changePassword() {
 
-const oldPassword =
-document.getElementById("oldPassword").value.trim();
+    const oldPassword =
+        document.getElementById("oldPassword").value.trim();
 
-const newPassword =
-document.getElementById("newPassword").value.trim();
+    const newPassword =
+        document.getElementById("newPassword").value.trim();
 
-const confirmPassword =
-document.getElementById("confirmPassword").value.trim();
+    const confirmPassword =
+        document.getElementById("confirmPassword").value.trim();
 
-if(oldPassword==="" || newPassword===""){
+    if (oldPassword === "" || newPassword === "" || confirmPassword === "") {
 
-showError("Please Fill All Fields");
+        showError("Please Fill All Fields");
 
-return;
+        return;
+
+    }
+
+    if (newPassword !== confirmPassword) {
+
+        showError("New Password and Confirm Password Do Not Match");
+
+        return;
+
+    }
+
+    fetch(SCRIPT_URL, {
+
+        method: "POST",
+
+        headers: {
+            "Content-Type": "application/json"
+        },
+
+        body: JSON.stringify({
+
+            action: "changeRetailerPassword",
+
+            retailerId: localStorage.getItem("userId"),
+
+            oldPassword: oldPassword,
+
+            newPassword: newPassword
+
+        })
+
+    })
+
+    .then(res => res.json())
+
+    .then(response => {
+
+        if (response.success) {
+
+            showSuccess(response.message || "Password Changed Successfully");
+
+            document.getElementById("oldPassword").value = "";
+            document.getElementById("newPassword").value = "";
+            document.getElementById("confirmPassword").value = "";
+
+        } else {
+
+            showError(response.message || "Password Change Failed");
+
+        }
+
+    })
+
+    .catch(error => {
+
+        console.error(error);
+
+        showError("Server Error");
+
+    });
 
 }
 
-if(newPassword!==confirmPassword){
+// ---------- SUCCESS POPUP ----------
 
-showError("Confirm Password Not Match");
+function showSuccess(message) {
 
-return;
+    document.getElementById("successMessage").innerHTML = message;
 
-}
-
-fetch(SCRIPT_URL,{
-
-method:"POST",
-
-headers:{
-"Content-Type":"application/json"
-},
-
-body:JSON.stringify({
-
-action:"changeRetailerPassword",
-
-retailerId:
-localStorage.getItem("userId"),
-
-oldPassword:oldPassword,
-
-newPassword:newPassword
-
-})
-
-})
-
-.then(res=>res.json())
-
-.then(response=>{
-
-if(response.success){
-
-showSuccess(response.message);
-
-document.getElementById("oldPassword").value="";
-document.getElementById("newPassword").value="";
-document.getElementById("confirmPassword").value="";
-
-}else{
-
-showError(response.message);
+    document.getElementById("successPopup").style.display = "flex";
 
 }
 
-})
+function closePopup() {
 
-.catch(error=>{
-
-console.error(error);
-
-showError("Server Error");
-
-});
+    document.getElementById("successPopup").style.display = "none";
 
 }
 
-// ---------- AUTO REFRESH DASHBOARD ----------
+// ---------- ERROR POPUP ----------
 
-setInterval(()=>{
+function showError(message) {
 
-loadDashboard();
+    document.getElementById("errorMessage").innerHTML = message;
 
-loadHistory();
+    document.getElementById("errorPopup").style.display = "flex";
 
-},60000);
+}
+
+function closeErrorPopup() {
+
+    document.getElementById("errorPopup").style.display = "none";
+
+}
+
+console.log("Retailer JS Part 5 Loaded");
+// ==========================================
+// RETAILER.JS - PART 6 (FINAL)
+// LOGOUT + AUTO REFRESH + SESSION
+// ==========================================
+
+// ---------- AUTO REFRESH ----------
+
+setInterval(() => {
+
+    loadDashboard();
+
+    loadHistory();
+
+}, 60000);
 
 // ---------- LOGOUT ----------
 
-function logout(){
+function logout() {
 
-if(confirm("Are you want to Logout?")){
+    if (confirm("Are you sure you want to Logout?")) {
 
-localStorage.clear();
+        localStorage.removeItem("userType");
+        localStorage.removeItem("userId");
+        localStorage.removeItem("userName");
+        localStorage.removeItem("mobile");
+        localStorage.removeItem("username");
 
-window.location.href="login.html";
+        window.location.href = "login.html";
 
-}
+    }
 
 }
 
 // ---------- SESSION CHECK ----------
 
-window.addEventListener("load",()=>{
+window.addEventListener("load", () => {
 
-const type=
-localStorage.getItem("userType");
+    const userType = localStorage.getItem("userType");
 
-if(type!=="retailer"){
+    if (userType !== "retailer") {
 
-window.location.href="login.html";
+        alert("Session Expired!");
 
-}
+        window.location.href = "login.html";
+
+    }
 
 });
 
-// ---------- CLOSE MODAL ON OUTSIDE CLICK ----------
+// ---------- REFRESH BUTTON ----------
 
-window.onclick=function(event){
+function refreshData() {
 
-const modal=document.getElementById("viewModal");
+    loadDashboard();
 
-if(event.target===modal){
+    loadHistory();
 
-closeViewModal();
+    loadProfile();
+
+    showSuccess("Data Refreshed Successfully");
 
 }
 
-};
+// ---------- PAGE VISIBILITY ----------
+
+document.addEventListener("visibilitychange", () => {
+
+    if (!document.hidden) {
+
+        loadDashboard();
+
+        loadHistory();
+
+    }
+
+});
+
+// ---------- NETWORK STATUS ----------
+
+window.addEventListener("online", () => {
+
+    showSuccess("Internet Connected");
+
+    loadDashboard();
+
+    loadHistory();
+
+});
+
+window.addEventListener("offline", () => {
+
+    showError("Internet Connection Lost");
+
+});
 
 // ---------- READY ----------
 
+console.log("====================================");
 console.log("Retailer Panel Ready");
+console.log("Rajkumar Ration Card Portal");
+console.log("====================================");
