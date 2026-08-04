@@ -24,6 +24,14 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
 
 <body>
 
+<!-- ================= LOADER ================= -->
+
+<div id="loader" class="loader">
+
+<div class="spinner"></div>
+
+</div>
+
 <!-- ================= SIDEBAR ================= -->
 
 <div class="sidebar">
@@ -82,7 +90,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
 
 <i class="fa-solid fa-user"></i>
 
-<span>Profile</span>
+<span>My Profile</span>
 
 </a>
 
@@ -108,9 +116,15 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
 
 <div class="main">
 
+<!-- ================= TOPBAR ================= -->
+
 <div class="topbar">
 
-<h1>Retailer Dashboard</h1>
+<h1>
+
+Retailer Dashboard
+
+</h1>
 
 <div class="user-box">
 
@@ -126,13 +140,38 @@ Retailer
 
 </div>
 
-<!-- ================= DASHBOARD ================= -->
+
+  <!-- ================= DASHBOARD ================= -->
 
 <section id="dashboard">
 
+<div class="section-header">
+
+<h2>
+
+Dashboard Overview
+
+</h2>
+
+<button
+class="refresh-btn"
+onclick="loadDashboard()">
+
+<i class="fa-solid fa-rotate"></i>
+
+Refresh
+
+</button>
+
+</div>
+
 <div class="cards">
 
+<!-- Total Work -->
+
 <div class="card total">
+
+<i class="fa-solid fa-file-lines card-icon"></i>
 
 <h2 id="totalWork">
 
@@ -144,7 +183,11 @@ Retailer
 
 </div>
 
+<!-- Pending -->
+
 <div class="card pending">
+
+<i class="fa-solid fa-hourglass-half card-icon"></i>
 
 <h2 id="pendingWork">
 
@@ -156,7 +199,11 @@ Retailer
 
 </div>
 
+<!-- Approved -->
+
 <div class="card success">
+
+<i class="fa-solid fa-circle-check card-icon"></i>
 
 <h2 id="successWork">
 
@@ -164,11 +211,15 @@ Retailer
 
 </h2>
 
-<p>Successful</p>
+<p>Approved</p>
 
 </div>
 
+<!-- Rejected -->
+
 <div class="card failed">
+
+<i class="fa-solid fa-circle-xmark card-icon"></i>
 
 <h2 id="failedWork">
 
@@ -176,173 +227,43 @@ Retailer
 
 </h2>
 
-<p>Failed</p>
+<p>Rejected</p>
 
 </div>
 
-</div>
+<!-- Today's Work -->
 
-</section>
-<!-- ================= NEW APPLICATION ================= -->
+<div class="card today">
 
-<section id="apply">
+<i class="fa-solid fa-calendar-day card-icon"></i>
 
-<div class="section-header">
+<h2 id="todayWork">
 
-<h2>
-
-New Application
+0
 
 </h2>
 
-</div>
-
-<form id="applicationForm">
-
-<div class="form-grid">
-
-<div class="form-group">
-
-<label>Applicant Name</label>
-
-<input
-type="text"
-id="applicantName"
-placeholder="Enter Applicant Name"
-required>
+<p>Today's Work</p>
 
 </div>
 
-<div class="form-group">
+<!-- This Month -->
 
-<label>Mobile Number</label>
+<div class="card month">
 
-<input
-type="tel"
-id="mobileNumber"
-maxlength="10"
-placeholder="Enter Mobile Number"
-required>
+<i class="fa-solid fa-calendar-days card-icon"></i>
 
-</div>
+<h2 id="monthWork">
 
-<div class="form-group">
+0
 
-<label>Aadhaar Number</label>
+</h2>
 
-<input
-type="text"
-id="aadhaarNumber"
-maxlength="12"
-placeholder="Enter Aadhaar Number"
-required>
-
-</div>
-
-<div class="form-group">
-
-<label>Ration Card Number</label>
-
-<input
-type="text"
-id="rationCardNumber"
-placeholder="Enter Ration Card Number">
-
-</div>
-
-<div class="form-group">
-
-<label>Select Service</label>
-
-<select id="serviceType" required>
-
-<option value="">Select Service</option>
-
-<option>New Ration Card</option>
-
-<option>Name Add</option>
-
-<option>Name Delete</option>
-
-<option>Name Correction</option>
-
-<option>Address Correction</option>
-
-<option>Mobile Number Update</option>
-
-<option>Duplicate Ration Card</option>
-
-<option>Ration Card Split</option>
-
-<option>Ration Card Surrender</option>
-
-<option>Other Service</option>
-
-</select>
-
-</div>
-
-<div class="form-group">
-
-<label>Village / City</label>
-
-<input
-type="text"
-id="village"
-placeholder="Enter Village / City">
-
-</div>
-
-<div class="form-group full-width">
-
-<label>Remarks</label>
-
-<textarea
-id="remarks"
-rows="4"
-placeholder="Enter Remarks (Optional)"></textarea>
-
-</div>
-
-<div class="form-group full-width">
-
-<label>Upload Documents (PDF / JPG / PNG)</label>
-
-<input
-type="file"
-id="documents"
-multiple
-accept=".pdf,.jpg,.jpeg,.png">
+<p>This Month</p>
 
 </div>
 
 </div>
-
-<div class="form-buttons">
-
-<button
-type="submit"
-class="submit-btn">
-
-<i class="fa-solid fa-paper-plane"></i>
-
-Submit Application
-
-</button>
-
-<button
-type="reset"
-class="reset-btn">
-
-<i class="fa-solid fa-rotate-left"></i>
-
-Reset
-
-</button>
-
-</div>
-
-</form>
 
 </section>
 
@@ -350,265 +271,329 @@ Reset
 
 <section id="history">
 
-<div class="section-header">
+    <div class="section-header">
 
-<h2>
+        <h2>Work History</h2>
 
-Work History
+        <div class="toolbar">
 
-</h2>
+            <input
+                type="text"
+                id="searchHistory"
+                placeholder="Search by Name / Mobile / Application ID">
 
-<div class="toolbar">
+            <select id="historyStatus">
+                <option value="">All Status</option>
+                <option value="Pending">Pending</option>
+                <option value="Approved">Approved</option>
+                <option value="Rejected">Rejected</option>
+            </select>
 
-<input
-type="text"
-id="searchHistory"
-placeholder="Search by Name / Mobile / Application ID">
+            <input type="date" id="historyFromDate">
+            <input type="date" id="historyToDate">
 
-<select id="historyStatus">
+            <button
+                class="refresh-btn"
+                onclick="loadHistory()">
 
-<option value="">All Status</option>
+                <i class="fa-solid fa-rotate"></i>
+                Refresh
 
-<option value="Pending">Pending</option>
+            </button>
 
-<option value="Approved">Approved</option>
+        </div>
 
-<option value="Rejected">Rejected</option>
+    </div>
 
-</select>
+    <div class="table-container">
 
-<input
-type="date"
-id="historyFromDate">
+        <table class="data-table">
 
-<input
-type="date"
-id="historyToDate">
+            <thead>
 
-<button
-class="refresh-btn"
-onclick="loadHistory()">
+                <tr>
 
-<i class="fa-solid fa-rotate"></i>
+                    <th>Application ID</th>
+                    <th>Applicant Name</th>
+                    <th>Mobile</th>
+                    <th>Service</th>
+                    <th>Status</th>
+                    <th>Date</th>
+                    <th>Action</th>
 
-Refresh
+                </tr>
 
-</button>
+            </thead>
 
-</div>
+            <tbody id="historyTable">
 
-</div>
+                <tr>
 
-<div class="table-container">
+                    <td colspan="7">
+                        No Records Found
+                    </td>
 
-<table class="data-table">
+                </tr>
 
-<thead>
+            </tbody>
 
-<tr>
+        </table>
 
-<th>Application ID</th>
-
-<th>Applicant Name</th>
-
-<th>Mobile</th>
-
-<th>Service</th>
-
-<th>Status</th>
-
-<th>Date</th>
-
-<th>Action</th>
-
-</tr>
-
-</thead>
-
-<tbody id="historyTable">
-
-<tr>
-
-<td colspan="7">
-
-No Records Found
-
-</td>
-
-</tr>
-
-</tbody>
-
-</table>
-
-</div>
+    </div>
 
 </section>
-
 <!-- ================= VIEW APPLICATION MODAL ================= -->
 
 <div id="viewModal" class="modal">
 
-<div class="modal-content">
+    <div class="modal-content">
 
-<div class="modal-header">
+        <div class="modal-header">
 
-<h2>
+            <h2>Application Details</h2>
 
-Application Details
+            <span class="close" onclick="closeViewModal()">
+                &times;
+            </span>
 
-</h2>
+        </div>
 
-<span class="close"
-onclick="closeViewModal()">
+        <div class="modal-body">
 
-&times;
+            <div id="applicationDetails">
 
-</span>
+                <table class="details-table">
+
+                    <tr>
+                        <th>Application ID</th>
+                        <td id="viewAppId">-</td>
+                    </tr>
+
+                    <tr>
+                        <th>Applicant Name</th>
+                        <td id="viewName">-</td>
+                    </tr>
+
+                    <tr>
+                        <th>Mobile Number</th>
+                        <td id="viewMobile">-</td>
+                    </tr>
+
+                    <tr>
+                        <th>Aadhaar Number</th>
+                        <td id="viewAadhaar">-</td>
+                    </tr>
+
+                    <tr>
+                        <th>Ration Card</th>
+                        <td id="viewRation">-</td>
+                    </tr>
+
+                    <tr>
+                        <th>Service</th>
+                        <td id="viewService">-</td>
+                    </tr>
+
+                    <tr>
+                        <th>Village</th>
+                        <td id="viewVillage">-</td>
+                    </tr>
+
+                    <tr>
+                        <th>Status</th>
+                        <td id="viewStatus">-</td>
+                    </tr>
+
+                    <tr>
+                        <th>Date</th>
+                        <td id="viewDate">-</td>
+                    </tr>
+
+                    <tr>
+                        <th>Remarks</th>
+                        <td id="viewRemarks">-</td>
+                    </tr>
+
+                    <tr>
+                        <th>Documents</th>
+                        <td id="viewDocuments">No Document</td>
+                    </tr>
+
+                </table>
+
+            </div>
+
+            <div class="modal-buttons">
+
+                <button
+                    class="print-btn"
+                    onclick="printApplication()">
+
+                    <i class="fa-solid fa-print"></i>
+                    Print Receipt
+
+                </button>
+
+                <button
+                    class="download-btn"
+                    onclick="downloadApplicationPDF()">
+
+                    <i class="fa-solid fa-file-pdf"></i>
+                    Download PDF
+
+                </button>
+
+                <button
+                    class="close-btn"
+                    onclick="closeViewModal()">
+
+                    <i class="fa-solid fa-xmark"></i>
+                    Close
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
 
 </div>
 
-<div class="modal-body">
-
-<div id="applicationDetails">
-
-Loading...
-
-</div>
-
-<br>
-
-<button
-class="print-btn"
-onclick="printApplication()">
-
-<i class="fa-solid fa-print"></i>
-
-Print Receipt
-
-</button>
-
-<button
-class="download-btn"
-onclick="downloadApplicationPDF()">
-
-<i class="fa-solid fa-file-pdf"></i>
-
-Download PDF
-
-</button>
-
-</div>
-
-</div>
-
-</div>
-<!-- ================= PROFILE ================= -->
+  <!-- ================= PROFILE ================= -->
 
 <section id="profile">
 
-<div class="section-header">
+    <div class="section-header">
 
-<h2>My Profile</h2>
+        <h2>My Profile</h2>
 
-</div>
+    </div>
 
-<div class="profile-card">
+    <div class="profile-card">
 
-<div class="profile-row">
+        <div class="profile-row">
 
-<label>Retailer Name</label>
+            <label>Retailer Name</label>
 
-<input type="text" id="profileName" readonly>
+            <input
+                type="text"
+                id="profileName"
+                readonly>
 
-</div>
+        </div>
 
-<div class="profile-row">
+        <div class="profile-row">
 
-<label>Retailer ID</label>
+            <label>Retailer ID</label>
 
-<input type="text" id="profileId" readonly>
+            <input
+                type="text"
+                id="profileId"
+                readonly>
 
-</div>
+        </div>
 
-<div class="profile-row">
+        <div class="profile-row">
 
-<label>Mobile Number</label>
+            <label>Mobile Number</label>
 
-<input type="text" id="profileMobile" readonly>
+            <input
+                type="text"
+                id="profileMobile"
+                readonly>
 
-</div>
+        </div>
 
-<div class="profile-row">
+        <div class="profile-row">
 
-<label>Username</label>
+            <label>Username</label>
 
-<input type="text" id="profileUsername" readonly>
+            <input
+                type="text"
+                id="profileUsername"
+                readonly>
 
-</div>
+        </div>
 
-<hr>
+        <div class="profile-row">
 
-<h3>Change Password</h3>
+            <label>Status</label>
 
-<div class="profile-row">
+            <input
+                type="text"
+                id="profileStatus"
+                readonly>
 
-<label>Current Password</label>
+        </div>
 
-<input type="password" id="oldPassword">
+        <hr>
 
-</div>
+        <h3>Change Password</h3>
 
-<div class="profile-row">
+        <div class="profile-row">
 
-<label>New Password</label>
+            <label>Current Password</label>
 
-<input type="password" id="newPassword">
+            <input
+                type="password"
+                id="oldPassword"
+                placeholder="Current Password">
 
-</div>
+        </div>
 
-<div class="profile-row">
+        <div class="profile-row">
 
-<label>Confirm Password</label>
+            <label>New Password</label>
 
-<input type="password" id="confirmPassword">
+            <input
+                type="password"
+                id="newPassword"
+                placeholder="New Password">
 
-</div>
+        </div>
 
-<button class="save-btn"
-onclick="changePassword()">
+        <div class="profile-row">
 
-<i class="fa-solid fa-key"></i>
+            <label>Confirm Password</label>
 
-Change Password
+            <input
+                type="password"
+                id="confirmPassword"
+                placeholder="Confirm Password">
 
-</button>
+        </div>
 
-</div>
+        <button
+            class="save-btn"
+            onclick="changePassword()">
+
+            <i class="fa-solid fa-key"></i>
+
+            Change Password
+
+        </button>
+
+    </div>
 
 </section>
-
 <!-- ================= SUCCESS POPUP ================= -->
 
 <div id="successPopup" class="popup">
 
-<div class="popup-content">
+    <div class="popup-content">
 
-<h2>✅ Success</h2>
+        <h2>✅ Success</h2>
 
-<p id="successMessage">
+        <p id="successMessage">
+            Operation Completed Successfully
+        </p>
 
-Operation Completed Successfully
+        <button onclick="closePopup()">
+            OK
+        </button>
 
-</p>
-
-<button onclick="closePopup()">
-
-OK
-
-</button>
-
-</div>
+    </div>
 
 </div>
 
@@ -616,23 +601,33 @@ OK
 
 <div id="errorPopup" class="popup">
 
-<div class="popup-content">
+    <div class="popup-content">
 
-<h2>❌ Error</h2>
+        <h2>❌ Error</h2>
 
-<p id="errorMessage">
+        <p id="errorMessage">
+            Something Went Wrong
+        </p>
 
-Something Went Wrong
+        <button onclick="closeErrorPopup()">
+            OK
+        </button>
 
-</p>
-
-<button onclick="closeErrorPopup()">
-
-OK
-
-</button>
+    </div>
 
 </div>
+
+<!-- ================= LOADER ================= -->
+
+<div id="loader" class="loader">
+
+    <div class="loader-box">
+
+        <i class="fa-solid fa-spinner fa-spin"></i>
+
+        <p>Please Wait...</p>
+
+    </div>
 
 </div>
 
@@ -640,24 +635,22 @@ OK
 
 <footer>
 
-<p>
+    <p>
+        © 2026 Rajkumar Ration Card Portal
+    </p>
 
-© 2026 Rajkumar Ration Card Portal
-
-</p>
-
-<p>
-
-Retailer Dashboard
-
-</p>
+    <p>
+        Retailer Dashboard
+    </p>
 
 </footer>
 
 </div>
+<!-- MAIN END -->
+
+<!-- ================= JAVASCRIPT ================= -->
 
 <script src="retailer.js"></script>
 
 </body>
-
 </html>
