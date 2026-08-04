@@ -4,10 +4,9 @@
 <head>
 
 <meta charset="UTF-8">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Admin Panel | Rajkumar Ration Card Portal</title>
+<title>Rajkumar Ration Card Portal | Admin Panel</title>
 
 <link rel="stylesheet" href="admin.css">
 
@@ -24,11 +23,13 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
 
 <body>
 
+<!-- ================= SIDEBAR ================= -->
+
 <div class="sidebar">
 
 <div class="logo">
 
-<img src="Logo.png" alt="Logo">
+<img src="logo.png" alt="Logo">
 
 <h2>Rajkumar Portal</h2>
 
@@ -39,75 +40,45 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
 <ul>
 
 <li class="active">
-
 <a href="#dashboard">
-
 <i class="fa-solid fa-chart-line"></i>
-
 Dashboard
-
 </a>
-
 </li>
 
 <li>
-
 <a href="#applications">
-
 <i class="fa-solid fa-file-lines"></i>
-
 Applications
-
 </a>
-
 </li>
 
 <li>
-
 <a href="#retailers">
-
 <i class="fa-solid fa-users"></i>
-
 Retailers
-
 </a>
-
 </li>
 
 <li>
-
 <a href="#reports">
-
 <i class="fa-solid fa-chart-column"></i>
-
 Reports
-
 </a>
-
 </li>
 
 <li>
-
 <a href="#settings">
-
 <i class="fa-solid fa-gear"></i>
-
 Settings
-
 </a>
-
 </li>
 
 <li>
-
 <a href="#" onclick="logout()">
-
 <i class="fa-solid fa-right-from-bracket"></i>
-
 Logout
-
 </a>
-
 </li>
 
 </ul>
@@ -118,101 +89,108 @@ Logout
 
 <div class="main">
 
+<!-- ================= TOPBAR ================= -->
+
 <div class="topbar">
 
-<h1>
-
-Admin Dashboard
-
-</h1>
+<h1>Admin Dashboard</h1>
 
 <div class="admin-profile">
 
 <i class="fa-solid fa-user-shield"></i>
 
 <span id="adminName">
-
 Administrator
-
 </span>
 
 </div>
 
 </div>
-
 <!-- ================= DASHBOARD ================= -->
 
 <section id="dashboard">
+
+<div class="section-header">
+
+<h2>Dashboard</h2>
+
+</div>
 
 <div class="cards">
 
 <div class="card total">
 
-<h2 id="totalCount">
+<i class="fa-solid fa-file-circle-check"></i>
 
-0
+<h2 id="totalCount">0</h2>
 
-</h2>
-
-<p>
-
-Total Applications
-
-</p>
+<p>Total Applications</p>
 
 </div>
 
 <div class="card pending">
 
-<h2 id="pendingCount">
+<i class="fa-solid fa-hourglass-half"></i>
 
-0
+<h2 id="pendingCount">0</h2>
 
-</h2>
-
-<p>
-
-Pending
-
-</p>
+<p>Pending</p>
 
 </div>
 
 <div class="card success">
 
-<h2 id="successCount">
+<i class="fa-solid fa-circle-check"></i>
 
-0
+<h2 id="successCount">0</h2>
 
-</h2>
-
-<p>
-
-Successful
-
-</p>
+<p>Approved</p>
 
 </div>
 
 <div class="card failed">
 
-<h2 id="failedCount">
+<i class="fa-solid fa-circle-xmark"></i>
 
-0
+<h2 id="failedCount">0</h2>
 
-</h2>
+<p>Rejected</p>
 
-<p>
+</div>
 
-Failed
+<div class="card today">
 
-</p>
+<i class="fa-solid fa-calendar-day"></i>
+
+<h2 id="todayCount">0</h2>
+
+<p>Today's Applications</p>
+
+</div>
+
+<div class="card month">
+
+<i class="fa-solid fa-calendar-days"></i>
+
+<h2 id="monthCount">0</h2>
+
+<p>This Month</p>
+
+</div>
+
+<div class="card retailer">
+
+<i class="fa-solid fa-users"></i>
+
+<h2 id="retailerCount">0</h2>
+
+<p>Total Retailers</p>
 
 </div>
 
 </div>
+
 </section>
-
 <!-- ================= APPLICATIONS ================= -->
 
 <section id="applications">
@@ -238,23 +216,15 @@ placeholder="Search by Name / Mobile / Application ID">
 
 <option value="Pending">Pending</option>
 
-<option value="Approved">Successful</option>
+<option value="Approved">Approved</option>
 
-<option value="Rejected">Failed</option>
+<option value="Rejected">Rejected</option>
 
 </select>
 
-<input
-type="date"
-id="fromDate">
-
-<input
-type="date"
-id="toDate">
-
 <button
 class="refresh-btn"
-onclick="loadApplications()">
+onclick="refreshApplications()">
 
 <i class="fa-solid fa-rotate"></i>
 
@@ -268,7 +238,7 @@ onclick="exportApplications()">
 
 <i class="fa-solid fa-file-export"></i>
 
-Export
+Export CSV
 
 </button>
 
@@ -284,7 +254,7 @@ Export
 
 <tr>
 
-<th>App ID</th>
+<th>Application ID</th>
 
 <th>Name</th>
 
@@ -323,17 +293,13 @@ No Applications Found
 </div>
 
 </section>
-<!-- ================= RETAILERS ================= -->
+<!-- ================= RETAILER MANAGEMENT ================= -->
 
 <section id="retailers">
 
 <div class="section-header">
 
-<h2>
-
-Retailer Management
-
-</h2>
+<h2>Retailer Management</h2>
 
 <button
 class="add-btn"
@@ -393,24 +359,17 @@ No Retailers Found
 
 </section>
 
-<!-- ================= ADD / EDIT RETAILER ================= -->
+<!-- ================= ADD / EDIT RETAILER MODAL ================= -->
 
-<div
-id="retailerModal"
-class="modal">
+<div id="retailerModal" class="modal">
 
 <div class="modal-content">
 
 <div class="modal-header">
 
-<h2>
+<h2>Add / Edit Retailer</h2>
 
-Retailer Details
-
-</h2>
-
-<span
-class="close"
+<span class="close"
 onclick="closeRetailerModal()">
 
 &times;
@@ -425,22 +384,14 @@ onclick="closeRetailerModal()">
 type="hidden"
 id="retailerId">
 
-<label>
-
-Retailer Name
-
-</label>
+<label>Retailer Name</label>
 
 <input
 type="text"
 id="retailerName"
 placeholder="Enter Retailer Name">
 
-<label>
-
-Mobile Number
-
-</label>
+<label>Mobile Number</label>
 
 <input
 type="text"
@@ -448,59 +399,53 @@ id="retailerMobile"
 maxlength="10"
 placeholder="Enter Mobile Number">
 
-<label>
-
-Username
-
-</label>
+<label>Username</label>
 
 <input
 type="text"
 id="retailerUsername"
 placeholder="Enter Username">
 
-<label>
-
-Password
-
-</label>
+<label>Password</label>
 
 <input
 type="password"
 id="retailerPassword"
 placeholder="Enter Password">
 
-<label>
-
-Status
-
-</label>
+<label>Status</label>
 
 <select id="retailerStatus">
 
-<option value="Active">
+<option value="Active">Active</option>
 
-Active
-
-</option>
-
-<option value="Inactive">
-
-Inactive
-
-</option>
+<option value="Inactive">Inactive</option>
 
 </select>
 
-<br><br>
+<div class="modal-buttons">
 
 <button
 class="save-btn"
 onclick="saveRetailer()">
 
-💾 Save Retailer
+<i class="fa-solid fa-floppy-disk"></i>
+
+Save Retailer
 
 </button>
+
+<button
+class="cancel-btn"
+onclick="closeRetailerModal()">
+
+<i class="fa-solid fa-xmark"></i>
+
+Cancel
+
+</button>
+
+</div>
 
 </div>
 
@@ -513,11 +458,7 @@ onclick="saveRetailer()">
 
 <div class="section-header">
 
-<h2>
-
-Reports
-
-</h2>
+<h2>Reports</h2>
 
 </div>
 
@@ -525,25 +466,43 @@ Reports
 
 <div class="card">
 
+<i class="fa-solid fa-calendar-day"></i>
+
 <h3>Today's Applications</h3>
 
-<h2 id="todayCount">0</h2>
+<h2 id="todayReport">0</h2>
 
 </div>
 
 <div class="card">
+
+<i class="fa-solid fa-calendar-days"></i>
 
 <h3>This Month</h3>
 
-<h2 id="monthCount">0</h2>
+<h2 id="monthReport">0</h2>
 
 </div>
 
 <div class="card">
 
+<i class="fa-solid fa-users"></i>
+
 <h3>Total Retailers</h3>
 
-<h2 id="retailerCount">0</h2>
+<h2 id="retailerReport">0</h2>
+
+</div>
+
+<div class="card">
+
+<i class="fa-solid fa-file-export"></i>
+
+<button class="export-btn" onclick="exportApplications()">
+
+Export CSV
+
+</button>
 
 </div>
 
@@ -557,31 +516,36 @@ Reports
 
 <div class="section-header">
 
-<h2>
-
-Settings
-
-</h2>
+<h2>Settings</h2>
 
 </div>
 
 <div class="settings-box">
 
-<button class="save-btn" onclick="changeAdminPassword()">
+<button class="save-btn"
+onclick="changeAdminPassword()">
 
-🔑 Change Admin Password
+<i class="fa-solid fa-key"></i>
 
-</button>
-
-<button class="save-btn" onclick="backupData()">
-
-💾 Backup Data
+Change Admin Password
 
 </button>
 
-<button class="save-btn" onclick="logout()">
+<button class="save-btn"
+onclick="backupData()">
 
-🚪 Logout
+<i class="fa-solid fa-download"></i>
+
+Backup Data
+
+</button>
+
+<button class="save-btn"
+onclick="logout()">
+
+<i class="fa-solid fa-right-from-bracket"></i>
+
+Logout
 
 </button>
 
@@ -595,7 +559,9 @@ Settings
 
 <div class="popup-content">
 
-<h2>✅ Success</h2>
+<i class="fa-solid fa-circle-check success-icon"></i>
+
+<h2>Success</h2>
 
 <p id="successMessage">
 
@@ -619,18 +585,19 @@ OK
 
 <div class="popup-content">
 
-<h2>⚠ Delete Confirmation</h2>
+<i class="fa-solid fa-triangle-exclamation warning-icon"></i>
+
+<h2>Delete Retailer</h2>
 
 <p>
 
-Are you sure you want to delete this Retailer?
+Are you sure you want to delete this retailer?
 
 </p>
 
 <div class="popup-buttons">
 
 <button class="cancel-btn"
-
 onclick="closeDeletePopup()">
 
 Cancel
@@ -638,7 +605,6 @@ Cancel
 </button>
 
 <button class="delete-btn"
-
 onclick="confirmDeleteRetailer()">
 
 Delete
@@ -650,29 +616,67 @@ Delete
 </div>
 
 </div>
+<!-- ================= SUCCESS POPUP ================= -->
+
+<div id="successPopup" class="popup">
+    <div class="popup-content">
+        <h2>✅ Success</h2>
+
+        <p id="successMessage">
+            Operation Completed Successfully
+        </p>
+
+        <button onclick="closePopup()">
+            OK
+        </button>
+    </div>
+</div>
+
+<!-- ================= DELETE POPUP ================= -->
+
+<div id="deletePopup" class="popup">
+    <div class="popup-content">
+
+        <h2>Delete Retailer</h2>
+
+        <p>
+            Are you sure you want to delete this retailer?
+        </p>
+
+        <div class="popup-buttons">
+
+            <button class="cancel-btn"
+                onclick="closeDeletePopup()">
+                Cancel
+            </button>
+
+            <button class="delete-btn"
+                onclick="confirmDeleteRetailer()">
+                Delete
+            </button>
+
+        </div>
+
+    </div>
+</div>
 
 <!-- ================= FOOTER ================= -->
 
-<footer>
+<footer class="footer">
 
-<p>
+    <p>
+        © 2026 Rajkumar Ration Card Portal
+    </p>
 
-© 2026 Rajkumar Ration Card Portal
-
-</p>
-
-<p>
-
-Admin Dashboard
-
-</p>
+    <p>
+        Admin Dashboard Version 2.0
+    </p>
 
 </footer>
 
+<!-- ================= JAVASCRIPT ================= -->
+
 <script src="admin.js"></script>
 
-</div>
-
 </body>
-
 </html>
