@@ -7,7 +7,7 @@
 // ---------- GOOGLE APPS SCRIPT URL ----------
 
 const SCRIPT_URL =
-"https://script.google.com/macros/s/AKfycbxsFtoh0oq7IyOgkApeMvu_knsJXFALyWwrlpiG9zsaBA54-ICYN-3jeAYGxX3YrJK-zA/exec";
+"https://script.google.com/macros/s/AKfycbwrar09bq4Q_O_oUHM6xFH28gNeg7W-1buG6YNgELUx_zu3ERivQaUIVZMWMwsaKPuGSA/exec";
 
 // ---------- GLOBAL VARIABLES ----------
 
