@@ -3,8 +3,7 @@
 // LOGIN.JS - PART 1
 // ==========================================
 
-const SCRIPT_URL =
-"https://script.google.com/macros/s/AKfycbwNrtXJTgotJP4pRGv3j2cfwI4RrJ5PM0j0Yk9LLSANoXxgv07n0zfbXshuCHOR-C3uBA/exec";
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxY-3pyd__jXe76CaK2IRf6aWgfVaim3TxeM0bnIF57P4yhPO4cEeSP8RqxK2IjO8PGRA/exec";
 
 // ================= SHOW / HIDE PASSWORD =================
 
