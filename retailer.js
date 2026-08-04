@@ -6,8 +6,7 @@
 
 // ---------- GOOGLE APPS SCRIPT URL ----------
 
-const SCRIPT_URL =
-"https://script.google.com/macros/s/AKfycbwrar09bq4Q_O_oUHM6xFH28gNeg7W-1buG6YNgELUx_zu3ERivQaUIVZMWMwsaKPuGSA/exec";
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxY-3pyd__jXe76CaK2IRf6aWgfVaim3TxeM0bnIF57P4yhPO4cEeSP8RqxK2IjO8PGRA/exec";
 
 // ---------- GLOBAL VARIABLES ----------
 
