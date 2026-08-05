@@ -123,3 +123,81 @@ window.addEventListener("load",()=>{
 
 
 });
+/* =====================================
+   APPLICATION PAGE SCRIPT
+===================================== */
+
+
+
+// ================= SERVICE NAME AUTO FILL =================
+
+
+let serviceInput = document.getElementById("service");
+
+
+if(serviceInput){
+
+
+    let urlParams = new URLSearchParams(
+        window.location.search
+    );
+
+
+    let serviceName = urlParams.get("service");
+
+
+    if(serviceName){
+
+        serviceInput.value = serviceName;
+
+    }
+
+
+}
+
+
+
+
+// ================= APPLICATION SUBMIT =================
+
+
+let applicationForm = document.getElementById("applicationForm");
+
+
+if(applicationForm){
+
+
+applicationForm.addEventListener("submit",function(e){
+
+
+    e.preventDefault();
+
+
+
+    let randomNumber = 
+    Math.floor(10000 + Math.random() * 90000);
+
+
+
+    let applicationNo =
+    "RC2026" + randomNumber;
+
+
+
+    alert(
+        "તમારી અરજી સફળતાપૂર્વક મોકલાઈ છે.\n\nApplication No: "
+        + applicationNo
+    );
+
+
+
+    // Future Google Sheet Save Here
+
+
+    applicationForm.reset();
+
+
+});
+
+
+}
