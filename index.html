@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="gu">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Rajkumar Ration Card Portal</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+</head>
+
+<body>
+
+<!-- ========================= -->
+<!-- HEADER START -->
+<!-- ========================= -->
+
+<header>
+
+    <div class="logo">
+
+        <img src="logo.png" alt="Logo">
+
+        <div>
+
+            <h2>Rajkumar Online Work</h2>
+
+            <p>Ration Card Portal</p>
+
+        </div>
+
+    </div>
+
+    <nav>
+
+        <ul>
+
+            <li><a href="#home">Home</a></li>
+
+            <li><a href="#services">Services</a></li>
+
+            <li><a href="#about">About</a></li>
+
+            <li><a href="#contact">Contact</a></li>
+
+        </ul>
+
+    </nav>
+
+</header>
+
+<!-- ========================= -->
+<!-- HEADER END -->
+<!-- ========================= -->
+
+
+
+<!-- ========================= -->
+<!-- HERO START -->
+<!-- ========================= -->
+
+<section id="home" class="hero">
+
+    <div class="slider">
+
+        <img src="banner.png" class="slide active">
+
+        <img src="slide2.png" class="slide">
+
+        <img src="slide3.png" class="slide">
+
+    </div>
+
+    <div class="hero-content">
+
+        <h1>
+
+            Rajkumar Online Work
+
+        </h1>
+
+        <h2>
+
+            Gujarat Ration Card Online Services
+
+        </h2>
+
+        <p>
+
+            Fast • Secure • Trusted
+
+        </p>
+
+        <a href="#services" class="btn">
+
+            Apply Now
+
+        </a>
+
+    </div>
+
+</section>
+
+<!-- ========================= -->
+<!-- HERO END -->
+<!-- ========================= -->
+
+
+
+<!-- ========================= -->
+<!-- SERVICES START -->
+<!-- ========================= -->
+
+<section id="services">
+
+    <div class="section-title">
+
+        <h2>
+
+            Ration Card Services
+
+        </h2>
+
+        <p>
+
+            નીચે આપેલી કોઈપણ સેવા માટે Apply કરો
+
+        </p>
+
+    </div>
+
+    <div class="service-container">
+        <!-- Service 1 -->
+        <div class="service-card">
+            <i class="fa-solid fa-id-card"></i>
+            <h3>નવું રેશન કાર્ડ</h3>
+            <p>નવા રેશન કાર્ડ માટે ઓનલાઈન અરજી કરો.</p>
+            <button class="apply-btn" onclick="openForm('નવું રેશન કાર્ડ')">
+                Apply Now
+            </button>
+        </div>
+
+        <!-- Service 2 -->
+        <div class="service-card">
+            <i class="fa-solid fa-user-plus"></i>
+            <h3>રેશન કાર્ડમાં નામ ઉમેરવું</h3>
+            <p>પરિવારના નવા સભ્યનું નામ ઉમેરવાની અરજી.</p>
+            <button class="apply-btn" onclick="openForm('રેશન કાર્ડમાં નામ ઉમેરવું')">
+                Apply Now
+            </button>
+        </div>
+
+        <!-- Service 3 -->
+        <div class="service-card">
+            <i class="fa-solid fa-user-minus"></i>
+            <h3>રેશન કાર્ડમાંથી નામ કાપવું</h3>
+            <p>પરિવારના સભ્યનું નામ દૂર કરવાની અરજી.</p>
+            <button class="apply-btn" onclick="openForm('રેશન કાર્ડમાંથી નામ કાપવું')">
+                Apply Now
+            </button>
+        </div>
+
+        <!-- Service 4 -->
+        <div class="service-card">
+            <i class="fa-solid fa-location-dot"></i>
+            <h3>સરનામું સુધારવું</h3>
+            <p>રેશન કાર્ડમાં સરનામું બદલવા માટે અરજી.</p>
+            <button class="apply-btn" onclick="openForm('સરનામું સુધારવું')">
+                Apply Now
+            </button>
+        </div>
+
+        <!-- Service 5 -->
+        <div class="service-card">
+            <i class="fa-solid fa-calendar-days"></i>
+            <h3>જન્મ તારીખ સુધારવી</h3>
+            <p>રેશન કાર્ડમાં જન્મ તારીખ સુધારવા માટે અરજી.</p>
+            <button class="apply-btn" onclick="openForm('જન્મ તારીખ સુધારવી')">
+                Apply Now
+            </button>
+        </div>
+
+        <!-- Service 6 -->
+        <div class="service-card">
+            <i class="fa-solid fa-mobile-screen-button"></i>
+            <h3>મોબાઇલ નંબર લિંક</h3>
+            <p>રેશન કાર્ડ સાથે મોબાઇલ નંબર જોડવાની સેવા.</p>
+            <button class="apply-btn" onclick="openForm('મોબાઇલ નંબર લિંક')">
+                Apply Now
+            </button>
+        </div>
+
+        <!-- Service 7 -->
+        <div class="service-card">
+            <i class="fa-solid fa-copy"></i>
+            <h3>ડુપ્લિકેટ રેશન કાર્ડ</h3>
+            <p>ખોવાયેલ અથવા ખરાબ થયેલ રેશન કાર્ડ માટે અરજી.</p>
+            <button class="apply-btn" onclick="openForm('ડુપ્લિકેટ રેશન કાર્ડ')">
+                Apply Now
+            </button>
+        </div>
+
+        <!-- Service 8 -->
+        <div class="service-card">
+            <i class="fa-solid fa-file-circle-plus"></i>
+            <h3>અન્ય રેશન કાર્ડ સેવા</h3>
+            <p>અન્ય કોઈપણ રેશન કાર્ડ સંબંધિત ઓનલાઈન સેવા.</p>
+            <button class="apply-btn" onclick="openForm('અન્ય રેશન કાર્ડ સેવા')">
+                Apply Now
+            </button>
+        </div>
+
+    </div>
+</section>
+<!-- SERVICES END -->
+<!-- ========================= -->
+<!-- ABOUT SECTION -->
+<!-- ========================= -->
+
+<section id="about" class="about">
+
+    <div class="section-title">
+        <h2>અમારા વિશે</h2>
+    </div>
+
+    <div class="about-box">
+
+        <h3>Rajkumar Online Work</h3>
+
+        <p>
+            અમે ગુજરાત રાજ્યની વિવિધ ઓનલાઈન સેવાઓ સરળ, ઝડપી અને વિશ્વસનીય રીતે
+            ઉપલબ્ધ કરાવીએ છીએ.
+        </p>
+
+        <p>
+            રેશન કાર્ડ સંબંધિત તમામ કામગીરી માટે અનુભવી સેવા.
+        </p>
+
+    </div>
+
+</section>
+
+<!-- ========================= -->
+<!-- WHY CHOOSE US -->
+<!-- ========================= -->
+
+<section class="why-us">
+
+    <div class="section-title">
+        <h2>અમારી સેવા શા માટે પસંદ કરશો?</h2>
+    </div>
+
+    <div class="why-container">
+
+        <div class="why-box">
+            <i class="fa-solid fa-user-check"></i>
+            <h3>1000+</h3>
+            <p>સફળ અરજીઓ</p>
+        </div>
+
+        <div class="why-box">
+            <i class="fa-solid fa-clock"></i>
+            <h3>ઝડપી સેવા</h3>
+            <p>Fast Processing</p>
+        </div>
+
+        <div class="why-box">
+            <i class="fa-solid fa-shield-halved"></i>
+            <h3>Secure</h3>
+            <p>તમારો ડેટા સુરક્ષિત</p>
+        </div>
+
+        <div class="why-box">
+            <i class="fa-solid fa-headset"></i>
+            <h3>Support</h3>
+            <p>WhatsApp Support</p>
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ========================= -->
+<!-- CONTACT -->
+<!-- ========================= -->
+
+<section id="contact" class="contact">
+
+    <div class="section-title">
+        <h2>સંપર્ક કરો</h2>
+    </div>
+
+    <div class="contact-box">
+
+        <p>
+            <i class="fa-solid fa-phone"></i>
+            +91 YOUR MOBILE NUMBER
+        </p>
+
+        <p>
+            <i class="fa-brands fa-whatsapp"></i>
+            WhatsApp ઉપલબ્ધ
+        </p>
+
+        <p>
+            <i class="fa-solid fa-location-dot"></i>
+            પાંચમહુડી, તા. શામળાજી, જી. અરવલ્લી
+        </p>
+
+    </div>
+
+</section>
+
+<!-- ========================= -->
+<!-- FOOTER -->
+<!-- ========================= -->
+
+<footer>
+
+    <p>
+
+        © 2026 Rajkumar Online Work
+
+    </p>
+
+    <p>
+
+        All Rights Reserved.
+
+    </p>
+
+</footer>
+
+<!-- ========================= -->
+<!-- APPLICATION FORM MODAL -->
+<!-- ========================= -->
+
+<div id="applicationModal" class="modal">
+
+    <div class="modal-content">
+
+        <span class="close" onclick="closeForm()">&times;</span>
+
+        <h2>રેશન કાર્ડ અરજી</h2>
+
+        <form id="applicationForm">
+
+            <input type="hidden" id="serviceName">
+
+            <label>અરજદારનું નામ (આધાર મુજબ)</label>
+            <input type="text" id="applicantName" required>
+
+            <label>સંબંધ</label>
+
+            <select id="relation" onchange="changeRelation()">
+
+                <option value="પિતાનું નામ">
+                    પિતાનું નામ
+                </option>
+
+                <option value="પતિનું નામ">
+                    પતિનું નામ
+                </option>
+
+            </select>
+
+            <label id="relationLabel">
+                પિતાનું નામ (આધાર મુજબ)
+            </label>
+
+            <input type="text" id="relationName" required>
+
+            <label>મોબાઇલ નંબર</label>
+            <input type="tel" required>
+
+            <label>આધાર નંબર</label>
+            <input type="text" maxlength="12" required>
+
+            <label>રેશન કાર્ડ નંબર</label>
+            <input type="text">
+
+            <label>ગામ</label>
+            <input type="text">
+
+            <label>તાલુકો</label>
+            <input type="text">
+
+            <label>જિલ્લો</label>
+            <input type="text">
+
+            <label>જરૂરી માહિતી</label>
+
+            <textarea rows="4"></textarea>
+
+            <hr>
+
+            <h3>દસ્તાવેજ અપલોડ (PDF)</h3>
+
+            <label>આધાર કાર્ડ (PDF)</label>
+            <input type="file" accept=".pdf">
+
+            <label>રેશન કાર્ડ (PDF)</label>
+            <input type="file" accept=".pdf">
+
+            <label>અન્ય દસ્તાવેજ (PDF)</label>
+            <input type="file" accept=".pdf">
+
+            <hr>
+
+            <h3>QR Payment</h3>
+
+            <img src="QR.jpeg" class="qr-image">
+
+            <label>Payment Screenshot</label>
+
+            <input type="file" accept="image/*">
+
+            <button type="submit">
+
+                અરજી સબમિટ કરો
+
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
