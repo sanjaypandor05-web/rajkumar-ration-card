@@ -1,6 +1,6 @@
 // =====================================
 // RAJKUMAR RATION CARD PORTAL
-// ADMIN LOGIN JS
+// LOGIN JS
 // =====================================
 
 
@@ -12,116 +12,90 @@ const SCRIPT_URL =
 function adminLogin(){
 
 
-    let username =
-    document.getElementById("username").value.trim();
+let username =
+document.getElementById("username").value.trim();
 
 
-    let password =
-    document.getElementById("password").value.trim();
-
-
-
-    if(username=="" || password==""){
-
-        alert("Username અને Password નાખો");
-
-        return;
-
-    }
+let password =
+document.getElementById("password").value.trim();
 
 
 
-    fetch(SCRIPT_URL,{
+if(username=="" || password==""){
 
-        method:"POST",
+alert("Username અને Password નાખો");
 
-        body:JSON.stringify({
-
-            action:"adminLogin",
-
-            username:username,
-
-            password:password
-
-        })
-
-    })
-
-
-    .then(res=>res.json())
-
-
-    .then(data=>{
-
-
-        if(data.status=="success"){
-
-
-            localStorage.setItem(
-                "adminLogin",
-                "true"
-            );
-
-
-            localStorage.setItem(
-                "adminName",
-                username
-            );
-
-
-            window.location.href="admin.html";
-
-
-        }
-
-        else{
-
-
-            alert(data.message);
-
-
-        }
-
-
-    })
-
-
-    .catch(error=>{
-
-
-        console.log(error);
-
-        alert(
-        "SERVER ERROR"
-        );
-
-
-    });
-
+return;
 
 }
 
 
 
+fetch(SCRIPT_URL,{
+
+method:"POST",
+
+body:JSON.stringify({
+
+action:"adminLogin",
+
+username:username,
+
+password:password
+
+})
+
+})
+
+.then(res=>res.json())
 
 
-function togglePassword(){
+.then(data=>{
 
 
-    let pass =
-    document.getElementById("password");
+if(data.status=="success"){
 
 
-    if(pass.type=="password"){
+localStorage.setItem(
+"adminLogin",
+"true"
+);
 
-        pass.type="text";
 
-    }
+localStorage.setItem(
+"adminName",
+data.name
+);
 
-    else{
 
-        pass.type="password";
+window.location.href="admin.html";
 
-    }
+
+}
+
+else{
+
+
+document.getElementById("msg").innerHTML =
+data.message;
+
+
+}
+
+
+})
+
+
+.catch(err=>{
+
+
+console.log(err);
+
+document.getElementById("msg").innerHTML =
+"Server Error";
+
+
+});
+
 
 }
