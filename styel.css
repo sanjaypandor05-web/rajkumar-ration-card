@@ -29,6 +29,31 @@ LOGO STYLE
     justify-content:center;
     gap:10px;
 }
+/* FORCE LOGO SIZE FIX */
+
+header .logo img,
+.logo img,
+header img{
+
+    width:80px !important;
+    height:80px !important;
+    max-width:80px !important;
+    max-height:80px !important;
+    object-fit:contain !important;
+
+}
+@media(max-width:768px){
+
+header .logo img,
+.logo img,
+header img{
+
+    width:60px !important;
+    height:60px !important;
+
+}
+
+}
 
 .logo img{
     width:90px;
