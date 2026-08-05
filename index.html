@@ -7,15 +7,15 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Rajkumar Ration Card Portal</title>
+<title>
+Rajkumar Ration Card Portal
+</title>
 
 
-<!-- CSS -->
 <link rel="stylesheet" href="style.css">
 
 
-<!-- Font Awesome -->
-<link rel="stylesheet" 
+<link rel="stylesheet"
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
 
@@ -25,9 +25,10 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
 <body>
 
 
-<!-- ================= HEADER ================= -->
+<!-- HEADER -->
 
 <header>
+
 
 <div class="logo">
 
@@ -38,17 +39,21 @@ Rajkumar Ration Card
 </div>
 
 
-<nav>
+
+<nav id="nav">
 
 <a href="#home">Home</a>
 
 <a href="#services">Services</a>
+
+<a href="#apply">Apply</a>
 
 <a href="#status">Status</a>
 
 <a href="#contact">Contact</a>
 
 </nav>
+
 
 
 <div class="menu">
@@ -63,52 +68,46 @@ Rajkumar Ration Card
 
 
 
-<!-- ================= HERO ================= -->
+
+<!-- HERO -->
 
 
 <section class="hero" id="home">
 
 
-<div class="hero-text">
+<div class="hero-content">
 
 
 <h1>
+
 ગુજરાત રેશન કાર્ડ ઓનલાઈન સેવા
+
 </h1>
 
 
 <h2>
+
 Rajkumar Online Work
+
 </h2>
 
 
 <p>
 
-નવું રેશન કાર્ડ • નામ ઉમેરવું • નામ કાપવું •
-સરનામું સુધારવું • મોબાઇલ લિંક • ડુપ્લિકેટ કાર્ડ
+નવું રેશન કાર્ડ | નામ ઉમેરવું | નામ કાપવું |
+સરનામું સુધારવું | પતિના નામ સાથે સુધારો
 
 </p>
 
 
-<div class="buttons">
 
-
-<a href="#services" class="btn">
+<a href="#apply" class="btn">
 
 અરજી કરો
 
 </a>
 
 
-<a href="#status" class="btn second">
-
-સ્ટેટસ તપાસો
-
-</a>
-
-
-</div>
-
 
 </div>
 
@@ -119,68 +118,17 @@ Rajkumar Online Work
 
 
 
-<!-- ================= COUNTER ================= -->
-
-
-<section class="counter">
-
-
-<div>
-
-<h2>5000+</h2>
-
-<p>ગ્રાહકો</p>
-
-</div>
-
-
-
-<div>
-
-<h2>8+</h2>
-
-<p>સેવાઓ</p>
-
-</div>
-
-
-
-<div>
-
-<h2>100%</h2>
-
-<p>વિશ્વાસ</p>
-
-</div>
-
-
-
-<div>
-
-<h2>24×7</h2>
-
-<p>સપોર્ટ</p>
-
-</div>
-
-
-</section>
-
-
-
-
-
-
-<!-- ================= SERVICES ================= -->
+<!-- SERVICE TITLE -->
 
 
 <section id="services">
 
 
 <h2 class="title">
-અમારી રેશન કાર્ડ સેવાઓ
-</h2>
 
+રેશન કાર્ડ સેવાઓ
+
+</h2>
 
 
 <div class="service-box">
@@ -188,14 +136,14 @@ Rajkumar Online Work
 
 <div class="card">
 
-<i class="fa-solid fa-plus"></i>
+<i class="fa fa-plus"></i>
 
 <h3>
 નવું રેશન કાર્ડ
 </h3>
 
 <p>
-નવા પરિવાર માટે અરજી
+નવી અરજી
 </p>
 
 </div>
@@ -204,48 +152,46 @@ Rajkumar Online Work
 
 <div class="card">
 
-<i class="fa-solid fa-user-plus"></i>
+<i class="fa fa-user-plus"></i>
 
 <h3>
 નામ ઉમેરવું
 </h3>
 
 <p>
-પરિવારના સભ્યનું નામ ઉમેરો
+સભ્ય ઉમેરો
 </p>
 
 </div>
 
 
 
-
 <div class="card">
 
-<i class="fa-solid fa-user-minus"></i>
+<i class="fa fa-user-minus"></i>
 
 <h3>
 નામ કાપવું
 </h3>
 
 <p>
-સભ્યનું નામ દૂર કરવું
+સભ્ય દૂર કરો
 </p>
 
 </div>
 
 
 
-
 <div class="card">
 
-<i class="fa-solid fa-location-dot"></i>
+<i class="fa fa-heart"></i>
 
 <h3>
-સરનામું સુધારવું
+પતિના નામ સાથે સુધારો
 </h3>
 
 <p>
-સરનામામાં ફેરફાર
+Aadhaar મુજબ update
 </p>
 
 </div>
@@ -255,7 +201,191 @@ Rajkumar Online Work
 
 
 </section>
+<!-- ================= APPLICATION FORM ================= -->
 
+
+<section id="apply" class="apply">
+
+
+<h2 class="title">
+રેશન કાર્ડ અરજી ફોર્મ
+</h2>
+
+
+
+<div class="form-box">
+
+
+<form id="rationForm"
+enctype="multipart/form-data">
+
+
+
+<label>
+અરજદારનું નામ
+</label>
+
+<input type="text"
+id="name"
+placeholder="પૂરું નામ લખો"
+required>
+
+
+
+
+<label>
+મોબાઇલ નંબર
+</label>
+
+<input type="tel"
+id="mobile"
+placeholder="મોબાઇલ નંબર"
+maxlength="10"
+required>
+
+
+
+
+<label>
+આધાર નંબર
+</label>
+
+<input type="text"
+id="aadhaar"
+placeholder="12 અંકનો આધાર નંબર"
+maxlength="12">
+
+
+
+
+<label>
+રેશન કાર્ડ નંબર
+</label>
+
+<input type="text"
+id="ration"
+placeholder="રેશન કાર્ડ નંબર">
+
+
+
+
+<label>
+સેવા પસંદ કરો
+</label>
+
+
+<select id="service"
+required>
+
+
+<option value="">
+-- સેવા પસંદ કરો --
+</option>
+
+
+<option>
+નવું રેશન કાર્ડ
+</option>
+
+
+<option>
+નામ ઉમેરવું
+</option>
+
+
+<option>
+નામ કાપવું
+</option>
+
+
+<option>
+સરનામું સુધારવું
+</option>
+
+
+<option value="husband">
+
+પતિના નામ સાથે સુધારો
+
+</option>
+
+
+
+</select>
+
+
+
+
+
+
+<!-- HUSBAND NAME -->
+
+
+<div id="husbandBox"
+style="display:none;">
+
+
+<label>
+આધાર મુજબ પતિનું નામ
+</label>
+
+
+<input type="text"
+id="husbandName"
+placeholder="પતિનું પૂરું નામ">
+
+
+
+</div>
+
+
+
+
+
+
+<label>
+દસ્તાવેજ અપલોડ કરો
+</label>
+
+
+<input type="file"
+id="document"
+accept=".jpg,.jpeg,.png,.pdf">
+
+
+
+
+
+
+<label>
+અન્ય માહિતી
+</label>
+
+
+<textarea id="remark"
+placeholder="વધુ માહિતી લખો"></textarea>
+
+
+
+
+
+<button type="submit"
+class="submit-btn">
+
+અરજી મોકલો
+
+</button>
+
+
+
+
+</form>
+
+
+</div>
+
+
+</section>
 
 
 
@@ -264,7 +394,8 @@ Rajkumar Online Work
 <!-- ================= STATUS ================= -->
 
 
-<section id="status" class="status">
+<section id="status"
+class="status">
 
 
 <h2>
@@ -272,17 +403,19 @@ Rajkumar Online Work
 </h2>
 
 
-<input type="text" placeholder="મોબાઇલ નંબર દાખલ કરો">
+<input type="text"
+id="searchMobile"
+placeholder="મોબાઇલ નંબર">
 
 
 <button>
+
 Search
+
 </button>
 
 
 </section>
-
-
 
 
 
@@ -295,7 +428,9 @@ Search
 
 
 <h2 class="title">
+
 સંપર્ક કરો
+
 </h2>
 
 
@@ -311,16 +446,11 @@ Search
 
 
 
+<footer>
 
+© Rajkumar Ration Card Portal
 
-<!-- WhatsApp -->
-
-<a class="whatsapp" href="#">
-
-<i class="fa-brands fa-whatsapp"></i>
-
-</a>
-
+</footer>
 
 
 
