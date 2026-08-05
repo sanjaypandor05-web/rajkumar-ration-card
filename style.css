@@ -1,0 +1,577 @@
+/* ==========================================
+   RAJKUMAR RATION CARD PORTAL
+   STYLE.CSS - PART 1
+========================================== */
+
+/* ---------- GOOGLE FONT ---------- */
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+
+/* ---------- RESET ---------- */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+    scroll-behavior:smooth;
+}
+
+body{
+    background:#f5f7fb;
+    color:#222;
+    overflow-x:hidden;
+}
+
+/* ---------- LINKS ---------- */
+
+a{
+    text-decoration:none;
+    color:inherit;
+}
+
+ul{
+    list-style:none;
+}
+
+img{
+    max-width:100%;
+    display:block;
+}
+
+/* ---------- HEADER ---------- */
+
+header{
+    width:100%;
+    position:fixed;
+    top:0;
+    left:0;
+    background:#ffffff;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:15px 8%;
+    box-shadow:0 3px 15px rgba(0,0,0,.08);
+    z-index:999;
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.logo img{
+    width:60px;
+    height:60px;
+    border-radius:50%;
+}
+
+.logo h2{
+    font-size:24px;
+    color:#0d47a1;
+    font-weight:700;
+}
+
+.logo p{
+    font-size:13px;
+    color:#666;
+}
+
+/* ---------- NAVIGATION ---------- */
+
+nav ul{
+    display:flex;
+    gap:30px;
+}
+
+nav ul li a{
+    font-size:16px;
+    font-weight:600;
+    color:#222;
+    transition:.3s;
+}
+
+nav ul li a:hover{
+    color:#1565c0;
+}
+
+/* ---------- HERO ---------- */
+
+.hero{
+    margin-top:90px;
+    position:relative;
+    height:90vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    overflow:hidden;
+}
+
+.slider{
+    position:absolute;
+    width:100%;
+    height:100%;
+}
+
+.slide{
+    position:absolute;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    opacity:0;
+    transition:opacity 1s ease;
+}
+
+.slide.active{
+    opacity:1;
+}
+
+.hero::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:rgba(0,0,0,.45);
+    z-index:1;
+}
+
+.hero-content{
+    position:relative;
+    z-index:2;
+    text-align:center;
+    color:#fff;
+    padding:20px;
+}
+
+.hero-content h1{
+    font-size:52px;
+    font-weight:800;
+    margin-bottom:15px;
+}
+
+.hero-content h2{
+    font-size:30px;
+    font-weight:600;
+    margin-bottom:15px;
+}
+
+.hero-content p{
+    font-size:18px;
+    margin-bottom:35px;
+}
+
+/* ---------- BUTTON ---------- */
+
+.btn{
+    display:inline-block;
+    padding:15px 40px;
+    background:#ff9800;
+    color:#fff;
+    border-radius:50px;
+    font-size:18px;
+    font-weight:600;
+    transition:.3s;
+}
+
+.btn:hover{
+    background:#fb8c00;
+    transform:translateY(-3px);
+}
+
+/* ---------- COMMON SECTION ---------- */
+
+section{
+    padding:80px 8%;
+}
+
+.section-title{
+    text-align:center;
+    margin-bottom:50px;
+}
+
+.section-title h2{
+    font-size:38px;
+    color:#0d47a1;
+    margin-bottom:10px;
+}
+
+.section-title p{
+    color:#666;
+    font-size:17px;
+}
+/* ==========================================
+   STYLE.CSS - PART 2
+   SERVICES | ABOUT | WHY US | CONTACT | FOOTER
+========================================== */
+
+/* ---------- SERVICES ---------- */
+
+.service-container{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+    gap:30px;
+}
+
+.service-card{
+    background:#fff;
+    border-radius:18px;
+    padding:30px 25px;
+    text-align:center;
+    box-shadow:0 8px 25px rgba(0,0,0,.08);
+    transition:.35s;
+}
+
+.service-card:hover{
+    transform:translateY(-10px);
+    box-shadow:0 15px 35px rgba(0,0,0,.15);
+}
+
+.service-card i{
+    font-size:55px;
+    color:#1565c0;
+    margin-bottom:20px;
+}
+
+.service-card h3{
+    font-size:22px;
+    color:#0d47a1;
+    margin-bottom:15px;
+}
+
+.service-card p{
+    color:#666;
+    line-height:1.7;
+    margin-bottom:25px;
+}
+
+.apply-btn{
+    width:100%;
+    padding:14px;
+    border:none;
+    border-radius:10px;
+    background:#0d6efd;
+    color:#fff;
+    font-size:17px;
+    font-weight:600;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.apply-btn:hover{
+    background:#084298;
+}
+
+/* ---------- ABOUT ---------- */
+
+.about-box{
+    max-width:900px;
+    margin:auto;
+    background:#fff;
+    padding:40px;
+    border-radius:20px;
+    box-shadow:0 8px 20px rgba(0,0,0,.08);
+    text-align:center;
+}
+
+.about-box h3{
+    color:#0d47a1;
+    font-size:30px;
+    margin-bottom:20px;
+}
+
+.about-box p{
+    color:#555;
+    line-height:1.9;
+    font-size:17px;
+    margin-bottom:15px;
+}
+
+/* ---------- WHY US ---------- */
+
+.why-container{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:25px;
+}
+
+.why-box{
+    background:#fff;
+    padding:35px 20px;
+    text-align:center;
+    border-radius:18px;
+    box-shadow:0 8px 20px rgba(0,0,0,.08);
+    transition:.3s;
+}
+
+.why-box:hover{
+    transform:translateY(-8px);
+}
+
+.why-box i{
+    font-size:48px;
+    color:#ff9800;
+    margin-bottom:15px;
+}
+
+.why-box h3{
+    color:#0d47a1;
+    font-size:28px;
+    margin-bottom:10px;
+}
+
+.why-box p{
+    color:#666;
+}
+
+/* ---------- CONTACT ---------- */
+
+.contact-box{
+    max-width:650px;
+    margin:auto;
+    background:#fff;
+    padding:35px;
+    border-radius:20px;
+    box-shadow:0 8px 20px rgba(0,0,0,.08);
+}
+
+.contact-box p{
+    font-size:18px;
+    margin:18px 0;
+    color:#333;
+}
+
+.contact-box i{
+    color:#0d6efd;
+    width:35px;
+    font-size:22px;
+}
+
+/* ---------- FOOTER ---------- */
+
+footer{
+    background:#0d47a1;
+    color:#fff;
+    text-align:center;
+    padding:25px;
+    margin-top:60px;
+}
+
+footer p{
+    margin:8px 0;
+    font-size:15px;
+}
+/* ==========================================
+   STYLE.CSS - PART 3
+   FORM MODAL | RESPONSIVE
+========================================== */
+
+/* ---------- MODAL ---------- */
+
+.modal{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.65);
+    z-index:9999;
+    overflow:auto;
+    padding:30px 15px;
+}
+
+.modal-content{
+    width:100%;
+    max-width:800px;
+    margin:30px auto;
+    background:#fff;
+    border-radius:18px;
+    padding:30px;
+    position:relative;
+    animation:popup .3s ease;
+}
+
+@keyframes popup{
+    from{
+        opacity:0;
+        transform:scale(.9);
+    }
+    to{
+        opacity:1;
+        transform:scale(1);
+    }
+}
+
+.close{
+    position:absolute;
+    top:15px;
+    right:20px;
+    font-size:35px;
+    cursor:pointer;
+    color:#f44336;
+}
+
+.modal-content h2,
+.modal-content h3{
+    color:#0d47a1;
+    margin-bottom:20px;
+}
+
+/* ---------- FORM ---------- */
+
+form{
+    display:flex;
+    flex-direction:column;
+}
+
+form label{
+    font-weight:600;
+    margin-top:15px;
+    margin-bottom:8px;
+    color:#333;
+}
+
+form input,
+form select,
+form textarea{
+    width:100%;
+    padding:14px;
+    border:1px solid #ccc;
+    border-radius:10px;
+    font-size:16px;
+    outline:none;
+    transition:.3s;
+}
+
+form input:focus,
+form select:focus,
+form textarea:focus{
+    border-color:#0d6efd;
+    box-shadow:0 0 8px rgba(13,110,253,.25);
+}
+
+textarea{
+    resize:vertical;
+    min-height:120px;
+}
+
+input[type=file]{
+    padding:12px;
+    background:#f8f9fa;
+}
+
+hr{
+    margin:30px 0;
+    border:none;
+    border-top:1px solid #ddd;
+}
+
+/* ---------- QR ---------- */
+
+.qr-image{
+    width:220px;
+    display:block;
+    margin:20px auto;
+    border:4px solid #0d6efd;
+    border-radius:15px;
+}
+
+/* ---------- SUBMIT BUTTON ---------- */
+
+form button{
+    margin-top:25px;
+    padding:16px;
+    border:none;
+    background:#198754;
+    color:#fff;
+    font-size:18px;
+    font-weight:700;
+    border-radius:12px;
+    cursor:pointer;
+    transition:.3s;
+}
+
+form button:hover{
+    background:#157347;
+}
+
+/* ---------- MOBILE ---------- */
+
+@media(max-width:768px){
+
+header{
+    flex-direction:column;
+    padding:15px;
+}
+
+nav ul{
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:15px;
+    margin-top:15px;
+}
+
+.hero{
+    height:70vh;
+}
+
+.hero-content h1{
+    font-size:34px;
+}
+
+.hero-content h2{
+    font-size:22px;
+}
+
+.hero-content p{
+    font-size:16px;
+}
+
+.section-title h2{
+    font-size:30px;
+}
+
+.about-box,
+.contact-box,
+.modal-content{
+    padding:20px;
+}
+
+.logo h2{
+    font-size:20px;
+}
+
+.logo img{
+    width:50px;
+    height:50px;
+}
+
+.qr-image{
+    width:180px;
+}
+
+}
+
+@media(max-width:480px){
+
+.hero-content h1{
+    font-size:28px;
+}
+
+.hero-content h2{
+    font-size:18px;
+}
+
+.btn{
+    width:100%;
+    text-align:center;
+}
+
+.apply-btn{
+    font-size:15px;
+}
+
+form input,
+form select,
+form textarea{
+    font-size:15px;
+}
+
+}
