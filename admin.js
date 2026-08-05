@@ -939,3 +939,80 @@ function openWhatsApp(mobile,name){
 
 
 }
+// ==========================================
+// PART - 6
+// INITIAL LOAD & AUTO REFRESH
+// ==========================================
+
+
+
+// ================= PAGE LOAD =================
+
+
+document.addEventListener(
+"DOMContentLoaded",
+function(){
+
+
+    checkLogin();
+
+
+    loadDashboard();
+
+
+    loadApplications();
+
+
+
+    // Show Admin Name
+
+    const name =
+    localStorage.getItem(
+    "adminName"
+    );
+
+
+    if(
+    document.getElementById("adminName")
+    ){
+
+        document.getElementById("adminName")
+        .innerHTML =
+        name || "Admin";
+
+    }
+
+
+
+});
+
+
+
+
+
+
+// ================= AUTO REFRESH =================
+
+
+setInterval(function(){
+
+
+    const login =
+    localStorage.getItem(
+    "adminLogin"
+    );
+
+
+    if(login=="true"){
+
+
+        loadDashboard();
+
+
+        loadApplications();
+
+
+    }
+
+
+},30000);
