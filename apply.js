@@ -1,22 +1,23 @@
 // ===================================
 // RAJKUMAR RATION CARD PORTAL
-// UPDATED APPLY JS
+// FINAL APPLY JS
 // ===================================
 
 
 const SCRIPT_URL =
-"https://script.google.com/macros/s/AKfycbzrnTNRCOJswqpFE-xCmmiGA869uWxcmlqEO6SjF3D5PQeboPOBwDVbqYTgYv-4N0AWEA/exec";
+"https://script.google.com/macros/s/AKfycbxQ6XJzA_q0PcxtARS7AzLI4lI3bKGWdo9h5UWfBvHh0vzWMCVLeIYVDNljb2DMRYIUpA/exec";
 
 
 
 
-// FILE TO BASE64
+// ================= FILE TO BASE64 =================
 
 function fileToBase64(file){
 
 return new Promise((resolve,reject)=>{
 
 const reader = new FileReader();
+
 
 reader.onload=()=>{
 
@@ -52,7 +53,8 @@ reader.readAsDataURL(file);
 
 
 
-// SEND APPLICATION
+
+// ================= SEND APPLICATION =================
 
 
 async function sendApplication(){
@@ -66,30 +68,24 @@ let name =
 document.getElementById("name").value.trim();
 
 
-
 let mobile =
 document.getElementById("mobile").value.trim();
-
 
 
 let village =
 document.getElementById("village").value.trim();
 
 
-
 let taluka =
 document.getElementById("taluka").value.trim();
-
 
 
 let district =
 document.getElementById("district").value.trim();
 
 
-
-let rationNo =
+let rationCard =
 document.getElementById("rationNo").value.trim();
-
 
 
 let service =
@@ -97,22 +93,28 @@ document.getElementById("service").value;
 
 
 
-// NAME TYPE
 
-let nameType =
+
+let checked =
 document.querySelector(
 'input[name="nameType"]:checked'
-).value;
+);
 
 
 
-let husband="";
+let nameType =
+checked ? checked.value : "Self";
+
+
+
+let husbandName="";
+
 
 
 if(nameType=="Husband"){
 
 
-husband =
+husbandName =
 document.getElementById("husband").value.trim();
 
 
@@ -121,21 +123,18 @@ document.getElementById("husband").value.trim();
 
 
 
-// FINAL NAME
-
-
 let finalName=name;
 
 
-if(nameType=="Husband" && husband!=""){
+
+if(nameType=="Husband" && husbandName!=""){
 
 
 finalName =
-name+" W/O "+husband;
+name+" W/O "+husbandName;
 
 
 }
-
 
 
 
@@ -145,15 +144,12 @@ let aadhaar =
 document.getElementById("aadhaar").files[0];
 
 
-
 let ration =
 document.getElementById("ration").files[0];
 
 
-
 let payment =
 document.getElementById("payment").files[0];
-
 
 
 
@@ -177,7 +173,6 @@ msg.innerHTML=
 
 msg.style.color="red";
 
-
 return;
 
 
@@ -186,17 +181,13 @@ return;
 
 
 
+
 msg.innerHTML=
 "⏳ અરજી મોકલાઈ રહી છે...";
-
 
 msg.style.color="blue";
 
 
-
-
-
-try{
 
 
 
@@ -212,7 +203,7 @@ finalName:finalName,
 nameType:nameType,
 
 
-husband:husband,
+husbandName:husbandName,
 
 
 mobile:mobile,
@@ -227,10 +218,11 @@ taluka:taluka,
 district:district,
 
 
-rationNo:rationNo,
+rationCard:rationCard,
 
 
 service:service
+
 
 
 };
@@ -238,9 +230,6 @@ service:service
 
 
 
-
-
-// FILE UPLOAD
 
 
 if(aadhaar){
@@ -280,12 +269,15 @@ method:"POST",
 
 body:JSON.stringify(data)
 
+
 })
+
 
 .then(res=>res.json())
 
 
 .then(result=>{
+
 
 
 if(result.status=="success"){
@@ -295,12 +287,15 @@ if(result.status=="success"){
 msg.innerHTML=
 
 "✅ અરજી સફળતાપૂર્વક મોકલાઈ<br><br>"+
+
 "Application ID : <b>"+
 result.id+
 "</b><br><br>"+
+
 "Final Name : <b>"+
 finalName+
 "</b><br><br>"+
+
 "Status : Pending";
 
 
@@ -309,36 +304,11 @@ msg.style.color="green";
 
 
 
-
-// CLEAR FORM
-
-
 document.querySelector("form")?.reset();
 
 
-document.getElementById("name").value="";
-
-document.getElementById("mobile").value="";
-
-document.getElementById("village").value="";
-
-document.getElementById("taluka").value="";
-
-document.getElementById("district").value="";
-
-document.getElementById("rationNo").value="";
-
-document.getElementById("service").value="";
-
-document.getElementById("aadhaar").value="";
-
-document.getElementById("ration").value="";
-
-document.getElementById("payment").value="";
-
-
-
 }
+
 
 
 else{
@@ -355,12 +325,9 @@ msg.style.color="red";
 
 
 
-});
+})
 
-
-}
-
-catch(error){
+.catch(error=>{
 
 
 msg.innerHTML=
@@ -373,7 +340,7 @@ msg.style.color="red";
 console.log(error);
 
 
-}
+});
 
 
 
