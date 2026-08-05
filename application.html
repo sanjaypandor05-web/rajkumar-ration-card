@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="gu">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Apply Ration Card Service</title>
+
+<link rel="stylesheet" href="style.css">
+
+</head>
+
+
+<body>
+
+
+
+<header>
+
+
+<div class="logo">
+
+<img src="logo.png">
+
+<h2>
+Rajkumar Ration Card Portal
+</h2>
+
+</div>
+
+
+<nav>
+
+<a href="index.html">
+Home
+</a>
+
+<a href="services.html">
+Services
+</a>
+
+<a href="track.html">
+Track
+</a>
+
+
+</nav>
+
+
+</header>
+
+
+
+
+
+<section class="page-title">
+
+<h1>
+રેશન કાર્ડ અરજી ફોર્મ
+</h1>
+
+<p>
+તમારી સાચી માહિતી ભરો અને ડોક્યુમેન્ટ અપલોડ કરો.
+</p>
+
+
+</section>
+
+
+
+
+
+
+<section class="application-box">
+
+
+<form id="applicationForm">
+
+
+
+<label>
+પસંદ કરેલી સેવા
+</label>
+
+
+<input type="text"
+id="service"
+readonly>
+
+
+
+
+<label>
+પૂર્ણ નામ
+</label>
+
+
+<input type="text"
+id="name"
+placeholder="નામ લખો"
+required>
+
+
+
+
+
+<label>
+નામનો પ્રકાર
+</label>
+
+
+<div class="radio-box">
+
+
+<label>
+
+<input type="radio"
+name="nameType"
+value="Aadhar Name"
+checked>
+
+આધાર કાર્ડ મુજબ નામ
+
+</label>
+
+
+
+<label>
+
+<input type="radio"
+name="nameType"
+value="Husband Name">
+
+પતિના નામ સાથે નામ
+
+</label>
+
+
+</div>
+
+
+
+
+
+
+
+<label>
+મોબાઇલ નંબર
+</label>
+
+
+<input type="tel"
+id="mobile"
+placeholder="મોબાઇલ નંબર"
+required>
+
+
+
+
+
+
+
+<label>
+ગામ
+</label>
+
+
+<input type="text"
+id="village"
+placeholder="ગામ">
+
+
+
+
+
+<label>
+તાલુકો
+</label>
+
+
+<input type="text"
+id="taluka"
+placeholder="તાલુકો">
+
+
+
+
+
+
+<label>
+જિલ્લો
+</label>
+
+
+<input type="text"
+id="district"
+placeholder="જિલ્લો">
+
+
+
+
+
+
+<label>
+રેશન કાર્ડ નંબર
+</label>
+
+
+<input type="text"
+id="ration"
+placeholder="રેશન કાર્ડ નંબર">
+
+
+
+
+
+
+<label>
+આધાર કાર્ડ PDF
+</label>
+
+
+<input type="file"
+accept=".pdf"
+required>
+
+
+
+
+
+
+
+<label>
+રેશન કાર્ડ PDF
+</label>
+
+
+<input type="file"
+accept=".pdf">
+
+
+
+
+
+
+<!-- PAYMENT -->
+
+
+<div class="payment-box">
+
+
+<h2>
+Payment કરો
+</h2>
+
+
+<img src="qr.png"
+alt="Payment QR Code">
+
+
+
+<p>
+QR Code Scan કરીને Payment કરો.
+</p>
+
+
+
+<label>
+Payment Screenshot Upload
+</label>
+
+
+<input type="file"
+accept="image/*"
+required>
+
+
+
+</div>
+
+
+
+
+
+
+<button type="submit"
+class="main-btn">
+
+Submit Application
+
+</button>
+
+
+
+</form>
+
+
+</section>
+
+
+
+
+
+
+<footer>
+
+<p>
+© 2026 Rajkumar Ration Card Portal
+</p>
+
+<p>
+📞 9876543210 | 9429193125
+</p>
+
+
+</footer>
+
+
+
+
+
+<script src="script.js"></script>
+
+
+</body>
+
+</html>

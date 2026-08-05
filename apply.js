@@ -6,7 +6,7 @@
 
 
 // Google Apps Script Web App URL
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwWTMxjc5NncEl_XAjWYXOH_p3i5c6p86Ot878IDs8PwcdpSOZRWgRyp8NJhVQxNaygFA/exec";
+const SCRIPT_URL = "YOUR_APPS_SCRIPT_URL";
 
 
 
