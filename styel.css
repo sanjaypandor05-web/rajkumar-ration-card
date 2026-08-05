@@ -1,773 +1,352 @@
-/* ==========================================
-   RAJKUMAR ONLINE WORK
-   STYLE.CSS - PART 1
-========================================== */
+/* =====================================
+RAJKUMAR RATION CARD PORTAL
+STYLE.CSS FINAL
+===================================== */
 
-/* GOOGLE FONT */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
-
-/* RESET */
 
 *{
     margin:0;
     padding:0;
     box-sizing:border-box;
-    font-family:'Poppins',sans-serif;
-    scroll-behavior:smooth;
+    font-family:"Noto Sans Gujarati",Arial,sans-serif;
 }
+
 
 body{
     background:#f5f7fb;
     color:#222;
-    overflow-x:hidden;
-    line-height:1.6;
 }
 
-img{
-    max-width:100%;
-    display:block;
-}
-
-a{
-    text-decoration:none;
-}
-
-ul{
-    list-style:none;
-}
 
 /* HEADER */
 
 header{
-    position:fixed;
-    top:0;
-    left:0;
-    width:100%;
-    height:80px;
-    background:#ffffff;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    padding:0 8%;
-    box-shadow:0 5px 15px rgba(0,0,0,.08);
-    z-index:1000;
+
+    background:linear-gradient(90deg,#063970,#0b8f3c);
+
+    color:white;
+
+    padding:15px;
+
+    text-align:center;
+
 }
 
-.logo{
-    display:flex;
-    align-items:center;
-    gap:15px;
+
+header h1{
+
+    font-size:32px;
+
 }
 
-.logo img{
-    width:60px;
-    height:60px;
-    border-radius:50%;
+
+header p{
+
+    font-size:18px;
+
 }
 
-.logo h2{
-    color:#0d47a1;
-    font-size:24px;
-    font-weight:700;
-}
 
-.logo p{
-    color:#777;
-    font-size:14px;
-}
 
-nav ul{
-    display:flex;
-    gap:30px;
-}
+/* HERO BANNER */
 
-nav ul li a{
-    color:#333;
-    font-weight:600;
-    transition:.3s;
-}
-
-nav ul li a:hover{
-    color:#0d6efd;
-}
-
-.header-btn{
-    background:#0d6efd;
-    color:#fff;
-    padding:12px 28px;
-    border-radius:30px;
-    font-weight:600;
-    transition:.3s;
-}
-
-.header-btn:hover{
-    background:#0b5ed7;
-}
-
-/* HERO */
 
 .hero{
-    margin-top:80px;
-    position:relative;
-    height:90vh;
+
+    width:100%;
+
     overflow:hidden;
+
 }
 
-.slider{
-    position:absolute;
-    width:100%;
-    height:100%;
-}
 
-.slide{
-    position:absolute;
+.hero img{
+
     width:100%;
-    height:100%;
+
+    height:420px;
+
     object-fit:cover;
-    opacity:0;
-    transition:1s;
+
+    display:block;
+
 }
 
-.slide.active{
-    opacity:1;
-}
 
-.overlay{
-    position:absolute;
-    inset:0;
-    background:rgba(0,0,0,.55);
-    z-index:1;
-}
 
-.hero-content{
-    position:relative;
-    z-index:2;
-    color:#fff;
-    text-align:center;
-    top:50%;
-    transform:translateY(-50%);
-    padding:20px;
-}
 
-.hero-content h1{
-    font-size:60px;
-    margin-bottom:15px;
-    font-weight:800;
-}
+/* SERVICE SECTION */
 
-.hero-content h2{
-    font-size:32px;
-    margin-bottom:15px;
-}
 
-.hero-content p{
-    max-width:800px;
+.container{
+
+    width:90%;
+
+    max-width:1200px;
+
     margin:auto;
-    font-size:18px;
-    margin-bottom:35px;
+
 }
 
-.hero-buttons{
-    display:flex;
-    justify-content:center;
-    gap:20px;
-    flex-wrap:wrap;
-}
 
-.btn,
-.btn2{
-    padding:15px 35px;
-    border-radius:40px;
-    font-weight:600;
-    transition:.3s;
-}
 
-.btn{
-    background:#ff9800;
-    color:#fff;
-}
+.title{
 
-.btn:hover{
-    background:#fb8c00;
-    transform:translateY(-3px);
-}
-
-.btn2{
-    background:#ffffff;
-    color:#0d47a1;
-}
-
-.btn2:hover{
-    transform:translateY(-3px);
-}
-
-/* COUNTER */
-
-.counter{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-    gap:25px;
-    padding:70px 8%;
-    background:#fff;
-}
-
-.counter-box{
     text-align:center;
-    background:#f7f9ff;
-    padding:35px;
-    border-radius:18px;
-    box-shadow:0 5px 20px rgba(0,0,0,.08);
+
+    margin:30px 0;
+
 }
 
-.counter-box h2{
-    font-size:42px;
-    color:#0d6efd;
-    margin-bottom:10px;
+
+.title h2{
+
+    color:#063970;
+
+    font-size:30px;
+
 }
 
-.counter-box p{
-    color:#666;
-    font-size:17px;
-}
 
-/* SECTION TITLE */
 
-.section-title{
-    text-align:center;
-    margin-bottom:50px;
-}
 
-.section-title h2{
-    font-size:38px;
-    color:#0d47a1;
-    margin-bottom:10px;
-}
+/* FORM BOX */
 
-.section-title p{
-    color:#666;
-    font-size:18px;
-}
-/* ==========================================
-   STYLE.CSS - PART 2
-   SERVICES | STATUS | CONTACT
-========================================== */
 
-/* SERVICES */
+.form-box{
 
-.services{
-    padding:80px 8%;
-    background:#f5f7fb;
-}
+    background:white;
 
-.service-grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
-    gap:30px;
-}
-
-.service-card{
-    background:#fff;
-    border-radius:20px;
     padding:30px;
-    text-align:center;
-    box-shadow:0 10px 25px rgba(0,0,0,.08);
-    transition:.35s;
-    position:relative;
-    overflow:hidden;
+
+    margin:30px auto;
+
+    border-radius:15px;
+
+    box-shadow:0 5px 20px #ddd;
+
+    max-width:700px;
+
 }
 
-.service-card::before{
-    content:"";
-    position:absolute;
-    top:0;
-    left:0;
+
+
+
+.form-box input,
+.form-box select,
+.form-box textarea{
+
+
     width:100%;
-    height:6px;
-    background:#0d6efd;
-}
 
-.service-card:hover{
-    transform:translateY(-10px);
-    box-shadow:0 18px 35px rgba(0,0,0,.15);
-}
-
-.service-card i{
-    font-size:55px;
-    color:#0d6efd;
-    margin-bottom:20px;
-}
-
-.service-card h3{
-    font-size:22px;
-    color:#0d47a1;
-    margin-bottom:15px;
-    min-height:60px;
-}
-
-.service-card ul{
-    list-style:none;
-    padding:0;
-    margin:20px 0;
-}
-
-.service-card ul li{
-    margin:10px 0;
-    color:#555;
-    font-size:15px;
-}
-
-.price{
-    display:inline-block;
-    background:#198754;
-    color:#fff;
-    padding:10px 22px;
-    border-radius:30px;
-    font-size:22px;
-    font-weight:700;
-    margin:15px 0;
-}
-
-.service-card button{
-    width:100%;
     padding:14px;
-    border:none;
-    background:#ff9800;
-    color:#fff;
-    border-radius:10px;
-    font-size:17px;
-    font-weight:600;
-    cursor:pointer;
-    transition:.3s;
-}
 
-.service-card button:hover{
-    background:#f57c00;
-}
+    margin:10px 0;
 
-/* STATUS */
-
-.status-section{
-    padding:80px 8%;
-    background:#fff;
-}
-
-.status-box{
-    max-width:650px;
-    margin:auto;
-    background:#f8f9fa;
-    padding:35px;
-    border-radius:18px;
-    box-shadow:0 8px 20px rgba(0,0,0,.08);
-}
-
-.status-box input{
-    width:100%;
-    padding:15px;
     border:1px solid #ccc;
-    border-radius:10px;
+
+    border-radius:8px;
+
     font-size:16px;
-    margin-bottom:20px;
+
+
 }
 
-.status-box button{
+
+
+
+
+/* BUTTON */
+
+
+button,
+.submit-btn{
+
+
     width:100%;
+
     padding:15px;
+
+    background:#063970;
+
+    color:white;
+
     border:none;
-    background:#0d6efd;
-    color:#fff;
-    font-size:17px;
+
     border-radius:10px;
+
+    font-size:18px;
+
     cursor:pointer;
-    transition:.3s;
+
+
 }
 
-.status-box button:hover{
-    background:#084298;
+
+button:hover,
+.submit-btn:hover{
+
+
+    background:#0b8f3c;
+
+
 }
 
-#statusResult{
-    margin-top:25px;
-    padding:20px;
-    background:#eef5ff;
-    border-radius:10px;
-    display:none;
-}
 
-/* CONTACT */
 
-.contact{
-    padding:80px 8%;
-    background:#f5f7fb;
-}
 
-.contact-grid{
+/* SERVICE CARDS */
+
+
+.cards{
+
+
     display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-    gap:25px;
+
+    grid-template-columns:
+
+    repeat(auto-fit,minmax(220px,1fr));
+
+    gap:20px;
+
 }
 
-.contact-card{
-    background:#fff;
-    padding:35px;
-    border-radius:18px;
+
+
+.card{
+
+
+    background:white;
+
+    padding:25px;
+
     text-align:center;
-    box-shadow:0 8px 20px rgba(0,0,0,.08);
-    transition:.3s;
+
+    border-radius:15px;
+
+    box-shadow:0 5px 15px #ddd;
+
+
 }
 
-.contact-card:hover{
-    transform:translateY(-8px);
+
+
+.card h3{
+
+    color:#063970;
+
 }
 
-.contact-card i{
-    font-size:45px;
-    color:#0d6efd;
-    margin-bottom:20px;
-}
 
-.contact-card h3{
-    color:#0d47a1;
-    margin-bottom:12px;
-}
 
-.contact-card p{
-    color:#555;
-    margin-bottom:15px;
-}
 
-.contact-btn{
-    display:inline-block;
-    background:#25D366;
-    color:#fff;
-    padding:12px 25px;
-    border-radius:30px;
-    font-weight:600;
-    transition:.3s;
-}
+/* WHATSAPP BUTTON */
 
-.contact-btn:hover{
-    background:#1ebe5d;
-}
 
-/* WHATSAPP FLOAT */
+.whatsapp{
 
-.whatsapp-float{
+
     position:fixed;
+
     right:20px;
+
     bottom:20px;
-    width:65px;
-    height:65px;
+
     background:#25D366;
-    color:#fff;
+
+    color:white;
+
+    width:60px;
+
+    height:60px;
+
     border-radius:50%;
+
     display:flex;
-    justify-content:center;
+
     align-items:center;
-    font-size:34px;
-    box-shadow:0 8px 20px rgba(0,0,0,.25);
-    z-index:999;
+
+    justify-content:center;
+
+    font-size:30px;
+
+    text-decoration:none;
+
 }
 
-.whatsapp-float:hover{
-    transform:scale(1.08);
-}
+
 
 /* FOOTER */
 
+
 footer{
-    background:#0d47a1;
-    color:#fff;
+
+
+    margin-top:40px;
+
+    background:#063970;
+
+    color:white;
+
     text-align:center;
-    padding:35px 20px;
-}
 
-.footer-content h2{
-    margin-bottom:10px;
-}
-
-.footer-content p{
-    margin:6px 0;
-}
-/* ==========================================
-   STYLE.CSS - PART 3 (FINAL)
-   APPLICATION FORM | PAYMENT | RESPONSIVE
-==========================================*/
-
-/* APPLICATION SECTION */
-
-.application-section{
-    padding:80px 8%;
-    background:#ffffff;
-}
-
-#applicationForm{
-    max-width:900px;
-    margin:auto;
-    background:#ffffff;
-    padding:40px;
-    border-radius:20px;
-    box-shadow:0 10px 30px rgba(0,0,0,.08);
-}
-
-.service-info{
-    background:linear-gradient(135deg,#0d6efd,#0d47a1);
-    color:#fff;
     padding:20px;
-    border-radius:15px;
-    text-align:center;
-    margin-bottom:30px;
-}
 
-.service-info h3{
-    font-size:24px;
-    margin-bottom:10px;
-}
-
-.service-info h2{
-    font-size:36px;
-    color:#FFD700;
-}
-
-/* FORM */
-
-.form-group{
-    margin-bottom:20px;
-}
-
-.form-group label{
-    display:block;
-    font-size:16px;
-    font-weight:600;
-    margin-bottom:8px;
-    color:#333;
-}
-
-.form-group input,
-.form-group select,
-.form-group textarea{
-    width:100%;
-    padding:14px;
-    border:1px solid #dcdcdc;
-    border-radius:10px;
-    font-size:16px;
-    transition:.3s;
-    outline:none;
-}
-
-.form-group input:focus,
-.form-group select:focus,
-.form-group textarea:focus{
-    border-color:#0d6efd;
-    box-shadow:0 0 8px rgba(13,110,253,.20);
-}
-
-textarea{
-    resize:vertical;
-}
-
-hr{
-    margin:35px 0;
-    border:none;
-    border-top:1px solid #ddd;
-}
-
-/* FILE */
-
-input[type=file]{
-    background:#f8f9fa;
-    padding:12px;
-    cursor:pointer;
-}
-
-/* PAYMENT */
-
-.payment-box{
-    background:#f8f9fa;
-    border:2px dashed #0d6efd;
-    border-radius:15px;
-    text-align:center;
-    padding:25px;
-    margin-bottom:25px;
-}
-
-.payment-box img{
-    width:220px;
-    margin:auto;
-    border-radius:12px;
-}
-
-.payment-box p{
-    margin-top:15px;
-    color:#444;
-    font-weight:500;
-}
-
-/* SUBMIT */
-
-.submit-btn{
-    width:100%;
-    padding:16px;
-    border:none;
-    border-radius:12px;
-    background:#198754;
-    color:#fff;
-    font-size:18px;
-    font-weight:700;
-    cursor:pointer;
-    transition:.3s;
-}
-
-.submit-btn:hover{
-    background:#157347;
-    transform:translateY(-2px);
-}
-
-/* LOADING */
-
-.loading{
-    opacity:.7;
-    pointer-events:none;
-}
-
-/* SUCCESS */
-
-.success-box{
-    background:#d1e7dd;
-    color:#0f5132;
-    border:1px solid #badbcc;
-    padding:18px;
-    border-radius:10px;
-    margin-top:20px;
-}
-
-.error-box{
-    background:#f8d7da;
-    color:#842029;
-    border:1px solid #f5c2c7;
-    padding:18px;
-    border-radius:10px;
-    margin-top:20px;
-}
-
-/* MOBILE */
-
-@media(max-width:992px){
-
-header{
-    padding:15px 20px;
-}
-
-nav ul{
-    gap:15px;
-}
-
-.hero-content h1{
-    font-size:42px;
-}
-
-.hero-content h2{
-    font-size:26px;
-}
 
 }
+
+
+
+
+/* MOBILE RESPONSIVE */
+
 
 @media(max-width:768px){
 
-header{
-    flex-direction:column;
-    height:auto;
-    padding:15px;
-}
 
-.logo{
-    margin-bottom:10px;
-}
+header h1{
 
-nav ul{
-    flex-wrap:wrap;
-    justify-content:center;
-}
-
-.header-btn{
-    margin-top:15px;
-}
-
-.hero{
-    margin-top:150px;
-    height:70vh;
-}
-
-.hero-content h1{
-    font-size:32px;
-}
-
-.hero-content h2{
-    font-size:20px;
-}
-
-.hero-content p{
-    font-size:15px;
-}
-
-.counter{
-    grid-template-columns:1fr 1fr;
-}
-
-.service-grid,
-.contact-grid{
-    grid-template-columns:1fr;
-}
-
-#applicationForm{
-    padding:20px;
-}
-
-.payment-box img{
-    width:170px;
-}
+font-size:24px;
 
 }
 
-@media(max-width:480px){
 
-.hero-content h1{
-    font-size:28px;
+.hero img{
+
+
+height:250px;
+
+
 }
 
-.hero-content h2{
-    font-size:18px;
+
+
+.container{
+
+
+width:95%;
+
+
 }
 
-.hero-buttons{
-    flex-direction:column;
+
+.form-box{
+
+
+padding:20px;
+
+
 }
 
-.btn,
-.btn2{
-    width:100%;
-    text-align:center;
+
+.title h2{
+
+
+font-size:24px;
+
+
 }
 
-.counter{
-    grid-template-columns:1fr;
-}
 
-.section-title h2{
-    font-size:28px;
-}
-
-.service-info h3{
-    font-size:20px;
-}
-
-.service-info h2{
-    font-size:28px;
-}
-
-.whatsapp-float{
-    width:55px;
-    height:55px;
-    font-size:28px;
-}
 
 }
