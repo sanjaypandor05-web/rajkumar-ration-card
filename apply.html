@@ -56,9 +56,12 @@
 
 
 
+<!-- ENGLISH NAME -->
+
 <label>
-અરજદારનું નામ (English)
+આધાર કાર્ડ મુજબ English Name
 </label>
+
 
 <input 
 type="text"
@@ -67,17 +70,30 @@ placeholder="PANDOR PRIYANKABEN SANJAYBHAI">
 
 
 
+
+
+
+
+<!-- GUJARATI NAME -->
+
+
 <label>
-અરજદારનું નામ (ગુજરાતી)
+રેશન કાર્ડ માટે ગુજરાતી નામ
 </label>
+
 
 <input 
 type="text"
 id="gujaratiName"
-placeholder="પાંડોર પ્રિયંકાબેન સંજયભાઈ">
+placeholder="પાંડોર પ્રિયંકાબેન">
 
 
 
+
+
+
+
+<!-- NAME TYPE -->
 
 
 <label>
@@ -93,11 +109,11 @@ placeholder="પાંડોર પ્રિયંકાબેન સંજય�
 <input 
 type="radio"
 name="nameType"
-value="Aadhaar"
+value="Self"
 checked
 onclick="nameTypeChange()">
 
-આધાર કાર્ડ મુજબ નામ
+પોતાના નામ પ્રમાણે
 
 </label>
 
@@ -112,7 +128,7 @@ name="nameType"
 value="Husband"
 onclick="nameTypeChange()">
 
-પતિના નામ મુજબ નામ
+પતિના નામ સાથેનું નામ
 
 </label>
 
@@ -122,6 +138,11 @@ onclick="nameTypeChange()">
 
 
 
+
+
+
+
+<!-- HUSBAND NAME -->
 
 
 <div id="husbandBox" style="display:none">
@@ -135,7 +156,7 @@ onclick="nameTypeChange()">
 <input 
 type="text"
 id="husband"
-placeholder="પતિનું પૂરું નામ">
+placeholder="સંજયભાઈ">
 
 
 </div>
@@ -155,7 +176,7 @@ placeholder="પતિનું પૂરું નામ">
 type="tel"
 id="mobile"
 maxlength="10"
-placeholder="10 અંકનો મોબાઇલ નંબર">
+placeholder="મોબાઇલ નંબર">
 
 
 
@@ -171,7 +192,7 @@ placeholder="10 અંકનો મોબાઇલ નંબર">
 <input 
 type="text"
 id="village"
-placeholder="ગામનું નામ">
+placeholder="ગામ">
 
 
 
@@ -275,7 +296,6 @@ placeholder="રેશન કાર્ડ નંબર">
 
 
 
-
 <!-- PAYMENT -->
 
 
@@ -289,8 +309,8 @@ placeholder="રેશન કાર્ડ નંબર">
 
 <img 
 src="QR.jpeg"
-alt="Payment QR Code"
-class="qr-code">
+class="qr-code"
+alt="Payment QR">
 
 
 <p>
@@ -355,13 +375,11 @@ accept="image/*,.pdf">
 
 
 
-
 <button onclick="sendApplication()">
 
 અરજી મોકલો
 
 </button>
-
 
 
 
@@ -375,6 +393,7 @@ accept="image/*,.pdf">
 
 
 </section>
+
 
 
 
@@ -424,8 +443,9 @@ document.getElementById(
 }
 
 
-
 </script>
+
+
 
 
 
@@ -435,4 +455,3 @@ document.getElementById(
 </body>
 
 </html>
-```
