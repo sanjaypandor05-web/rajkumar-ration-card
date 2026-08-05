@@ -677,3 +677,34 @@ nav{
 
 
 }
+/* ================= ADMIN LOGIN BUTTON ================= */
+
+.admin-login{
+    margin-top:15px;
+}
+
+
+.admin-login a{
+
+    display:inline-block;
+
+    text-decoration:none;
+
+    background:#0066cc;
+
+    color:white;
+
+    padding:8px 18px;
+
+    border-radius:25px;
+
+    font-size:14px;
+
+}
+
+
+.admin-login a:hover{
+
+    background:#004c99;
+
+}
