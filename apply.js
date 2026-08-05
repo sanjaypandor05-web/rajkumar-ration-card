@@ -1,7 +1,7 @@
 // ===================================
 // RAJKUMAR RATION CARD PORTAL
 // FINAL APPLY JS
-// NAME SYSTEM UPDATED
+// PAYMENT VERIFY UPDATED
 // ===================================
 
 
@@ -11,12 +11,10 @@ const SCRIPT_URL =
 
 
 
-
 // ================= FILE TO BASE64 =================
 
 
 function fileToBase64(file){
-
 
 return new Promise((resolve,reject)=>{
 
@@ -24,12 +22,10 @@ return new Promise((resolve,reject)=>{
 const reader = new FileReader();
 
 
-
 reader.onload = ()=>{
 
 
 let result = reader.result.split(",");
-
 
 
 resolve({
@@ -46,13 +42,10 @@ data:result[1]
 };
 
 
-
 reader.onerror = reject;
 
 
-
 reader.readAsDataURL(file);
-
 
 
 });
@@ -72,7 +65,6 @@ reader.readAsDataURL(file);
 async function sendApplication(){
 
 
-
 let msg =
 document.getElementById("msg");
 
@@ -86,10 +78,10 @@ document.getElementById("englishName")
 
 
 
+
 let gujaratiName =
 document.getElementById("gujaratiName")
 .value.trim();
-
 
 
 
@@ -101,11 +93,9 @@ document.getElementById("mobile")
 
 
 
-
 let village =
 document.getElementById("village")
 .value.trim();
-
 
 
 
@@ -117,7 +107,6 @@ document.getElementById("taluka")
 
 
 
-
 let district =
 document.getElementById("district")
 .value.trim();
@@ -125,11 +114,9 @@ document.getElementById("district")
 
 
 
-
 let rationCard =
 document.getElementById("rationNo")
 .value.trim();
-
 
 
 
@@ -142,11 +129,20 @@ document.getElementById("service")
 
 
 
+let transactionId =
+document.getElementById("transactionId")
+.value.trim();
+
+
+
+
+
 
 let nameType =
 document.querySelector(
 'input[name="nameType"]:checked'
 ).value;
+
 
 
 
@@ -179,6 +175,7 @@ document.getElementById("husband")
 
 let finalName =
 gujaratiName;
+
 
 
 
@@ -230,7 +227,6 @@ document.getElementById("payment")
 // VALIDATION
 
 
-
 if(
 
 englishName=="" ||
@@ -241,13 +237,14 @@ mobile=="" ||
 
 village=="" ||
 
-service==""
+service=="" ||
+
+transactionId==""
 
 ){
 
 
-
-msg.innerHTML =
+msg.innerHTML=
 "❌ બધી જરૂરી માહિતી ભરો";
 
 
@@ -265,11 +262,13 @@ return;
 
 
 
-msg.innerHTML =
+
+msg.innerHTML=
 "⏳ અરજી મોકલાઈ રહી છે...";
 
 
 msg.style.color="blue";
+
 
 
 
@@ -311,7 +310,13 @@ district:district,
 rationCard:rationCard,
 
 
-service:service
+service:service,
+
+
+transactionId:transactionId,
+
+
+paymentStatus:"Pending"
 
 
 
@@ -324,16 +329,14 @@ service:service
 
 
 
-// UPLOAD FILES
+// FILE UPLOAD
 
 
 
 if(aadhaar){
 
-
 data.aadhaar =
 await fileToBase64(aadhaar);
-
 
 }
 
@@ -341,10 +344,8 @@ await fileToBase64(aadhaar);
 
 if(ration){
 
-
 data.ration =
 await fileToBase64(ration);
-
 
 }
 
@@ -352,10 +353,8 @@ await fileToBase64(ration);
 
 if(payment){
 
-
 data.payment =
 await fileToBase64(payment);
-
 
 }
 
@@ -365,26 +364,19 @@ await fileToBase64(payment);
 
 
 
-
-// SEND TO GOOGLE SCRIPT
-
+// SEND DATA
 
 
 fetch(SCRIPT_URL,{
 
-
 method:"POST",
 
-
 body:JSON.stringify(data)
-
 
 })
 
 
-
 .then(res=>res.json())
-
 
 
 .then(result=>{
@@ -395,7 +387,7 @@ if(result.status=="success"){
 
 
 
-msg.innerHTML =
+msg.innerHTML=
 
 "✅ અરજી સફળતાપૂર્વક મોકલાઈ<br><br>"+
 
@@ -407,7 +399,7 @@ result.id+
 finalName+
 "</b><br><br>"+
 
-"Status : Pending";
+"Payment Status : Pending";
 
 
 
@@ -421,12 +413,10 @@ document.querySelector("form")?.reset();
 
 }
 
-
-
 else{
 
 
-msg.innerHTML =
+msg.innerHTML=
 "❌ અરજી મોકલવામાં સમસ્યા";
 
 
@@ -444,7 +434,7 @@ msg.style.color="red";
 .catch(error=>{
 
 
-msg.innerHTML =
+msg.innerHTML=
 "❌ Server Error";
 
 
