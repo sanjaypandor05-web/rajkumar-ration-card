@@ -1,6 +1,7 @@
 // ===================================
 // RAJKUMAR RATION CARD PORTAL
 // FINAL APPLY JS
+// NAME SYSTEM UPDATED
 // ===================================
 
 
@@ -10,18 +11,25 @@ const SCRIPT_URL =
 
 
 
+
 // ================= FILE TO BASE64 =================
+
 
 function fileToBase64(file){
 
+
 return new Promise((resolve,reject)=>{
+
 
 const reader = new FileReader();
 
 
-reader.onload=()=>{
+
+reader.onload = ()=>{
+
 
 let result = reader.result.split(",");
+
 
 
 resolve({
@@ -38,10 +46,13 @@ data:result[1]
 };
 
 
-reader.onerror=reject;
+
+reader.onerror = reject;
+
 
 
 reader.readAsDataURL(file);
+
 
 
 });
@@ -54,56 +65,90 @@ reader.readAsDataURL(file);
 
 
 
+
 // ================= SEND APPLICATION =================
 
 
 async function sendApplication(){
 
 
-let msg=document.getElementById("msg");
+
+let msg =
+document.getElementById("msg");
 
 
 
-let name =
-document.getElementById("name").value.trim();
+
+
+let englishName =
+document.getElementById("englishName")
+.value.trim();
+
+
+
+let gujaratiName =
+document.getElementById("gujaratiName")
+.value.trim();
+
+
+
 
 
 let mobile =
-document.getElementById("mobile").value.trim();
+document.getElementById("mobile")
+.value.trim();
+
+
+
 
 
 let village =
-document.getElementById("village").value.trim();
+document.getElementById("village")
+.value.trim();
+
+
+
 
 
 let taluka =
-document.getElementById("taluka").value.trim();
+document.getElementById("taluka")
+.value.trim();
+
+
+
 
 
 let district =
-document.getElementById("district").value.trim();
+document.getElementById("district")
+.value.trim();
+
+
+
 
 
 let rationCard =
-document.getElementById("rationNo").value.trim();
+document.getElementById("rationNo")
+.value.trim();
+
+
+
 
 
 let service =
-document.getElementById("service").value;
+document.getElementById("service")
+.value;
 
 
 
-
-
-let checked =
-document.querySelector(
-'input[name="nameType"]:checked'
-);
 
 
 
 let nameType =
-checked ? checked.value : "Self";
+document.querySelector(
+'input[name="nameType"]:checked'
+).value;
+
+
 
 
 
@@ -111,11 +156,14 @@ let husbandName="";
 
 
 
+
+
 if(nameType=="Husband"){
 
 
 husbandName =
-document.getElementById("husband").value.trim();
+document.getElementById("husband")
+.value.trim();
 
 
 }
@@ -123,15 +171,26 @@ document.getElementById("husband").value.trim();
 
 
 
-let finalName=name;
 
 
 
-if(nameType=="Husband" && husbandName!=""){
+// FINAL NAME
+
+
+let finalName =
+gujaratiName;
+
+
+
+if(
+nameType=="Husband" &&
+husbandName!=""
+){
 
 
 finalName =
-name+" "+husbandName;
+gujaratiName+" "+husbandName;
+
 
 }
 
@@ -139,16 +198,29 @@ name+" "+husbandName;
 
 
 
+
+
+// FILES
+
+
 let aadhaar =
-document.getElementById("aadhaar").files[0];
+document.getElementById("aadhaar")
+.files[0];
+
 
 
 let ration =
-document.getElementById("ration").files[0];
+document.getElementById("ration")
+.files[0];
+
 
 
 let payment =
-document.getElementById("payment").files[0];
+document.getElementById("payment")
+.files[0];
+
+
+
 
 
 
@@ -158,19 +230,29 @@ document.getElementById("payment").files[0];
 // VALIDATION
 
 
+
 if(
-name=="" ||
+
+englishName=="" ||
+
+gujaratiName=="" ||
+
 mobile=="" ||
+
 village=="" ||
+
 service==""
+
 ){
 
 
-msg.innerHTML=
+
+msg.innerHTML =
 "❌ બધી જરૂરી માહિતી ભરો";
 
 
 msg.style.color="red";
+
 
 return;
 
@@ -181,10 +263,15 @@ return;
 
 
 
-msg.innerHTML=
+
+
+msg.innerHTML =
 "⏳ અરજી મોકલાઈ રહી છે...";
 
+
 msg.style.color="blue";
+
+
 
 
 
@@ -193,7 +280,11 @@ msg.style.color="blue";
 let data={
 
 
-name:name,
+
+englishName:englishName,
+
+
+gujaratiName:gujaratiName,
 
 
 finalName:finalName,
@@ -231,10 +322,18 @@ service:service
 
 
 
+
+
+// UPLOAD FILES
+
+
+
 if(aadhaar){
+
 
 data.aadhaar =
 await fileToBase64(aadhaar);
+
 
 }
 
@@ -242,8 +341,10 @@ await fileToBase64(aadhaar);
 
 if(ration){
 
+
 data.ration =
 await fileToBase64(ration);
+
 
 }
 
@@ -251,8 +352,10 @@ await fileToBase64(ration);
 
 if(payment){
 
+
 data.payment =
 await fileToBase64(payment);
+
 
 }
 
@@ -262,9 +365,16 @@ await fileToBase64(payment);
 
 
 
+
+// SEND TO GOOGLE SCRIPT
+
+
+
 fetch(SCRIPT_URL,{
 
+
 method:"POST",
+
 
 body:JSON.stringify(data)
 
@@ -272,7 +382,9 @@ body:JSON.stringify(data)
 })
 
 
+
 .then(res=>res.json())
+
 
 
 .then(result=>{
@@ -283,7 +395,7 @@ if(result.status=="success"){
 
 
 
-msg.innerHTML=
+msg.innerHTML =
 
 "✅ અરજી સફળતાપૂર્વક મોકલાઈ<br><br>"+
 
@@ -306,6 +418,7 @@ msg.style.color="green";
 document.querySelector("form")?.reset();
 
 
+
 }
 
 
@@ -313,7 +426,7 @@ document.querySelector("form")?.reset();
 else{
 
 
-msg.innerHTML=
+msg.innerHTML =
 "❌ અરજી મોકલવામાં સમસ્યા";
 
 
@@ -326,10 +439,12 @@ msg.style.color="red";
 
 })
 
+
+
 .catch(error=>{
 
 
-msg.innerHTML=
+msg.innerHTML =
 "❌ Server Error";
 
 
@@ -339,7 +454,9 @@ msg.style.color="red";
 console.log(error);
 
 
+
 });
+
 
 
 
