@@ -1,7 +1,6 @@
-
-/* ===================================
+ /* ===================================
    RAJKUMAR RATION CARD
-   APPLY PAGE CSS
+   APPLY PAGE CSS FINAL
 =================================== */
 
 
@@ -22,11 +21,14 @@ body{
 
 
 
+
+
 /* HEADER */
+
 
 header{
 
-    height:70px;
+    height:75px;
     background:white;
 
     display:flex;
@@ -43,7 +45,7 @@ header{
 
 .logo{
 
-    font-size:22px;
+    font-size:24px;
     font-weight:700;
     color:#0066cc;
 
@@ -54,14 +56,19 @@ header{
 .back{
 
     text-decoration:none;
+
     background:#0066cc;
+
     color:white;
 
-    padding:10px 20px;
+    padding:10px 22px;
 
     border-radius:25px;
 
 }
+
+
+
 
 
 
@@ -72,7 +79,7 @@ header{
 
 .apply-page{
 
-    min-height:calc(100vh - 70px);
+    min-height:calc(100vh - 75px);
 
     display:flex;
 
@@ -80,7 +87,7 @@ header{
 
     align-items:center;
 
-    padding:30px;
+    padding:35px;
 
 }
 
@@ -93,15 +100,21 @@ header{
 
     width:100%;
 
-    max-width:500px;
+
+    max-width:650px;
+
 
     background:white;
 
-    padding:35px;
 
-    border-radius:20px;
+    padding:40px;
 
-    box-shadow:0 8px 25px #d5d5d5;
+
+    border-radius:22px;
+
+
+    box-shadow:0 8px 30px #d5d5d5;
+
 
     text-align:center;
 
@@ -111,13 +124,23 @@ header{
 
 
 
+
+
+
+/* TITLE */
+
+
 .apply-card h1{
+
 
     color:#0066cc;
 
-    margin-bottom:10px;
 
-    font-size:30px;
+    margin-bottom:12px;
+
+
+    font-size:32px;
+
 
 }
 
@@ -125,11 +148,50 @@ header{
 
 .apply-card p{
 
+
     color:#666;
+
 
     margin-bottom:25px;
 
+
+    font-size:16px;
+
+
 }
+
+
+
+
+
+
+
+
+/* LABEL */
+
+
+.apply-card label{
+
+
+    display:block;
+
+
+    text-align:left;
+
+
+    font-weight:600;
+
+
+    margin-bottom:7px;
+
+
+    color:#333;
+
+
+}
+
+
+
 
 
 
@@ -144,15 +206,21 @@ header{
 
     width:100%;
 
-    padding:14px;
 
-    margin-bottom:15px;
+    padding:15px;
+
+
+    margin-bottom:18px;
+
 
     border:1px solid #ddd;
 
-    border-radius:10px;
 
-    font-size:16px;
+    border-radius:12px;
+
+
+    font-size:17px;
+
 
     outline:none;
 
@@ -164,9 +232,162 @@ header{
 .apply-card input:focus,
 .apply-card select:focus{
 
+
     border-color:#0066cc;
 
+
 }
+
+
+
+
+
+
+
+
+
+/* RADIO */
+
+
+.radio-box{
+
+
+    display:flex;
+
+
+    gap:15px;
+
+
+    flex-direction:column;
+
+
+    text-align:left;
+
+
+    margin-bottom:15px;
+
+
+}
+
+
+
+.radio-box label{
+
+
+    display:flex;
+
+
+    gap:10px;
+
+
+    align-items:center;
+
+
+    font-weight:500;
+
+
+}
+
+
+
+.radio-box input{
+
+
+    width:auto;
+
+
+    margin:0;
+
+
+}
+
+
+
+
+
+
+
+
+
+
+/* PAYMENT BOX */
+
+
+.payment-box{
+
+
+    background:#f8fbff;
+
+
+    border-radius:15px;
+
+
+    padding:20px;
+
+
+    margin:20px 0;
+
+
+    text-align:center;
+
+
+}
+
+
+
+.payment-box h3{
+
+
+    color:#0066cc;
+
+
+    margin-bottom:15px;
+
+
+}
+
+
+
+
+
+
+/* QR SMALL */
+
+
+.qr-code{
+
+
+    width:140px;
+
+
+    height:140px;
+
+
+    object-fit:contain;
+
+
+    border-radius:10px;
+
+
+}
+
+
+
+.payment-box p{
+
+
+    margin-top:12px;
+
+
+    font-size:14px;
+
+
+}
+
+
+
+
+
 
 
 
@@ -180,19 +401,27 @@ header{
 
     width:100%;
 
-    padding:15px;
+
+    padding:16px;
+
 
     border:none;
 
+
     border-radius:30px;
+
 
     background:#00a651;
 
+
     color:white;
 
-    font-size:18px;
+
+    font-size:19px;
+
 
     font-weight:bold;
+
 
     cursor:pointer;
 
@@ -203,9 +432,13 @@ header{
 
 .apply-card button:hover{
 
+
     background:#008c44;
 
+
 }
+
+
 
 
 
@@ -216,11 +449,18 @@ header{
 
 #msg{
 
+
     margin-top:20px;
+
 
     font-weight:bold;
 
+
 }
+
+
+
+
 
 
 
@@ -232,9 +472,12 @@ header{
 @media(max-width:600px){
 
 
+
 header{
 
+
 padding:0 20px;
+
 
 }
 
@@ -242,7 +485,19 @@ padding:0 20px;
 
 .logo{
 
+
 font-size:18px;
+
+
+}
+
+
+
+.apply-page{
+
+
+padding:20px;
+
 
 }
 
@@ -250,7 +505,9 @@ font-size:18px;
 
 .apply-card{
 
+
 padding:25px;
+
 
 }
 
@@ -258,7 +515,22 @@ padding:25px;
 
 .apply-card h1{
 
-font-size:24px;
+
+font-size:25px;
+
+
+}
+
+
+
+.qr-code{
+
+
+width:120px;
+
+
+height:120px;
+
 
 }
 
