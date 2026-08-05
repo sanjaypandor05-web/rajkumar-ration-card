@@ -19,6 +19,55 @@ body{
 
 
 /* HEADER */
+/* =====================================
+LOGO STYLE
+===================================== */
+
+.logo{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+}
+
+.logo img{
+    width:90px;
+    height:90px;
+    object-fit:contain;
+    display:block;
+}
+
+
+/* HEADER TITLE */
+
+header h1{
+    font-size:32px;
+    margin-top:8px;
+}
+
+header p{
+    font-size:18px;
+}
+
+
+/* MOBILE LOGO */
+
+@media(max-width:768px){
+
+    .logo img{
+        width:65px;
+        height:65px;
+    }
+
+    header h1{
+        font-size:24px;
+    }
+
+    header p{
+        font-size:15px;
+    }
+
+}
 
 header{
 
