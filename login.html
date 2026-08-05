@@ -4,6 +4,7 @@
 <head>
 
 <meta charset="UTF-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Admin Login | Rajkumar Ration Card Portal</title>
@@ -12,83 +13,55 @@
 
 </head>
 
+
 <body>
 
 
 <div class="login-container">
 
-    <div class="login-card">
 
-        <div class="logo">
-            🪪
-        </div>
-
-        <h1>Rajkumar Ration Card Portal</h1>
-
-        <p>
-            Admin Login
-        </p>
-
-
-        <div class="input-group">
-
-            <label>Username</label>
-
-            <input
-            type="text"
-            id="username"
-            placeholder="Enter Username">
-
-        </div>
+<div class="login-card">
 
 
 
-        <div class="input-group">
+<div class="logo">
 
-            <label>Password</label>
+🪪
 
-            <div class="password-box">
-
-                <input
-                type="password"
-                id="password"
-                placeholder="Enter Password">
-
-                <button
-                type="button"
-                id="showBtn"
-                onclick="togglePassword()">
-                👁
-                </button>
-
-            </div>
-
-        </div>
+</div>
 
 
 
-        <button
-        class="login-btn"
-        onclick="login()">
-
-        Login
-
-        </button>
+<h1>
+Rajkumar Ration Card Portal
+</h1>
 
 
-        <div id="msg"></div>
+
+<p>
+Admin Login
+</p>
 
 
-        <hr>
 
 
-        <div class="footer">
 
-            © 2026 Rajkumar Ration Card Portal
+<div class="input-group">
 
-        </div>
 
-    </div>
+<label>
+Username
+</label>
+
+
+<input
+
+type="text"
+
+id="username"
+
+placeholder="Enter Username">
+
 
 </div>
 
@@ -96,32 +69,144 @@
 
 
 
+
+
+<div class="input-group">
+
+
+<label>
+Password
+</label>
+
+
+
+<div class="password-box">
+
+
+<input
+
+type="password"
+
+id="password"
+
+placeholder="Enter Password">
+
+
+
+<button
+
+type="button"
+
+onclick="togglePassword()">
+
+👁
+
+</button>
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+
+<button
+
+class="login-btn"
+
+onclick="adminLogin()">
+
+Login
+
+
+</button>
+
+
+
+
+
+<div id="msg">
+
+</div>
+
+
+
+
+
+
+<hr>
+
+
+
+
+
+<div class="footer">
+
+
+© 2026 Rajkumar Ration Card Portal
+
+
+</div>
+
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+
 <script>
 
+
 function togglePassword(){
+
 
 let pass =
 document.getElementById("password");
 
+
+
 if(pass.type=="password"){
+
 
 pass.type="text";
 
+
 }
+
 else{
+
 
 pass.type="password";
 
-}
 
 }
+
+
+}
+
 
 </script>
 
 
 
-<script src="admin.js"></script>
+
+<script src="login.js"></script>
+
+
 
 </body>
+
 
 </html>
