@@ -131,8 +131,7 @@ if(nameType=="Husband" && husbandName!=""){
 
 
 finalName =
-name+" W/O "+husbandName;
-
+name+" "+husbandName;
 
 }
 
