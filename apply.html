@@ -20,9 +20,7 @@
 <header>
 
 <div class="logo">
-
 🪪 Rajkumar Ration Card
-
 </div>
 
 
@@ -119,7 +117,6 @@ onclick="nameTypeChange()">
 
 
 
-
 <label>
 
 <input 
@@ -134,8 +131,6 @@ onclick="nameTypeChange()">
 
 
 </div>
-
-
 
 
 
@@ -296,6 +291,7 @@ placeholder="રેશન કાર્ડ નંબર">
 
 
 
+
 <!-- PAYMENT -->
 
 
@@ -310,11 +306,11 @@ placeholder="રેશન કાર્ડ નંબર">
 <img 
 src="QR.jpeg"
 class="qr-code"
-alt="Payment QR">
+alt="QR Code">
 
 
 <p>
-UPI Payment કર્યા પછી Screenshot Upload કરો
+QR Code Scan કરી Payment કરો
 </p>
 
 
@@ -325,6 +321,28 @@ UPI Payment કર્યા પછી Screenshot Upload કરો
 
 
 
+
+
+<!-- UTR -->
+
+
+<label>
+Payment UTR / Transaction ID
+</label>
+
+
+<input 
+type="text"
+id="transactionId"
+placeholder="UPI Transaction ID લખો">
+
+
+
+
+
+
+
+<!-- FILE UPLOAD -->
 
 
 <label>
@@ -342,7 +360,6 @@ accept=".pdf">
 
 
 
-
 <label>
 રેશન કાર્ડ PDF
 </label>
@@ -352,7 +369,6 @@ accept=".pdf">
 type="file"
 id="ration"
 accept=".pdf">
-
 
 
 
@@ -384,13 +400,14 @@ accept="image/*,.pdf">
 
 
 
+
 <div id="msg"></div>
 
 
 
 
-</div>
 
+</div>
 
 </section>
 
