@@ -9,8 +9,7 @@
 // ---------- GOOGLE APPS SCRIPT URL ----------
 
 const SCRIPT_URL =
-"https://script.google.com/macros/s/YOUR_DEPLOYMENT_ID/exec";
-
+"https://script.google.com/macros/s/AKfycbxjgujpnsOQbO0gFVPdFkZ9oDuPFgLnFld22QmNzkwhkeeNEVbVzwXuS3Zu8HBfHt1UoA/exec";
 
 
 
