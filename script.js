@@ -133,7 +133,6 @@ alert(
 
 // ================= SERVICE CLICK =================
 
-
 const cards = document.querySelectorAll(".card");
 
 
@@ -143,24 +142,13 @@ cards.forEach(card=>{
 card.addEventListener("click",()=>{
 
 
-let service = card.querySelector("h3").innerText;
-
-
-alert(
-service + " માટે અરજી શરૂ કરો"
-);
+window.location.href="apply.html";
 
 
 });
 
 
 });
-
-
-
-
-
-
 // ================= WHATSAPP BUTTON =================
 
 
