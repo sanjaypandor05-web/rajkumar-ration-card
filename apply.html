@@ -37,7 +37,6 @@ Rajkumar Ration Card
 
 
 
-
 <section class="apply-page">
 
 
@@ -55,12 +54,70 @@ Rajkumar Ration Card
 
 
 
+<label>અરજદારનું નામ</label>
+
 <input 
 type="text"
 id="name"
-placeholder="અરજદારનું નામ">
+placeholder="પૂરું નામ">
 
 
+
+<label>નામ કયા પ્રમાણે જોઈએ?</label>
+
+<div class="radio-box">
+
+<label>
+<input 
+type="radio"
+name="nameType"
+value="Aadhaar"
+checked
+onclick="nameTypeChange()">
+
+આધાર કાર્ડ મુજબ નામ
+
+</label>
+
+
+<label>
+
+<input 
+type="radio"
+name="nameType"
+value="Husband"
+onclick="nameTypeChange()">
+
+પતિના નામ મુજબ નામ
+
+</label>
+
+
+</div>
+
+
+
+
+<div id="husbandBox" style="display:none">
+
+
+<label>
+પતિનું નામ
+</label>
+
+
+<input 
+type="text"
+id="husband"
+placeholder="પતિનું નામ">
+
+
+</div>
+
+
+
+
+<label>મોબાઇલ નંબર</label>
 
 <input 
 type="number"
@@ -69,11 +126,53 @@ placeholder="મોબાઇલ નંબર">
 
 
 
+
+
+<label>ગામ</label>
+
 <input 
 type="text"
 id="village"
 placeholder="ગામ">
 
+
+
+
+
+<label>તાલુકો</label>
+
+<input 
+type="text"
+id="taluka"
+placeholder="તાલુકો">
+
+
+
+
+
+<label>જિલ્લો</label>
+
+<input 
+type="text"
+id="district"
+placeholder="જિલ્લો">
+
+
+
+
+
+<label>રેશન કાર્ડ નંબર</label>
+
+<input 
+type="text"
+id="rationNo"
+placeholder="રેશન કાર્ડ નંબર">
+
+
+
+
+
+<label>સેવા પસંદ કરો</label>
 
 
 <select id="service">
@@ -115,28 +214,95 @@ placeholder="ગામ">
 
 
 </select>
-  <!-- Aadhaar Upload -->
-<label>આધાર કાર્ડ PDF</label>
+
+
+
+
+
+<!-- PAYMENT QR -->
+
+
+<div class="payment-box">
+
+
+<h3>
+💳 Payment કરો
+</h3>
+
+
+<img 
+src="payment-qr.png"
+alt="Payment QR Code"
+class="qr-code">
+
+
+<p>
+UPI Payment કર્યા પછી Screenshot Upload કરો
+</p>
+
+
+</div>
+
+
+
+
+
+
+
+<!-- Aadhaar Upload -->
+
+
+<label>
+આધાર કાર્ડ PDF
+</label>
+
+
 <input 
 type="file"
 id="aadhaar"
 accept=".pdf">
 
 
-<!-- Ration Card Upload -->
-<label>રેશન કાર્ડ PDF</label>
+
+
+
+
+
+
+<!-- Ration Upload -->
+
+
+<label>
+રેશન કાર્ડ PDF
+</label>
+
+
 <input 
 type="file"
 id="ration"
 accept=".pdf">
 
 
-<!-- Payment Screenshot Upload -->
-<label>Payment Screenshot</label>
+
+
+
+
+
+<!-- Payment Screenshot -->
+
+
+<label>
+Payment Screenshot
+</label>
+
+
 <input 
 type="file"
 id="payment"
 accept="image/*,.pdf">
+
+
+
 
 
 
@@ -157,6 +323,46 @@ accept="image/*,.pdf">
 
 
 </section>
+
+
+
+
+
+
+
+<script>
+
+
+function nameTypeChange(){
+
+
+let type=document.querySelector(
+'input[name="nameType"]:checked'
+).value;
+
+
+if(type=="Husband"){
+
+document.getElementById(
+"husbandBox"
+).style.display="block";
+
+}
+
+else{
+
+document.getElementById(
+"husbandBox"
+).style.display="none";
+
+}
+
+
+}
+
+
+
+</script>
 
 
 
