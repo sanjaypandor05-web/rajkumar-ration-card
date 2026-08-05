@@ -1,26 +1,15 @@
 <!DOCTYPE html>
 <html lang="gu">
-
 <head>
 
 <meta charset="UTF-8">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>
-Rajkumar Ration Card Portal
-</title>
-
+<title>Rajkumar Ration Card Portal</title>
 
 <link rel="stylesheet" href="style.css">
 
-
-<link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-
-
 </head>
-
 
 <body>
 
@@ -29,85 +18,68 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
 
 <header>
 
-
 <div class="logo">
 
-<i class="fa-solid fa-id-card"></i>
+<img src="logo.png" alt="Rajkumar Logo">
 
-Rajkumar Ration Card
+<h2>
+Rajkumar Ration Card Portal
+</h2>
 
 </div>
 
 
+<nav>
 
-<nav id="nav">
-
-<a href="#home">Home</a>
+<a href="index.html">Home</a>
 
 <a href="#services">Services</a>
 
-<a href="#apply">Apply</a>
+<a href="#help">Help</a>
 
-<a href="#status">Status</a>
+<a href="#about">About</a>
 
-<a href="#contact">Contact</a>
+<a class="apply-btn" href="services.html">
+Apply Now
+</a>
 
 </nav>
-
-
-
-<div class="menu">
-
-<i class="fa-solid fa-bars"></i>
-
-</div>
 
 
 </header>
 
 
 
+<!-- HERO SECTION -->
 
 
-<!-- HERO -->
+<section class="hero">
 
 
-<section class="hero" id="home">
-
-
-<div class="hero-content">
-
+<div class="hero-text">
 
 <h1>
-
-ગુજરાત રેશન કાર્ડ ઓનલાઈન સેવા
-
+રેશન કાર્ડની તમામ સેવાઓ હવે સરળતાથી
 </h1>
 
 
-<h2>
-
-Rajkumar Online Work
-
-</h2>
-
-
 <p>
-
-નવું રેશન કાર્ડ | નામ ઉમેરવું | નામ કાપવું |
-સરનામું સુધારવું | પતિના નામ સાથે સુધારો
-
+Rajkumar Ration Card Portal દ્વારા
+નવું રેશન કાર્ડ, નામ ઉમેરવું, સુધારા અને અન્ય સેવાઓ મેળવો.
 </p>
 
 
-
-<a href="#apply" class="btn">
-
-અરજી કરો
-
+<a href="services.html" class="main-btn">
+Apply Now
 </a>
 
 
+</div>
+
+
+<div class="hero-image">
+
+<img src="banner1.jpg" alt="Ration Card Service">
 
 </div>
 
@@ -117,302 +89,21 @@ Rajkumar Online Work
 
 
 
+<!-- SERVICES INTRO -->
 
-<!-- SERVICE TITLE -->
 
-
-<section id="services">
-
-
-<h2 class="title">
-
-રેશન કાર્ડ સેવાઓ
-
-</h2>
-
-
-<div class="service-box">
-
-
-<div class="card">
-
-<i class="fa fa-plus"></i>
-
-<h3>
-નવું રેશન કાર્ડ
-</h3>
-
-<p>
-નવી અરજી
-</p>
-
-</div>
-
-
-
-<div class="card">
-
-<i class="fa fa-user-plus"></i>
-
-<h3>
-નામ ઉમેરવું
-</h3>
-
-<p>
-સભ્ય ઉમેરો
-</p>
-
-</div>
-
-
-
-<div class="card">
-
-<i class="fa fa-user-minus"></i>
-
-<h3>
-નામ કાપવું
-</h3>
-
-<p>
-સભ્ય દૂર કરો
-</p>
-
-</div>
-
-
-
-<div class="card">
-
-<i class="fa fa-heart"></i>
-
-<h3>
-પતિના નામ સાથે સુધારો
-</h3>
-
-<p>
-Aadhaar મુજબ update
-</p>
-
-</div>
-
-
-</div>
-
-
-</section>
-<!-- ================= APPLICATION FORM ================= -->
-
-
-<section id="apply" class="apply">
-
-
-<h2 class="title">
-રેશન કાર્ડ અરજી ફોર્મ
-</h2>
-
-
-
-<div class="form-box">
-
-
-<form id="rationForm"
-enctype="multipart/form-data">
-
-
-
-<label>
-અરજદારનું નામ
-</label>
-
-<input type="text"
-id="name"
-placeholder="પૂરું નામ લખો"
-required>
-
-
-
-
-<label>
-મોબાઇલ નંબર
-</label>
-
-<input type="tel"
-id="mobile"
-placeholder="મોબાઇલ નંબર"
-maxlength="10"
-required>
-
-
-
-
-<label>
-આધાર નંબર
-</label>
-
-<input type="text"
-id="aadhaar"
-placeholder="12 અંકનો આધાર નંબર"
-maxlength="12">
-
-
-
-
-<label>
-રેશન કાર્ડ નંબર
-</label>
-
-<input type="text"
-id="ration"
-placeholder="રેશન કાર્ડ નંબર">
-
-
-
-
-<label>
-સેવા પસંદ કરો
-</label>
-
-
-<select id="service"
-required>
-
-
-<option value="">
--- સેવા પસંદ કરો --
-</option>
-
-
-<option>
-નવું રેશન કાર્ડ
-</option>
-
-
-<option>
-નામ ઉમેરવું
-</option>
-
-
-<option>
-નામ કાપવું
-</option>
-
-
-<option>
-સરનામું સુધારવું
-</option>
-
-
-<option value="husband">
-
-પતિના નામ સાથે સુધારો
-
-</option>
-
-
-
-</select>
-
-
-
-
-
-
-<!-- HUSBAND NAME -->
-
-
-<div id="husbandBox"
-style="display:none;">
-
-
-<label>
-આધાર મુજબ પતિનું નામ
-</label>
-
-
-<input type="text"
-id="husbandName"
-placeholder="પતિનું પૂરું નામ">
-
-
-
-</div>
-
-
-
-
-
-
-<label>
-દસ્તાવેજ અપલોડ કરો
-</label>
-
-
-<input type="file"
-id="document"
-accept=".jpg,.jpeg,.png,.pdf">
-
-
-
-
-
-
-<label>
-અન્ય માહિતી
-</label>
-
-
-<textarea id="remark"
-placeholder="વધુ માહિતી લખો"></textarea>
-
-
-
-
-
-<button type="submit"
-class="submit-btn">
-
-અરજી મોકલો
-
-</button>
-
-
-
-
-</form>
-
-
-</div>
-
-
-</section>
-
-
-
-
-
-<!-- ================= STATUS ================= -->
-
-
-<section id="status"
-class="status">
+<section id="services" class="section">
 
 
 <h2>
-અરજી સ્ટેટસ તપાસો
+અમારી સેવાઓ
 </h2>
 
 
-<input type="text"
-id="searchMobile"
-placeholder="મોબાઇલ નંબર">
-
-
-<button>
-
-Search
-
-</button>
+<p>
+રેશન કાર્ડ સંબંધિત તમામ ઓનલાઈન સેવાઓ માટે
+અમારો સંપર્ક કરો.
+</p>
 
 
 </section>
@@ -421,22 +112,43 @@ Search
 
 
 
-<!-- ================= CONTACT ================= -->
+<!-- HELP -->
 
 
-<section id="contact">
+<section id="help" class="section">
 
 
-<h2 class="title">
-
-સંપર્ક કરો
-
+<h2>
+Help
 </h2>
 
 
-<p class="contact">
+<p>
+કોઈપણ માહિતી માટે અમારો સંપર્ક કરો.
+</p>
 
-📞 9876543210 | 9429193125
+
+</section>
+
+
+
+
+
+<!-- ABOUT -->
+
+
+<section id="about" class="section">
+
+
+<h2>
+About Us
+</h2>
+
+
+<p>
+
+Rajkumar Ration Card Portal
+ગ્રાહકોને ઝડપી અને વિશ્વસનીય ઓનલાઈન સેવા આપવા માટે બનાવવામાં આવ્યું છે.
 
 </p>
 
@@ -444,11 +156,24 @@ Search
 </section>
 
 
+
+
+
+<!-- FOOTER -->
 
 
 <footer>
 
-© Rajkumar Ration Card Portal
+
+<p>
+© 2026 Rajkumar Ration Card Portal
+</p>
+
+
+<p>
+📞 9876543210 | 9429193125
+</p>
+
 
 </footer>
 
