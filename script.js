@@ -2,6 +2,7 @@
    RAJKUMAR RATION CARD PORTAL
    HOME PAGE SCRIPT
 ===================================== */
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwWuE9iFl7tdheBql-82Qs7PyYzyMo_3MCDu6KbyV_4dXkLCctJWc2hQOjvxsvuCK4HDg/exec";
 
 
 
