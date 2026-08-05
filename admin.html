@@ -12,7 +12,8 @@
 
 </head>
 
-<body onload="checkLogin()">
+
+<body>
 
 
 <!-- HEADER -->
@@ -25,15 +26,18 @@
 
 </div>
 
+
 <div class="header-right">
 
 <span id="adminName">
 Admin
 </span>
 
+
 <button onclick="logout()">
 Logout
 </button>
+
 
 </div>
 
@@ -47,11 +51,14 @@ Logout
 
 <section class="dashboard">
 
+
 <div class="card">
 
 <h3>Total Applications</h3>
 
-<h2 id="totalApps">0</h2>
+<h2 id="totalApplications">
+0
+</h2>
 
 </div>
 
@@ -61,7 +68,21 @@ Logout
 
 <h3>Payment Pending</h3>
 
-<h2 id="paymentPending">0</h2>
+<h2 id="paymentPending">
+0
+</h2>
+
+</div>
+
+
+
+<div class="card">
+
+<h3>Payment Verified</h3>
+
+<h2 id="paymentVerified">
+0
+</h2>
 
 </div>
 
@@ -71,7 +92,9 @@ Logout
 
 <h3>Processing</h3>
 
-<h2 id="processing">0</h2>
+<h2 id="processing">
+0
+</h2>
 
 </div>
 
@@ -81,9 +104,25 @@ Logout
 
 <h3>Completed</h3>
 
-<h2 id="completed">0</h2>
+<h2 id="completed">
+0
+</h2>
 
 </div>
+
+
+
+<div class="card">
+
+<h3>Rejected</h3>
+
+<h2 id="rejected">
+0
+</h2>
+
+</div>
+
+
 
 </section>
 
@@ -97,21 +136,33 @@ Logout
 
 <section class="search-area">
 
+
 <input
 
 type="text"
 
-id="search"
+id="searchBox"
 
-placeholder="Search by Name / Mobile / Application ID">
+placeholder="Search Name / Mobile / Application ID">
+
 
 <button onclick="searchApplication()">
 
-Search
+🔍 Search
 
 </button>
 
+
+<button onclick="clearSearch()">
+
+Clear
+
+</button>
+
+
 </section>
+
+
 
 
 
@@ -121,19 +172,25 @@ Search
 
 <!-- APPLICATION TABLE -->
 
+
 <section class="table-area">
+
 
 <table>
 
+
 <thead>
+
 
 <tr>
 
-<th>ID</th>
+<th>Application ID</th>
 
 <th>Name</th>
 
 <th>Mobile</th>
+
+<th>Village</th>
 
 <th>Service</th>
 
@@ -143,15 +200,20 @@ Search
 
 <th>Action</th>
 
+
 </tr>
+
 
 </thead>
 
-<tbody id="applicationTable">
+
+
+<tbody id="tableBody">
+
 
 <tr>
 
-<td colspan="7">
+<td colspan="8">
 
 No Application Found
 
@@ -159,9 +221,12 @@ No Application Found
 
 </tr>
 
+
 </tbody>
 
+
 </table>
+
 
 </section>
 
@@ -171,29 +236,37 @@ No Application Found
 
 
 
-<!-- DETAILS MODAL -->
+
+
+<!-- VIEW MODAL -->
+
 
 <div
 
-id="detailsModal"
+id="viewModal"
 
-class="modal"
+class="modal">
 
-style="display:none;">
 
 <div class="modal-content">
 
-<h2>
 
-Application Details
 
-</h2>
+<span class="close"
 
-<div id="detailsBody">
+onclick="closeModal()">
+
+×
+</span>
+
+
+
+<div id="viewContent">
+
 
 </div>
 
-<br>
+
 
 <button onclick="closeModal()">
 
@@ -201,9 +274,15 @@ Close
 
 </button>
 
-</div>
+
 
 </div>
+
+
+</div>
+
+
+
 
 
 
@@ -212,6 +291,8 @@ Close
 
 <script src="admin.js"></script>
 
+
 </body>
+
 
 </html>
