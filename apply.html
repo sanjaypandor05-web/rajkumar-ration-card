@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="gu">
 
@@ -21,8 +22,7 @@
 
 <div class="logo">
 
-<i>🪪</i>
-Rajkumar Ration Card
+🪪 Rajkumar Ration Card
 
 </div>
 
@@ -33,6 +33,7 @@ Rajkumar Ration Card
 
 
 </header>
+
 
 
 
@@ -49,25 +50,37 @@ Rajkumar Ration Card
 
 
 <p>
-તમારી માહિતી ભરો
+તમારી સાચી માહિતી ભરો
 </p>
 
 
 
-<label>અરજદારનું નામ</label>
+
+
+<label>
+અરજદારનું નામ
+</label>
 
 <input 
 type="text"
 id="name"
-placeholder="પૂરું નામ">
+placeholder="આધાર કાર્ડ મુજબ પૂરું નામ">
 
 
 
-<label>નામ કયા પ્રમાણે જોઈએ?</label>
+
+
+
+<label>
+નામ કયા પ્રમાણે જોઈએ?
+</label>
+
 
 <div class="radio-box">
 
+
 <label>
+
 <input 
 type="radio"
 name="nameType"
@@ -78,6 +91,8 @@ onclick="nameTypeChange()">
 આધાર કાર્ડ મુજબ નામ
 
 </label>
+
+
 
 
 <label>
@@ -98,6 +113,8 @@ onclick="nameTypeChange()">
 
 
 
+
+
 <div id="husbandBox" style="display:none">
 
 
@@ -109,7 +126,7 @@ onclick="nameTypeChange()">
 <input 
 type="text"
 id="husband"
-placeholder="પતિનું નામ">
+placeholder="પતિનું પૂરું નામ">
 
 
 </div>
@@ -117,29 +134,45 @@ placeholder="પતિનું નામ">
 
 
 
-<label>મોબાઇલ નંબર</label>
+
+
+
+<label>
+મોબાઇલ નંબર
+</label>
+
 
 <input 
-type="number"
+type="tel"
 id="mobile"
-placeholder="મોબાઇલ નંબર">
+maxlength="10"
+placeholder="10 અંકનો મોબાઇલ નંબર">
 
 
 
 
 
-<label>ગામ</label>
+
+
+<label>
+ગામ
+</label>
+
 
 <input 
 type="text"
 id="village"
-placeholder="ગામ">
+placeholder="ગામનું નામ">
 
 
 
 
 
-<label>તાલુકો</label>
+
+<label>
+તાલુકો
+</label>
+
 
 <input 
 type="text"
@@ -150,7 +183,11 @@ placeholder="તાલુકો">
 
 
 
-<label>જિલ્લો</label>
+
+<label>
+જિલ્લો
+</label>
+
 
 <input 
 type="text"
@@ -161,7 +198,11 @@ placeholder="જિલ્લો">
 
 
 
-<label>રેશન કાર્ડ નંબર</label>
+
+<label>
+રેશન કાર્ડ નંબર
+</label>
+
 
 <input 
 type="text"
@@ -172,7 +213,11 @@ placeholder="રેશન કાર્ડ નંબર">
 
 
 
-<label>સેવા પસંદ કરો</label>
+
+
+<label>
+સેવા પસંદ કરો
+</label>
 
 
 <select id="service">
@@ -183,32 +228,32 @@ placeholder="રેશન કાર્ડ નંબર">
 </option>
 
 
-<option>
+<option value="New Ration Card">
 નવું રેશન કાર્ડ
 </option>
 
 
-<option>
+<option value="Add Name">
 નામ ઉમેરવું
 </option>
 
 
-<option>
+<option value="Remove Name">
 નામ કાપવું
 </option>
 
 
-<option>
+<option value="Correction">
 સરનામું સુધારવું
 </option>
 
 
-<option>
+<option value="Mobile Link">
 મોબાઇલ નંબર લિંક
 </option>
 
 
-<option>
+<option value="Duplicate">
 ડુપ્લિકેટ રેશન કાર્ડ
 </option>
 
@@ -219,7 +264,10 @@ placeholder="રેશન કાર્ડ નંબર">
 
 
 
-<!-- PAYMENT QR -->
+
+
+
+<!-- PAYMENT -->
 
 
 <div class="payment-box">
@@ -235,6 +283,7 @@ src="QR.jpeg"
 alt="Payment QR Code"
 class="qr-code">
 
+
 <p>
 UPI Payment કર્યા પછી Screenshot Upload કરો
 </p>
@@ -247,8 +296,6 @@ UPI Payment કર્યા પછી Screenshot Upload કરો
 
 
 
-
-<!-- Aadhaar Upload -->
 
 
 <label>
@@ -267,10 +314,6 @@ accept=".pdf">
 
 
 
-
-<!-- Ration Upload -->
-
-
 <label>
 રેશન કાર્ડ PDF
 </label>
@@ -285,9 +328,6 @@ accept=".pdf">
 
 
 
-
-
-<!-- Payment Screenshot -->
 
 
 <label>
@@ -306,6 +346,7 @@ accept="image/*,.pdf">
 
 
 
+
 <button onclick="sendApplication()">
 
 અરજી મોકલો
@@ -314,7 +355,10 @@ accept="image/*,.pdf">
 
 
 
+
+
 <div id="msg"></div>
+
 
 
 
@@ -335,24 +379,35 @@ accept="image/*,.pdf">
 function nameTypeChange(){
 
 
-let type=document.querySelector(
+let type =
+document.querySelector(
 'input[name="nameType"]:checked'
 ).value;
 
 
+
 if(type=="Husband"){
+
 
 document.getElementById(
 "husbandBox"
 ).style.display="block";
 
+
 }
 
 else{
 
+
 document.getElementById(
 "husbandBox"
 ).style.display="none";
+
+
+document.getElementById(
+"husband"
+).value="";
+
 
 }
 
@@ -365,10 +420,10 @@ document.getElementById(
 
 
 
-
 <script src="apply.js"></script>
 
 
 </body>
 
 </html>
+```
