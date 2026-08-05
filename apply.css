@@ -1,4 +1,4 @@
- /* ===================================
+/* ===================================
    RAJKUMAR RATION CARD
    APPLY PAGE CSS FINAL
 =================================== */
@@ -23,16 +23,20 @@ body{
 
 
 
-/* HEADER */
+
+/* ================= HEADER ================= */
 
 
 header{
 
     height:75px;
+
     background:white;
 
     display:flex;
+
     align-items:center;
+
     justify-content:space-between;
 
     padding:0 7%;
@@ -46,7 +50,9 @@ header{
 .logo{
 
     font-size:24px;
+
     font-weight:700;
+
     color:#0066cc;
 
 }
@@ -73,8 +79,7 @@ header{
 
 
 
-
-/* FORM AREA */
+/* ================= FORM AREA ================= */
 
 
 .apply-page{
@@ -127,7 +132,8 @@ header{
 
 
 
-/* TITLE */
+
+/* ================= TITLE ================= */
 
 
 .apply-card h1{
@@ -167,7 +173,7 @@ header{
 
 
 
-/* LABEL */
+/* ================= LABEL ================= */
 
 
 .apply-card label{
@@ -197,7 +203,7 @@ header{
 
 
 
-/* INPUT */
+/* ================= INPUT ================= */
 
 
 .apply-card input,
@@ -244,9 +250,7 @@ header{
 
 
 
-
-
-/* RADIO */
+/* ================= RADIO ================= */
 
 
 .radio-box{
@@ -255,16 +259,16 @@ header{
     display:flex;
 
 
-    gap:15px;
-
-
     flex-direction:column;
+
+
+    gap:12px;
 
 
     text-align:left;
 
 
-    margin-bottom:15px;
+    margin-bottom:18px;
 
 
 }
@@ -277,10 +281,10 @@ header{
     display:flex;
 
 
-    gap:10px;
-
-
     align-items:center;
+
+
+    gap:10px;
 
 
     font-weight:500;
@@ -308,9 +312,7 @@ header{
 
 
 
-
-
-/* PAYMENT BOX */
+/* ================= PAYMENT ================= */
 
 
 .payment-box{
@@ -350,17 +352,16 @@ header{
 
 
 
-
-/* QR SMALL */
+/* QR CODE */
 
 
 .qr-code{
 
 
-    width:140px;
+    width:200px;
 
 
-    height:140px;
+    height:200px;
 
 
     object-fit:contain;
@@ -382,6 +383,9 @@ header{
     font-size:14px;
 
 
+    color:#555;
+
+
 }
 
 
@@ -391,9 +395,7 @@ header{
 
 
 
-
-
-/* BUTTON */
+/* ================= BUTTON ================= */
 
 
 .apply-card button{
@@ -444,7 +446,8 @@ header{
 
 
 
-/* MESSAGE */
+
+/* ================= MESSAGE ================= */
 
 
 #msg{
@@ -466,7 +469,7 @@ header{
 
 
 
-/* MOBILE */
+/* ================= MOBILE ================= */
 
 
 @media(max-width:600px){
@@ -476,7 +479,10 @@ header{
 header{
 
 
-padding:0 20px;
+    height:65px;
+
+
+    padding:0 15px;
 
 
 }
@@ -486,7 +492,20 @@ padding:0 20px;
 .logo{
 
 
-font-size:18px;
+    font-size:18px;
+
+
+}
+
+
+
+.back{
+
+
+    padding:8px 15px;
+
+
+    font-size:14px;
 
 
 }
@@ -496,7 +515,10 @@ font-size:18px;
 .apply-page{
 
 
-padding:20px;
+    padding:15px;
+
+
+    align-items:flex-start;
 
 
 }
@@ -506,7 +528,10 @@ padding:20px;
 .apply-card{
 
 
-padding:25px;
+    padding:22px;
+
+
+    border-radius:18px;
 
 
 }
@@ -516,21 +541,86 @@ padding:25px;
 .apply-card h1{
 
 
-font-size:25px;
+    font-size:24px;
 
 
 }
 
+
+
+.apply-card p{
+
+
+    font-size:14px;
+
+
+}
+
+
+
+.apply-card input,
+.apply-card select{
+
+
+    padding:13px;
+
+
+    font-size:15px;
+
+
+}
+
+
+
+.apply-card button{
+
+
+    padding:14px;
+
+
+    font-size:17px;
+
+
+}
+
+
+
+
+
+/* MOBILE QR */
 
 
 .qr-code{
 
-    width:220px;
-    height:220px;
-    object-fit:contain;
-    border-radius:10px;
+
+    width:170px;
+
+
+    height:170px;
+
 
 }
+
+
+
+.payment-box{
+
+
+    padding:15px;
+
+
+}
+
+
+
+.payment-box p{
+
+
+    font-size:13px;
+
+
+}
+
 
 
 }
