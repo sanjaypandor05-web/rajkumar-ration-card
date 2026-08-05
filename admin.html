@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Admin Panel | Rajkumar Ration Card Portal</title>
+
+<link rel="stylesheet" href="admin.css">
+
+</head>
+
+<body onload="checkLogin()">
+
+
+<!-- HEADER -->
+
+<header>
+
+<div class="logo">
+
+🪪 Rajkumar Ration Card Portal
+
+</div>
+
+<div class="header-right">
+
+<span id="adminName">
+Admin
+</span>
+
+<button onclick="logout()">
+Logout
+</button>
+
+</div>
+
+</header>
+
+
+
+
+
+<!-- DASHBOARD -->
+
+<section class="dashboard">
+
+<div class="card">
+
+<h3>Total Applications</h3>
+
+<h2 id="totalApps">0</h2>
+
+</div>
+
+
+
+<div class="card">
+
+<h3>Payment Pending</h3>
+
+<h2 id="paymentPending">0</h2>
+
+</div>
+
+
+
+<div class="card">
+
+<h3>Processing</h3>
+
+<h2 id="processing">0</h2>
+
+</div>
+
+
+
+<div class="card">
+
+<h3>Completed</h3>
+
+<h2 id="completed">0</h2>
+
+</div>
+
+</section>
+
+
+
+
+
+
+
+<!-- SEARCH -->
+
+<section class="search-area">
+
+<input
+
+type="text"
+
+id="search"
+
+placeholder="Search by Name / Mobile / Application ID">
+
+<button onclick="searchApplication()">
+
+Search
+
+</button>
+
+</section>
+
+
+
+
+
+
+
+<!-- APPLICATION TABLE -->
+
+<section class="table-area">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>ID</th>
+
+<th>Name</th>
+
+<th>Mobile</th>
+
+<th>Service</th>
+
+<th>Payment</th>
+
+<th>Status</th>
+
+<th>Action</th>
+
+</tr>
+
+</thead>
+
+<tbody id="applicationTable">
+
+<tr>
+
+<td colspan="7">
+
+No Application Found
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</section>
+
+
+
+
+
+
+
+<!-- DETAILS MODAL -->
+
+<div
+
+id="detailsModal"
+
+class="modal"
+
+style="display:none;">
+
+<div class="modal-content">
+
+<h2>
+
+Application Details
+
+</h2>
+
+<div id="detailsBody">
+
+</div>
+
+<br>
+
+<button onclick="closeModal()">
+
+Close
+
+</button>
+
+</div>
+
+</div>
+
+
+
+
+
+
+<script src="admin.js"></script>
+
+</body>
+
+</html>
