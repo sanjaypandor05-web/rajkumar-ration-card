@@ -1,163 +1,67 @@
 // ==========================================
 // RAJKUMAR RATION CARD PORTAL
-// SIMPLE CODE.GS PART 1
-// ==========================================
-
-
-// ---------- GOOGLE SHEET ID ----------
-
-const SPREADSHEET_ID = 
-"YOUR_GOOGLE_SHEET_ID";
-
-
-// ---------- SHEET NAME ----------
-
-const APPLICATION_SHEET =
-"Applications";
-
-
-// ---------- OPEN SHEET ----------
-
-function getSheet(){
-
-  const ss =
-  SpreadsheetApp.openById(
-    SPREADSHEET_ID
-  );
-
-  return ss.getSheetByName(
-    APPLICATION_SHEET
-  );
-
-}
-
-
-
-// ---------- WEBSITE LOAD ----------
-
-function doGet(){
-
-  return HtmlService
-  .createTemplateFromFile(
-    "index"
-  )
-  .evaluate()
-  .setTitle(
-    "Rajkumar Ration Card Portal"
-  )
-  .setXFrameOptionsMode(
-    HtmlService.XFrameOptionsMode.ALLOWALL
-  );
-
-}
-
-
-
-// ---------- JSON RESPONSE ----------
-
-function jsonResponse(data){
-
- return ContentService
- .createTextOutput(
-   JSON.stringify(data)
- )
- .setMimeType(
-   ContentService.MimeType.JSON
- );
-
-}
-// ==========================================
-// RAJKUMAR RATION CARD PORTAL
-// SIMPLE CODE.GS PART 2
+// SIMPLE SCRIPT.JS PART 1
 // FORM SUBMIT SYSTEM
 // ==========================================
 
 
 
-// ---------- RECEIVE FORM DATA ----------
+// ---------- GOOGLE APPS SCRIPT URL ----------
 
-function doPost(e){
-
-  try{
-
-
-    let data =
-    JSON.parse(
-      e.postData.contents
-    );
-
-
-
-    if(data.action=="submitApplication"){
-
-
-      let result =
-      saveApplication(data);
-
-
-
-      return jsonResponse(result);
-
-
-    }
-
-
-
-    return jsonResponse({
-
-      success:false,
-
-      message:"Invalid Action"
-
-    });
-
-
-
-  }
-
-  catch(error){
-
-
-    return jsonResponse({
-
-      success:false,
-
-      message:error.toString()
-
-    });
-
-
-  }
-
-
-}
+const SCRIPT_URL =
+"https://script.google.com/macros/s/YOUR_DEPLOYMENT_ID/exec";
 
 
 
 
-// ---------- GENERATE APPLICATION ID ----------
 
-function generateApplicationID(){
+// ---------- SUBMIT APPLICATION ----------
 
-
-  let sheet =
-  getSheet();
+function submitApplication(){
 
 
-  let lastRow =
-  sheet.getLastRow();
+let name =
+document.getElementById("name").value;
 
 
-  let id =
-  lastRow;
+let mobile =
+document.getElementById("mobile").value;
+
+
+let service =
+document.getElementById("service").value;
+
+
+let village =
+document.getElementById("village").value;
+
+
+let aadhaar =
+document.getElementById("aadhaar").value;
+
+
+let ration =
+document.getElementById("ration").value;
 
 
 
-  return "RC" +
-  Utilities.formatString(
-    "%06d",
-    id
-  );
+
+
+// BASIC VALIDATION
+
+
+if(
+name=="" ||
+mobile==""
+){
+
+
+alert(
+"નામ અને મોબાઇલ નંબર જરૂરી છે"
+);
+
+
+return;
 
 
 }
@@ -166,145 +70,182 @@ function generateApplicationID(){
 
 
 
-// ---------- SAVE APPLICATION ----------
-
-function saveApplication(data){
+let data={
 
 
-  let sheet =
-  getSheet();
+action:
+"submitApplication",
 
 
-
-  let appId =
-  generateApplicationID();
+name:name,
 
 
-
-  sheet.appendRow([
-
-
-    appId,
+mobile:mobile,
 
 
-    data.name,
+service:service,
 
 
-    data.mobile,
+village:village,
 
 
-    data.service,
+aadhaar:aadhaar,
 
 
-    data.village,
+ration:ration
 
 
-    data.aadhaar,
-
-
-    data.ration,
-
-
-    "Pending",
-
-
-    new Date()
-
-
-  ]);
+};
 
 
 
 
 
-  return {
+
+// SEND DATA TO GOOGLE SCRIPT
 
 
-    success:true,
+fetch(
+SCRIPT_URL,
+{
 
 
-    message:
-    "Application Submitted Successfully",
+method:"POST",
 
 
-    applicationId:
-    appId
+body:
+JSON.stringify(data)
 
 
-  };
+}
+
+)
+
+
+
+.then(
+response =>
+response.json()
+
+)
+
+
+
+.then(
+result=>{
+
+
+if(result.success){
+
+
+alert(
+
+"✅ અરજી સફળતાપૂર્વક મોકલાઈ\n\n"+
+"Application ID : "+
+result.applicationId
+
+);
+
+
+
+document
+.getElementById("applicationForm")
+.reset();
+
+
+
+}
+
+else{
+
+
+alert(
+"❌ "+
+result.message
+);
+
+
+}
+
+
+}
+
+)
+
+
+
+.catch(
+error=>{
+
+
+alert(
+"Server Error : "+
+error
+);
+
+
+}
+
+);
+
 
 
 }
 // ==========================================
 // RAJKUMAR RATION CARD PORTAL
-// SIMPLE CODE.GS PART 3
-// GOOGLE DRIVE UPLOAD SYSTEM
+// SIMPLE SCRIPT.JS PART 2
+// PDF BASE64 SYSTEM
 // ==========================================
 
 
 
-// ---------- GOOGLE DRIVE FOLDER ID ----------
+// ---------- GLOBAL FILE DATA ----------
 
-const DRIVE_FOLDER_ID =
-"YOUR_DRIVE_FOLDER_ID";
+let uploadedFileData = "";
+
+let uploadedFileName = "";
 
 
 
 
-// ---------- UPLOAD PDF TO DRIVE ----------
 
-function uploadFileToDrive(
-fileName,
-base64Data
+// ---------- PDF FILE CHANGE ----------
+
+function handleFileUpload(){
+
+
+let file =
+
+document.getElementById(
+"documentFile"
+).files[0];
+
+
+
+if(!file){
+
+return;
+
+}
+
+
+
+
+
+// ONLY PDF CHECK
+
+
+if(
+file.type !== "application/pdf"
 ){
 
 
-  try{
+alert(
+"ફક્ત PDF File Upload કરો"
+);
 
 
-    let folder =
-    DriveApp.getFolderById(
-      DRIVE_FOLDER_ID
-    );
-
-
-
-    let bytes =
-    Utilities.base64Decode(
-      base64Data
-    );
-
-
-
-    let blob =
-    Utilities.newBlob(
-      bytes,
-      MimeType.PDF,
-      fileName
-    );
-
-
-
-    let file =
-    folder.createFile(
-      blob
-    );
-
-
-
-    return file.getUrl();
-
-
-
-  }
-
-
-  catch(error){
-
-
-    return "";
-
-  }
+return;
 
 
 }
@@ -313,166 +254,337 @@ base64Data
 
 
 
-// ---------- SAVE DOCUMENT URL ----------
-
-function updateDocumentURL(
-appId,
-fileURL
-){
-
-
- let sheet =
- getSheet();
+uploadedFileName =
+file.name;
 
 
 
- let data =
- sheet.getDataRange()
- .getValues();
+
+
+// CONVERT PDF TO BASE64
+
+
+let reader =
+new FileReader();
 
 
 
- for(let i=1;i<data.length;i++){
+reader.onload=function(e){
+
+
+uploadedFileData =
+
+e.target.result
+.split(",")[1];
 
 
 
-   if(data[i][0]==appId){
+console.log(
+"PDF Ready"
+);
 
 
 
-     // Column 10 = Document URL
-
-     sheet.getRange(
-       i+1,
-       10
-     )
-     .setValue(
-       fileURL
-     );
+};
 
 
 
-     break;
+reader.readAsDataURL(file);
 
 
-   }
+
+}
 
 
- }
+
+
+
+
+// ---------- LOADING SHOW ----------
+
+
+function showLoading(){
+
+
+let btn =
+
+document.getElementById(
+"submitBtn"
+);
+
+
+
+if(btn){
+
+
+btn.disabled=true;
+
+
+btn.innerHTML=
+"⏳ Submit થઈ રહ્યું છે...";
+
+
+}
+
+
+}
+
+
+
+
+// ---------- LOADING HIDE ----------
+
+
+function hideLoading(){
+
+
+let btn =
+
+document.getElementById(
+"submitBtn"
+);
+
+
+
+if(btn){
+
+
+btn.disabled=false;
+
+
+btn.innerHTML=
+"Submit Application";
+
+
+}
 
 
 }
 // ==========================================
 // RAJKUMAR RATION CARD PORTAL
-// SIMPLE CODE.GS PART 4
-// FINAL APPLICATION SYSTEM
+// SIMPLE SCRIPT.JS PART 3
+// FINAL APPLICATION SUBMIT
 // ==========================================
 
 
 
-// ---------- FINAL SAVE APPLICATION ----------
+// ---------- FINAL SUBMIT APPLICATION ----------
 
-function saveApplication(data){
-
-
-  let sheet =
-  getSheet();
+async function submitApplication(){
 
 
-
-  // CREATE APPLICATION ID
-
-  let appId =
-  generateApplicationID();
+showLoading();
 
 
 
-  let documentURL="";
+let name =
+document.getElementById("name").value;
 
 
-
-  // PDF AVAILABLE THEN UPLOAD
-
-  if(
-    data.fileData &&
-    data.fileName
-  ){
+let mobile =
+document.getElementById("mobile").value;
 
 
-    documentURL =
-    uploadFileToDrive(
-      data.fileName,
-      data.fileData
-    );
+let service =
+document.getElementById("service").value;
 
 
-  }
+let village =
+document.getElementById("village").value;
+
+
+let aadhaar =
+document.getElementById("aadhaar").value;
+
+
+let ration =
+document.getElementById("ration").value;
 
 
 
 
 
-  // SAVE DATA IN SHEET
+if(
+name=="" ||
+mobile==""
+){
 
 
-  sheet.appendRow([
+hideLoading();
 
 
-    appId,
+alert(
+"નામ અને મોબાઇલ જરૂરી છે"
+);
 
 
-    data.name,
+return;
 
 
-    data.mobile,
-
-
-    data.service,
-
-
-    data.village,
-
-
-    data.aadhaar,
-
-
-    data.ration,
-
-
-    "Pending",
-
-
-    new Date(),
-
-
-    documentURL
-
-
-  ]);
+}
 
 
 
 
-
-  return {
-
-
-    success:true,
+let data={
 
 
-    message:
-    "Application Submitted Successfully",
+action:
+"submitApplication",
 
 
-    applicationId:
-    appId,
+name:name,
 
 
-    documentURL:
-    documentURL
+mobile:mobile,
 
 
-  };
+service:service,
+
+
+village:village,
+
+
+aadhaar:aadhaar,
+
+
+ration:ration,
+
+
+fileName:
+uploadedFileName,
+
+
+fileData:
+uploadedFileData
+
+
+
+};
+
+
+
+
+
+fetch(
+SCRIPT_URL,
+{
+
+method:"POST",
+
+body:
+JSON.stringify(data)
+
+}
+
+)
+
+
+
+.then(
+res=>res.json()
+
+)
+
+
+
+.then(
+result=>{
+
+
+hideLoading();
+
+
+
+if(result.success){
+
+
+
+alert(
+
+"✅ અરજી સફળ\n\n"+
+"Application ID : "+
+result.applicationId
+
+);
+
+
+
+
+// WhatsApp Message
+
+sendWhatsApp(
+
+mobile,
+
+result.applicationId
+
+);
+
+
+
+
+
+// Reset Form
+
+
+document
+.getElementById(
+"applicationForm"
+)
+.reset();
+
+
+
+
+uploadedFileData="";
+
+uploadedFileName="";
+
+
+
+}
+
+
+
+else{
+
+
+alert(
+"❌ "+result.message
+);
+
+
+}
+
+
+
+}
+
+
+
+)
+
+
+
+.catch(
+error=>{
+
+
+hideLoading();
+
+
+alert(
+"Server Error"
+);
+
+
+}
+
+
+
+);
+
 
 
 }
@@ -481,52 +593,54 @@ function saveApplication(data){
 
 
 
-// ---------- GET APPLICATION HISTORY ----------
+// ---------- WHATSAPP CONFIRMATION ----------
 
-function getApplicationHistory(
-mobile
+
+function sendWhatsApp(
+mobile,
+appId
 ){
 
 
- let sheet =
- getSheet();
+
+let message =
 
 
- let data =
- sheet.getDataRange()
- .getValues();
+"નમસ્તે 🙏\n\n"+
 
+"તમારી રેશન કાર્ડ અરજી સ્વીકારવામાં આવી છે.\n\n"+
 
- let result=[];
+"Application ID : "+
+appId+
 
+"\n\n"+
 
-
- for(let i=1;i<data.length;i++){
-
-
-
-   if(
-    data[i][2]
-    .toString()
-    ==
-    mobile.toString()
-   ){
+"Rajkumar Online Work";
 
 
 
-     result.push(
-       data[i]
-     );
 
 
-   }
+let url =
 
 
- }
+"https://wa.me/91"+
+
+mobile+
+
+"?text="+
+
+encodeURIComponent(message);
 
 
 
- return result;
+
+
+window.open(
+url,
+"_blank"
+);
+
 
 
 }
