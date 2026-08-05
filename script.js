@@ -1,4 +1,3 @@
-
 // =====================================
 // RAJKUMAR RATION CARD PORTAL
 // SCRIPT JS
@@ -17,11 +16,133 @@ if(menu){
 
 menu.addEventListener("click",()=>{
 
-    nav.classList.toggle("active");
+nav.classList.toggle("active");
 
 });
 
 }
+
+
+
+
+// ================= HUSBAND NAME SHOW =================
+
+
+
+const service = document.getElementById("service");
+
+const husbandBox = document.getElementById("husbandBox");
+
+
+if(service){
+
+
+service.addEventListener("change",()=>{
+
+
+if(service.value === "husband"){
+
+husbandBox.style.display="block";
+
+}
+
+else{
+
+husbandBox.style.display="none";
+
+}
+
+
+});
+
+
+}
+
+
+
+
+
+
+// ================= FORM SUBMIT =================
+
+
+
+const form = document.getElementById("rationForm");
+
+
+
+if(form){
+
+
+
+form.addEventListener("submit",(e)=>{
+
+
+e.preventDefault();
+
+
+
+
+let data = {
+
+
+name:
+document.getElementById("name").value,
+
+
+mobile:
+document.getElementById("mobile").value,
+
+
+aadhaar:
+document.getElementById("aadhaar").value,
+
+
+ration:
+document.getElementById("ration").value,
+
+
+service:
+document.getElementById("service").value,
+
+
+husbandName:
+document.getElementById("husbandName").value,
+
+
+remark:
+document.getElementById("remark").value
+
+
+
+};
+
+
+
+
+console.log(data);
+
+
+
+
+
+alert("તમારી અરજી સફળતાપૂર્વક મોકલાઈ છે");
+
+
+
+form.reset();
+
+
+husbandBox.style.display="none";
+
+
+
+});
+
+
+
+}
+
 
 
 
@@ -29,96 +150,184 @@ menu.addEventListener("click",()=>{
 // ================= COUNTER ANIMATION =================
 
 
+
 const counters = document.querySelectorAll(".counter h2");
 
 
 counters.forEach(counter=>{
 
-    let target = counter.innerText;
 
-    let number = parseInt(target);
-
-    let count = 0;
+let target = counter.innerText;
 
 
-    let timer = setInterval(()=>{
+counter.innerText="0";
 
 
-        count += Math.ceil(number/100);
+
+let count=0;
 
 
-        if(count >= number){
 
-            count = number;
-            clearInterval(timer);
-
-        }
+let timer=setInterval(()=>{
 
 
-        if(target.includes("+")){
-
-            counter.innerText = count + "+";
-
-        }
-
-        else if(target.includes("%")){
-
-            counter.innerText = count + "%";
-
-        }
-
-        else{
-
-            counter.innerText = count;
-
-        }
+count += 1;
 
 
-    },30);
+counter.innerText=count+"+";
+
+
+
+if(count>=parseInt(target)){
+
+
+clearInterval(timer);
+
+
+counter.innerText=target;
+
+
+}
+
+
+},30);
+
 
 
 });
+// =====================================
+// RAJKUMAR RATION CARD PORTAL
+// SCRIPT.JS FINAL
+// =====================================
 
 
 
+// ================= MOBILE MENU =================
+
+const menu = document.querySelector(".menu");
+const nav = document.querySelector("nav");
+
+
+if(menu){
+
+menu.addEventListener("click",()=>{
+
+nav.classList.toggle("active");
+
+});
+
+}
 
 
 
-
-// ================= STATUS SEARCH =================
-
-
-const searchBtn = document.querySelector(".status button");
+// ================= SERVICE SELECT =================
 
 
-if(searchBtn){
+const serviceSelect = document.getElementById("service");
+const husbandBox = document.getElementById("husbandBox");
 
 
-searchBtn.addEventListener("click",()=>{
+if(serviceSelect){
 
 
-let mobile = document.querySelector(".status input").value;
+serviceSelect.addEventListener("change",function(){
 
 
+if(this.value === "husband"){
 
-if(mobile==""){
-
-
-alert("મોબાઇલ નંબર દાખલ કરો");
-
+husbandBox.style.display="block";
 
 }
 
 else{
 
+husbandBox.style.display="none";
+
+}
+
+
+});
+
+
+}
+
+
+
+// ================= FORM SUBMIT =================
+
+
+const rationForm = document.getElementById("rationForm");
+
+
+if(rationForm){
+
+
+rationForm.addEventListener("submit",function(e){
+
+
+e.preventDefault();
+
+
+
+let formData = {
+
+
+name:
+document.getElementById("name").value,
+
+
+mobile:
+document.getElementById("mobile").value,
+
+
+aadhaar:
+document.getElementById("aadhaar").value,
+
+
+ration:
+document.getElementById("ration").value,
+
+
+service:
+document.getElementById("service").value,
+
+
+husbandName:
+document.getElementById("husbandName").value,
+
+
+remark:
+document.getElementById("remark").value
+
+
+};
+
+
+
+console.log(formData);
+
+
+
+// અહીં Google Apps Script URL આવશે
+
+/*
+fetch(SCRIPT_URL,{
+method:"POST",
+body:JSON.stringify(formData)
+})
+*/
+
 
 alert(
-"તમારી અરજી તપાસવામાં આવી રહી છે..."
+"તમારી અરજી સફળતાપૂર્વક મોકલાઈ છે"
 );
 
 
-}
 
+rationForm.reset();
+
+
+husbandBox.style.display="none";
 
 
 });
@@ -128,41 +337,34 @@ alert(
 
 
 
+// ================= AUTO SCROLL =================
 
 
+document.querySelectorAll("a[href^='#']").forEach(link=>{
 
-// ================= SERVICE CLICK =================
 
-const cards = document.querySelectorAll(".card");
+link.addEventListener("click",function(e){
 
-cards.forEach(card=>{
 
-card.addEventListener("click",()=>{
+let target=document.querySelector(this.getAttribute("href"));
 
-    let service = card.querySelector("h3").innerText;
 
-    window.open(
-        "apply.html?service=" + encodeURIComponent(service),
-        "_blank"
-    );
+if(target){
+
+e.preventDefault();
+
+
+target.scrollIntoView({
+
+behavior:"smooth"
 
 });
-
-});
-// ================= WHATSAPP BUTTON =================
-
-
-const whatsapp = document.querySelector(".whatsapp");
-
-
-if(whatsapp){
-
-
-whatsapp.href =
-"https://wa.me/919876543210?text=મને રેશન કાર્ડ સેવા વિશે માહિતી જોઈએ છે";
-
-
-whatsapp.target="_blank";
 
 
 }
+
+
+});
+
+
+});
