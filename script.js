@@ -1,59 +1,48 @@
-// =====================================
-// RAJKUMAR RATION CARD PORTAL
-// SCRIPT JS
-// =====================================
+/* =====================================
+   RAJKUMAR RATION CARD PORTAL
+   HOME PAGE SCRIPT
+===================================== */
 
 
 
-// ================= MOBILE MENU =================
+// ================= IMAGE SLIDER =================
 
 
-const menu = document.querySelector(".menu");
-const nav = document.querySelector("nav");
+let images = [
+
+    "banner1.jpg",
+    "banner2.jpg",
+    "banner3.jpg"
+
+];
 
 
-if(menu){
-
-menu.addEventListener("click",()=>{
-
-nav.classList.toggle("active");
-
-});
-
-}
+let index = 0;
 
 
+let banner = document.querySelector(".hero-image img");
 
 
-// ================= HUSBAND NAME SHOW =================
+if(banner){
 
 
-
-const service = document.getElementById("service");
-
-const husbandBox = document.getElementById("husbandBox");
+setInterval(()=>{
 
 
-if(service){
+    index++;
 
 
-service.addEventListener("change",()=>{
+    if(index >= images.length){
+
+        index = 0;
+
+    }
 
 
-if(service.value === "husband"){
-
-husbandBox.style.display="block";
-
-}
-
-else{
-
-husbandBox.style.display="none";
-
-}
+    banner.src = images[index];
 
 
-});
+},4000);
 
 
 }
@@ -61,310 +50,76 @@ husbandBox.style.display="none";
 
 
 
+// ================= SMOOTH SCROLL =================
 
 
-// ================= FORM SUBMIT =================
+document.querySelectorAll('a[href^="#"]').forEach(link=>{
 
 
-
-const form = document.getElementById("rationForm");
-
+    link.addEventListener("click",function(e){
 
 
-if(form){
+        let target = document.querySelector(
+            this.getAttribute("href")
+        );
 
 
+        if(target){
 
-form.addEventListener("submit",(e)=>{
-
-
-e.preventDefault();
+            e.preventDefault();
 
 
+            target.scrollIntoView({
+
+                behavior:"smooth"
+
+            });
+
+        }
 
 
-let data = {
-
-
-name:
-document.getElementById("name").value,
-
-
-mobile:
-document.getElementById("mobile").value,
-
-
-aadhaar:
-document.getElementById("aadhaar").value,
-
-
-ration:
-document.getElementById("ration").value,
-
-
-service:
-document.getElementById("service").value,
-
-
-husbandName:
-document.getElementById("husbandName").value,
-
-
-remark:
-document.getElementById("remark").value
-
-
-
-};
-
-
-
-
-console.log(data);
-
-
-
-
-
-alert("તમારી અરજી સફળતાપૂર્વક મોકલાઈ છે");
-
-
-
-form.reset();
-
-
-husbandBox.style.display="none";
-
+    });
 
 
 });
 
 
 
-}
+
+// ================= APPLY BUTTON =================
 
 
+let applyButtons = document.querySelectorAll(".apply-btn,.main-btn");
 
 
-
-// ================= COUNTER ANIMATION =================
-
+applyButtons.forEach(button=>{
 
 
-const counters = document.querySelectorAll(".counter h2");
+    button.addEventListener("click",()=>{
 
 
-counters.forEach(counter=>{
+        console.log(
+            "Opening Services Page"
+        );
 
 
-let target = counter.innerText;
-
-
-counter.innerText="0";
-
-
-
-let count=0;
-
-
-
-let timer=setInterval(()=>{
-
-
-count += 1;
-
-
-counter.innerText=count+"+";
-
-
-
-if(count>=parseInt(target)){
-
-
-clearInterval(timer);
-
-
-counter.innerText=target;
-
-
-}
-
-
-},30);
-
+    });
 
 
 });
-// =====================================
-// RAJKUMAR RATION CARD PORTAL
-// SCRIPT.JS FINAL
-// =====================================
 
 
 
-// ================= MOBILE MENU =================
 
-const menu = document.querySelector(".menu");
-const nav = document.querySelector("nav");
+// ================= PAGE LOAD =================
 
 
-if(menu){
+window.addEventListener("load",()=>{
 
-menu.addEventListener("click",()=>{
 
-nav.classList.toggle("active");
-
-});
-
-}
-
-
-
-// ================= SERVICE SELECT =================
-
-
-const serviceSelect = document.getElementById("service");
-const husbandBox = document.getElementById("husbandBox");
-
-
-if(serviceSelect){
-
-
-serviceSelect.addEventListener("change",function(){
-
-
-if(this.value === "husband"){
-
-husbandBox.style.display="block";
-
-}
-
-else{
-
-husbandBox.style.display="none";
-
-}
-
-
-});
-
-
-}
-
-
-
-// ================= FORM SUBMIT =================
-
-
-const rationForm = document.getElementById("rationForm");
-
-
-if(rationForm){
-
-
-rationForm.addEventListener("submit",function(e){
-
-
-e.preventDefault();
-
-
-
-let formData = {
-
-
-name:
-document.getElementById("name").value,
-
-
-mobile:
-document.getElementById("mobile").value,
-
-
-aadhaar:
-document.getElementById("aadhaar").value,
-
-
-ration:
-document.getElementById("ration").value,
-
-
-service:
-document.getElementById("service").value,
-
-
-husbandName:
-document.getElementById("husbandName").value,
-
-
-remark:
-document.getElementById("remark").value
-
-
-};
-
-
-
-console.log(formData);
-
-
-
-// અહીં Google Apps Script URL આવશે
-
-/*
-fetch(SCRIPT_URL,{
-method:"POST",
-body:JSON.stringify(formData)
-})
-*/
-
-
-alert(
-"તમારી અરજી સફળતાપૂર્વક મોકલાઈ છે"
-);
-
-
-
-rationForm.reset();
-
-
-husbandBox.style.display="none";
-
-
-});
-
-
-}
-
-
-
-// ================= AUTO SCROLL =================
-
-
-document.querySelectorAll("a[href^='#']").forEach(link=>{
-
-
-link.addEventListener("click",function(e){
-
-
-let target=document.querySelector(this.getAttribute("href"));
-
-
-if(target){
-
-e.preventDefault();
-
-
-target.scrollIntoView({
-
-behavior:"smooth"
-
-});
-
-
-}
-
-
-});
+    console.log(
+        "Rajkumar Ration Card Portal Loaded"
+    );
 
 
 });
