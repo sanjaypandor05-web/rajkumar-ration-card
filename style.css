@@ -312,3 +312,178 @@ nav{
 
 
 }
+/* =====================================
+   SERVICES PAGE CSS
+===================================== */
+
+
+/* PAGE TITLE */
+
+.page-title{
+
+    text-align:center;
+    padding:50px 20px;
+    background:white;
+    margin-bottom:30px;
+
+}
+
+
+.page-title h1{
+
+    font-size:38px;
+    color:#003366;
+    margin-bottom:15px;
+
+}
+
+
+.page-title p{
+
+    font-size:18px;
+    color:#555;
+
+}
+
+
+
+/* SERVICES CONTAINER */
+
+
+.services-container{
+
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:30px;
+    padding:30px 6%;
+
+}
+
+
+
+
+/* SERVICE CARD */
+
+
+.service-card{
+
+    background:white;
+    padding:30px;
+    border-radius:20px;
+    box-shadow:0 5px 20px rgba(0,0,0,0.10);
+    transition:.3s;
+
+}
+
+
+.service-card:hover{
+
+    transform:translateY(-5px);
+
+}
+
+
+
+.service-card h2{
+
+    color:#0066cc;
+    margin-bottom:15px;
+
+}
+
+
+
+.service-card h3{
+
+    color:#008000;
+    font-size:22px;
+    margin-bottom:20px;
+
+}
+
+
+
+.service-card h4{
+
+    margin-bottom:10px;
+    color:#333;
+
+}
+
+
+
+
+.service-card ul{
+
+    padding-left:20px;
+    margin-bottom:25px;
+
+}
+
+
+
+.service-card ul li{
+
+    margin:10px 0;
+    color:#555;
+    font-size:16px;
+
+}
+
+
+
+
+/* SERVICE BUTTON */
+
+
+.service-btn{
+
+    display:inline-block;
+    background:#0066cc;
+    color:white;
+    padding:12px 30px;
+    border-radius:30px;
+    text-decoration:none;
+    font-weight:bold;
+    transition:.3s;
+
+}
+
+
+
+.service-btn:hover{
+
+    background:#004999;
+
+}
+
+
+
+/* MOBILE */
+
+@media(max-width:768px){
+
+
+.services-container{
+
+    grid-template-columns:1fr;
+    padding:20px;
+
+}
+
+
+.page-title h1{
+
+    font-size:30px;
+
+}
+
+
+.service-card{
+
+    padding:20px;
+
+}
+
+
+}
