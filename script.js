@@ -135,18 +135,18 @@ alert(
 
 const cards = document.querySelectorAll(".card");
 
-
 cards.forEach(card=>{
-
 
 card.addEventListener("click",()=>{
 
+    let service = card.querySelector("h3").innerText;
 
-window.location.href="apply.html";
-
+    window.open(
+        "apply.html?service=" + encodeURIComponent(service),
+        "_blank"
+    );
 
 });
-
 
 });
 // ================= WHATSAPP BUTTON =================
