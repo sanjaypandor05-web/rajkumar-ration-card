@@ -1,364 +1,532 @@
 // ==========================================
 // RAJKUMAR RATION CARD PORTAL
-// SCRIPT.JS - PART 1
+// SIMPLE CODE.GS PART 1
 // ==========================================
 
-// ---------- GOOGLE APPS SCRIPT URL ----------
 
-const SCRIPT_URL = "PASTE_YOUR_GOOGLE_APPS_SCRIPT_URL_HERE";
+// ---------- GOOGLE SHEET ID ----------
 
-// ---------- BANNER SLIDER ----------
+const SPREADSHEET_ID = 
+"YOUR_GOOGLE_SHEET_ID";
 
-const slides = document.querySelectorAll(".slide");
 
-let currentSlide = 0;
+// ---------- SHEET NAME ----------
 
-function showSlide(index){
+const APPLICATION_SHEET =
+"Applications";
 
-    slides.forEach((slide)=>{
 
-        slide.classList.remove("active");
+// ---------- OPEN SHEET ----------
+
+function getSheet(){
+
+  const ss =
+  SpreadsheetApp.openById(
+    SPREADSHEET_ID
+  );
+
+  return ss.getSheetByName(
+    APPLICATION_SHEET
+  );
+
+}
+
+
+
+// ---------- WEBSITE LOAD ----------
+
+function doGet(){
+
+  return HtmlService
+  .createTemplateFromFile(
+    "index"
+  )
+  .evaluate()
+  .setTitle(
+    "Rajkumar Ration Card Portal"
+  )
+  .setXFrameOptionsMode(
+    HtmlService.XFrameOptionsMode.ALLOWALL
+  );
+
+}
+
+
+
+// ---------- JSON RESPONSE ----------
+
+function jsonResponse(data){
+
+ return ContentService
+ .createTextOutput(
+   JSON.stringify(data)
+ )
+ .setMimeType(
+   ContentService.MimeType.JSON
+ );
+
+}
+// ==========================================
+// RAJKUMAR RATION CARD PORTAL
+// SIMPLE CODE.GS PART 2
+// FORM SUBMIT SYSTEM
+// ==========================================
+
+
+
+// ---------- RECEIVE FORM DATA ----------
+
+function doPost(e){
+
+  try{
+
+
+    let data =
+    JSON.parse(
+      e.postData.contents
+    );
+
+
+
+    if(data.action=="submitApplication"){
+
+
+      let result =
+      saveApplication(data);
+
+
+
+      return jsonResponse(result);
+
+
+    }
+
+
+
+    return jsonResponse({
+
+      success:false,
+
+      message:"Invalid Action"
 
     });
 
-    slides[index].classList.add("active");
 
-}
 
-function nextSlide(){
+  }
 
-    currentSlide++;
+  catch(error){
 
-    if(currentSlide >= slides.length){
 
-        currentSlide = 0;
+    return jsonResponse({
 
-    }
+      success:false,
 
-    showSlide(currentSlide);
-
-}
-
-setInterval(nextSlide,4000);
-
-// ---------- OPEN FORM ----------
-
-function openForm(service){
-
-    document.getElementById("applicationModal").style.display = "block";
-
-    document.getElementById("serviceName").value = service;
-
-    document.body.style.overflow = "hidden";
-
-}
-
-// ---------- CLOSE FORM ----------
-
-function closeForm(){
-
-    document.getElementById("applicationModal").style.display = "none";
-
-    document.body.style.overflow = "auto";
-
-}
-
-// ---------- CLOSE ON OUTSIDE CLICK ----------
-
-window.onclick = function(event){
-
-    const modal = document.getElementById("applicationModal");
-
-    if(event.target == modal){
-
-        closeForm();
-
-    }
-
-}
-
-// ---------- CHANGE RELATION ----------
-
-function changeRelation(){
-
-    const relation = document.getElementById("relation").value;
-
-    const label = document.getElementById("relationLabel");
-
-    if(relation === "પતિનું નામ"){
-
-        label.innerHTML = "પતિનું નામ (આધાર મુજબ)";
-
-    }else{
-
-        label.innerHTML = "પિતાનું નામ (આધાર મુજબ)";
-
-    }
-
-}
-// ==========================================
-// SCRIPT.JS - PART 2
-// FORM VALIDATION
-// ==========================================
-
-const form = document.getElementById("applicationForm");
-
-form.addEventListener("submit", submitApplication);
-
-function submitApplication(e){
-
-    e.preventDefault();
-
-    // ---------- GET VALUES ----------
-
-    const applicantName = document.getElementById("applicantName").value.trim();
-
-    const relation = document.getElementById("relation").value;
-
-    const relationName = document.getElementById("relationName").value.trim();
-
-    const mobile =
-    document.querySelector('input[type="tel"]').value.trim();
-
-    const aadhar =
-    document.querySelector('input[maxlength="12"]').value.trim();
-
-    const ration =
-    document.querySelectorAll("input[type='text']")[2].value.trim();
-
-    const village =
-    document.querySelectorAll("input[type='text']")[3].value.trim();
-
-    const taluka =
-    document.querySelectorAll("input[type='text']")[4].value.trim();
-
-    const district =
-    document.querySelectorAll("input[type='text']")[5].value.trim();
-
-    const details =
-    document.querySelector("textarea").value.trim();
-
-    // ---------- FILES ----------
-
-    const aadharPdf =
-    document.querySelectorAll("input[type='file']")[0].files[0];
-
-    const rationPdf =
-    document.querySelectorAll("input[type='file']")[1].files[0];
-
-    const otherPdf =
-    document.querySelectorAll("input[type='file']")[2].files[0];
-
-    const payment =
-    document.querySelectorAll("input[type='file']")[3].files[0];
-
-    // ---------- VALIDATION ----------
-
-    if(applicantName===""){
-
-        alert("અરજદારનું નામ લખો");
-
-        return;
-
-    }
-
-    if(relationName===""){
-
-        alert(relation+" લખો");
-
-        return;
-
-    }
-
-    if(!/^[6-9]\d{9}$/.test(mobile)){
-
-        alert("માન્ય મોબાઇલ નંબર લખો");
-
-        return;
-
-    }
-
-    if(!/^\d{12}$/.test(aadhar)){
-
-        alert("12 અંકનો આધાર નંબર લખો");
-
-        return;
-
-    }
-
-    if(!aadhaarPdf){
-
-        alert("આધાર PDF અપલોડ કરો");
-
-        return;
-
-    }
-
-    if(aadhaarPdf.type!="application/pdf"){
-
-        alert("આધાર ફક્ત PDF હોવો જોઈએ");
-
-        return;
-
-    }
-
-    if(!rationPdf){
-
-        alert("રેશન કાર્ડ PDF અપલોડ કરો");
-
-        return;
-
-    }
-
-    if(rationPdf.type!="application/pdf"){
-
-        alert("રેશન કાર્ડ ફક્ત PDF હોવો જોઈએ");
-
-        return;
-
-    }
-
-    if(payment==null){
-
-        alert("Payment Screenshot અપલોડ કરો");
-
-        return;
-
-    }
-
-    // ---------- SUCCESS ----------
-
-    alert("Validation Successful");
-
-}
-// ==========================================
-// SCRIPT.JS - PART 3
-// GOOGLE APPS SCRIPT SUBMIT
-// ==========================================
-
-async function fileToBase64(file){
-
-    return new Promise((resolve,reject)=>{
-
-        if(!file){
-            resolve("");
-            return;
-        }
-
-        const reader = new FileReader();
-
-        reader.onload = function(){
-
-            resolve(reader.result);
-
-        };
-
-        reader.onerror = reject;
-
-        reader.readAsDataURL(file);
+      message:error.toString()
 
     });
 
+
+  }
+
+
 }
 
-async function sendApplication(){
 
-    const submitBtn = document.querySelector("#applicationForm button");
 
-    submitBtn.disabled = true;
-    submitBtn.innerHTML = "Submitting...";
 
-    try{
+// ---------- GENERATE APPLICATION ID ----------
 
-        const data = {
+function generateApplicationID(){
 
-            service : document.getElementById("serviceName").value,
 
-            applicantName :
-            document.getElementById("applicantName").value,
+  let sheet =
+  getSheet();
 
-            relation :
-            document.getElementById("relation").value,
 
-            relationName :
-            document.getElementById("relationName").value,
+  let lastRow =
+  sheet.getLastRow();
 
-            mobile :
-            document.querySelector("input[type='tel']").value,
 
-            aadhar :
-            document.querySelector("input[maxlength='12']").value,
+  let id =
+  lastRow;
 
-            ration :
-            document.querySelectorAll("input[type='text']")[2].value,
 
-            village :
-            document.querySelectorAll("input[type='text']")[3].value,
 
-            taluka :
-            document.querySelectorAll("input[type='text']")[4].value,
+  return "RC" +
+  Utilities.formatString(
+    "%06d",
+    id
+  );
 
-            district :
-            document.querySelectorAll("input[type='text']")[5].value,
 
-            details :
-            document.querySelector("textarea").value,
+}
 
-            aadharPdf :
-            await fileToBase64(document.querySelectorAll("input[type='file']")[0].files[0]),
 
-            rationPdf :
-            await fileToBase64(document.querySelectorAll("input[type='file']")[1].files[0]),
 
-            otherPdf :
-            await fileToBase64(document.querySelectorAll("input[type='file']")[2].files[0]),
 
-            paymentScreenshot :
-            await fileToBase64(document.querySelectorAll("input[type='file']")[3].files[0])
 
-        };
+// ---------- SAVE APPLICATION ----------
 
-        const response = await fetch(SCRIPT_URL,{
+function saveApplication(data){
 
-            method:"POST",
 
-            headers:{
-                "Content-Type":"application/json"
-            },
+  let sheet =
+  getSheet();
 
-            body:JSON.stringify(data)
 
-        });
 
-        const result = await response.json();
+  let appId =
+  generateApplicationID();
 
-        if(result.success){
 
-            alert(
-                "અરજી સફળતાપૂર્વક સબમિટ થઈ.\n\nApplication No: "
-                + result.applicationId
-            );
 
-            document.getElementById("applicationForm").reset();
+  sheet.appendRow([
 
-            closeForm();
 
-        }else{
+    appId,
 
-            alert(result.message || "Submission Failed");
 
-        }
+    data.name,
 
-    }catch(error){
 
-        console.error(error);
+    data.mobile,
 
-        alert("Server Error");
 
-    }
+    data.service,
 
-    submitBtn.disabled = false;
 
-    submitBtn.innerHTML = "અરજી સબમિટ કરો";
+    data.village,
+
+
+    data.aadhaar,
+
+
+    data.ration,
+
+
+    "Pending",
+
+
+    new Date()
+
+
+  ]);
+
+
+
+
+
+  return {
+
+
+    success:true,
+
+
+    message:
+    "Application Submitted Successfully",
+
+
+    applicationId:
+    appId
+
+
+  };
+
+
+}
+// ==========================================
+// RAJKUMAR RATION CARD PORTAL
+// SIMPLE CODE.GS PART 3
+// GOOGLE DRIVE UPLOAD SYSTEM
+// ==========================================
+
+
+
+// ---------- GOOGLE DRIVE FOLDER ID ----------
+
+const DRIVE_FOLDER_ID =
+"YOUR_DRIVE_FOLDER_ID";
+
+
+
+
+// ---------- UPLOAD PDF TO DRIVE ----------
+
+function uploadFileToDrive(
+fileName,
+base64Data
+){
+
+
+  try{
+
+
+    let folder =
+    DriveApp.getFolderById(
+      DRIVE_FOLDER_ID
+    );
+
+
+
+    let bytes =
+    Utilities.base64Decode(
+      base64Data
+    );
+
+
+
+    let blob =
+    Utilities.newBlob(
+      bytes,
+      MimeType.PDF,
+      fileName
+    );
+
+
+
+    let file =
+    folder.createFile(
+      blob
+    );
+
+
+
+    return file.getUrl();
+
+
+
+  }
+
+
+  catch(error){
+
+
+    return "";
+
+  }
+
+
+}
+
+
+
+
+
+// ---------- SAVE DOCUMENT URL ----------
+
+function updateDocumentURL(
+appId,
+fileURL
+){
+
+
+ let sheet =
+ getSheet();
+
+
+
+ let data =
+ sheet.getDataRange()
+ .getValues();
+
+
+
+ for(let i=1;i<data.length;i++){
+
+
+
+   if(data[i][0]==appId){
+
+
+
+     // Column 10 = Document URL
+
+     sheet.getRange(
+       i+1,
+       10
+     )
+     .setValue(
+       fileURL
+     );
+
+
+
+     break;
+
+
+   }
+
+
+ }
+
+
+}
+// ==========================================
+// RAJKUMAR RATION CARD PORTAL
+// SIMPLE CODE.GS PART 4
+// FINAL APPLICATION SYSTEM
+// ==========================================
+
+
+
+// ---------- FINAL SAVE APPLICATION ----------
+
+function saveApplication(data){
+
+
+  let sheet =
+  getSheet();
+
+
+
+  // CREATE APPLICATION ID
+
+  let appId =
+  generateApplicationID();
+
+
+
+  let documentURL="";
+
+
+
+  // PDF AVAILABLE THEN UPLOAD
+
+  if(
+    data.fileData &&
+    data.fileName
+  ){
+
+
+    documentURL =
+    uploadFileToDrive(
+      data.fileName,
+      data.fileData
+    );
+
+
+  }
+
+
+
+
+
+  // SAVE DATA IN SHEET
+
+
+  sheet.appendRow([
+
+
+    appId,
+
+
+    data.name,
+
+
+    data.mobile,
+
+
+    data.service,
+
+
+    data.village,
+
+
+    data.aadhaar,
+
+
+    data.ration,
+
+
+    "Pending",
+
+
+    new Date(),
+
+
+    documentURL
+
+
+  ]);
+
+
+
+
+
+  return {
+
+
+    success:true,
+
+
+    message:
+    "Application Submitted Successfully",
+
+
+    applicationId:
+    appId,
+
+
+    documentURL:
+    documentURL
+
+
+  };
+
+
+}
+
+
+
+
+
+// ---------- GET APPLICATION HISTORY ----------
+
+function getApplicationHistory(
+mobile
+){
+
+
+ let sheet =
+ getSheet();
+
+
+ let data =
+ sheet.getDataRange()
+ .getValues();
+
+
+ let result=[];
+
+
+
+ for(let i=1;i<data.length;i++){
+
+
+
+   if(
+    data[i][2]
+    .toString()
+    ==
+    mobile.toString()
+   ){
+
+
+
+     result.push(
+       data[i]
+     );
+
+
+   }
+
+
+ }
+
+
+
+ return result;
+
 
 }
