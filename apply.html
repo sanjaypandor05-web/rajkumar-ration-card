@@ -5,9 +5,10 @@
 
 <meta charset="UTF-8">
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
 
-<title>રેશન કાર્ડ અરજી</title>
+<title>રેશન કાર્ડ અરજી | Rajkumar Ration Card Portal</title>
 
 <link rel="stylesheet" href="apply.css">
 
@@ -17,85 +18,82 @@
 <body>
 
 
+<!-- =========================================
+     HEADER
+========================================= -->
+
 <header>
 
-<div class="logo">
-🪪 Rajkumar Ration Card
-</div>
+    <div class="logo">
+        🪪 Rajkumar Ration Card
+    </div>
 
-
-<a href="index.html" class="back">
-← Home
-</a>
-
+    <a href="index.html" class="back">
+        ← Home
+    </a>
 
 </header>
 
 
 
-
+<!-- =========================================
+     APPLICATION PAGE
+========================================= -->
 
 <section class="apply-page">
-
 
 <div class="apply-card">
 
 
 <h1>
-રેશન કાર્ડ અરજી ફોર્મ
+    રેશન કાર્ડ અરજી ફોર્મ
 </h1>
 
-
 <p>
-તમારી સાચી માહિતી ભરો
+    તમારી સાચી માહિતી ભરીને અરજી મોકલો
 </p>
 
 
 
-
-
-<!-- ENGLISH NAME -->
+<!-- =========================================
+     ENGLISH NAME
+========================================= -->
 
 <label>
-આધાર કાર્ડ મુજબ English Name
+    આધાર કાર્ડ મુજબ English Name
 </label>
 
-
-<input 
-type="text"
-id="englishName"
-placeholder="PANDOR PRIYANKABEN SANJAYBHAI">
-
-
-
+<input
+    type="text"
+    id="englishName"
+    placeholder="PANDOR PRIYANKABEN SANJAYBHAI"
+    autocomplete="name"
+>
 
 
 
-
-<!-- GUJARATI NAME -->
-
+<!-- =========================================
+     GUJARATI NAME
+========================================= -->
 
 <label>
-રેશન કાર્ડ માટે ગુજરાતી નામ
+    રેશન કાર્ડ માટે ગુજરાતી નામ
 </label>
 
-
-<input 
-type="text"
-id="gujaratiName"
-placeholder="પાંડોર પ્રિયંકાબેન">
-
-
+<input
+    type="text"
+    id="gujaratiName"
+    placeholder="પાંડોર પ્રિયંકાબેન"
+>
 
 
 
-
-
-<!-- NAME TYPE -->
-
+<!-- =========================================
+     NAME TYPE
+========================================= -->
 
 <label>
-નામ કયા પ્રમાણે જોઈએ?
+    નામ કયા પ્રમાણે જોઈએ?
 </label>
 
 
@@ -104,14 +102,15 @@ placeholder="પાંડોર પ્રિયંકાબેન">
 
 <label>
 
-<input 
-type="radio"
-name="nameType"
-value="Self"
-checked
-onclick="nameTypeChange()">
+<input
+    type="radio"
+    name="nameType"
+    value="Self"
+    checked
+    onchange="nameTypeChange()"
+>
 
-પોતાના નામ પ્રમાણે
+આધાર કાર્ડ મુજબ નામ
 
 </label>
 
@@ -119,13 +118,14 @@ onclick="nameTypeChange()">
 
 <label>
 
-<input 
-type="radio"
-name="nameType"
-value="Husband"
-onclick="nameTypeChange()">
+<input
+    type="radio"
+    name="nameType"
+    value="Husband"
+    onchange="nameTypeChange()"
+>
 
-પતિના નામ સાથેનું નામ
+પતિના નામ મુજબ નામ
 
 </label>
 
@@ -134,276 +134,301 @@ onclick="nameTypeChange()">
 
 
 
+<!-- =========================================
+     HUSBAND NAME
+========================================= -->
 
-
-
-<!-- HUSBAND NAME -->
-
-
-<div id="husbandBox" style="display:none">
-
+<div
+    id="husbandBox"
+    style="display:none;"
+>
 
 <label>
-પતિનું નામ
+    પતિનું નામ
 </label>
 
-
-<input 
-type="text"
-id="husband"
-placeholder="સંજયભાઈ">
-
+<input
+    type="text"
+    id="husband"
+    placeholder="રમેશભાઈ પટેલ"
+>
 
 </div>
 
 
 
+<!-- =========================================
+     FINAL NAME PREVIEW
+========================================= -->
 
-
-
-
-<label>
-મોબાઇલ નંબર
-</label>
-
-
-<input 
-type="tel"
-id="mobile"
-maxlength="10"
-placeholder="મોબાઇલ નંબર">
-
-
-
-
-
-
+<div
+    id="finalNameBox"
+    style="display:none;"
+>
 
 <label>
-ગામ
+    Final Name
 </label>
 
+<input
+    type="text"
+    id="finalName"
+    readonly
+>
 
-<input 
-type="text"
-id="village"
-placeholder="ગામ">
+</div>
 
 
 
-
-
+<!-- =========================================
+     MOBILE
+========================================= -->
 
 <label>
-તાલુકો
+    મોબાઇલ નંબર
 </label>
 
+<input
+    type="tel"
+    id="mobile"
+    maxlength="10"
+    inputmode="numeric"
+    placeholder="10 અંકનો મોબાઇલ નંબર"
+>
 
-<input 
-type="text"
-id="taluka"
-placeholder="તાલુકો">
 
 
-
-
-
+<!-- =========================================
+     VILLAGE
+========================================= -->
 
 <label>
-જિલ્લો
+    ગામ
 </label>
 
-
-<input 
-type="text"
-id="district"
-placeholder="જિલ્લો">
-
-
+<input
+    type="text"
+    id="village"
+    placeholder="ગામ"
+>
 
 
 
+<!-- =========================================
+     TALUKA
+========================================= -->
 
 <label>
-રેશન કાર્ડ નંબર
+    તાલુકો
 </label>
 
-
-<input 
-type="text"
-id="rationNo"
-placeholder="રેશન કાર્ડ નંબર">
-
-
+<input
+    type="text"
+    id="taluka"
+    placeholder="તાલુકો"
+>
 
 
 
-
+<!-- =========================================
+     DISTRICT
+========================================= -->
 
 <label>
-સેવા પસંદ કરો
+    જિલ્લો
 </label>
 
+<input
+    type="text"
+    id="district"
+    placeholder="જિલ્લો"
+>
+
+
+
+<!-- =========================================
+     RATION CARD NUMBER
+========================================= -->
+
+<label>
+    રેશન કાર્ડ નંબર
+</label>
+
+<input
+    type="text"
+    id="rationNo"
+    placeholder="રેશન કાર્ડ નંબર"
+>
+
+
+
+<!-- =========================================
+     SERVICE
+========================================= -->
+
+<label>
+    સેવા પસંદ કરો
+</label>
 
 <select id="service">
 
-
 <option value="">
-સેવા પસંદ કરો
+    સેવા પસંદ કરો
 </option>
-
 
 <option value="New Ration Card">
-નવું રેશન કાર્ડ
+    નવું રેશન કાર્ડ
 </option>
-
 
 <option value="Add Name">
-નામ ઉમેરવું
+    નામ ઉમેરવું
 </option>
-
 
 <option value="Remove Name">
-નામ કાપવું
+    નામ કાપવું
 </option>
-
 
 <option value="Correction">
-સરનામું સુધારવું
+    રેશન કાર્ડ સુધારો
 </option>
-
-
-<option value="Mobile Link">
-મોબાઇલ નંબર લિંક
-</option>
-
-
-<option value="Duplicate">
-ડુપ્લિકેટ રેશન કાર્ડ
-</option>
-
 
 </select>
 
 
 
-
-
-
-
-
-<!-- PAYMENT -->
-
+<!-- =========================================
+     PAYMENT QR
+========================================= -->
 
 <div class="payment-box">
 
-
 <h3>
-💳 Payment કરો
+    💳 Payment કરો
 </h3>
 
 
-<img 
-src="QR.jpeg"
-class="qr-code"
-alt="QR Code">
+<img
+    src="QR.jpeg"
+    class="qr-code"
+    alt="Payment QR Code"
+>
 
 
 <p>
-QR Code Scan કરી Payment કરો
+    QR Code Scan કરીને Payment કરો
 </p>
 
+<p>
+    Payment કર્યા પછી Transaction ID નીચે લખો
+</p>
 
 </div>
 
 
 
-
-
-
-
-
-<!-- UTR -->
-
+<!-- =========================================
+     TRANSACTION ID
+========================================= -->
 
 <label>
-Payment UTR / Transaction ID
+    Payment UTR / Transaction ID
 </label>
 
-
-<input 
-type="text"
-id="transactionId"
-placeholder="UPI Transaction ID લખો">
-
-
+<input
+    type="text"
+    id="transactionId"
+    placeholder="UPI Transaction ID લખો"
+>
 
 
 
-
-
-<!-- FILE UPLOAD -->
-
+<!-- =========================================
+     AADHAAR PDF
+========================================= -->
 
 <label>
-આધાર કાર્ડ PDF
+    આધાર કાર્ડ PDF
 </label>
 
-
-<input 
-type="file"
-id="aadhaar"
-accept=".pdf">
-
-
+<input
+    type="file"
+    id="aadhaar"
+    accept="application/pdf,.pdf"
+>
 
 
+<small>
+    માત્ર PDF File અપલોડ કરો
+</small>
 
+
+
+<!-- =========================================
+     RATION CARD PDF
+========================================= -->
 
 <label>
-રેશન કાર્ડ PDF
+    રેશન કાર્ડ PDF
 </label>
 
-
-<input 
-type="file"
-id="ration"
-accept=".pdf">
-
-
+<input
+    type="file"
+    id="ration"
+    accept="application/pdf,.pdf"
+>
 
 
+<small>
+    માત્ર PDF File અપલોડ કરો
+</small>
 
+
+
+<!-- =========================================
+     PAYMENT SCREENSHOT
+========================================= -->
 
 <label>
-Payment Screenshot
+    Payment Screenshot
 </label>
 
-
-<input 
-type="file"
-id="payment"
-accept="image/*,.pdf">
-
-
+<input
+    type="file"
+    id="payment"
+    accept="image/*,.pdf"
+>
 
 
+<small>
+    Payment કર્યા પછી Screenshot અપલોડ કરો
+</small>
 
 
 
-<button onclick="sendApplication()">
+<!-- =========================================
+     SUBMIT
+========================================= -->
 
-અરજી મોકલો
+<button
+    type="button"
+    id="submitBtn"
+    onclick="sendApplication()"
+>
+
+    📝 અરજી મોકલો
 
 </button>
 
 
 
+<!-- =========================================
+     MESSAGE
+========================================= -->
 
-
-<div id="msg"></div>
-
-
+<div
+    id="msg"
+    style="margin-top:15px;"
+></div>
 
 
 
@@ -413,56 +438,165 @@ accept="image/*,.pdf">
 
 
 
-
-
-
-
+<!-- =========================================
+     NAME TYPE SCRIPT
+========================================= -->
 
 <script>
 
+function nameTypeChange() {
 
-function nameTypeChange(){
-
-
-let type =
-document.querySelector(
-'input[name="nameType"]:checked'
-).value;
+    const type =
+        document.querySelector(
+            'input[name="nameType"]:checked'
+        ).value;
 
 
+    const husbandBox =
+        document.getElementById(
+            "husbandBox"
+        );
 
-if(type=="Husband"){
+
+    const husband =
+        document.getElementById(
+            "husband"
+        );
 
 
-document.getElementById(
-"husbandBox"
-).style.display="block";
+    const finalNameBox =
+        document.getElementById(
+            "finalNameBox"
+        );
 
+
+    if (type === "Husband") {
+
+        husbandBox.style.display =
+            "block";
+
+        finalNameBox.style.display =
+            "block";
+
+    }
+
+    else {
+
+        husbandBox.style.display =
+            "none";
+
+        finalNameBox.style.display =
+            "none";
+
+        husband.value = "";
+
+    }
 
 }
 
-else{
 
 
-document.getElementById(
-"husbandBox"
-).style.display="none";
+function updateFinalName() {
+
+    const type =
+        document.querySelector(
+            'input[name="nameType"]:checked'
+        ).value;
 
 
-document.getElementById(
-"husband"
-).value="";
+    const gujaratiName =
+        document.getElementById(
+            "gujaratiName"
+        ).value.trim();
 
+
+    const husband =
+        document.getElementById(
+            "husband"
+        ).value.trim();
+
+
+    const finalName =
+        document.getElementById(
+            "finalName"
+        );
+
+
+    if (!finalName) return;
+
+
+    if (type === "Husband") {
+
+        if (
+            gujaratiName !== "" &&
+            husband !== ""
+        ) {
+
+            finalName.value =
+                gujaratiName +
+                " W/O " +
+                husband;
+
+        }
+
+        else {
+
+            finalName.value =
+                gujaratiName;
+
+        }
+
+    }
+
+    else {
+
+        finalName.value =
+            gujaratiName;
+
+    }
 
 }
 
 
-}
 
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+        const gujarati =
+            document.getElementById(
+                "gujaratiName"
+            );
+
+        const husband =
+            document.getElementById(
+                "husband"
+            );
+
+
+        if (gujarati) {
+
+            gujarati.addEventListener(
+                "input",
+                updateFinalName
+            );
+
+        }
+
+
+        if (husband) {
+
+            husband.addEventListener(
+                "input",
+                updateFinalName
+            );
+
+        }
+
+    }
+);
 
 </script>
-
-
 
 
 
