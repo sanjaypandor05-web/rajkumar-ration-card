@@ -3,7 +3,6 @@
    ADMIN PANEL CSS FINAL
 ===================================== */
 
-
 *{
     margin:0;
     padding:0;
@@ -11,493 +10,382 @@
     font-family:"Noto Sans Gujarati",Arial,sans-serif;
 }
 
-
 body{
     background:#f3f6fb;
+    color:#222;
 }
 
 
 /* ================= HEADER ================= */
 
-
 header{
-
     background:#0066cc;
-
     color:white;
-
     display:flex;
-
     justify-content:space-between;
-
     align-items:center;
-
     padding:15px 30px;
-
 }
-
 
 .logo{
-
     font-size:24px;
-
     font-weight:bold;
-
 }
-
 
 .header-right{
-
     display:flex;
-
     align-items:center;
-
     gap:15px;
-
 }
-
 
 .header-right button{
-
     background:#ff3b30;
-
     color:white;
-
     border:none;
-
     padding:10px 20px;
-
     border-radius:25px;
-
     cursor:pointer;
-
 }
 
+.header-right button:hover{
+    background:#d92d24;
+}
+
+
+/* ================= WELCOME ================= */
+
+.welcome-box{
+    margin:25px 25px 5px;
+    padding:28px 20px;
+    background:linear-gradient(
+        135deg,
+        #0066cc,
+        #004b99
+    );
+    color:white;
+    border-radius:18px;
+    text-align:center;
+    box-shadow:0 6px 20px rgba(0,102,204,.20);
+}
+
+.welcome-box h2{
+    margin:0;
+    font-size:28px;
+    font-weight:700;
+    letter-spacing:.5px;
+}
+
+.welcome-box p{
+    margin-top:8px;
+    font-size:15px;
+    opacity:.95;
+}
 
 
 /* ================= DASHBOARD ================= */
 
-
 .dashboard{
-
     display:grid;
-
     grid-template-columns:
     repeat(auto-fit,minmax(200px,1fr));
-
     gap:20px;
-
     padding:25px;
-
 }
-
-
 
 .card{
-
     background:white;
-
     padding:25px;
-
     border-radius:18px;
-
     text-align:center;
-
     box-shadow:0 5px 20px #ddd;
-
+    transition:.2s;
 }
 
-
+.card:hover{
+    transform:translateY(-3px);
+    box-shadow:0 8px 25px #d5d5d5;
+}
 
 .card h3{
-
     color:#555;
-
     font-size:16px;
-
 }
-
-
 
 .card h2{
-
     margin-top:10px;
-
     color:#0066cc;
-
     font-size:35px;
-
 }
-
-
-
-
 
 
 /* ================= SEARCH ================= */
 
-
 .search-area{
-
     padding:0 25px 25px;
-
     display:flex;
-
     gap:10px;
-
 }
-
-
 
 .search-area input{
-
     flex:1;
-
     padding:14px;
-
     border-radius:10px;
-
     border:1px solid #ccc;
-
     font-size:16px;
-
+    outline:none;
 }
 
-
+.search-area input:focus{
+    border-color:#0066cc;
+    box-shadow:0 0 0 3px rgba(0,102,204,.10);
+}
 
 .search-area button{
-
     padding:12px 25px;
-
     border:none;
-
     background:#0066cc;
-
     color:white;
-
     border-radius:10px;
-
     cursor:pointer;
-
 }
 
-
-
+.search-area button:hover{
+    background:#0052a3;
+}
 
 
 /* ================= TABLE ================= */
 
-
 .table-area{
-
     padding:0 25px 30px;
-
     overflow:auto;
-
 }
-
-
 
 table{
-
     width:100%;
-
     background:white;
-
     border-collapse:collapse;
-
     box-shadow:0 5px 20px #ddd;
-
+    border-radius:12px;
+    overflow:hidden;
 }
-
-
 
 th{
-
     background:#0066cc;
-
     color:white;
-
     padding:14px;
-
+    white-space:nowrap;
 }
-
-
 
 td{
-
     padding:12px;
-
     text-align:center;
-
     border-bottom:1px solid #eee;
-
 }
-
-
 
 tr:hover{
-
     background:#f7faff;
-
 }
-
-
-
 
 
 /* ================= BADGES ================= */
 
-
 .badge{
-
     padding:5px 10px;
-
     border-radius:20px;
-
     font-size:13px;
-
     color:white;
-
+    display:inline-block;
 }
-
-
 
 .green{
-
     background:#00a651;
-
 }
-
 
 .orange{
-
     background:#ff9800;
-
 }
-
 
 .red{
-
     background:#e53935;
-
 }
-
 
 .blue{
-
     background:#0066cc;
-
 }
-
-
-
 
 
 /* ================= ACTION BUTTONS ================= */
-
 
 .view-btn,
 .verify-btn,
 .status-btn,
 .delete-btn,
 .whatsapp-btn{
-
-
     border:none;
-
     padding:8px 12px;
-
     border-radius:8px;
-
     color:white;
-
     cursor:pointer;
-
     margin:3px;
-
     font-size:13px;
-
 }
-
-
 
 .view-btn{
-
     background:#0066cc;
-
 }
 
-
+.view-btn:hover{
+    background:#0052a3;
+}
 
 .verify-btn{
-
     background:#ff9800;
-
 }
 
-
+.verify-btn:hover{
+    background:#e68900;
+}
 
 .status-btn{
-
     background:#673ab7;
-
 }
 
-
+.status-btn:hover{
+    background:#54269b;
+}
 
 .delete-btn{
-
     background:#e53935;
-
 }
 
-
+.delete-btn:hover{
+    background:#c62828;
+}
 
 .whatsapp-btn{
-
     background:#25D366;
-
 }
 
-
-
-
+.whatsapp-btn:hover{
+    background:#1da851;
+}
 
 
 /* ================= MODAL ================= */
 
-
 .modal{
-
-
     position:fixed;
-
     inset:0;
-
     background:rgba(0,0,0,.55);
-
     display:flex;
-
     justify-content:center;
-
     align-items:center;
-
     z-index:999;
-
-
 }
-
-
 
 .modal-content{
-
-
     width:95%;
-
     max-width:650px;
-
     background:white;
-
     padding:30px;
-
     border-radius:20px;
-
     max-height:90vh;
-
     overflow:auto;
-
-
 }
-
-
 
 .close{
-
     float:right;
-
     font-size:28px;
-
     cursor:pointer;
-
 }
-
-
-
-
 
 .modal-content p{
-
     margin:10px 0;
-
 }
-
-
-
 
 
 /* ================= MOBILE ================= */
 
-
 @media(max-width:768px){
 
+    header{
+        flex-direction:column;
+        gap:15px;
+        text-align:center;
+    }
 
-header{
+    .logo{
+        font-size:18px;
+    }
 
-    flex-direction:column;
+    .welcome-box{
+        margin:18px 15px 5px;
+        padding:22px 15px;
+    }
 
-    gap:15px;
+    .welcome-box h2{
+        font-size:21px;
+    }
+
+    .welcome-box p{
+        font-size:13px;
+    }
+
+    .dashboard{
+        grid-template-columns:1fr;
+        padding:15px;
+    }
+
+    .search-area{
+        flex-direction:column;
+        padding:0 15px 20px;
+    }
+
+    .search-area button{
+        width:100%;
+    }
+
+    .table-area{
+        padding:0 15px 25px;
+    }
+
+    table{
+        min-width:800px;
+        font-size:12px;
+    }
+
+    th,
+    td{
+        padding:8px;
+    }
+
+    .modal-content{
+        width:94%;
+        padding:20px;
+    }
 
 }
 
 
+/* ================= SMALL MOBILE ================= */
 
-.logo{
+@media(max-width:480px){
 
-    font-size:18px;
+    .welcome-box h2{
+        font-size:18px;
+    }
 
-}
+    .card{
+        padding:20px;
+    }
 
+    .card h2{
+        font-size:30px;
+    }
 
-
-.dashboard{
-
-    grid-template-columns:1fr;
-
-}
-
-
-
-.search-area{
-
-    flex-direction:column;
-
-}
-
-
-
-.search-area button{
-
-    width:100%;
-
-}
-
-
-
-table{
-
-    font-size:12px;
-
-}
-
-
-
-th,td{
-
-    padding:8px;
-
-}
-
-
+    .header-right{
+        gap:8px;
+    }
 
 }
