@@ -1,6 +1,6 @@
+```html
 <!DOCTYPE html>
-
-<html lang="gu">
+<html lang="en">
 
 <head>
 
@@ -11,27 +11,135 @@
     content="width=device-width, initial-scale=1.0"
 >
 
-<title>
-    Admin Login | Rajkumar Ration Card Portal
-</title>
+<title>Admin Login - Rajkumar Ration Card Portal</title>
 
-<link
-    rel="stylesheet"
-    href="admin.css"
->
 
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:#f5f7fb;
+    font-family:Arial, sans-serif;
+}
+
+.login-container{
+    width:100%;
+    max-width:400px;
+    margin:20px;
+    background:white;
+    padding:35px 30px;
+    border-radius:16px;
+    box-shadow:0 10px 35px rgba(0,0,0,0.12);
+    text-align:center;
+}
+
+.logo{
+    font-size:55px;
+    margin-bottom:10px;
+}
+
+h1{
+    font-size:25px;
+    color:#222;
+    margin-bottom:8px;
+}
+
+.login-container > p{
+    color:#777;
+    margin-bottom:30px;
+}
+
+.input-group{
+    text-align:left;
+    margin-bottom:20px;
+}
+
+.input-group label{
+    display:block;
+    font-weight:bold;
+    margin-bottom:8px;
+    color:#333;
+}
+
+.input-group input{
+    width:100%;
+    padding:13px;
+    border:1px solid #ddd;
+    border-radius:8px;
+    outline:none;
+    font-size:15px;
+}
+
+.input-group input:focus{
+    border-color:#1976d2;
+}
+
+.password-box{
+    position:relative;
+}
+
+.password-box input{
+    padding-right:50px;
+}
+
+.password-box button{
+    position:absolute;
+    right:5px;
+    top:5px;
+    height:40px;
+    width:40px;
+    border:none;
+    background:transparent;
+    cursor:pointer;
+    font-size:20px;
+}
+
+.login-btn{
+    width:100%;
+    padding:14px;
+    border:none;
+    border-radius:8px;
+    background:#1976d2;
+    color:white;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.login-btn:hover{
+    background:#125ca8;
+}
+
+#msg{
+    margin-top:18px;
+    min-height:22px;
+    font-weight:bold;
+}
+
+.footer{
+    margin-top:25px;
+    font-size:13px;
+    color:#888;
+}
+
+</style>
 
 </head>
 
+
 <body>
 
-<!-- =========================================
-     LOGIN CONTAINER
-========================================= -->
 
 <div class="login-container">
-
-<div class="login-card">
 
 
     <!-- LOGO -->
@@ -47,88 +155,109 @@
         Rajkumar Ration Card Portal
     </h1>
 
-
     <p>
         Admin Login
     </p>
 
 
     <!-- =====================================
-         USERNAME
+         LOGIN FORM
     ====================================== -->
 
-    <div class="input-group">
-
-        <label for="username">
-            Username
-        </label>
-
-        <input
-            type="text"
-            id="username"
-            placeholder="Enter Username"
-            autocomplete="username"
-        >
-
-    </div>
+    <form
+        id="adminLoginForm"
+        autocomplete="off"
+        onsubmit="return false;"
+    >
 
 
-    <!-- =====================================
-         PASSWORD
-    ====================================== -->
+        <!-- USERNAME -->
 
-    <div class="input-group">
+        <div class="input-group">
 
-        <label for="password">
-            Password
-        </label>
+            <label for="username">
+                Username
+            </label>
 
+            <input
+                type="text"
+                id="username"
+                name="login_user_temp"
+                placeholder="Enter Username"
 
-        <div class="password-box">
+                autocomplete="off"
+                autocapitalize="off"
+                autocorrect="off"
+                spellcheck="false"
 
-          <input
-  type="password"
-  id="adminPassword"
-  name="adminPassword"
-  autocomplete="off"
-  placeholder="Admin Password"
->
-
-
-            <button
-                type="button"
-                onclick="togglePassword()"
-                title="Show / Hide Password"
+                readonly
+                onfocus="this.removeAttribute('readonly');"
             >
-                👁
-            </button>
 
         </div>
 
-    </div>
+
+        <!-- PASSWORD -->
+
+        <div class="input-group">
+
+            <label for="adminPassword">
+                Password
+            </label>
 
 
-    <!-- =====================================
-         LOGIN BUTTON
-    ====================================== -->
+            <div class="password-box">
 
-    <button
-        type="button"
-        class="login-btn"
-        onclick="login()"
-    >
-        🔐 Login
-    </button>
+                <input
+                    type="password"
+                    id="adminPassword"
+                    name="login_pass_temp"
+
+                    placeholder="Enter Password"
+
+                    autocomplete="new-password"
+                    autocapitalize="off"
+                    autocorrect="off"
+                    spellcheck="false"
+
+                    readonly
+                    onfocus="this.removeAttribute('readonly');"
+                >
 
 
-    <!-- =====================================
-         MESSAGE
-    ====================================== -->
+                <button
+                    type="button"
+                    onclick="togglePassword()"
+                    title="Show / Hide Password"
+                >
+                    👁
+                </button>
 
-    <div id="msg"></div>
+            </div>
+
+        </div>
 
 
-    <hr>
+        <!-- LOGIN BUTTON -->
+
+        <button
+            type="button"
+            class="login-btn"
+            onclick="login()"
+        >
+            🔐 Login
+        </button>
+
+
+        <!-- MESSAGE -->
+
+        <div id="msg"></div>
+
+
+    </form>
+
+
+    <hr style="margin-top:25px;">
 
 
     <!-- FOOTER -->
@@ -141,45 +270,204 @@
 
 
 </div>
-```
 
-</div>
-
-<!-- =========================================
-     PASSWORD TOGGLE
-========================================= -->
 
 <script>
 
-function togglePassword() {
+
+// =========================================
+// PASSWORD SHOW / HIDE
+// =========================================
+
+function togglePassword(){
 
     const password =
-        document.getElementById("password");
+        document.getElementById("adminPassword");
 
-    if (!password) {
-        return;
-    }
+    const button =
+        document.querySelector(".password-box button");
 
-    if (password.type === "password") {
+
+    if(password.type === "password"){
 
         password.type = "text";
 
-    } else {
+        button.textContent = "🙈";
+
+    }else{
 
         password.type = "password";
+
+        button.textContent = "👁";
 
     }
 
 }
 
+
+// =========================================
+// ADMIN LOGIN
+// =========================================
+
+function login(){
+
+    const username =
+        document.getElementById("username").value.trim();
+
+    const password =
+        document.getElementById("adminPassword").value;
+
+
+    const msg =
+        document.getElementById("msg");
+
+
+    // =====================================
+    // EMPTY CHECK
+    // =====================================
+
+    if(username === ""){
+
+        msg.textContent = "Username દાખલ કરો.";
+
+        msg.style.color = "red";
+
+        document.getElementById("username").focus();
+
+        return;
+
+    }
+
+
+    if(password === ""){
+
+        msg.textContent = "Password દાખલ કરો.";
+
+        msg.style.color = "red";
+
+        document.getElementById("adminPassword").focus();
+
+        return;
+
+    }
+
+
+    // =====================================
+    // ADMIN LOGIN
+    // =====================================
+
+    /*
+       અહીં તમારા હાલના Admin Username
+       અને Password મૂકો.
+
+       ઉદાહરણ:
+       const ADMIN_USERNAME = "admin";
+       const ADMIN_PASSWORD = "123456";
+    */
+
+    const ADMIN_USERNAME = "admin";
+
+    const ADMIN_PASSWORD = "123456";
+
+
+    // =====================================
+    // CHECK LOGIN
+    // =====================================
+
+    if(
+        username === ADMIN_USERNAME &&
+        password === ADMIN_PASSWORD
+    ){
+
+        msg.textContent =
+            "Login Successful...";
+
+        msg.style.color = "green";
+
+
+        // Password memoryમાં રાખશો નહીં
+        document.getElementById("adminPassword").value = "";
+
+        document.getElementById("username").value = "";
+
+
+        // =================================
+        // ADMIN PANEL OPEN
+        // =================================
+
+        setTimeout(function(){
+
+            window.location.href = "admin.html";
+
+        }, 700);
+
+
+    }else{
+
+        msg.textContent =
+            "Username અથવા Password ખોટો છે.";
+
+        msg.style.color = "red";
+
+
+        // Wrong password પણ clear
+        document.getElementById("adminPassword").value = "";
+
+        document.getElementById("adminPassword").focus();
+
+    }
+
+}
+
+
+// =========================================
+// ENTER KEY LOGIN
+// =========================================
+
+document
+.getElementById("adminLoginForm")
+.addEventListener("keydown", function(event){
+
+    if(event.key === "Enter"){
+
+        event.preventDefault();
+
+        login();
+
+    }
+
+});
+
+
+// =========================================
+// PAGE LOAD - CLEAR OLD VALUES
+// =========================================
+
+window.addEventListener("load", function(){
+
+    document.getElementById("username").value = "";
+
+    document.getElementById("adminPassword").value = "";
+
+});
+
+
+// =========================================
+// PAGE SHOW - CLEAR AUTOFILL
+// =========================================
+
+window.addEventListener("pageshow", function(){
+
+    document.getElementById("username").value = "";
+
+    document.getElementById("adminPassword").value = "";
+
+});
+
 </script>
 
-<!-- =========================================
-     ADMIN JAVASCRIPT
-========================================= -->
-
-<script src="admin.js"></script>
 
 </body>
 
 </html>
+```
