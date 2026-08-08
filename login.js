@@ -1,101 +1,343 @@
+```javascript
 // =====================================
 // RAJKUMAR RATION CARD PORTAL
-// LOGIN JS
+// FINAL ADMIN LOGIN JS
 // =====================================
 
 
+// =====================================
+// GOOGLE APPS SCRIPT URL
+// =====================================
+
 const SCRIPT_URL =
-"https://script.google.com/macros/s/AKfycby1cAsNRzfvrSLqZrukmEjqIKbCCkOHaShKzmuvVvyVlipSRmaRw8KTefkdKSQgsJkPJg/exec";
+"YOUR_CURRENT_GOOGLE_APPS_SCRIPT_URL";
 
 
+// =====================================
+// ADMIN LOGIN
+// =====================================
 
-function adminLogin(){
+function login(){
+
+    const username =
+        document.getElementById("username").value.trim();
+
+    const password =
+        document.getElementById("adminPassword").value;
+
+    const msg =
+        document.getElementById("msg");
 
 
-let username =
-document.getElementById("username").value.trim();
+    // =================================
+    // EMPTY CHECK
+    // =================================
+
+    if(username === "" || password === ""){
+
+        msg.innerHTML =
+            "⚠️ Username અને Password નાખો.";
+
+        msg.style.color = "red";
+
+        return;
+    }
 
 
-let password =
-document.getElementById("password").value.trim();
+    // =================================
+    // BUTTON DISABLE
+    // =================================
+
+    const loginButton =
+        document.querySelector(".login-btn");
+
+    loginButton.disabled = true;
+
+    loginButton.innerHTML =
+        "⏳ Login થઈ રહ્યું છે...";
 
 
+    msg.innerHTML = "";
 
-if(username=="" || password==""){
 
-alert("Username અને Password નાખો");
+    // =================================
+    // SEND LOGIN REQUEST
+    // =================================
 
-return;
+    fetch(SCRIPT_URL, {
+
+        method: "POST",
+
+        body: JSON.stringify({
+
+            action: "adminLogin",
+
+            username: username,
+
+            password: password
+
+        })
+
+    })
+
+
+    // =================================
+    // RESPONSE
+    // =================================
+
+    .then(function(response){
+
+        return response.json();
+
+    })
+
+
+    .then(function(data){
+
+        // =================================
+        // SUCCESS
+        // =================================
+
+        if(data.status === "success"){
+
+            // Login session
+            localStorage.setItem(
+                "adminLogin",
+                "true"
+            );
+
+            localStorage.setItem(
+                "adminName",
+                data.name || "Admin"
+            );
+
+
+            // IMPORTANT:
+            // Password ક્યારેય localStorageમાં
+            // save કરવામાં આવતો નથી.
+
+            document.getElementById(
+                "adminPassword"
+            ).value = "";
+
+
+            document.getElementById(
+                "username"
+            ).value = "";
+
+
+            msg.innerHTML =
+                "✅ Login Successful...";
+
+            msg.style.color = "green";
+
+
+            // =================================
+            // ADMIN PANEL OPEN
+            // =================================
+
+            setTimeout(function(){
+
+                window.location.replace(
+                    "admin.html"
+                );
+
+            }, 500);
+
+        }
+
+
+        // =================================
+        // LOGIN FAILED
+        // =================================
+
+        else{
+
+            msg.innerHTML =
+                "❌ " +
+                (data.message ||
+                "Username અથવા Password ખોટો છે.");
+
+            msg.style.color = "red";
+
+
+            // Password clear
+
+            document.getElementById(
+                "adminPassword"
+            ).value = "";
+
+
+            document.getElementById(
+                "adminPassword"
+            ).focus();
+
+
+            // Button enable
+
+            loginButton.disabled = false;
+
+            loginButton.innerHTML =
+                "🔐 Login";
+
+        }
+
+    })
+
+
+    // =================================
+    // SERVER ERROR
+    // =================================
+
+    .catch(function(error){
+
+        console.error(error);
+
+        msg.innerHTML =
+            "❌ Server Error. ફરી પ્રયાસ કરો.";
+
+        msg.style.color = "red";
+
+
+        loginButton.disabled = false;
+
+        loginButton.innerHTML =
+            "🔐 Login";
+
+
+        document.getElementById(
+            "adminPassword"
+        ).value = "";
+
+    });
 
 }
 
 
+// =====================================
+// PASSWORD SHOW / HIDE
+// =====================================
 
-fetch(SCRIPT_URL,{
+function togglePassword(){
 
-method:"POST",
+    const password =
+        document.getElementById("adminPassword");
 
-body:JSON.stringify({
-
-action:"adminLogin",
-
-username:username,
-
-password:password
-
-})
-
-})
-
-.then(res=>res.json())
+    const button =
+        document.querySelector(
+            ".password-box button"
+        );
 
 
-.then(data=>{
+    if(password.type === "password"){
+
+        password.type = "text";
+
+        button.innerHTML = "🙈";
+
+    }
+
+    else{
+
+        password.type = "password";
+
+        button.innerHTML = "👁";
+
+    }
+
+}
 
 
-if(data.status=="success"){
+// =====================================
+// ENTER KEY LOGIN
+// =====================================
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function(){
+
+        const password =
+            document.getElementById(
+                "adminPassword"
+            );
+
+        const username =
+            document.getElementById(
+                "username"
+            );
 
 
-localStorage.setItem(
-"adminLogin",
-"true"
+        password.addEventListener(
+            "keydown",
+            function(event){
+
+                if(event.key === "Enter"){
+
+                    event.preventDefault();
+
+                    login();
+
+                }
+
+            }
+        );
+
+
+        username.addEventListener(
+            "keydown",
+            function(event){
+
+                if(event.key === "Enter"){
+
+                    event.preventDefault();
+
+                    login();
+
+                }
+
+            }
+        );
+
+
+        // =================================
+        // CLEAR OLD FORM VALUES
+        // =================================
+
+        username.value = "";
+
+        password.value = "";
+
+    }
 );
 
 
-localStorage.setItem(
-"adminName",
-data.name
+// =====================================
+// CLEAR FORM WHEN PAGE IS SHOWN
+// =====================================
+
+window.addEventListener(
+    "pageshow",
+    function(){
+
+        const username =
+            document.getElementById(
+                "username"
+            );
+
+        const password =
+            document.getElementById(
+                "adminPassword"
+            );
+
+
+        if(username){
+            username.value = "";
+        }
+
+        if(password){
+            password.value = "";
+        }
+
+    }
 );
-
-
-window.location.href="admin.html";
-
-
-}
-
-else{
-
-
-document.getElementById("msg").innerHTML =
-data.message;
-
-
-}
-
-
-})
-
-
-.catch(err=>{
-
-
-console.log(err);
-
-document.getElementById("msg").innerHTML =
-"Server Error";
-
-
-});
-
-
-}
+```
