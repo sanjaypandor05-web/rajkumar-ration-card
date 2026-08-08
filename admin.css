@@ -275,35 +275,72 @@ tr:hover{
 /* ================= MODAL ================= */
 
 .modal{
+    display:none;
     position:fixed;
+    z-index:99999;
     inset:0;
-    background:rgba(0,0,0,.55);
-    display:flex;
-    justify-content:center;
+    background:rgba(0,0,0,0.65);
+
     align-items:center;
-    z-index:999;
+    justify-content:center;
+}
+
+.modal.show{
+    display:flex;
 }
 
 .modal-content{
-    width:95%;
+    position:relative;
+    width:90%;
     max-width:650px;
-    background:white;
+    max-height:85vh;
+    overflow-y:auto;
+
+    background:#fff;
+    border-radius:18px;
     padding:30px;
-    border-radius:20px;
-    max-height:90vh;
-    overflow:auto;
+
+    box-shadow:0 10px 40px rgba(0,0,0,0.3);
 }
 
-.close{
-    float:right;
+.modal-close{
+    position:absolute;
+    top:15px;
+    right:15px;
+
+    width:38px;
+    height:38px;
+
+    border:none;
+    background:transparent;
+
     font-size:28px;
+    font-weight:bold;
+
+    cursor:pointer;
+    z-index:100000;
+}
+
+.modal-close:hover{
+    color:red;
+}
+
+.close-btn{
+    margin-top:20px;
+    padding:10px 25px;
+
+    background:#0066cc;
+    color:white;
+
+    border:none;
+    border-radius:6px;
+
     cursor:pointer;
 }
 
-.modal-content p{
-    margin:10px 0;
+.close-btn:hover{
+    background:#004d99;
 }
-
 
 /* ================= MOBILE ================= */
 
