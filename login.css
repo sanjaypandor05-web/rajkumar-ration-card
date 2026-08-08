@@ -1,0 +1,310 @@
+```css
+/* =====================================
+   RAJKUMAR RATION CARD PORTAL
+   ADMIN LOGIN CSS
+===================================== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+
+body{
+
+    min-height:100vh;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    background:#f5f7fb;
+
+    font-family:
+        Arial,
+        "Noto Sans Gujarati",
+        sans-serif;
+
+    padding:20px;
+}
+
+
+/* =====================================
+   LOGIN CONTAINER
+===================================== */
+
+.login-container{
+
+    width:100%;
+
+    max-width:400px;
+
+    background:white;
+
+    padding:35px 30px;
+
+    border-radius:16px;
+
+    box-shadow:
+        0 10px 35px
+        rgba(0,0,0,0.12);
+
+    text-align:center;
+}
+
+
+/* =====================================
+   LOGO
+===================================== */
+
+.logo{
+
+    font-size:55px;
+
+    margin-bottom:10px;
+}
+
+
+/* =====================================
+   TITLE
+===================================== */
+
+h1{
+
+    font-size:25px;
+
+    color:#222;
+
+    margin-bottom:8px;
+
+    line-height:1.3;
+}
+
+
+.subtitle{
+
+    color:#777;
+
+    margin-bottom:30px;
+
+    font-size:16px;
+}
+
+
+/* =====================================
+   INPUT GROUP
+===================================== */
+
+.input-group{
+
+    text-align:left;
+
+    margin-bottom:20px;
+}
+
+
+.input-group label{
+
+    display:block;
+
+    font-weight:bold;
+
+    margin-bottom:8px;
+
+    color:#333;
+}
+
+
+/* =====================================
+   INPUT
+===================================== */
+
+.input-group input{
+
+    width:100%;
+
+    padding:13px;
+
+    border:1px solid #ddd;
+
+    border-radius:8px;
+
+    outline:none;
+
+    font-size:15px;
+
+    background:white;
+}
+
+
+.input-group input:focus{
+
+    border-color:#1976d2;
+
+    box-shadow:
+        0 0 0 2px
+        rgba(25,118,210,0.08);
+}
+
+
+/* =====================================
+   PASSWORD BOX
+===================================== */
+
+.password-box{
+
+    position:relative;
+
+    width:100%;
+}
+
+
+.password-box input{
+
+    padding-right:52px;
+}
+
+
+/* =====================================
+   SHOW / HIDE BUTTON
+===================================== */
+
+.password-box button{
+
+    position:absolute;
+
+    right:5px;
+
+    top:5px;
+
+    width:42px;
+
+    height:42px;
+
+    border:none;
+
+    background:transparent;
+
+    cursor:pointer;
+
+    font-size:20px;
+
+    border-radius:6px;
+}
+
+
+.password-box button:hover{
+
+    background:#f1f1f1;
+}
+
+
+/* =====================================
+   LOGIN BUTTON
+===================================== */
+
+.login-btn{
+
+    width:100%;
+
+    padding:14px;
+
+    border:none;
+
+    border-radius:8px;
+
+    background:#1976d2;
+
+    color:white;
+
+    font-size:16px;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+    transition:0.2s;
+}
+
+
+.login-btn:hover{
+
+    background:#125ca8;
+}
+
+
+.login-btn:disabled{
+
+    opacity:0.6;
+
+    cursor:not-allowed;
+}
+
+
+/* =====================================
+   MESSAGE
+===================================== */
+
+#msg{
+
+    margin-top:18px;
+
+    min-height:22px;
+
+    font-weight:bold;
+
+    line-height:1.5;
+}
+
+
+/* =====================================
+   HR
+===================================== */
+
+hr{
+
+    margin-top:25px;
+
+    border:0;
+
+    border-top:1px solid #eee;
+}
+
+
+/* =====================================
+   FOOTER
+===================================== */
+
+.footer{
+
+    margin-top:20px;
+
+    font-size:13px;
+
+    color:#888;
+}
+
+
+/* =====================================
+   MOBILE
+===================================== */
+
+@media(max-width:480px){
+
+    .login-container{
+
+        padding:30px 20px;
+
+    }
+
+    h1{
+
+        font-size:22px;
+
+    }
+
+}
+```
