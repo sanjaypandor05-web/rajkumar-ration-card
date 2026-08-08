@@ -2,8 +2,13 @@
 // RAJKUMAR RATION CARD PORTAL
 // FAST APPLY.JS
 // =====================================================
+// =====================================
+// RAJKUMAR RATION CARD PORTAL
+// GOOGLE APPS SCRIPT URL
+// =====================================
 
-https://script.google.com/macros/s/AKfycbwF4N8e9pxd3TYS7fdC73vDdCwZ2vQra_ckTrDYLRAaDvCeGvLeebnVCTpwTPTKMdkYyA/exec
+const SCRIPT_URL =
+"https://script.google.com/macros/s/AKfycbwF4N8e9pxd3TYS7fdC73vDdCwZ2vQra_ckTrDYLRAaDvCeGvLeebnVCTpwTPTKMdkYyA/exec";
 
 // =====================================================
 // FILE TO BASE64
