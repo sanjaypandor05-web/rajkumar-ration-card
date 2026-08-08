@@ -6,11 +6,366 @@
 <meta charset="UTF-8">
 
 <meta name="viewport"
-content="width=device-width, initial-scale=1.0">
+      content="width=device-width, initial-scale=1.0">
 
-<title>Track Application | Rajkumar Ration Card Portal</title>
+<title>Track Application | Rajkumar Ration Card</title>
 
-<link rel="stylesheet" href="track.css">
+<style>
+
+/* ===============================
+   RESET
+================================ */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:"Noto Sans Gujarati",Arial,sans-serif;
+}
+
+
+/* ===============================
+   BODY
+================================ */
+
+body{
+    background:#f3f6fb;
+    color:#172033;
+    min-height:100vh;
+}
+
+
+/* ===============================
+   HEADER
+================================ */
+
+header{
+    width:100%;
+    background:#ffffff;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:18px 6%;
+    box-shadow:0 3px 15px rgba(0,0,0,0.08);
+}
+
+
+.logo{
+    font-size:22px;
+    font-weight:700;
+    color:#172033;
+}
+
+
+.home-btn{
+    text-decoration:none;
+    background:#2864e8;
+    color:white;
+    padding:10px 20px;
+    border-radius:9px;
+    font-weight:600;
+}
+
+
+/* ===============================
+   MAIN
+================================ */
+
+main{
+    display:flex;
+    justify-content:center;
+    align-items:flex-start;
+    padding:50px 20px;
+}
+
+
+/* ===============================
+   TRACK CARD
+================================ */
+
+.track-card{
+    width:100%;
+    max-width:600px;
+    background:white;
+    border-radius:18px;
+    padding:35px;
+    box-shadow:0 10px 35px rgba(0,0,0,0.08);
+}
+
+
+/* ===============================
+   ICON
+================================ */
+
+.track-icon{
+    width:65px;
+    height:65px;
+    border-radius:50%;
+    background:#eef5ff;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:32px;
+    margin:0 auto 20px;
+}
+
+
+/* ===============================
+   TITLE
+================================ */
+
+h1{
+    text-align:center;
+    font-size:27px;
+    margin-bottom:8px;
+}
+
+
+.subtitle{
+    text-align:center;
+    color:#777;
+    margin-bottom:30px;
+}
+
+
+/* ===============================
+   LABEL
+================================ */
+
+.search-box label{
+    display:block;
+    font-weight:700;
+    margin-bottom:8px;
+}
+
+
+/* ===============================
+   INPUT
+================================ */
+
+.search-box input{
+    width:100%;
+    height:50px;
+    border:1px solid #ccd4df;
+    border-radius:9px;
+    padding:0 15px;
+    font-size:16px;
+    outline:none;
+}
+
+
+.search-box input:focus{
+    border-color:#2864e8;
+}
+
+
+/* ===============================
+   BUTTON
+================================ */
+
+.search-box button{
+    width:100%;
+    height:50px;
+    margin-top:12px;
+    border:none;
+    border-radius:9px;
+    background:#2864e8;
+    color:white;
+    font-size:16px;
+    font-weight:700;
+    cursor:pointer;
+}
+
+
+.search-box button:disabled{
+    opacity:.65;
+    cursor:not-allowed;
+}
+
+
+/* ===============================
+   MESSAGE
+================================ */
+
+#msg{
+    margin-top:18px;
+    text-align:center;
+    font-size:16px;
+}
+
+
+.success-msg{
+    color:#14833b;
+}
+
+
+.error-msg{
+    color:#e01e1e;
+}
+
+
+.loading-msg{
+    color:#2864e8;
+}
+
+
+/* ===============================
+   RESULT
+================================ */
+
+.result{
+    margin-top:25px;
+    border:1px solid #e1e6ef;
+    border-radius:12px;
+    padding:20px;
+}
+
+
+.result-title{
+    font-size:20px;
+    font-weight:700;
+    color:#14833b;
+    margin-bottom:18px;
+}
+
+
+/* ===============================
+   INFO ROW
+================================ */
+
+.info-row{
+    display:flex;
+    justify-content:space-between;
+    gap:15px;
+    padding:13px 0;
+    border-bottom:1px solid #edf0f5;
+}
+
+
+.info-row span{
+    color:#666;
+}
+
+
+.info-row strong{
+    text-align:right;
+}
+
+
+/* ===============================
+   STATUS
+================================ */
+
+.status-section{
+    margin-top:18px;
+}
+
+
+.status-label{
+    font-weight:700;
+    margin-bottom:8px;
+}
+
+
+.status{
+    display:inline-block;
+    padding:8px 15px;
+    border-radius:20px;
+    font-weight:700;
+}
+
+
+.status.pending{
+    background:#fff4cc;
+    color:#946c00;
+}
+
+
+.status.success{
+    background:#dff7e7;
+    color:#137333;
+}
+
+
+.status.failed{
+    background:#ffe0e0;
+    color:#c52222;
+}
+
+
+.status.processing{
+    background:#e1edff;
+    color:#185abc;
+}
+
+
+/* ===============================
+   HELP
+================================ */
+
+.help-box{
+    margin-top:25px;
+    background:#f7f9fc;
+    border-left:4px solid #2864e8;
+    padding:17px;
+    border-radius:10px;
+}
+
+
+.help-box strong{
+    display:block;
+    margin-bottom:8px;
+}
+
+
+.help-box p{
+    color:#777;
+    line-height:1.7;
+}
+
+
+/* ===============================
+   MOBILE
+================================ */
+
+@media(max-width:600px){
+
+    header{
+        padding:15px 20px;
+    }
+
+    .logo{
+        font-size:18px;
+    }
+
+    .home-btn{
+        padding:8px 14px;
+    }
+
+    main{
+        padding:25px 12px;
+    }
+
+    .track-card{
+        padding:25px 18px;
+    }
+
+    h1{
+        font-size:23px;
+    }
+
+    .info-row{
+        flex-direction:column;
+        gap:5px;
+    }
+
+    .info-row strong{
+        text-align:left;
+    }
+
+}
+
+</style>
 
 </head>
 
@@ -18,9 +373,11 @@ content="width=device-width, initial-scale=1.0">
 <body>
 
 
-<!-- HEADER -->
+<!-- ===============================
+     HEADER
+================================ -->
 
-<header class="header">
+<header>
 
     <div class="logo">
         🪪 Rajkumar Ration Card
@@ -34,210 +391,615 @@ content="width=device-width, initial-scale=1.0">
 
 
 
-<!-- TRACK PAGE -->
+<!-- ===============================
+     MAIN
+================================ -->
 
-<main class="track-page">
+<main>
 
 
-    <div class="track-card">
+<div class="track-card">
 
 
-        <div class="track-icon">
-            🔎
-        </div>
+    <div class="track-icon">
+        🔎
+    </div>
 
 
-        <h1>
-            અરજીનું સ્ટેટસ તપાસો
-        </h1>
+    <h1>
+        અરજીનું સ્ટેટસ તપાસો
+    </h1>
 
 
-        <p class="subtitle">
-            તમારી Application ID નાખીને અરજીનું સ્ટેટસ તપાસો
-        </p>
+    <p class="subtitle">
+        તમારી Application ID નાખીને અરજીનું સ્ટેટસ તપાસો
+    </p>
 
 
 
-        <!-- SEARCH -->
+    <!-- SEARCH -->
 
-        <div class="search-box">
+    <div class="search-box">
 
-            <label>
-                Application Number
-            </label>
+        <label>
+            Application Number
+        </label>
 
-            <input
-                type="text"
-                id="applicationId"
-                placeholder="ઉદાહરણ: RC20260001"
-                maxlength="20"
-                autocomplete="off"
-            >
+        <input
+            type="text"
+            id="applicationId"
+            placeholder="ઉદાહરણ: RC20260001"
+            maxlength="20"
+            autocomplete="off"
+        >
 
-            <button
-                type="button"
-                id="trackBtn"
-                onclick="trackApplication()">
 
-                🔍 Track Application
+        <button
+            type="button"
+            id="trackBtn"
+            onclick="trackApplication()">
 
-            </button>
+            🔍 Track Application
 
-        </div>
-
-
-
-        <!-- MESSAGE -->
-
-        <div id="msg"></div>
-
-
-
-        <!-- RESULT -->
-
-        <div
-            id="result"
-            class="result"
-            style="display:none;">
-
-
-            <div class="result-title">
-                ✅ Application Found
-            </div>
-
-
-
-            <!-- APPLICATION ID -->
-
-            <div class="info-row">
-
-                <span>
-                    Application ID
-                </span>
-
-                <strong id="showId">
-                    -
-                </strong>
-
-            </div>
-
-
-
-            <!-- NAME -->
-
-            <div class="info-row">
-
-                <span>
-                    નામ
-                </span>
-
-                <strong id="showName">
-                    -
-                </strong>
-
-            </div>
-
-
-
-            <!-- SERVICE -->
-
-            <div class="info-row">
-
-                <span>
-                    Service
-                </span>
-
-                <strong id="showService">
-                    -
-                </strong>
-
-            </div>
-
-
-
-            <!-- DATE -->
-
-            <div class="info-row">
-
-                <span>
-                    અરજી તારીખ
-                </span>
-
-                <strong id="showDate">
-                    -
-                </strong>
-
-            </div>
-
-
-
-            <!-- PAYMENT -->
-
-            <div class="status-section">
-
-                <div class="status-label">
-                    💳 Payment Status
-                </div>
-
-                <div
-                    id="paymentStatus"
-                    class="status pending">
-
-                    🟡 Pending
-
-                </div>
-
-            </div>
-
-
-
-            <!-- APPLICATION STATUS -->
-
-            <div class="status-section">
-
-                <div class="status-label">
-                    📋 Application Status
-                </div>
-
-                <div
-                    id="applicationStatus"
-                    class="status pending">
-
-                    🟡 Pending
-
-                </div>
-
-            </div>
-
-
-
-        </div>
-
-
-
-        <!-- HELP -->
-
-        <div class="help-box">
-
-            <strong>
-                💡 Application Number ક્યાં મળશે?
-            </strong>
-
-            <p>
-                અરજી Submit કર્યા પછી મળેલો
-                <b>RC20260001</b> નંબર અહીં નાખો.
-            </p>
-
-        </div>
-
+        </button>
 
     </div>
+
+
+
+    <!-- MESSAGE -->
+
+    <div id="msg"></div>
+
+
+
+    <!-- RESULT -->
+
+    <div
+        id="result"
+        class="result"
+        style="display:none;">
+
+        <div class="result-title">
+            ✅ Application Found
+        </div>
+
+
+        <!-- APPLICATION ID -->
+
+        <div class="info-row">
+
+            <span>
+                Application ID
+            </span>
+
+            <strong id="showId">
+                -
+            </strong>
+
+        </div>
+
+
+        <!-- NAME -->
+
+        <div class="info-row">
+
+            <span>
+                નામ
+            </span>
+
+            <strong id="showName">
+                -
+            </strong>
+
+        </div>
+
+
+        <!-- SERVICE -->
+
+        <div class="info-row">
+
+            <span>
+                Service
+            </span>
+
+            <strong id="showService">
+                -
+            </strong>
+
+        </div>
+
+
+        <!-- DATE -->
+
+        <div class="info-row">
+
+            <span>
+                અરજી તારીખ
+            </span>
+
+            <strong id="showDate">
+                -
+            </strong>
+
+        </div>
+
+
+        <!-- PAYMENT -->
+
+        <div class="status-section">
+
+            <div class="status-label">
+                💳 Payment Status
+            </div>
+
+            <div
+                id="paymentStatus"
+                class="status pending">
+
+                🟡 Pending
+
+            </div>
+
+        </div>
+
+
+        <!-- APPLICATION STATUS -->
+
+        <div class="status-section">
+
+            <div class="status-label">
+                📋 Application Status
+            </div>
+
+            <div
+                id="applicationStatus"
+                class="status pending">
+
+                🟡 Pending
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- HELP -->
+
+    <div class="help-box">
+
+        <strong>
+            💡 Application Number ક્યાં મળશે?
+        </strong>
+
+        <p>
+            અરજી Submit કર્યા પછી મળેલો
+            <b>RC20260001</b> નંબર અહીં નાખો.
+        </p>
+
+    </div>
+
+
+</div>
 
 </main>
 
 
 
-<script src="track.js"></script>
+<script>
+
+/* =====================================================
+   GOOGLE APPS SCRIPT URL
+===================================================== */
+
+const SCRIPT_URL =
+"https://script.google.com/macros/s/AKfycbzrnTNRCOJswqpFE-xCmmiGA869uWxcmlqEO6SjF3D5PQeboPOBwDVbqYTgYv-4N0AWEA/exec";
+
+
+
+/* =====================================================
+   TRACK APPLICATION
+===================================================== */
+
+async function trackApplication(){
+
+    const input =
+        document.getElementById("applicationId");
+
+    const button =
+        document.getElementById("trackBtn");
+
+    const msg =
+        document.getElementById("msg");
+
+    const result =
+        document.getElementById("result");
+
+
+    /* -------------------------------
+       GET APPLICATION ID
+    -------------------------------- */
+
+    const applicationId =
+        input.value
+        .trim()
+        .toUpperCase();
+
+
+    /* -------------------------------
+       CLEAR OLD RESULT
+    -------------------------------- */
+
+    msg.innerHTML = "";
+
+    result.style.display = "none";
+
+
+    /* -------------------------------
+       VALIDATION
+    -------------------------------- */
+
+    if(applicationId === ""){
+
+        msg.className = "error-msg";
+
+        msg.innerHTML =
+            "❌ કૃપા કરીને Application Number નાખો.";
+
+        input.focus();
+
+        return;
+    }
+
+
+    /* -------------------------------
+       BUTTON LOADING
+    -------------------------------- */
+
+    button.disabled = true;
+
+    button.innerHTML =
+        "⏳ Checking...";
+
+
+    msg.className =
+        "loading-msg";
+
+    msg.innerHTML =
+        "⏳ Application શોધી રહ્યા છીએ...";
+
+
+    try{
+
+
+        /* =============================
+           SEND REQUEST
+        ============================= */
+
+        const response =
+            await fetch(
+                SCRIPT_URL,
+                {
+                    method:"POST",
+
+                    headers:{
+                        "Content-Type":
+                            "text/plain;charset=utf-8"
+                    },
+
+                    body:JSON.stringify({
+
+                        action:
+                            "trackApplication",
+
+                        applicationId:
+                            applicationId
+
+                    })
+                }
+            );
+
+
+        /* =============================
+           READ RESPONSE
+        ============================= */
+
+        const data =
+            await response.json();
+
+
+        console.log(
+            "Track Response:",
+            data
+        );
+
+
+        /* =============================
+           ERROR FROM SERVER
+        ============================= */
+
+        if(
+            data.status !== "success"
+        ){
+
+            msg.className =
+                "error-msg";
+
+            msg.innerHTML =
+                "❌ " +
+                (
+                    data.message ||
+                    "Application મળી નથી."
+                );
+
+            return;
+        }
+
+
+        /* =============================
+           SHOW RESULT
+        ============================= */
+
+        document.getElementById(
+            "showId"
+        ).textContent =
+            data.applicationId ||
+            applicationId;
+
+
+        document.getElementById(
+            "showName"
+        ).textContent =
+            data.finalName ||
+            "-";
+
+
+        document.getElementById(
+            "showService"
+        ).textContent =
+            data.service ||
+            "-";
+
+
+        document.getElementById(
+            "showDate"
+        ).textContent =
+            formatDate(
+                data.date
+            );
+
+
+        /* =============================
+           PAYMENT STATUS
+        ============================= */
+
+        setStatus(
+            "paymentStatus",
+            data.paymentStatus ||
+            "Pending"
+        );
+
+
+        /* =============================
+           APPLICATION STATUS
+        ============================= */
+
+        setStatus(
+            "applicationStatus",
+            data.applicationStatus ||
+            "Pending"
+        );
+
+
+        /* =============================
+           SHOW RESULT
+        ============================= */
+
+        result.style.display =
+            "block";
+
+
+        msg.className =
+            "success-msg";
+
+        msg.innerHTML =
+            "✅ Application મળી ગઈ.";
+
+
+    }
+
+    catch(error){
+
+        console.error(
+            "Track Error:",
+            error
+        );
+
+
+        msg.className =
+            "error-msg";
+
+        msg.innerHTML =
+            "❌ Server સાથે connection કરવામાં સમસ્યા આવી.";
+
+
+    }
+
+    finally{
+
+        button.disabled =
+            false;
+
+        button.innerHTML =
+            "🔍 Track Application";
+
+    }
+
+}
+
+
+
+/* =====================================================
+   STATUS DISPLAY
+===================================================== */
+
+function setStatus(
+    elementId,
+    status
+){
+
+    const element =
+        document.getElementById(
+            elementId
+        );
+
+
+    const value =
+        String(
+            status || "Pending"
+        )
+        .trim();
+
+
+    const lower =
+        value.toLowerCase();
+
+
+    element.className =
+        "status";
+
+
+    if(
+        lower === "completed" ||
+        lower === "successful" ||
+        lower === "success"
+    ){
+
+        element.classList.add(
+            "success"
+        );
+
+        element.textContent =
+            "🟢 " + value;
+
+    }
+
+    else if(
+        lower === "failed" ||
+        lower === "rejected"
+    ){
+
+        element.classList.add(
+            "failed"
+        );
+
+        element.textContent =
+            "🔴 " + value;
+
+    }
+
+    else if(
+        lower === "processing"
+    ){
+
+        element.classList.add(
+            "processing"
+        );
+
+        element.textContent =
+            "🔵 " + value;
+
+    }
+
+    else{
+
+        element.classList.add(
+            "pending"
+        );
+
+        element.textContent =
+            "🟡 " + value;
+
+    }
+
+}
+
+
+
+/* =====================================================
+   DATE FORMAT
+===================================================== */
+
+function formatDate(value){
+
+    if(!value){
+        return "-";
+    }
+
+
+    try{
+
+        const date =
+            new Date(value);
+
+
+        if(
+            isNaN(
+                date.getTime()
+            )
+        ){
+
+            return String(value);
+
+        }
+
+
+        return date.toLocaleDateString(
+            "en-IN",
+            {
+                day:"2-digit",
+                month:"2-digit",
+                year:"numeric"
+            }
+        );
+
+    }
+
+    catch(error){
+
+        return String(value);
+
+    }
+
+}
+
+
+
+/* =====================================================
+   ENTER KEY
+===================================================== */
+
+document
+    .getElementById("applicationId")
+    .addEventListener(
+        "keydown",
+        function(event){
+
+            if(
+                event.key === "Enter"
+            ){
+
+                trackApplication();
+
+            }
+
+        }
+    );
+
+</script>
+
 
 </body>
 
