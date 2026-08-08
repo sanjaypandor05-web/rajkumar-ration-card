@@ -1,16 +1,10 @@
 // =====================================================
 // RAJKUMAR RATION CARD PORTAL
-// FINAL APPLY.JS
-// MATCHED WITH FINAL CODE.GS
-// =====================================================
-
-
-// =====================================================
-// GOOGLE APPS SCRIPT URL
+// FAST APPLY.JS
 // =====================================================
 
 const SCRIPT_URL =
-"https://script.google.com/macros/s/AKfycbw6fQ_vLgVSLDayJrN7zf_A4bUYGlOq02PMSl3jqAAQRnyGGkmG5at2QAVDe-ERyGw6sg/exec";
+"https://script.google.com/macros/s/AKfycbxPWEsUdFkEB_g4RyWHqEI2bPT5TluwZOa30qqiX3QpoGuQUZ5Jt73Utvyqa7XfjRYlfw/exec";
 
 
 // =====================================================
@@ -21,12 +15,16 @@ function fileToBase64(file) {
 
     return new Promise((resolve, reject) => {
 
+        if (!file) {
+            resolve(null);
+            return;
+        }
+
         const reader = new FileReader();
 
         reader.onload = function () {
 
-            const result =
-                reader.result.split(",")[1];
+            const result = reader.result;
 
             resolve({
 
@@ -36,114 +34,25 @@ function fileToBase64(file) {
                     file.type ||
                     "application/octet-stream",
 
-                data: result
+                data:
+                    result.split(",")[1]
 
             });
 
         };
 
         reader.onerror = function () {
-
             reject(
                 new Error(
-                    "File read failed"
+                    "File વાંચવામાં સમસ્યા: " +
+                    file.name
                 )
             );
-
         };
 
         reader.readAsDataURL(file);
 
     });
-
-}
-
-
-// =====================================================
-// NAME TYPE CHANGE
-// =====================================================
-
-function nameTypeChange() {
-
-    const selected =
-        document.querySelector(
-            'input[name="nameType"]:checked'
-        );
-
-    const husbandBox =
-        document.getElementById(
-            "husbandBox"
-        );
-
-    const husband =
-        document.getElementById(
-            "husband"
-        );
-
-    if (!selected) return;
-
-
-    if (
-        selected.value === "Husband"
-    ) {
-
-        husbandBox.style.display =
-            "block";
-
-    }
-
-    else {
-
-        husbandBox.style.display =
-            "none";
-
-        husband.value = "";
-
-    }
-
-}
-
-
-// =====================================================
-// SHOW MESSAGE
-// =====================================================
-
-function showMessage(
-    text,
-    type
-) {
-
-    const msg =
-        document.getElementById(
-            "msg"
-        );
-
-    if (!msg) return;
-
-
-    msg.innerHTML = text;
-
-
-    if (type === "success") {
-
-        msg.style.color =
-            "green";
-
-    }
-
-    else if (type === "error") {
-
-        msg.style.color =
-            "red";
-
-    }
-
-    else {
-
-        msg.style.color =
-            "blue";
-
-    }
 
 }
 
@@ -155,16 +64,33 @@ function showMessage(
 async function sendApplication() {
 
     const msg =
-        document.getElementById(
-            "msg"
+        document.getElementById("msg");
+
+
+    // -------------------------------------------------
+    // PREVENT DOUBLE SUBMIT
+    // -------------------------------------------------
+
+    const button =
+        document.querySelector(
+            'button[onclick="sendApplication()"]'
         );
+
+    if (button) {
+
+        button.disabled = true;
+
+        button.innerText =
+            "⏳ અરજી મોકલાઈ રહી છે...";
+
+    }
 
 
     try {
 
-        // =============================================
-        // GET FORM VALUES
-        // =============================================
+        // -------------------------------------------------
+        // GET DATA
+        // -------------------------------------------------
 
         const englishName =
             document.getElementById(
@@ -220,10 +146,6 @@ async function sendApplication() {
             ).value.trim();
 
 
-        // =============================================
-        // NAME TYPE
-        // =============================================
-
         const selectedNameType =
             document.querySelector(
                 'input[name="nameType"]:checked'
@@ -231,17 +153,15 @@ async function sendApplication() {
 
 
         const nameType =
-            selectedNameType
-                ? selectedNameType.value
-                : "Self";
+            selectedNameType ?
+            selectedNameType.value :
+            "Self";
 
 
         let husbandName = "";
 
 
-        if (
-            nameType === "Husband"
-        ) {
+        if (nameType === "Husband") {
 
             husbandName =
                 document.getElementById(
@@ -251,9 +171,9 @@ async function sendApplication() {
         }
 
 
-        // =============================================
+        // -------------------------------------------------
         // FINAL NAME
-        // =============================================
+        // -------------------------------------------------
 
         let finalName =
             gujaratiName;
@@ -272,315 +192,249 @@ async function sendApplication() {
         }
 
 
-        // =============================================
-        // GET FILES
-        // =============================================
+        // -------------------------------------------------
+        // VALIDATION
+        // -------------------------------------------------
 
-        const aadhaar =
+        if (!englishName) {
+
+            throw new Error(
+                "English Name લખો"
+            );
+
+        }
+
+
+        if (!gujaratiName) {
+
+            throw new Error(
+                "ગુજરાતી નામ લખો"
+            );
+
+        }
+
+
+        if (!/^[0-9]{10}$/.test(mobile)) {
+
+            throw new Error(
+                "સાચો 10 અંકનો Mobile Number લખો"
+            );
+
+        }
+
+
+        if (!village) {
+
+            throw new Error(
+                "ગામ લખો"
+            );
+
+        }
+
+
+        if (!taluka) {
+
+            throw new Error(
+                "તાલુકો લખો"
+            );
+
+        }
+
+
+        if (!district) {
+
+            throw new Error(
+                "જિલ્લો લખો"
+            );
+
+        }
+
+
+        if (!service) {
+
+            throw new Error(
+                "Service પસંદ કરો"
+            );
+
+        }
+
+
+        if (!transactionId) {
+
+            throw new Error(
+                "Payment UTR / Transaction ID લખો"
+            );
+
+        }
+
+
+        // -------------------------------------------------
+        // FILES
+        // -------------------------------------------------
+
+        const aadhaarInput =
             document.getElementById(
                 "aadhaar"
-            ).files[0];
+            );
+
+
+        const rationInput =
+            document.getElementById(
+                "ration"
+            );
+
+
+        const paymentInput =
+            document.getElementById(
+                "payment"
+            );
+
+
+        const aadhaar =
+            aadhaarInput.files[0];
 
 
         const ration =
-            document.getElementById(
-                "ration"
-            ).files[0];
+            rationInput.files[0];
 
 
         const payment =
-            document.getElementById(
-                "payment"
-            ).files[0];
+            paymentInput.files[0];
 
 
-        // =============================================
-        // REQUIRED VALIDATION
-        // =============================================
+        // -------------------------------------------------
+        // FILE SIZE CHECK
+        // -------------------------------------------------
 
-        if (
-            englishName === "" ||
-            gujaratiName === "" ||
-            mobile === "" ||
-            village === "" ||
-            taluka === "" ||
-            district === "" ||
-            service === "" ||
-            transactionId === ""
-        ) {
-
-            showMessage(
-                "❌ કૃપા કરીને બધી જરૂરી માહિતી ભરો.",
-                "error"
-            );
-
-            return;
-
-        }
-
-
-        // =============================================
-        // MOBILE VALIDATION
-        // =============================================
-
-        if (
-            !/^[0-9]{10}$/.test(
-                mobile
-            )
-        ) {
-
-            showMessage(
-                "❌ મોબાઇલ નંબર 10 અંકનો હોવો જોઈએ.",
-                "error"
-            );
-
-            return;
-
-        }
-
-
-        // =============================================
-        // HUSBAND VALIDATION
-        // =============================================
-
-        if (
-            nameType === "Husband" &&
-            husbandName === ""
-        ) {
-
-            showMessage(
-                "❌ પતિનું નામ લખો.",
-                "error"
-            );
-
-            return;
-
-        }
-
-
-        // =============================================
-        // FILE VALIDATION
-        // =============================================
-
-        if (!aadhaar) {
-
-            showMessage(
-                "❌ Aadhaar Card PDF અપલોડ કરો.",
-                "error"
-            );
-
-            return;
-
-        }
-
-
-        if (!ration) {
-
-            showMessage(
-                "❌ Ration Card PDF અપલોડ કરો.",
-                "error"
-            );
-
-            return;
-
-        }
-
-
-        if (!payment) {
-
-            showMessage(
-                "❌ Payment Screenshot અપલોડ કરો.",
-                "error"
-            );
-
-            return;
-
-        }
-
-
-        // =============================================
-        // PDF VALIDATION
-        // =============================================
-
-        const aadhaarName =
-            aadhaar.name.toLowerCase();
-
-
-        const rationName =
-            ration.name.toLowerCase();
+        const MAX_FILE_SIZE =
+            10 * 1024 * 1024;
 
 
         if (
-            !aadhaarName.endsWith(".pdf")
+            aadhaar &&
+            aadhaar.size > MAX_FILE_SIZE
         ) {
 
-            showMessage(
-                "❌ Aadhaar Card માત્ર PDF હોવું જોઈએ.",
-                "error"
+            throw new Error(
+                "Aadhaar PDF 10MB કરતાં નાની રાખો"
             );
-
-            return;
 
         }
 
 
         if (
-            !rationName.endsWith(".pdf")
+            ration &&
+            ration.size > MAX_FILE_SIZE
         ) {
 
-            showMessage(
-                "❌ Ration Card માત્ર PDF હોવું જોઈએ.",
-                "error"
+            throw new Error(
+                "Ration PDF 10MB કરતાં નાની રાખો"
             );
-
-            return;
 
         }
 
 
-        // =============================================
-        // PAYMENT SCREENSHOT TYPE
-        // =============================================
+        if (
+            payment &&
+            payment.size > MAX_FILE_SIZE
+        ) {
 
-        const paymentType =
-            payment.type.toLowerCase();
-
-
-        const allowedPayment =
-            paymentType === "image/jpeg" ||
-            paymentType === "image/jpg" ||
-            paymentType === "image/png" ||
-            paymentType === "application/pdf";
-
-
-        if (!allowedPayment) {
-
-            showMessage(
-                "❌ Payment Screenshot JPG, PNG અથવા PDF હોવું જોઈએ.",
-                "error"
+            throw new Error(
+                "Payment Screenshot 10MB કરતાં નાનો રાખો"
             );
-
-            return;
 
         }
 
 
-        // =============================================
-        // SHOW LOADING
-        // =============================================
+        // -------------------------------------------------
+        // MESSAGE
+        // -------------------------------------------------
 
-        showMessage(
-            "⏳ અરજી તૈયાર થઈ રહી છે...",
-            "loading"
-        );
+        msg.innerHTML =
+            "📄 Documents તૈયાર થઈ રહ્યા છે...";
+
+        msg.style.color = "blue";
 
 
-        // =============================================
+        // -------------------------------------------------
         // CONVERT FILES
-        // =============================================
+        // -------------------------------------------------
 
-        const aadhaarData =
-            await fileToBase64(
-                aadhaar
-            );
+        const [aadhaarData, rationData, paymentData] =
+            await Promise.all([
 
+                aadhaar ?
+                fileToBase64(aadhaar) :
+                null,
 
-        showMessage(
-            "⏳ Ration Card Upload થઈ રહ્યું છે...",
-            "loading"
-        );
+                ration ?
+                fileToBase64(ration) :
+                null,
 
+                payment ?
+                fileToBase64(payment) :
+                null
 
-        const rationData =
-            await fileToBase64(
-                ration
-            );
-
-
-        showMessage(
-            "⏳ Payment Screenshot Upload થઈ રહ્યું છે...",
-            "loading"
-        );
+            ]);
 
 
-        const paymentData =
-            await fileToBase64(
-                payment
-            );
+        msg.innerHTML =
+            "🚀 Server પર અરજી મોકલાઈ રહી છે...";
 
 
-        // =============================================
-        // FINAL DATA
-        // =============================================
+        // -------------------------------------------------
+        // DATA
+        // -------------------------------------------------
 
         const data = {
-
-            // IMPORTANT
-            // CODE.GS માટે જરૂરી ACTION
 
             action:
                 "submitApplication",
 
-
             englishName:
                 englishName,
-
 
             gujaratiName:
                 gujaratiName,
 
-
             finalName:
                 finalName,
-
 
             nameType:
                 nameType,
 
-
             husbandName:
                 husbandName,
-
 
             mobile:
                 mobile,
 
-
             village:
                 village,
-
 
             taluka:
                 taluka,
 
-
             district:
                 district,
-
 
             rationCard:
                 rationCard,
 
-
             service:
                 service,
-
 
             transactionId:
                 transactionId,
 
-
             paymentStatus:
                 "Pending",
-
 
             aadhaar:
                 aadhaarData,
 
-
             ration:
                 rationData,
-
 
             payment:
                 paymentData
@@ -588,198 +442,126 @@ async function sendApplication() {
         };
 
 
-        // =============================================
-        // SEND TO GOOGLE APPS SCRIPT
-        // =============================================
+        // -------------------------------------------------
+        // FETCH WITH TIMEOUT
+        // -------------------------------------------------
 
-        showMessage(
-            "⏳ અરજી Server પર મોકલાઈ રહી છે...",
-            "loading"
-        );
+        const controller =
+            new AbortController();
 
 
-        const response =
-            await fetch(
-                SCRIPT_URL,
-                {
+        const timeout =
+            setTimeout(() => {
 
-                    method: "POST",
+                controller.abort();
 
-                    body:
-                        JSON.stringify(
-                            data
-                        )
-
-                }
-            );
+            }, 120000);
 
 
-        // =============================================
-        // CHECK RESPONSE
-        // =============================================
+        let response;
 
-        if (!response.ok) {
 
-            throw new Error(
-                "Server response error"
-            );
+        try {
+
+            response =
+                await fetch(
+                    SCRIPT_URL,
+                    {
+
+                        method: "POST",
+
+                        body:
+                            JSON.stringify(data),
+
+                        signal:
+                            controller.signal
+
+                    }
+                );
 
         }
 
+        finally {
+
+            clearTimeout(timeout);
+
+        }
+
+
+        // -------------------------------------------------
+        // RESPONSE
+        // -------------------------------------------------
 
         const result =
             await response.json();
 
 
-        // =============================================
+        // -------------------------------------------------
         // SUCCESS
-        // =============================================
+        // -------------------------------------------------
 
         if (
-            result.status ===
-            "success"
+            result.status === "success"
         ) {
 
+            msg.innerHTML =
 
-            showMessage(
+                "✅ <b>અરજી સફળતાપૂર્વક મોકલાઈ છે</b><br><br>" +
 
-                `
-                <div style="
-                    padding:15px;
-                    border:1px solid #28a745;
-                    border-radius:10px;
-                    background:#f0fff4;
-                ">
+                "🆔 Application ID: <b>" +
+                result.applicationId +
+                "</b><br><br>" +
 
-                    <h3>
-                    ✅ અરજી સફળતાપૂર્વક મોકલાઈ છે
-                    </h3>
+                "👤 Final Name: <b>" +
+                result.finalName +
+                "</b><br><br>" +
 
-                    <p>
-                    <b>Application ID:</b>
-                    ${result.applicationId || result.id}
-                    </p>
-
-                    <p>
-                    <b>Final Name:</b>
-                    ${result.finalName || finalName}
-                    </p>
-
-                    <p>
-                    <b>Payment Status:</b>
-                    🟡 Pending
-                    </p>
-
-                    <p>
-                    <b>Application Status:</b>
-                    🟡 Pending
-                    </p>
-
-                    <p>
-                    તમારી અરજી નંબર સાચવી રાખો.
-                    આ નંબરથી તમે Application Status Track કરી શકો છો.
-                    </p>
-
-                </div>
-                `,
-
-                "success"
-
-            );
+                "💳 Payment Status: <b>Pending</b>";
 
 
-            // =========================================
-            // RESET FORM
-            // =========================================
+            msg.style.color =
+                "green";
 
+
+            if (button) {
+
+                button.innerText =
+                    "✅ અરજી મોકલાઈ ગઈ";
+
+            }
+
+
+            // Form reset
             document
                 .querySelectorAll(
-                    "input"
+                    "input, select"
                 )
-                .forEach(
-                    function(input) {
+                .forEach(function(el) {
 
-                        if (
-                            input.type ===
-                            "radio"
-                        ) {
+                    if (
+                        el.type !== "radio"
+                    ) {
 
-                            input.checked =
-                                input.value ===
-                                "Self";
-
-                        }
-
-                        else if (
-                            input.type ===
-                            "file"
-                        ) {
-
-                            input.value =
-                                "";
-
-                        }
-
-                        else {
-
-                            input.value =
-                                "";
-
-                        }
+                        el.value = "";
 
                     }
-                );
+
+                });
 
 
-            const serviceBox =
-                document.getElementById(
-                    "service"
-                );
-
-
-            if (serviceBox) {
-
-                serviceBox.value =
-                    "";
-
-            }
-
-
-            const husbandBox =
-                document.getElementById(
-                    "husbandBox"
-                );
-
-
-            if (husbandBox) {
-
-                husbandBox.style.display =
-                    "none";
-
-            }
-
+            return;
 
         }
 
-        // =============================================
+
+        // -------------------------------------------------
         // SERVER ERROR
-        // =============================================
+        // -------------------------------------------------
 
-        else {
-
-            showMessage(
-
-                "❌ " +
-                (
-                    result.message ||
-                    "અરજી મોકલવામાં સમસ્યા આવી."
-                ),
-
-                "error"
-
-            );
-
-        }
+        throw new Error(
+            result.message ||
+            "Server Error"
+        );
 
 
     }
@@ -792,13 +574,39 @@ async function sendApplication() {
         );
 
 
-        showMessage(
+        if (
+            error.name ===
+            "AbortError"
+        ) {
 
-            "❌ Server Error: અરજી મોકલી શકાઈ નથી. થોડા સમય પછી ફરી પ્રયાસ કરો.",
+            msg.innerHTML =
+                "❌ Server response લેવામાં વધારે સમય લાગી રહ્યો છે.<br>" +
+                "કૃપા કરીને Documents નાના રાખીને ફરી પ્રયાસ કરો.";
 
-            "error"
+        }
 
-        );
+        else {
+
+            msg.innerHTML =
+                "❌ " +
+                error.message;
+
+        }
+
+
+        msg.style.color =
+            "red";
+
+
+        if (button) {
+
+            button.disabled =
+                false;
+
+            button.innerText =
+                "અરજી ફરી મોકલો";
+
+        }
 
     }
 
