@@ -3,9 +3,7 @@
 // FAST APPLY.JS
 // =====================================================
 
-const SCRIPT_URL =
-"https://script.google.com/macros/s/AKfycbyErf45DnohudKOToa4tyON8vriogNyX09W5XKp21vjFd1yQrY2gTMtiFe9YWtbayhffA/exec";
-
+https://script.google.com/macros/s/AKfycbwF4N8e9pxd3TYS7fdC73vDdCwZ2vQra_ckTrDYLRAaDvCeGvLeebnVCTpwTPTKMdkYyA/exec
 
 // =====================================================
 // FILE TO BASE64
