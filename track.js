@@ -1,7 +1,6 @@
 // =====================================================
 // RAJKUMAR RATION CARD PORTAL
-// FINAL TRACK.JS
-// MATCHED WITH CODE.GS
+// TRACK APPLICATION
 // =====================================================
 
 
@@ -26,39 +25,39 @@ async function trackApplication() {
         );
 
 
-    const msg =
-        document.getElementById(
-            "msg"
-        );
-
-
-    const resultBox =
-        document.getElementById(
-            "result"
-        );
-
-
     const button =
         document.getElementById(
             "trackBtn"
         );
 
 
-    // =============================================
+    const msg =
+        document.getElementById(
+            "msg"
+        );
+
+
+    const result =
+        document.getElementById(
+            "result"
+        );
+
+
+    // -------------------------------------------------
     // GET APPLICATION ID
-    // =============================================
+    // -------------------------------------------------
 
     const applicationId =
         input.value
-        .trim()
-        .toUpperCase();
+            .trim()
+            .toUpperCase();
 
 
-    // =============================================
+    // -------------------------------------------------
     // HIDE OLD RESULT
-    // =============================================
+    // -------------------------------------------------
 
-    resultBox.style.display =
+    result.style.display =
         "none";
 
 
@@ -66,19 +65,17 @@ async function trackApplication() {
         "";
 
 
-    // =============================================
+    // -------------------------------------------------
     // VALIDATION
-    // =============================================
+    // -------------------------------------------------
 
-    if (
-        applicationId === ""
-    ) {
+    if (!applicationId) {
 
         msg.innerHTML =
-            "❌ Application ID નાખો.";
+            "❌ Application Number નાખો";
 
-        msg.style.color =
-            "red";
+        msg.className =
+            "error-message";
 
         input.focus();
 
@@ -87,21 +84,22 @@ async function trackApplication() {
     }
 
 
-    // =============================================
-    // BASIC ID VALIDATION
-    // =============================================
+    // -------------------------------------------------
+    // BASIC FORMAT CHECK
+    // -------------------------------------------------
 
     if (
-        !/^RC\d{4}\d{4,}$/.test(
+        !/^RC\d{8}$/.test(
             applicationId
         )
     ) {
 
         msg.innerHTML =
-            "❌ સાચી Application ID નાખો. ઉદાહરણ: RC20260001";
+            "❌ Application Number સાચો નાખો<br>" +
+            "ઉદાહરણ: RC20260001";
 
-        msg.style.color =
-            "red";
+        msg.className =
+            "error-message";
 
         input.focus();
 
@@ -110,185 +108,162 @@ async function trackApplication() {
     }
 
 
-    // =============================================
+    // -------------------------------------------------
     // LOADING
-    // =============================================
+    // -------------------------------------------------
 
     button.disabled =
         true;
 
 
-    button.innerHTML =
-        "⏳ તપાસી રહ્યા છીએ...";
+    button.innerText =
+        "⏳ શોધી રહ્યું છે...";
 
 
     msg.innerHTML =
-        "⏳ Application Status તપાસી રહ્યા છીએ...";
+        "🔎 તમારી અરજી શોધી રહ્યા છીએ...";
+
+    msg.className =
+        "loading-message";
 
 
-    msg.style.color =
-        "blue";
-
-
-    // =============================================
-    // REQUEST DATA
-    // =============================================
-
-    const data = {
-
-        action:
-            "trackApplication",
-
-        applicationId:
-            applicationId
-
-    };
-
+    // -------------------------------------------------
+    // SEND REQUEST
+    // -------------------------------------------------
 
     try {
 
 
-        // =========================================
-        // SEND REQUEST
-        // =========================================
+        const controller =
+            new AbortController();
+
+
+        const timeout =
+            setTimeout(
+                function () {
+
+                    controller.abort();
+
+                },
+                30000
+            );
+
 
         const response =
             await fetch(
                 SCRIPT_URL,
                 {
 
-                    method:
-                        "POST",
+                    method: "POST",
 
                     body:
-                        JSON.stringify(
-                            data
-                        )
+                        JSON.stringify({
+
+                            action:
+                                "trackApplication",
+
+                            applicationId:
+                                applicationId
+
+                        }),
+
+                    signal:
+                        controller.signal
 
                 }
             );
 
 
-        if (
-            !response.ok
-        ) {
-
-            throw new Error(
-                "Server Error"
-            );
-
-        }
+        clearTimeout(
+            timeout
+        );
 
 
-        // =========================================
-        // READ RESPONSE
-        // =========================================
-
-        const result =
+        const data =
             await response.json();
 
 
-        // =========================================
+        // -------------------------------------------------
         // SUCCESS
-        // =========================================
+        // -------------------------------------------------
 
         if (
-            result.status ===
+            data.status ===
             "success"
         ) {
 
 
             msg.innerHTML =
-                "✅ Application મળી ગઈ.";
-
-            msg.style.color =
-                "green";
+                "";
 
 
-            // =====================================
-            // APPLICATION ID
-            // =====================================
+            // Application ID
 
-            document
-                .getElementById(
-                    "showApplicationId"
-                )
-                .textContent =
-                    result.applicationId ||
-                    applicationId;
+            document.getElementById(
+                "showId"
+            ).innerText =
+                data.applicationId ||
+                applicationId;
 
 
-            // =====================================
-            // NAME
-            // =====================================
+            // Name
 
-            document
-                .getElementById(
-                    "showName"
-                )
-                .textContent =
-                    result.finalName ||
-                    "-";
+            document.getElementById(
+                "showName"
+            ).innerText =
+                data.finalName ||
+                "-";
 
 
-            // =====================================
-            // SERVICE
-            // =====================================
+            // Service
 
-            document
-                .getElementById(
-                    "showService"
-                )
-                .textContent =
-                    result.service ||
-                    "-";
+            document.getElementById(
+                "showService"
+            ).innerText =
+                getGujaratiService(
+                    data.service
+                );
 
 
-            // =====================================
-            // DATE
-            // =====================================
+            // Date
 
-            document
-                .getElementById(
-                    "showDate"
-                )
-                .textContent =
-                    formatDate(
-                        result.date
-                    );
+            document.getElementById(
+                "showDate"
+            ).innerText =
+                formatDate(
+                    data.date
+                );
 
 
-            // =====================================
-            // PAYMENT STATUS
-            // =====================================
+            // Payment Status
 
             setPaymentStatus(
-                result.paymentStatus
+                data.paymentStatus
             );
 
 
-            // =====================================
-            // APPLICATION STATUS
-            // =====================================
+            // Application Status
 
             setApplicationStatus(
-                result.applicationStatus
+                data.applicationStatus
             );
 
 
-            // =====================================
             // SHOW RESULT
-            // =====================================
 
-            resultBox.style.display =
+            result.style.display =
                 "block";
 
 
-        }
+            // Scroll
 
-        // =========================================
-        // NOT FOUND
-        // =========================================
+            result.scrollIntoView({
+                behavior: "smooth",
+                block: "start"
+            });
+
+
+        }
 
         else {
 
@@ -296,22 +271,20 @@ async function trackApplication() {
             msg.innerHTML =
                 "❌ " +
                 (
-                    result.message ||
-                    "Application મળી નથી."
+                    data.message ||
+                    "Application Not Found"
                 );
 
 
-            msg.style.color =
-                "red";
+            msg.className =
+                "error-message";
 
-
-            resultBox.style.display =
-                "none";
 
         }
 
 
     }
+
 
     catch (error) {
 
@@ -322,16 +295,26 @@ async function trackApplication() {
         );
 
 
-        msg.innerHTML =
-            "❌ Server સાથે connection થઈ શક્યું નથી. થોડા સમય પછી ફરી પ્રયાસ કરો.";
+        if (
+            error.name ===
+            "AbortError"
+        ) {
+
+            msg.innerHTML =
+                "❌ Server response લેવામાં વધારે સમય લાગી રહ્યો છે.";
+
+        }
+
+        else {
+
+            msg.innerHTML =
+                "❌ Server સાથે connection કરવામાં સમસ્યા આવી.";
+
+        }
 
 
-        msg.style.color =
-            "red";
-
-
-        resultBox.style.display =
-            "none";
+        msg.className =
+            "error-message";
 
     }
 
@@ -343,8 +326,9 @@ async function trackApplication() {
             false;
 
 
-        button.innerHTML =
+        button.innerText =
             "🔍 Track Application";
+
 
     }
 
@@ -375,46 +359,45 @@ function setPaymentStatus(
 
 
     element.className =
-        "";
+        "status";
 
 
     if (
-        value === "verified" ||
-        value === "successful" ||
-        value === "success"
+        value ===
+        "verified"
     ) {
 
-        element.innerHTML =
-            "🟢 Verified";
-
         element.classList.add(
-            "status-success"
+            "success"
         );
+
+        element.innerText =
+            "🟢 Payment Verified";
 
     }
 
     else if (
-        value === "failed" ||
-        value === "rejected"
+        value ===
+        "failed"
     ) {
 
-        element.innerHTML =
-            "🔴 Failed";
-
         element.classList.add(
-            "status-failed"
+            "failed"
         );
+
+        element.innerText =
+            "🔴 Payment Failed";
 
     }
 
     else {
 
-        element.innerHTML =
-            "🟡 Pending";
-
         element.classList.add(
-            "status-pending"
+            "pending"
         );
+
+        element.innerText =
+            "🟡 Payment Pending";
 
     }
 
@@ -445,59 +428,63 @@ function setApplicationStatus(
 
 
     element.className =
-        "";
+        "status";
 
 
     if (
-        value === "completed" ||
-        value === "successful" ||
-        value === "success"
+        value ===
+        "completed" ||
+        value ===
+        "successful"
     ) {
 
-        element.innerHTML =
+        element.classList.add(
+            "success"
+        );
+
+        element.innerText =
             "🟢 Successful";
 
-        element.classList.add(
-            "status-success"
-        );
-
     }
 
     else if (
-        value === "failed" ||
-        value === "rejected"
+        value ===
+        "rejected" ||
+        value ===
+        "failed"
     ) {
 
-        element.innerHTML =
+        element.classList.add(
+            "failed"
+        );
+
+        element.innerText =
             "🔴 Failed";
 
-        element.classList.add(
-            "status-failed"
-        );
-
     }
 
     else if (
-        value === "processing"
+        value ===
+        "processing"
     ) {
 
-        element.innerHTML =
-            "🔵 Processing";
-
         element.classList.add(
-            "status-processing"
+            "processing"
         );
+
+        element.innerText =
+            "🔵 Processing";
 
     }
 
     else {
 
-        element.innerHTML =
-            "🟡 Pending";
-
         element.classList.add(
-            "status-pending"
+            "pending"
         );
+
+        element.innerText =
+            "🟡 Pending";
 
     }
 
@@ -505,17 +492,62 @@ function setApplicationStatus(
 
 
 // =====================================================
-// DATE FORMAT
+// SERVICE NAME
 // =====================================================
 
-function formatDate(
-    date
+function getGujaratiService(
+    service
 ) {
 
 
-    if (
-        !date
-    ) {
+    const value =
+        String(
+            service || ""
+        ).trim();
+
+
+    const services = {
+
+        "New Ration Card":
+            "નવું રેશન કાર્ડ",
+
+        "Add Name":
+            "નામ ઉમેરવું",
+
+        "Remove Name":
+            "નામ કાપવું",
+
+        "Correction":
+            "રેશન કાર્ડ સુધારો",
+
+        "Mobile Link":
+            "મોબાઇલ નંબર લિંક",
+
+        "Duplicate":
+            "ડુપ્લિકેટ રેશન કાર્ડ"
+
+    };
+
+
+    return (
+        services[value] ||
+        value ||
+        "-"
+    );
+
+}
+
+
+// =====================================================
+// FORMAT DATE
+// =====================================================
+
+function formatDate(
+    value
+) {
+
+
+    if (!value) {
 
         return "-";
 
@@ -525,46 +557,43 @@ function formatDate(
     try {
 
 
-        const d =
-            new Date(
-                date
-            );
+        const date =
+            new Date(value);
 
 
         if (
             isNaN(
-                d.getTime()
+                date.getTime()
             )
         ) {
 
             return String(
-                date
+                value
             );
 
         }
 
 
-        return (
-            String(
-                d.getDate()
-            ).padStart(2, "0")
-            + "/" +
-            String(
-                d.getMonth() + 1
-            ).padStart(2, "0")
-            + "/" +
-            d.getFullYear()
+        return date.toLocaleDateString(
+            "en-IN",
+            {
+
+                day: "2-digit",
+
+                month: "2-digit",
+
+                year: "numeric"
+
+            }
         );
 
 
     }
 
-    catch (
-        error
-    ) {
+    catch (error) {
 
         return String(
-            date
+            value
         );
 
     }
@@ -573,12 +602,12 @@ function formatDate(
 
 
 // =====================================================
-// ENTER KEY SUPPORT
+// ENTER KEY
 // =====================================================
 
 document.addEventListener(
     "DOMContentLoaded",
-    function() {
+    function () {
 
 
         const input =
@@ -587,26 +616,27 @@ document.addEventListener(
             );
 
 
-        if (!input) return;
+        if (input) {
 
 
-        input.addEventListener(
-            "keydown",
-            function(event) {
+            input.addEventListener(
+                "keydown",
+                function (event) {
 
+                    if (
+                        event.key ===
+                        "Enter"
+                    ) {
 
-                if (
-                    event.key ===
-                    "Enter"
-                ) {
+                        trackApplication();
 
-                    trackApplication();
+                    }
 
                 }
+            );
 
-            }
-        );
 
+        }
 
     }
 );
