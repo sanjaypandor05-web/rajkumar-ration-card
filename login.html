@@ -1,176 +1,186 @@
 <!DOCTYPE html>
+
 <html lang="gu">
 
 <head>
 
+```
 <meta charset="UTF-8">
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
 
-<title>Admin Login | Rajkumar Ration Card Portal</title>
+<title>
+    Admin Login | Rajkumar Ration Card Portal
+</title>
 
-<link rel="stylesheet" href="admin.css">
+<link
+    rel="stylesheet"
+    href="admin.css"
+>
+```
 
 </head>
 
-
 <body>
 
+<!-- =========================================
+     LOGIN CONTAINER
+========================================= -->
 
 <div class="login-container">
 
-
+```
 <div class="login-card">
 
 
+    <!-- LOGO -->
 
-<div class="logo">
+    <div class="logo">
+        🪪
+    </div>
 
-🪪
 
-</div>
+    <!-- TITLE -->
 
+    <h1>
+        Rajkumar Ration Card Portal
+    </h1>
 
 
-<h1>
-Rajkumar Ration Card Portal
-</h1>
+    <p>
+        Admin Login
+    </p>
 
 
+    <!-- =====================================
+         USERNAME
+    ====================================== -->
 
-<p>
-Admin Login
-</p>
+    <div class="input-group">
 
+        <label for="username">
+            Username
+        </label>
 
+        <input
+            type="text"
+            id="username"
+            placeholder="Enter Username"
+            autocomplete="username"
+        >
 
+    </div>
 
 
-<div class="input-group">
+    <!-- =====================================
+         PASSWORD
+    ====================================== -->
 
+    <div class="input-group">
 
-<label>
-Username
-</label>
+        <label for="password">
+            Password
+        </label>
 
 
-<input
+        <div class="password-box">
 
-type="text"
+            <input
+                type="password"
+                id="password"
+                placeholder="Enter Password"
+                autocomplete="current-password"
+            >
 
-id="username"
 
-placeholder="Enter Username">
+            <button
+                type="button"
+                onclick="togglePassword()"
+                title="Show / Hide Password"
+            >
+                👁
+            </button>
 
+        </div>
 
-</div>
+    </div>
 
 
+    <!-- =====================================
+         LOGIN BUTTON
+    ====================================== -->
 
+    <button
+        type="button"
+        class="login-btn"
+        onclick="login()"
+    >
+        🔐 Login
+    </button>
 
 
+    <!-- =====================================
+         MESSAGE
+    ====================================== -->
 
+    <div id="msg"></div>
 
-<div class="input-group">
 
+    <hr>
 
-<label>
-Password
-</label>
 
+    <!-- FOOTER -->
 
+    <div class="footer">
 
-<div class="password-box">
+        © 2026 Rajkumar Ration Card Portal
 
-
-<input
-
-type="password"
-
-id="password"
-
-placeholder="Enter Password">
-
-
-
-<button
-
-type="button"
-
-onclick="togglePassword()">
-
-👁
-
-</button>
-
-
-</div>
-
-
-</div>
-
-
-
-
-
-
-
-<button
-
-class="login-btn"
-
-onclick="adminLogin()">
-
-Login
-
-
-</button>
-
-
-
-
-
-<div id="msg">
-
-</div>
-
-
-
-
-
-
-<hr>
-
-
-
-
-
-<div class="footer">
-
-
-© 2026 Rajkumar Ration Card Portal
+    </div>
 
 
 </div>
-
-
-
-</div>
-
+```
 
 </div>
 
+<!-- =========================================
+     PASSWORD TOGGLE
+========================================= -->
 
+<script>
 
+function togglePassword() {
 
+    const password =
+        document.getElementById("password");
 
+    if (!password) {
+        return;
+    }
 
+    if (password.type === "password") {
 
+        password.type = "text";
 
+    } else {
 
+        password.type = "password";
 
+    }
 
-<script src="login.js"></script>
+}
+
+</script>
+
+<!-- =========================================
+     ADMIN JAVASCRIPT
+========================================= -->
+
+<script src="admin.js"></script>
 
 </body>
+
 </html>
