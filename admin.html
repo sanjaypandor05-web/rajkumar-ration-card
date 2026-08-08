@@ -333,7 +333,21 @@ Close
 <script src="admin.js"></script>
 
 
+<script>
 
+function logout() {
+
+    // Remove admin login session
+    localStorage.removeItem("adminLogin");
+
+    // Clear any other admin session data
+    localStorage.removeItem("adminUser");
+
+    // Go back to login page
+    window.location.href = "login.html";
+}
+
+</script>
 </body>
 
 
