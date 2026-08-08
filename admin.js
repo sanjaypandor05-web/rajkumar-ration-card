@@ -1296,31 +1296,70 @@ document.addEventListener(
     "DOMContentLoaded",
     function () {
 
-        checkLogin();
+        const currentPage =
+            window.location.pathname
+                .split("/")
+                .pop()
+                .toLowerCase();
 
 
-        loadDashboard();
+        // ==================================
+        // LOGIN PAGE
+        // ==================================
+
+        if (
+            currentPage === "login.html" ||
+            currentPage === ""
+        ) {
+
+            // Login page પર
+            // checkLogin() ન ચલાવવું
+
+            return;
+
+        }
 
 
-        loadApplications();
+        // ==================================
+        // ADMIN DASHBOARD
+        // ==================================
+
+        if (currentPage === "admin.html") {
+
+            const loggedIn =
+                checkLogin();
 
 
-        const adminName =
-            localStorage.getItem(
-                "adminName"
-            ) || "Admin";
+            if (!loggedIn) {
+
+                return;
+
+            }
 
 
-        const adminNameElement =
-            document.getElementById(
-                "adminName"
-            );
+            loadDashboard();
+
+            loadApplications();
 
 
-        if (adminNameElement) {
+            const adminName =
+                localStorage.getItem(
+                    "adminName"
+                ) || "Admin";
 
-            adminNameElement.innerHTML =
-                adminName;
+
+            const adminNameElement =
+                document.getElementById(
+                    "adminName"
+                );
+
+
+            if (adminNameElement) {
+
+                adminNameElement.innerHTML =
+                    adminName;
+
+            }
 
         }
 
@@ -1329,11 +1368,30 @@ document.addEventListener(
 
 
 // ==========================================
-// AUTO REFRESH - 30 SECONDS
+// AUTO REFRESH
 // ==========================================
 
 setInterval(
     function () {
+
+        const currentPage =
+            window.location.pathname
+                .split("/")
+                .pop()
+                .toLowerCase();
+
+
+        // Login page પર refresh નહીં કરવું
+
+        if (
+            currentPage === "login.html" ||
+            currentPage === ""
+        ) {
+
+            return;
+
+        }
+
 
         const loginStatus =
             localStorage.getItem(
@@ -1342,7 +1400,8 @@ setInterval(
 
 
         if (
-            loginStatus === "true"
+            loginStatus === "true" &&
+            currentPage === "admin.html"
         ) {
 
             loadDashboard();
