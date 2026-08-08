@@ -323,7 +323,41 @@ Submit Application
 
 <script src="script.js"></script>
 
+// ================= MODAL CLOSE =================
 
-</body>
+function closeApplicationModal(){
 
+    const modal = document.getElementById("applicationModal");
+
+    if(modal){
+        modal.classList.remove("show");
+        modal.style.display = "none";
+    }
+}
+
+
+// Close when clicking outside modal
+document.addEventListener("click", function(e){
+
+    const modal = document.getElementById("applicationModal");
+
+    if(
+        modal &&
+        e.target === modal
+    ){
+        closeApplicationModal();
+    }
+
+});
+
+
+// Close with ESC key
+document.addEventListener("keydown", function(e){
+
+    if(e.key === "Escape"){
+        closeApplicationModal();
+    }
+
+});
+  </body>
 </html>
