@@ -10,7 +10,133 @@
 // =====================================
 
 const SCRIPT_URL =
-"https://script.google.com/macros/s/AKfycbwkae7tlBOV75wn2uXU11x9fzowa1SgOHrhkflfAXf9NTaZXjk3xq1EmRA1REQK7o1P_Q/exec";
+"https://script.google.com/macros/s/AKfycby1cAsNRzfvrSLqZrukmEjqIKbCCkOHaShKzmuvVvyVlipSRmaRw8KTefkdKSQgsJkPJg/exec";
+
+
+// =====================================
+// PAGE LOAD
+// =====================================
+
+document.addEventListener("DOMContentLoaded", function(){
+
+    const form =
+        document.getElementById("adminLoginForm");
+
+    const loginBtn =
+        document.getElementById("loginBtn");
+
+    const toggleBtn =
+        document.getElementById("togglePasswordBtn");
+
+    const username =
+        document.getElementById("username");
+
+    const password =
+        document.getElementById("adminPassword");
+
+
+    // ---------------------------------
+    // CLEAR OLD VALUES
+    // ---------------------------------
+
+    username.value = "";
+
+    password.value = "";
+
+
+    // ---------------------------------
+    // SHOW / HIDE PASSWORD
+    // ---------------------------------
+
+    toggleBtn.addEventListener(
+        "click",
+        togglePassword
+    );
+
+
+    // ---------------------------------
+    // LOGIN
+    // ---------------------------------
+
+    form.addEventListener(
+        "submit",
+        function(event){
+
+            event.preventDefault();
+
+            login();
+
+        }
+    );
+
+
+    // ---------------------------------
+    // ENTER KEY
+    // ---------------------------------
+
+    username.addEventListener(
+        "keydown",
+        function(event){
+
+            if(event.key === "Enter"){
+
+                event.preventDefault();
+
+                login();
+
+            }
+
+        }
+    );
+
+
+    password.addEventListener(
+        "keydown",
+        function(event){
+
+            if(event.key === "Enter"){
+
+                event.preventDefault();
+
+                login();
+
+            }
+
+        }
+    );
+
+});
+
+
+// =====================================
+// PASSWORD SHOW / HIDE
+// =====================================
+
+function togglePassword(){
+
+    const password =
+        document.getElementById("adminPassword");
+
+    const button =
+        document.getElementById("togglePasswordBtn");
+
+
+    if(password.type === "password"){
+
+        password.type = "text";
+
+        button.textContent = "🙈";
+
+    }
+    else{
+
+        password.type = "password";
+
+        button.textContent = "👁";
+
+    }
+
+}
 
 
 // =====================================
@@ -20,61 +146,82 @@ const SCRIPT_URL =
 function login(){
 
     const username =
-        document.getElementById("username").value.trim();
+        document.getElementById("username")
+        .value
+        .trim();
 
     const password =
-        document.getElementById("adminPassword").value;
+        document.getElementById("adminPassword")
+        .value;
 
     const msg =
         document.getElementById("msg");
+
+    const loginBtn =
+        document.getElementById("loginBtn");
 
 
     // =================================
     // EMPTY CHECK
     // =================================
 
-    if(username === "" || password === ""){
+    if(username === ""){
 
-        msg.innerHTML =
-            "⚠️ Username અને Password નાખો.";
+        msg.textContent =
+            "⚠️ Username નાખો.";
 
         msg.style.color = "red";
+
+        document
+            .getElementById("username")
+            .focus();
+
+        return;
+    }
+
+
+    if(password === ""){
+
+        msg.textContent =
+            "⚠️ Password નાખો.";
+
+        msg.style.color = "red";
+
+        document
+            .getElementById("adminPassword")
+            .focus();
 
         return;
     }
 
 
     // =================================
-    // BUTTON DISABLE
+    // BUTTON LOADING
     // =================================
 
-    const loginButton =
-        document.querySelector(".login-btn");
+    loginBtn.disabled = true;
 
-    loginButton.disabled = true;
-
-    loginButton.innerHTML =
+    loginBtn.textContent =
         "⏳ Login થઈ રહ્યું છે...";
 
-
-    msg.innerHTML = "";
+    msg.textContent = "";
 
 
     // =================================
-    // SEND LOGIN REQUEST
+    // SEND REQUEST
     // =================================
 
     fetch(SCRIPT_URL, {
 
-        method: "POST",
+        method:"POST",
 
-        body: JSON.stringify({
+        body:JSON.stringify({
 
-            action: "adminLogin",
+            action:"adminLogin",
 
-            username: username,
+            username:username,
 
-            password: password
+            password:password
 
         })
 
@@ -100,7 +247,16 @@ function login(){
 
         if(data.status === "success"){
 
-            // Login session
+            /*
+             * IMPORTANT:
+             *
+             * Password localStorageમાં
+             * save થતો નથી.
+             *
+             * માત્ર login status અને
+             * admin name save થાય છે.
+             */
+
             localStorage.setItem(
                 "adminLogin",
                 "true"
@@ -112,29 +268,29 @@ function login(){
             );
 
 
-            // IMPORTANT:
-            // Password ક્યારેય localStorageમાં
-            // save કરવામાં આવતો નથી.
+            // ---------------------------------
+            // CLEAR PASSWORD
+            // ---------------------------------
 
-            document.getElementById(
-                "adminPassword"
-            ).value = "";
-
-
-            document.getElementById(
-                "username"
-            ).value = "";
+            document
+                .getElementById("adminPassword")
+                .value = "";
 
 
-            msg.innerHTML =
+            document
+                .getElementById("username")
+                .value = "";
+
+
+            msg.textContent =
                 "✅ Login Successful...";
 
             msg.style.color = "green";
 
 
-            // =================================
-            // ADMIN PANEL OPEN
-            // =================================
+            // ---------------------------------
+            // OPEN ADMIN PANEL
+            // ---------------------------------
 
             setTimeout(function(){
 
@@ -142,7 +298,7 @@ function login(){
                     "admin.html"
                 );
 
-            }, 500);
+            },500);
 
         }
 
@@ -153,31 +309,28 @@ function login(){
 
         else{
 
-            msg.innerHTML =
+            msg.textContent =
                 "❌ " +
-                (data.message ||
-                "Username અથવા Password ખોટો છે.");
+                (
+                    data.message ||
+                    "Username અથવા Password ખોટો છે."
+                );
 
             msg.style.color = "red";
 
 
             // Password clear
 
-            document.getElementById(
-                "adminPassword"
-            ).value = "";
-
-
-            document.getElementById(
-                "adminPassword"
-            ).focus();
+            document
+                .getElementById("adminPassword")
+                .value = "";
 
 
             // Button enable
 
-            loginButton.disabled = false;
+            loginBtn.disabled = false;
 
-            loginButton.innerHTML =
+            loginBtn.textContent =
                 "🔐 Login";
 
         }
@@ -193,122 +346,25 @@ function login(){
 
         console.error(error);
 
-        msg.innerHTML =
+        msg.textContent =
             "❌ Server Error. ફરી પ્રયાસ કરો.";
 
         msg.style.color = "red";
 
 
-        loginButton.disabled = false;
+        document
+            .getElementById("adminPassword")
+            .value = "";
 
-        loginButton.innerHTML =
+
+        loginBtn.disabled = false;
+
+        loginBtn.textContent =
             "🔐 Login";
-
-
-        document.getElementById(
-            "adminPassword"
-        ).value = "";
 
     });
 
 }
-
-
-// =====================================
-// PASSWORD SHOW / HIDE
-// =====================================
-
-function togglePassword(){
-
-    const password =
-        document.getElementById("adminPassword");
-
-    const button =
-        document.querySelector(
-            ".password-box button"
-        );
-
-
-    if(password.type === "password"){
-
-        password.type = "text";
-
-        button.innerHTML = "🙈";
-
-    }
-
-    else{
-
-        password.type = "password";
-
-        button.innerHTML = "👁";
-
-    }
-
-}
-
-
-// =====================================
-// ENTER KEY LOGIN
-// =====================================
-
-document.addEventListener(
-    "DOMContentLoaded",
-    function(){
-
-        const password =
-            document.getElementById(
-                "adminPassword"
-            );
-
-        const username =
-            document.getElementById(
-                "username"
-            );
-
-
-        password.addEventListener(
-            "keydown",
-            function(event){
-
-                if(event.key === "Enter"){
-
-                    event.preventDefault();
-
-                    login();
-
-                }
-
-            }
-        );
-
-
-        username.addEventListener(
-            "keydown",
-            function(event){
-
-                if(event.key === "Enter"){
-
-                    event.preventDefault();
-
-                    login();
-
-                }
-
-            }
-        );
-
-
-        // =================================
-        // CLEAR OLD FORM VALUES
-        // =================================
-
-        username.value = "";
-
-        password.value = "";
-
-    }
-);
 
 
 // =====================================
@@ -320,22 +376,23 @@ window.addEventListener(
     function(){
 
         const username =
-            document.getElementById(
-                "username"
-            );
+            document.getElementById("username");
 
         const password =
-            document.getElementById(
-                "adminPassword"
-            );
+            document.getElementById("adminPassword");
 
 
         if(username){
+
             username.value = "";
+
         }
 
+
         if(password){
+
             password.value = "";
+
         }
 
     }
