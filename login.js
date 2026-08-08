@@ -1,4 +1,3 @@
-```javascript
 // =====================================
 // RAJKUMAR RATION CARD PORTAL
 // FINAL ADMIN LOGIN JS
@@ -397,4 +396,3 @@ window.addEventListener(
 
     }
 );
-```
