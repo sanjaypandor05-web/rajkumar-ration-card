@@ -4,7 +4,7 @@
 // =====================================================
 
 const SCRIPT_URL =
-"https://script.google.com/macros/s/AKfycbxPWEsUdFkEB_g4RyWHqEI2bPT5TluwZOa30qqiX3QpoGuQUZ5Jt73Utvyqa7XfjRYlfw/exec";
+"https://script.google.com/macros/s/AKfycbyErf45DnohudKOToa4tyON8vriogNyX09W5XKp21vjFd1yQrY2gTMtiFe9YWtbayhffA/exec";
 
 
 // =====================================================
