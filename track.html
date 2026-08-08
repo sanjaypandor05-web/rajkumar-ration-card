@@ -8,251 +8,9 @@
 <meta name="viewport"
       content="width=device-width, initial-scale=1.0">
 
-<title>
-Track Application | Rajkumar Ration Card Portal
-</title>
+<title>Track Application | Rajkumar Ration Card Portal</title>
 
-<link rel="stylesheet" href="style.css">
-
-<style>
-
-/* ==========================================
-   TRACK PAGE
-========================================== */
-
-*{
-    box-sizing:border-box;
-}
-
-body{
-    margin:0;
-    font-family:Arial, "Noto Sans Gujarati", sans-serif;
-    background:#f4f7fb;
-}
-
-
-/* HEADER */
-
-header{
-    min-height:70px;
-    padding:15px 25px;
-    background:#ffffff;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    box-shadow:0 2px 10px rgba(0,0,0,.08);
-}
-
-.logo{
-    font-size:20px;
-    font-weight:700;
-}
-
-.back{
-    text-decoration:none;
-    font-weight:600;
-}
-
-
-/* TRACK PAGE */
-
-.track-page{
-    min-height:calc(100vh - 70px);
-    display:flex;
-    justify-content:center;
-    align-items:flex-start;
-    padding:45px 15px;
-}
-
-
-/* CARD */
-
-.track-card{
-    width:100%;
-    max-width:600px;
-    background:#ffffff;
-    border-radius:18px;
-    padding:30px;
-    box-shadow:0 8px 30px rgba(0,0,0,.10);
-}
-
-
-.track-card h1{
-    margin-top:0;
-    text-align:center;
-    font-size:28px;
-}
-
-
-.track-card > p{
-    text-align:center;
-    color:#666;
-    margin-bottom:30px;
-}
-
-
-/* LABEL */
-
-.track-card label{
-    display:block;
-    margin-top:18px;
-    margin-bottom:8px;
-    font-weight:600;
-}
-
-
-/* INPUT */
-
-#applicationId{
-    width:100%;
-    padding:14px 16px;
-    border:1px solid #d5dbe5;
-    border-radius:10px;
-    font-size:16px;
-    outline:none;
-    text-transform:uppercase;
-}
-
-
-#applicationId:focus{
-    border-color:#2563eb;
-}
-
-
-/* BUTTON */
-
-.track-btn{
-    width:100%;
-    margin-top:20px;
-    padding:14px;
-    border:0;
-    border-radius:10px;
-    background:#2563eb;
-    color:white;
-    font-size:17px;
-    font-weight:700;
-    cursor:pointer;
-}
-
-
-.track-btn:hover{
-    opacity:.92;
-}
-
-
-/* MESSAGE */
-
-#msg{
-    text-align:center;
-    margin-top:18px;
-    min-height:22px;
-    font-weight:600;
-}
-
-
-/* RESULT */
-
-.track-result{
-    margin-top:25px;
-    border:1px solid #e1e6ef;
-    border-radius:15px;
-    padding:20px;
-    background:#fafcff;
-}
-
-
-.track-result h2{
-    margin-top:0;
-    text-align:center;
-    font-size:22px;
-}
-
-
-/* DETAIL */
-
-.detail{
-    display:flex;
-    justify-content:space-between;
-    gap:20px;
-    padding:13px 0;
-    border-bottom:1px solid #e7ebf0;
-}
-
-
-.detail:last-child{
-    border-bottom:0;
-}
-
-
-.detail span{
-    color:#666;
-}
-
-
-.detail strong{
-    text-align:right;
-    word-break:break-word;
-}
-
-
-/* STATUS */
-
-.status-pending{
-    color:#d97706 !important;
-}
-
-
-.status-success{
-    color:#16a34a !important;
-}
-
-
-.status-failed{
-    color:#dc2626 !important;
-}
-
-
-/* MOBILE */
-
-@media(max-width:600px){
-
-    header{
-        padding:12px 15px;
-    }
-
-    .logo{
-        font-size:16px;
-    }
-
-    .back{
-        font-size:14px;
-    }
-
-    .track-page{
-        padding:25px 12px;
-    }
-
-    .track-card{
-        padding:22px 17px;
-        border-radius:14px;
-    }
-
-    .track-card h1{
-        font-size:23px;
-    }
-
-    .detail{
-        flex-direction:column;
-        gap:5px;
-    }
-
-    .detail strong{
-        text-align:left;
-    }
-
-}
-
-</style>
+<link rel="stylesheet" href="track.css">
 
 </head>
 
@@ -260,17 +18,13 @@ header{
 <body>
 
 
-<!-- ==========================================
-     HEADER
-========================================== -->
-
 <header>
 
     <div class="logo">
-        🪪 Rajkumar Ration Card Portal
+        🪪 Rajkumar Ration Card
     </div>
 
-    <a href="index.html" class="back">
+    <a href="index.html" class="back-btn">
         ← Home
     </a>
 
@@ -278,194 +32,202 @@ header{
 
 
 
-<!-- ==========================================
-     TRACK PAGE
-========================================== -->
+<main class="track-page">
 
-<section class="track-page">
 
+    <div class="track-card">
 
-<div class="track-card">
 
+        <div class="icon">
+            🔎
+        </div>
 
-<h1>
-📋 અરજીનું સ્ટેટસ
-</h1>
 
+        <h1>
+            અરજીનું સ્ટેટસ તપાસો
+        </h1>
 
-<p>
-તમારો Application ID નાખીને તમારી અરજીની માહિતી જુઓ
-</p>
 
+        <p class="subtitle">
+            તમારી Application ID નાખીને અરજીનું સ્ટેટસ જુઓ
+        </p>
 
 
-<!-- APPLICATION ID -->
 
-<label for="applicationId">
-Application ID
-</label>
+        <!-- APPLICATION ID -->
 
+        <label for="applicationId">
+            Application ID
+        </label>
 
-<input
-    type="text"
-    id="applicationId"
-    placeholder="RC20260001"
-    maxlength="30"
-    autocomplete="off">
 
+        <input
+            type="text"
+            id="applicationId"
+            placeholder="ઉદાહરણ: RC20260001"
+            maxlength="20"
+            autocomplete="off"
+        >
 
 
-<!-- TRACK BUTTON -->
 
-<button
-    type="button"
-    class="track-btn"
-    id="trackButton"
-    onclick="trackApplication()">
+        <button
+            id="trackBtn"
+            onclick="trackApplication()">
 
-    🔍 Track Application
+            🔍 Track Application
 
-</button>
+        </button>
 
 
 
-<!-- MESSAGE -->
+        <div id="msg"></div>
 
-<div id="msg"></div>
 
 
+        <!-- RESULT -->
 
-<!-- ==========================================
-     RESULT
-========================================== -->
+        <div
+            id="result"
+            class="result"
+            style="display:none;">
 
-<div
-    id="result"
-    class="track-result"
-    style="display:none;">
 
+            <div class="result-header">
 
-<h2>
-📄 Application Details
-</h2>
+                <h2>
+                    અરજીની વિગતો
+                </h2>
 
+            </div>
 
-<!-- APPLICATION ID -->
 
-<div class="detail">
 
-    <span>
-        Application ID
-    </span>
+            <!-- APPLICATION ID -->
 
-    <strong id="resultId">
-        -
-    </strong>
+            <div class="detail-row">
 
-</div>
+                <span>
+                    Application ID
+                </span>
 
+                <strong id="showApplicationId">
+                    -
+                </strong>
 
-<!-- NAME -->
+            </div>
 
-<div class="detail">
 
-    <span>
-        નામ
-    </span>
 
-    <strong id="resultName">
-        -
-    </strong>
+            <!-- FINAL NAME -->
 
-</div>
+            <div class="detail-row">
 
+                <span>
+                    નામ
+                </span>
 
-<!-- MOBILE -->
+                <strong id="showName">
+                    -
+                </strong>
 
-<div class="detail">
+            </div>
 
-    <span>
-        Mobile
-    </span>
 
-    <strong id="resultMobile">
-        -
-    </strong>
 
-</div>
+            <!-- SERVICE -->
 
+            <div class="detail-row">
 
-<!-- SERVICE -->
+                <span>
+                    સેવા
+                </span>
 
-<div class="detail">
+                <strong id="showService">
+                    -
+                </strong>
 
-    <span>
-        Service
-    </span>
+            </div>
 
-    <strong id="resultService">
-        -
-    </strong>
 
-</div>
 
+            <!-- DATE -->
 
-<!-- PAYMENT -->
+            <div class="detail-row">
 
-<div class="detail">
+                <span>
+                    અરજી તારીખ
+                </span>
 
-    <span>
-        Payment Status
-    </span>
+                <strong id="showDate">
+                    -
+                </strong>
 
-    <strong id="resultPayment">
-        -
-    </strong>
+            </div>
 
-</div>
 
 
-<!-- APPLICATION STATUS -->
+            <hr>
 
-<div class="detail">
 
-    <span>
-        Application Status
-    </span>
 
-    <strong id="resultStatus">
-        -
-    </strong>
+            <!-- PAYMENT STATUS -->
 
-</div>
+            <div class="status-box">
 
+                <span>
+                    💳 Payment Status
+                </span>
 
-<!-- DATE -->
+                <strong id="paymentStatus">
+                    -
+                </strong>
 
-<div class="detail">
+            </div>
 
-    <span>
-        અરજી તારીખ
-    </span>
 
-    <strong id="resultDate">
-        -
-    </strong>
 
-</div>
+            <!-- APPLICATION STATUS -->
 
+            <div class="status-box">
 
-</div>
+                <span>
+                    📋 Application Status
+                </span>
 
+                <strong id="applicationStatus">
+                    -
+                </strong>
 
-</div>
+            </div>
 
-</section>
+
+        </div>
+
+
+
+        <div class="help-box">
+
+            <strong>
+                💡 નોંધ:
+            </strong>
+
+            <br>
+
+            Application ID તમને અરજી submit કર્યા પછી
+            મળ્યો હતો.
+
+        </div>
+
+
+    </div>
+
+
+</main>
 
 
 
 <script src="track.js"></script>
-
 
 </body>
 
