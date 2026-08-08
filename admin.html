@@ -281,15 +281,56 @@ Close
 
 </div>
 
+```html
+<!-- =====================================
+     ADMIN LOGIN CHECK
+===================================== -->
+
+<script>
+
+(function(){
+
+    const loggedIn =
+        localStorage.getItem("adminLogin");
+
+    if(loggedIn !== "true"){
+
+        window.location.replace("login.html");
+
+        return;
+
+    }
 
 
+    // Admin Name બતાવો
+
+    const adminName =
+        localStorage.getItem("adminName");
+
+    if(adminName){
+
+        const nameElement =
+            document.getElementById("adminName");
+
+        if(nameElement){
+
+            nameElement.textContent =
+                adminName;
+
+        }
+
+    }
+
+})();
+
+</script>
 
 
-
-
-
+<!-- ADMIN JS -->
 
 <script src="admin.js"></script>
+```
+
 
 
 </body>
