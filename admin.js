@@ -1,569 +1,906 @@
 // ==========================================
 // RAJKUMAR RATION CARD PORTAL
-// ADMIN.JS
-// PART - 1
+// ADMIN.JS - FINAL
 // ==========================================
 
 
-// ================= SCRIPT URL =================
+// ==========================================
+// GOOGLE APPS SCRIPT URL
+// ==========================================
 
 const SCRIPT_URL =
 "https://script.google.com/macros/s/AKfycbzxF0SriCprWqMI2QRKIRDB1dmpCPMxCF7PIp-pI5BZAXfs_ngGwKQFjdq3gEh8vmAAvg/exec";
 
 
+// ==========================================
+// COMMON API FUNCTION
+// ==========================================
 
-// ================= LOGIN =================
+async function apiRequest(data) {
 
-async function login(){
+    const response = await fetch(SCRIPT_URL, {
 
-    const username =
-    document.getElementById("username").value.trim();
+        method: "POST",
 
-    const password =
-    document.getElementById("password").value.trim();
+        headers: {
+            "Content-Type": "text/plain;charset=utf-8"
+        },
+
+        body: JSON.stringify(data)
+
+    });
+
+    const text = await response.text();
+
+    let result;
+
+    try {
+
+        result = JSON.parse(text);
+
+    } catch (error) {
+
+        console.error("Invalid Server Response:", text);
+
+        throw new Error("Server did not return valid JSON");
+
+    }
+
+    return result;
+
+}
+
+
+// ==========================================
+// ADMIN LOGIN
+// ==========================================
+
+async function login() {
+
+    const usernameElement =
+        document.getElementById("username");
+
+    const passwordElement =
+        document.getElementById("password");
 
     const msg =
-    document.getElementById("msg");
+        document.getElementById("msg");
 
 
-    if(username=="" || password==""){
+    if (!usernameElement || !passwordElement) {
 
-        msg.innerHTML="❌ Username અને Password દાખલ કરો";
-        msg.style.color="red";
+        console.error("Username or Password field not found.");
+
         return;
 
     }
 
 
-    msg.innerHTML="⏳ Login થઈ રહ્યું છે...";
-    msg.style.color="blue";
+    const username =
+        usernameElement.value.trim();
+
+    const password =
+        passwordElement.value.trim();
 
 
-    try{
+    if (username === "" || password === "") {
 
-        const response =
-        await fetch(SCRIPT_URL,{
+        if (msg) {
 
-            method:"POST",
+            msg.innerHTML =
+                "❌ Username અને Password દાખલ કરો";
 
-            body:JSON.stringify({
+            msg.style.color = "red";
 
-                action:"adminLogin",
+        }
 
-                username:username,
+        return;
 
-                password:password
+    }
 
-            })
+
+    if (msg) {
+
+        msg.innerHTML =
+            "⏳ Login થઈ રહ્યું છે...";
+
+        msg.style.color = "blue";
+
+    }
+
+
+    try {
+
+        const result = await apiRequest({
+
+            action: "adminLogin",
+
+            username: username,
+
+            password: password
 
         });
 
 
-        const result =
-        await response.json();
+        console.log("Login Result:", result);
 
 
-        if(result.status=="success"){
+        if (
+            result &&
+            (
+                result.status === "success" ||
+                result.success === true
+            )
+        ) {
 
             localStorage.setItem(
                 "adminLogin",
                 "true"
             );
 
+
             localStorage.setItem(
                 "adminName",
-                result.name
+                result.name || username
             );
 
-            window.location.href="admin.html";
+
+            if (msg) {
+
+                msg.innerHTML =
+                    "✅ Login Successful...";
+
+                msg.style.color = "green";
+
+            }
+
+
+            setTimeout(function () {
+
+                window.location.href =
+                    "admin.html";
+
+            }, 500);
 
         }
 
-        else{
+        else {
 
-            msg.innerHTML=
-            "❌ Username અથવા Password ખોટો છે";
+            if (msg) {
 
-            msg.style.color="red";
+                msg.innerHTML =
+                    "❌ Username અથવા Password ખોટો છે";
+
+                msg.style.color = "red";
+
+            }
 
         }
 
     }
 
-    catch(error){
+    catch (error) {
 
-        console.log(error);
+        console.error(
+            "Login Error:",
+            error
+        );
 
-        msg.innerHTML=
-        "❌ Server Error";
 
-        msg.style.color="red";
+        if (msg) {
+
+            msg.innerHTML =
+                "❌ Server સાથે connection થવામાં error આવ્યો";
+
+            msg.style.color = "red";
+
+        }
 
     }
 
 }
 
 
+// ==========================================
+// CHECK ADMIN LOGIN
+// ==========================================
 
-// ================= CHECK LOGIN =================
+function checkLogin() {
 
-function checkLogin(){
+    const loginStatus =
+        localStorage.getItem("adminLogin");
 
-    const login =
-    localStorage.getItem("adminLogin");
 
-    if(login!="true"){
+    if (loginStatus !== "true") {
 
-        window.location.href="login.html";
+        window.location.href =
+            "login.html";
 
-        return;
+        return false;
 
     }
 
 
     const adminName =
-    localStorage.getItem("adminName");
+        localStorage.getItem("adminName") ||
+        "Admin";
 
-    if(document.getElementById("adminName")){
 
-        document.getElementById("adminName").innerHTML=
-        adminName || "Admin";
+    const adminNameElement =
+        document.getElementById("adminName");
+
+
+    if (adminNameElement) {
+
+        adminNameElement.innerHTML =
+            adminName;
 
     }
+
+
+    return true;
 
 }
 
 
+// ==========================================
+// LOGOUT
+// ==========================================
 
-// ================= LOGOUT =================
+function logout() {
 
-function logout(){
+    const confirmLogout =
+        confirm(
+            "શું તમે Logout કરવા માંગો છો?"
+        );
 
-    if(!confirm("શું તમે Logout કરવા માંગો છો?")){
+
+    if (!confirmLogout) {
 
         return;
 
     }
 
-    localStorage.removeItem("adminLogin");
-    localStorage.removeItem("adminName");
 
-    window.location.href="login.html";
+    localStorage.removeItem(
+        "adminLogin"
+    );
+
+
+    localStorage.removeItem(
+        "adminName"
+    );
+
+
+    window.location.href =
+        "login.html";
 
 }
+
+
 // ==========================================
-// PART - 2
-// LOAD DASHBOARD & APPLICATIONS
+// LOAD DASHBOARD
 // ==========================================
 
+async function loadDashboard() {
 
-// ================= LOAD DASHBOARD =================
+    try {
 
-async function loadDashboard(){
+        const result =
+            await apiRequest({
 
-    try{
+                action: "loadDashboard"
 
-        const response = await fetch(SCRIPT_URL,{
-            method:"POST",
-            body:JSON.stringify({
-                action:"loadDashboard"
-            })
-        });
+            });
 
-        const result = await response.json();
 
-        if(result.status=="success"){
+        console.log(
+            "Dashboard Result:",
+            result
+        );
 
-            if(document.getElementById("totalApplications"))
-                document.getElementById("totalApplications").innerHTML = result.total;
 
-            if(document.getElementById("paymentPending"))
-                document.getElementById("paymentPending").innerHTML = result.paymentPending;
+        if (
+            result &&
+            result.status === "success"
+        ) {
 
-            if(document.getElementById("paymentVerified"))
-                document.getElementById("paymentVerified").innerHTML = result.paymentVerified;
+            setText(
+                "totalApplications",
+                result.total || 0
+            );
 
-            if(document.getElementById("processing"))
-                document.getElementById("processing").innerHTML = result.processing;
 
-            if(document.getElementById("completed"))
-                document.getElementById("completed").innerHTML = result.completed;
+            setText(
+                "paymentPending",
+                result.paymentPending || 0
+            );
 
-            if(document.getElementById("rejected"))
-                document.getElementById("rejected").innerHTML = result.rejected;
+
+            setText(
+                "paymentVerified",
+                result.paymentVerified || 0
+            );
+
+
+            setText(
+                "processing",
+                result.processing || 0
+            );
+
+
+            setText(
+                "completed",
+                result.completed || 0
+            );
+
+
+            setText(
+                "rejected",
+                result.rejected || 0
+            );
 
         }
 
     }
 
-    catch(err){
+    catch (error) {
 
-        console.log(err);
+        console.error(
+            "Dashboard Error:",
+            error
+        );
 
     }
 
 }
 
 
+// ==========================================
+// SET TEXT HELPER
+// ==========================================
 
-// ================= LOAD APPLICATIONS =================
+function setText(id, value) {
 
-async function loadApplications(){
+    const element =
+        document.getElementById(id);
 
-    try{
 
-        const response = await fetch(SCRIPT_URL,{
-            method:"POST",
-            body:JSON.stringify({
-                action:"loadApplications"
-            })
-        });
+    if (element) {
 
-        const result = await response.json();
+        element.innerHTML =
+            value;
 
-        if(result.status=="success"){
+    }
 
-            renderTable(result.applications);
+}
+
+
+// ==========================================
+// LOAD APPLICATIONS
+// ==========================================
+
+async function loadApplications() {
+
+    try {
+
+        const result =
+            await apiRequest({
+
+                action: "loadApplications"
+
+            });
+
+
+        console.log(
+            "Applications Result:",
+            result
+        );
+
+
+        if (
+            result &&
+            result.status === "success"
+        ) {
+
+            renderTable(
+                result.applications || []
+            );
+
+        }
+
+        else {
+
+            renderTable([]);
 
         }
 
     }
 
-    catch(err){
+    catch (error) {
 
-        console.log(err);
+        console.error(
+            "Load Applications Error:",
+            error
+        );
 
     }
 
 }
+
+
 // ==========================================
-// PART - 3A-1
-// RENDER TABLE (START)
+// RENDER APPLICATION TABLE
 // ==========================================
 
-function renderTable(applications){
+function renderTable(applications) {
 
     const tbody =
-    document.getElementById("tableBody");
+        document.getElementById(
+            "tableBody"
+        );
 
-    if(!tbody) return;
 
-    tbody.innerHTML="";
+    if (!tbody) {
 
-    if(applications.length==0){
+        return;
 
-        tbody.innerHTML=`
-        <tr>
-            <td colspan="12" style="text-align:center;padding:20px;">
-                કોઈ અરજી મળી નથી
-            </td>
-        </tr>
+    }
+
+
+    tbody.innerHTML = "";
+
+
+    if (
+        !applications ||
+        applications.length === 0
+    ) {
+
+        tbody.innerHTML = `
+            <tr>
+                <td
+                    colspan="8"
+                    style="text-align:center;padding:20px;"
+                >
+                    કોઈ અરજી મળી નથી
+                </td>
+            </tr>
         `;
 
         return;
 
     }
 
-    applications.forEach(app=>{
 
-        let paymentBadge =
-        app.paymentStatus=="Verified"
-        ? "<span class='badge green'>Verified</span>"
-        : "<span class='badge orange'>Pending</span>";
+    applications.forEach(function (app) {
 
 
+        const paymentStatus =
+            app.paymentStatus || "Pending";
 
-        let statusBadge="";
 
-        switch(app.applicationStatus){
+        const applicationStatus =
+            app.applicationStatus || "Pending";
 
-            case "Completed":
-                statusBadge="<span class='badge green'>Completed</span>";
-                break;
 
-            case "Rejected":
-                statusBadge="<span class='badge red'>Rejected</span>";
-                break;
+        let paymentBadge;
 
-            case "Processing":
-                statusBadge="<span class='badge blue'>Processing</span>";
-                break;
 
-            default:
-                statusBadge="<span class='badge orange'>Pending</span>";
+        if (
+            paymentStatus.toLowerCase() ===
+            "verified"
+        ) {
+
+            paymentBadge =
+                `<span class="badge green">
+                    Verified
+                </span>`;
 
         }
 
-        let row = `
-        <tr>
+        else {
 
-            <td>${app.applicationId}</td>
+            paymentBadge =
+                `<span class="badge orange">
+                    Pending
+                </span>`;
 
-            <td>${app.finalName}</td>
-
-            <td>${app.mobile}</td>
-
-            <td>${app.village}</td>
-
-            <td>${app.service}</td>
-
-            <td>${paymentBadge}</td>
-
-            <td>${statusBadge}</td>
-            // ==========================================
-// PART - 3A-2
-// RENDER TABLE (ROWS + ACTIONS)
-// ==========================================
+        }
 
 
-            <td>
-
-                <button 
-                class="view-btn"
-                onclick='viewApplication(${JSON.stringify(app)})'>
-
-                👁 View
-
-                </button>
+        let statusBadge;
 
 
-                <button 
-                class="whatsapp-btn"
-                onclick="openWhatsApp('${app.mobile}','${app.finalName}')">
+        switch (applicationStatus) {
 
-                📲 WhatsApp
+            case "Completed":
 
-                </button>
+                statusBadge =
+                    `<span class="badge green">
+                        Completed
+                    </span>`;
 
-
-                <button 
-                class="verify-btn"
-                onclick="verifyPayment('${app.applicationId}')">
-
-                💳 Verify
-
-                </button>
+                break;
 
 
-                <button 
-                class="status-btn"
-                onclick="changeStatus('${app.applicationId}')">
+            case "Rejected":
 
-                ✅ Status
+                statusBadge =
+                    `<span class="badge red">
+                        Rejected
+                    </span>`;
 
-                </button>
-
-
-                <button 
-                class="delete-btn"
-                onclick="deleteApplication('${app.applicationId}')">
-
-                🗑 Delete
-
-                </button>
+                break;
 
 
-            </td>
+            case "Processing":
+
+                statusBadge =
+                    `<span class="badge blue">
+                        Processing
+                    </span>`;
+
+                break;
 
 
-        </tr>
+            default:
+
+                statusBadge =
+                    `<span class="badge orange">
+                        Pending
+                    </span>`;
+
+        }
+
+
+        const applicationId =
+            app.applicationId || "-";
+
+
+        const name =
+            app.finalName ||
+            app.englishName ||
+            "-";
+
+
+        const mobile =
+            app.mobile || "-";
+
+
+        const village =
+            app.village || "-";
+
+
+        const service =
+            app.service || "-";
+
+
+        const appJson =
+            JSON.stringify(app)
+            .replace(/'/g, "&#39;");
+
+
+        const row = `
+
+            <tr>
+
+                <td>
+                    ${escapeHTML(applicationId)}
+                </td>
+
+                <td>
+                    ${escapeHTML(name)}
+                </td>
+
+                <td>
+                    ${escapeHTML(mobile)}
+                </td>
+
+                <td>
+                    ${escapeHTML(village)}
+                </td>
+
+                <td>
+                    ${escapeHTML(service)}
+                </td>
+
+                <td>
+                    ${paymentBadge}
+                </td>
+
+                <td>
+                    ${statusBadge}
+                </td>
+
+                <td>
+
+                    <button
+                        class="view-btn"
+                        onclick='viewApplication(${appJson})'
+                    >
+                        👁 View
+                    </button>
+
+
+                    <button
+                        class="whatsapp-btn"
+                        onclick="openWhatsApp('${escapeJS(mobile)}','${escapeJS(name)}')"
+                    >
+                        📲 WhatsApp
+                    </button>
+
+
+                    <button
+                        class="verify-btn"
+                        onclick="verifyPayment('${escapeJS(applicationId)}')"
+                    >
+                        💳 Verify
+                    </button>
+
+
+                    <button
+                        class="status-btn"
+                        onclick="changeStatus('${escapeJS(applicationId)}')"
+                    >
+                        ✅ Status
+                    </button>
+
+
+                    <button
+                        class="delete-btn"
+                        onclick="deleteApplication('${escapeJS(applicationId)}')"
+                    >
+                        🗑 Delete
+                    </button>
+
+                </td>
+
+            </tr>
+
         `;
 
 
         tbody.innerHTML += row;
 
-
     });
 
+}
+
+
+// ==========================================
+// HTML ESCAPE
+// ==========================================
+
+function escapeHTML(value) {
+
+    if (value === null || value === undefined) {
+
+        return "";
+
+    }
+
+
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
 
 }
+
+
 // ==========================================
-// PART - 3B
-// VIEW APPLICATION DETAILS
+// JAVASCRIPT STRING ESCAPE
 // ==========================================
 
+function escapeJS(value) {
 
-// ================= VIEW APPLICATION =================
+    if (
+        value === null ||
+        value === undefined
+    ) {
 
-function viewApplication(app){
+        return "";
 
+    }
+
+
+    return String(value)
+        .replace(/\\/g, "\\\\")
+        .replace(/'/g, "\\'")
+        .replace(/"/g, '\\"')
+        .replace(/\n/g, "\\n")
+        .replace(/\r/g, "\\r");
+
+}
+
+
+// ==========================================
+// VIEW APPLICATION
+// ==========================================
+
+function viewApplication(app) {
 
     const modal =
-    document.getElementById("viewModal");
+        document.getElementById(
+            "viewModal"
+        );
 
 
     const content =
-    document.getElementById("viewContent");
+        document.getElementById(
+            "viewContent"
+        );
 
 
-    if(!modal || !content){
+    if (!modal || !content) {
 
         return;
 
     }
 
 
-
     content.innerHTML = `
 
-    <h2>
-    📄 Application Details
-    </h2>
+        <h2>
+            📄 Application Details
+        </h2>
 
+        <hr>
 
-    <hr>
+        <p>
+            <b>Application ID:</b>
+            ${escapeHTML(app.applicationId)}
+        </p>
 
+        <p>
+            <b>English Name:</b>
+            ${escapeHTML(app.englishName)}
+        </p>
 
-    <p>
-    <b>Application ID:</b>
-    ${app.applicationId}
-    </p>
+        <p>
+            <b>Gujarati Name:</b>
+            ${escapeHTML(app.gujaratiName)}
+        </p>
 
+        <p>
+            <b>Final Name:</b>
+            ${escapeHTML(app.finalName)}
+        </p>
 
-    <p>
-    <b>English Name:</b>
-    ${app.englishName}
-    </p>
+        <p>
+            <b>Name Type:</b>
+            ${escapeHTML(app.nameType)}
+        </p>
 
+        <p>
+            <b>Husband Name:</b>
+            ${escapeHTML(app.husbandName || "-")}
+        </p>
 
-    <p>
-    <b>Gujarati Name:</b>
-    ${app.gujaratiName}
-    </p>
+        <p>
+            <b>Mobile:</b>
+            ${escapeHTML(app.mobile)}
+        </p>
 
+        <p>
+            <b>Village:</b>
+            ${escapeHTML(app.village)}
+        </p>
 
-    <p>
-    <b>Final Name:</b>
-    ${app.finalName}
-    </p>
+        <p>
+            <b>Taluka:</b>
+            ${escapeHTML(app.taluka)}
+        </p>
 
+        <p>
+            <b>District:</b>
+            ${escapeHTML(app.district)}
+        </p>
 
-    <p>
-    <b>Name Type:</b>
-    ${app.nameType}
-    </p>
+        <p>
+            <b>Ration Card No:</b>
+            ${escapeHTML(app.rationNo)}
+        </p>
 
+        <p>
+            <b>Service:</b>
+            ${escapeHTML(app.service)}
+        </p>
 
-    <p>
-    <b>Husband Name:</b>
-    ${app.husbandName || "-"}
-    </p>
+        <p>
+            <b>Payment Status:</b>
+            ${escapeHTML(app.paymentStatus)}
+        </p>
 
+        <p>
+            <b>Application Status:</b>
+            ${escapeHTML(app.applicationStatus)}
+        </p>
 
-    <p>
-    <b>Mobile:</b>
-    ${app.mobile}
-    </p>
+        <br>
 
+        <a
+            href="${escapeHTML(app.aadhaarFile || "#")}"
+            target="_blank"
+        >
+            📄 Aadhaar File
+        </a>
 
-    <p>
-    <b>Village:</b>
-    ${app.village}
-    </p>
+        <br><br>
 
+        <a
+            href="${escapeHTML(app.rationFile || "#")}"
+            target="_blank"
+        >
+            📄 Ration File
+        </a>
 
-    <p>
-    <b>Taluka:</b>
-    ${app.taluka}
-    </p>
+        <br><br>
 
-
-    <p>
-    <b>District:</b>
-    ${app.district}
-    </p>
-
-
-    <p>
-    <b>Ration Card No:</b>
-    ${app.rationNo}
-    </p>
-
-
-    <p>
-    <b>Service:</b>
-    ${app.service}
-    </p>
-
-
-    <p>
-    <b>Payment Status:</b>
-    ${app.paymentStatus}
-    </p>
-
-
-    <p>
-    <b>Application Status:</b>
-    ${app.applicationStatus}
-    </p>
-
-
-    <br>
-
-
-    <a href="${app.aadhaarFile}" target="_blank">
-    📄 Aadhaar File
-    </a>
-    <br><br>
-
-
-    <a href="${app.rationFile}" target="_blank">
-    📄 Ration File
-    </a>
-    <br><br>
-
-
-    <a href="${app.paymentFile}" target="_blank">
-    💳 Payment Screenshot
-    </a>
-
+        <a
+            href="${escapeHTML(app.paymentFile || "#")}"
+            target="_blank"
+        >
+            💳 Payment Screenshot
+        </a>
 
     `;
 
 
-
-    modal.style.display="flex";
-
+    modal.style.display =
+        "flex";
 
 }
 
 
+// ==========================================
+// CLOSE MODAL
+// ==========================================
 
-
-
-// ================= CLOSE MODAL =================
-
-
-function closeModal(){
+function closeModal() {
 
     const modal =
-    document.getElementById("viewModal");
+        document.getElementById(
+            "viewModal"
+        );
 
 
-    if(modal){
+    if (modal) {
 
-        modal.style.display="none";
+        modal.style.display =
+            "none";
 
     }
 
 }
+
+
 // ==========================================
-// PART - 4
 // SEARCH APPLICATION
 // ==========================================
 
+async function searchApplication() {
 
-async function searchApplication(){
+    const searchBox =
+        document.getElementById(
+            "searchBox"
+        );
+
+
+    if (!searchBox) {
+
+        return;
+
+    }
 
 
     const keyword =
-    document.getElementById("searchBox")
-    .value
-    .trim();
+        searchBox.value.trim();
 
 
-
-    if(keyword==""){
+    if (keyword === "") {
 
         loadApplications();
 
@@ -572,232 +909,125 @@ async function searchApplication(){
     }
 
 
-
-    try{
-
-
-        const response =
-        await fetch(SCRIPT_URL,{
-
-            method:"POST",
-
-            body:JSON.stringify({
-
-                action:"searchApplication",
-
-                keyword:keyword
-
-            })
-
-        });
-
-
+    try {
 
         const result =
-        await response.json();
+            await apiRequest({
+
+                action:
+                    "searchApplication",
+
+                keyword:
+                    keyword
+
+            });
 
 
-
-        if(result.status=="success"){
-
+        if (
+            result &&
+            result.status === "success"
+        ) {
 
             renderTable(
-                result.applications
+                result.applications || []
             );
-
 
         }
 
-        else{
+        else {
 
+            renderTable([]);
 
             alert(
-            "કોઈ અરજી મળી નથી"
+                "કોઈ અરજી મળી નથી"
             );
 
-
         }
-
-
 
     }
 
-    catch(error){
+    catch (error) {
 
-
-        console.log(error);
-
-
-        alert(
-        "Search Error"
+        console.error(
+            "Search Error:",
+            error
         );
 
 
-    }
+        alert(
+            "Search Error"
+        );
 
+    }
 
 }
 
 
+// ==========================================
+// CLEAR SEARCH
+// ==========================================
 
-// ================= CLEAR SEARCH =================
+function clearSearch() {
+
+    const searchBox =
+        document.getElementById(
+            "searchBox"
+        );
 
 
-function clearSearch(){
+    if (searchBox) {
 
-
-    const box =
-    document.getElementById("searchBox");
-
-
-    if(box){
-
-        box.value="";
+        searchBox.value = "";
 
     }
 
 
     loadApplications();
 
-
 }
+
+
 // ==========================================
-// PART - 5
-// PAYMENT / STATUS / DELETE / WHATSAPP
+// VERIFY PAYMENT
 // ==========================================
 
+async function verifyPayment(appId) {
 
-
-// ================= VERIFY PAYMENT =================
-
-
-async function verifyPayment(appId){
-
-
-    if(!confirm("Payment Verify કરવું છે?")){
+    if (
+        !confirm(
+            "Payment Verify કરવું છે?"
+        )
+    ) {
 
         return;
 
     }
 
 
-
-    try{
-
-
-        const response =
-        await fetch(SCRIPT_URL,{
-
-            method:"POST",
-
-            body:JSON.stringify({
-
-                action:"updatePayment",
-
-                applicationId:appId,
-
-                paymentStatus:"Verified"
-
-            })
-
-        });
-
-
+    try {
 
         const result =
-        await response.json();
+            await apiRequest({
+
+                action:
+                    "updatePayment",
+
+                applicationId:
+                    appId,
+
+                paymentStatus:
+                    "Verified"
+
+            });
 
 
-
-        if(result.status=="success"){
-
-            alert(
-            "Payment Verified"
-            );
-
-
-            loadDashboard();
-
-            loadApplications();
-
-
-        }
-
-        else{
-
-            alert(result.message);
-
-        }
-
-
-
-    }
-
-    catch(error){
-
-        console.log(error);
-
-        alert("Payment Update Error");
-
-    }
-
-
-}
-
-
-
-
-// ================= CHANGE STATUS =================
-
-
-async function changeStatus(appId){
-
-
-    let status =
-    prompt(
-    "Status લખો:\nPending\nProcessing\nCompleted\nRejected"
-    );
-
-
-    if(!status){
-
-        return;
-
-    }
-
-
-
-    try{
-
-
-        const response =
-        await fetch(SCRIPT_URL,{
-
-            method:"POST",
-
-            body:JSON.stringify({
-
-                action:"updateStatus",
-
-                applicationId:appId,
-
-                applicationStatus:status
-
-            })
-
-        });
-
-
-
-        const result =
-        await response.json();
-
-
-
-        if(result.status=="success"){
+        if (
+            result &&
+            result.status === "success"
+        ) {
 
             alert(
-            "Status Updated"
+                "✅ Payment Verified"
             );
 
 
@@ -807,76 +1037,100 @@ async function changeStatus(appId){
 
         }
 
-        else{
+        else {
 
-            alert(result.message);
+            alert(
+                result.message ||
+                "Payment Update Failed"
+            );
 
         }
 
-
-
     }
 
-    catch(error){
+    catch (error) {
 
-        console.log(error);
+        console.error(
+            "Payment Error:",
+            error
+        );
 
-        alert("Status Update Error");
+
+        alert(
+            "Payment Update Error"
+        );
 
     }
-
 
 }
 
 
+// ==========================================
+// CHANGE STATUS
+// ==========================================
+
+async function changeStatus(appId) {
+
+    const status =
+        prompt(
+            "Status લખો:\n\nPending\nProcessing\nCompleted\nRejected"
+        );
 
 
-
-// ================= DELETE APPLICATION =================
-
-
-async function deleteApplication(appId){
-
-
-    if(!confirm(
-    "આ અરજી Delete કરવી છે?"
-    )){
+    if (!status) {
 
         return;
 
     }
 
 
-
-    try{
-
-
-        const response =
-        await fetch(SCRIPT_URL,{
-
-            method:"POST",
-
-            body:JSON.stringify({
-
-                action:"deleteApplication",
-
-                applicationId:appId
-
-            })
-
-        });
+    const allowedStatuses = [
+        "Pending",
+        "Processing",
+        "Completed",
+        "Rejected"
+    ];
 
 
+    if (
+        !allowedStatuses.includes(
+            status
+        )
+    ) {
+
+        alert(
+            "❌ Invalid Status"
+        );
+
+        return;
+
+    }
+
+
+    try {
 
         const result =
-        await response.json();
+            await apiRequest({
+
+                action:
+                    "updateStatus",
+
+                applicationId:
+                    appId,
+
+                applicationStatus:
+                    status
+
+            });
 
 
-
-        if(result.status=="success"){
+        if (
+            result &&
+            result.status === "success"
+        ) {
 
             alert(
-            "Application Deleted"
+                "✅ Status Updated"
             );
 
 
@@ -886,50 +1140,144 @@ async function deleteApplication(appId){
 
         }
 
-        else{
+        else {
 
-            alert(result.message);
+            alert(
+                result.message ||
+                "Status Update Failed"
+            );
 
         }
 
-
     }
 
-    catch(error){
+    catch (error) {
 
-        console.log(error);
+        console.error(
+            "Status Error:",
+            error
+        );
 
-        alert("Delete Error");
+
+        alert(
+            "Status Update Error"
+        );
 
     }
-
 
 }
 
 
+// ==========================================
+// DELETE APPLICATION
+// ==========================================
+
+async function deleteApplication(appId) {
+
+    if (
+        !confirm(
+            "આ અરજી Delete કરવી છે?"
+        )
+    ) {
+
+        return;
+
+    }
 
 
-// ================= WHATSAPP =================
+    try {
+
+        const result =
+            await apiRequest({
+
+                action:
+                    "deleteApplication",
+
+                applicationId:
+                    appId
+
+            });
 
 
-function openWhatsApp(mobile,name){
+        if (
+            result &&
+            result.status === "success"
+        ) {
+
+            alert(
+                "✅ Application Deleted"
+            );
 
 
-    const number =
-    "91"+mobile;
+            loadDashboard();
+
+            loadApplications();
+
+        }
+
+        else {
+
+            alert(
+                result.message ||
+                "Delete Failed"
+            );
+
+        }
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Delete Error:",
+            error
+        );
+
+
+        alert(
+            "Delete Error"
+        );
+
+    }
+
+}
+
+
+// ==========================================
+// WHATSAPP
+// ==========================================
+
+function openWhatsApp(
+    mobile,
+    name
+) {
+
+    let number =
+        String(mobile || "")
+        .replace(/\D/g, "");
+
+
+    if (number.length === 10) {
+
+        number =
+            "91" + number;
+
+    }
 
 
     const message =
-    "નમસ્કાર "+name+
-    ", તમારી રેશન કાર્ડ અરજી બાબતે Rajkumar Ration Card Portal તરફથી સંપર્ક.";
-
+        "નમસ્કાર " +
+        name +
+        ", તમારી રેશન કાર્ડ અરજી બાબતે Rajkumar Ration Card Portal તરફથી સંપર્ક.";
 
 
     const url =
-    "https://wa.me/"+number+
-    "?text="+
-    encodeURIComponent(message);
-
+        "https://wa.me/" +
+        number +
+        "?text=" +
+        encodeURIComponent(
+            message
+        );
 
 
     window.open(
@@ -937,73 +1285,18 @@ function openWhatsApp(mobile,name){
         "_blank"
     );
 
-
 }
+
+
 // ==========================================
-// PART - 6
-// INITIAL LOAD & AUTO REFRESH
+// PAGE LOAD
 // ==========================================
-
-
-
-// ================= PAGE LOAD =================
-
 
 document.addEventListener(
-"DOMContentLoaded",
-function(){
+    "DOMContentLoaded",
+    function () {
 
-
-    checkLogin();
-
-
-    loadDashboard();
-
-
-    loadApplications();
-
-
-
-    // Show Admin Name
-
-    const name =
-    localStorage.getItem(
-    "adminName"
-    );
-
-
-    if(
-    document.getElementById("adminName")
-    ){
-
-        document.getElementById("adminName")
-        .innerHTML =
-        name || "Admin";
-
-    }
-
-
-
-});
-
-
-
-
-
-
-// ================= AUTO REFRESH =================
-
-
-setInterval(function(){
-
-
-    const login =
-    localStorage.getItem(
-    "adminLogin"
-    );
-
-
-    if(login=="true"){
+        checkLogin();
 
 
         loadDashboard();
@@ -1012,7 +1305,52 @@ setInterval(function(){
         loadApplications();
 
 
+        const adminName =
+            localStorage.getItem(
+                "adminName"
+            ) || "Admin";
+
+
+        const adminNameElement =
+            document.getElementById(
+                "adminName"
+            );
+
+
+        if (adminNameElement) {
+
+            adminNameElement.innerHTML =
+                adminName;
+
+        }
+
     }
+);
 
 
-},30000);
+// ==========================================
+// AUTO REFRESH - 30 SECONDS
+// ==========================================
+
+setInterval(
+    function () {
+
+        const loginStatus =
+            localStorage.getItem(
+                "adminLogin"
+            );
+
+
+        if (
+            loginStatus === "true"
+        ) {
+
+            loadDashboard();
+
+            loadApplications();
+
+        }
+
+    },
+    30000
+);
