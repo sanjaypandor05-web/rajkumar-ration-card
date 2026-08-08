@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 
 <meta name="viewport"
-      content="width=device-width, initial-scale=1.0">
+content="width=device-width, initial-scale=1.0">
 
 <title>Track Application | Rajkumar Ration Card Portal</title>
 
@@ -18,13 +18,15 @@
 <body>
 
 
-<header>
+<!-- HEADER -->
+
+<header class="header">
 
     <div class="logo">
         🪪 Rajkumar Ration Card
     </div>
 
-    <a href="index.html" class="back-btn">
+    <a href="index.html" class="home-btn">
         ← Home
     </a>
 
@@ -32,13 +34,15 @@
 
 
 
+<!-- TRACK PAGE -->
+
 <main class="track-page">
 
 
     <div class="track-card">
 
 
-        <div class="icon">
+        <div class="track-icon">
             🔎
         </div>
 
@@ -49,37 +53,41 @@
 
 
         <p class="subtitle">
-            તમારી Application ID નાખીને અરજીનું સ્ટેટસ જુઓ
+            તમારી Application ID નાખીને અરજીનું સ્ટેટસ તપાસો
         </p>
 
 
 
-        <!-- APPLICATION ID -->
+        <!-- SEARCH -->
 
-        <label for="applicationId">
-            Application ID
-        </label>
+        <div class="search-box">
+
+            <label>
+                Application Number
+            </label>
+
+            <input
+                type="text"
+                id="applicationId"
+                placeholder="ઉદાહરણ: RC20260001"
+                maxlength="20"
+                autocomplete="off"
+            >
+
+            <button
+                type="button"
+                id="trackBtn"
+                onclick="trackApplication()">
+
+                🔍 Track Application
+
+            </button>
+
+        </div>
 
 
-        <input
-            type="text"
-            id="applicationId"
-            placeholder="ઉદાહરણ: RC20260001"
-            maxlength="20"
-            autocomplete="off"
-        >
 
-
-
-        <button
-            id="trackBtn"
-            onclick="trackApplication()">
-
-            🔍 Track Application
-
-        </button>
-
-
+        <!-- MESSAGE -->
 
         <div id="msg"></div>
 
@@ -93,25 +101,21 @@
             style="display:none;">
 
 
-            <div class="result-header">
-
-                <h2>
-                    અરજીની વિગતો
-                </h2>
-
+            <div class="result-title">
+                ✅ Application Found
             </div>
 
 
 
             <!-- APPLICATION ID -->
 
-            <div class="detail-row">
+            <div class="info-row">
 
                 <span>
                     Application ID
                 </span>
 
-                <strong id="showApplicationId">
+                <strong id="showId">
                     -
                 </strong>
 
@@ -119,9 +123,9 @@
 
 
 
-            <!-- FINAL NAME -->
+            <!-- NAME -->
 
-            <div class="detail-row">
+            <div class="info-row">
 
                 <span>
                     નામ
@@ -137,10 +141,10 @@
 
             <!-- SERVICE -->
 
-            <div class="detail-row">
+            <div class="info-row">
 
                 <span>
-                    સેવા
+                    Service
                 </span>
 
                 <strong id="showService">
@@ -153,7 +157,7 @@
 
             <!-- DATE -->
 
-            <div class="detail-row">
+            <div class="info-row">
 
                 <span>
                     અરજી તારીખ
@@ -167,21 +171,21 @@
 
 
 
-            <hr>
+            <!-- PAYMENT -->
 
+            <div class="status-section">
 
-
-            <!-- PAYMENT STATUS -->
-
-            <div class="status-box">
-
-                <span>
+                <div class="status-label">
                     💳 Payment Status
-                </span>
+                </div>
 
-                <strong id="paymentStatus">
-                    -
-                </strong>
+                <div
+                    id="paymentStatus"
+                    class="status pending">
+
+                    🟡 Pending
+
+                </div>
 
             </div>
 
@@ -189,39 +193,45 @@
 
             <!-- APPLICATION STATUS -->
 
-            <div class="status-box">
+            <div class="status-section">
 
-                <span>
+                <div class="status-label">
                     📋 Application Status
-                </span>
+                </div>
 
-                <strong id="applicationStatus">
-                    -
-                </strong>
+                <div
+                    id="applicationStatus"
+                    class="status pending">
+
+                    🟡 Pending
+
+                </div>
 
             </div>
+
 
 
         </div>
 
 
 
+        <!-- HELP -->
+
         <div class="help-box">
 
             <strong>
-                💡 નોંધ:
+                💡 Application Number ક્યાં મળશે?
             </strong>
 
-            <br>
-
-            Application ID તમને અરજી submit કર્યા પછી
-            મળ્યો હતો.
+            <p>
+                અરજી Submit કર્યા પછી મળેલો
+                <b>RC20260001</b> નંબર અહીં નાખો.
+            </p>
 
         </div>
 
 
     </div>
-
 
 </main>
 
