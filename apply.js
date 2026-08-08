@@ -1,526 +1,771 @@
-// ==========================================
+// =====================================================
 // RAJKUMAR RATION CARD PORTAL
 // FINAL APPLY.JS
-// CUSTOMER APPLICATION
-// ==========================================
+// =====================================================
 
 
-// ==========================================
+// =====================================================
 // GOOGLE APPS SCRIPT URL
-// ==========================================
+// =====================================================
 
 const SCRIPT_URL =
-"https://script.google.com/macros/s/AKfycbxPWEsUdFkEB_g4RyWHqEI2bPT5TluwZOa30qqiX3QpoGuQUZ5Jt73Utvyqa7XfjRYlfw/exec";
+  "https://script.google.com/macros/s/AKfycbxPWEsUdFkEB_g4RyWHqEI2bPT5TluwZOa30qqiX3QpoGuQUZ5Jt73Utvyqa7XfjRYlfw/exec";
 
 
-// ==========================================
+// =====================================================
 // FILE TO BASE64
-// ==========================================
+// =====================================================
 
 function fileToBase64(file) {
 
-    return new Promise((resolve, reject) => {
+  return new Promise(
+    function(resolve, reject) {
 
-        const reader =
-            new FileReader();
+      const reader =
+        new FileReader();
 
-        reader.onload = function () {
 
-            const result =
-                reader.result.split(",")[1];
+      reader.onload =
+        function() {
 
-            resolve({
+          const result =
+            reader.result;
 
-                name:
-                    file.name,
 
-                mimeType:
-                    file.type,
+          const base64 =
+            result.split(",")[1];
 
-                data:
-                    result
 
-            });
+          resolve({
 
-        };
+            name:
+              file.name,
 
-        reader.onerror = function () {
+            mimeType:
+              file.type,
 
-            reject(
-                new Error(
-                    "File reading failed"
-                )
-            );
+            data:
+              base64
+
+          });
 
         };
 
-        reader.readAsDataURL(file);
 
-    });
+      reader.onerror =
+        function(error) {
+
+          reject(error);
+
+        };
+
+
+      reader.readAsDataURL(
+        file
+      );
+
+    }
+  );
 
 }
 
 
-// ==========================================
+// =====================================================
+// MESSAGE
+// =====================================================
+
+function showMessage(
+  text,
+  color
+) {
+
+  const msg =
+    document.getElementById(
+      "msg"
+    );
+
+
+  if (!msg) return;
+
+
+  msg.innerHTML =
+    text;
+
+
+  msg.style.color =
+    color;
+
+}
+
+
+// =====================================================
 // SEND APPLICATION
-// ==========================================
+// =====================================================
 
 async function sendApplication() {
 
-    const msg =
-        document.getElementById("msg");
+  try {
 
-    const submitBtn =
-        document.getElementById("submitBtn");
-
-
-    // ======================================
-    // GET FORM VALUES
-    // ======================================
+    // -----------------------------------------------
+    // GET INPUTS
+    // -----------------------------------------------
 
     const englishName =
-        document
-            .getElementById("englishName")
-            .value
-            .trim();
+      document
+        .getElementById(
+          "englishName"
+        )
+        .value
+        .trim();
 
 
     const gujaratiName =
-        document
-            .getElementById("gujaratiName")
-            .value
-            .trim();
+      document
+        .getElementById(
+          "gujaratiName"
+        )
+        .value
+        .trim();
 
 
     const mobile =
-        document
-            .getElementById("mobile")
-            .value
-            .trim();
+      document
+        .getElementById(
+          "mobile"
+        )
+        .value
+        .trim();
 
 
     const village =
-        document
-            .getElementById("village")
-            .value
-            .trim();
+      document
+        .getElementById(
+          "village"
+        )
+        .value
+        .trim();
 
 
     const taluka =
-        document
-            .getElementById("taluka")
-            .value
-            .trim();
+      document
+        .getElementById(
+          "taluka"
+        )
+        .value
+        .trim();
 
 
     const district =
-        document
-            .getElementById("district")
-            .value
-            .trim();
+      document
+        .getElementById(
+          "district"
+        )
+        .value
+        .trim();
 
 
     const rationCard =
-        document
-            .getElementById("rationNo")
-            .value
-            .trim();
+      document
+        .getElementById(
+          "rationNo"
+        )
+        .value
+        .trim();
 
 
     const service =
-        document
-            .getElementById("service")
-            .value;
+      document
+        .getElementById(
+          "service"
+        )
+        .value;
 
 
     const transactionId =
-        document
-            .getElementById("transactionId")
-            .value
-            .trim();
+      document
+        .getElementById(
+          "transactionId"
+        )
+        .value
+        .trim();
 
-
-    // ======================================
-    // NAME TYPE
-    // ======================================
 
     const selectedNameType =
-        document.querySelector(
-            'input[name="nameType"]:checked'
-        );
+      document.querySelector(
+        'input[name="nameType"]:checked'
+      );
 
 
     const nameType =
-        selectedNameType
-            ? selectedNameType.value
-            : "Self";
+      selectedNameType
+        ? selectedNameType.value
+        : "Self";
 
 
-    let husbandName = "";
+    let husbandName =
+      "";
 
 
     if (
-        nameType === "Husband"
+      nameType ===
+      "Husband"
     ) {
 
-        husbandName =
-            document
-                .getElementById("husband")
-                .value
-                .trim();
+      husbandName =
+        document
+          .getElementById(
+            "husband"
+          )
+          .value
+          .trim();
 
     }
 
 
-    // ======================================
+    // -----------------------------------------------
     // FINAL NAME
-    // ======================================
+    // -----------------------------------------------
 
     let finalName =
-        gujaratiName;
+      gujaratiName;
 
 
     if (
-        nameType === "Husband" &&
-        husbandName !== ""
+      nameType === "Husband" &&
+      husbandName !== ""
     ) {
 
-        finalName =
-            gujaratiName +
-            " W/O " +
-            husbandName;
+      finalName =
+        gujaratiName +
+        " W/O " +
+        husbandName;
 
     }
 
 
-    // ======================================
+    // -----------------------------------------------
     // FILES
-    // ======================================
+    // -----------------------------------------------
 
     const aadhaar =
-        document
-            .getElementById("aadhaar")
-            .files[0];
+      document
+        .getElementById(
+          "aadhaar"
+        )
+        .files[0];
 
 
     const ration =
-        document
-            .getElementById("ration")
-            .files[0];
+      document
+        .getElementById(
+          "ration"
+        )
+        .files[0];
 
 
     const payment =
-        document
-            .getElementById("payment")
-            .files[0];
-
-
-    // ======================================
-    // VALIDATION
-    // ======================================
-
-    if (
-        englishName === "" ||
-        gujaratiName === "" ||
-        mobile === "" ||
-        village === "" ||
-        taluka === "" ||
-        district === "" ||
-        service === "" ||
-        transactionId === ""
-    ) {
-
-        msg.innerHTML =
-            "❌ કૃપા કરીને બધી જરૂરી માહિતી ભરો";
-
-        msg.style.color =
-            "red";
-
-        return;
-
-    }
-
-
-    // ======================================
-    // MOBILE VALIDATION
-    // ======================================
-
-    if (
-        !/^[6-9][0-9]{9}$/.test(
-            mobile
+      document
+        .getElementById(
+          "payment"
         )
-    ) {
-
-        msg.innerHTML =
-            "❌ સાચો 10 અંકનો મોબાઇલ નંબર નાખો";
-
-        msg.style.color =
-            "red";
-
-        return;
-
-    }
+        .files[0];
 
 
-    // ======================================
-    // HUSBAND NAME VALIDATION
-    // ======================================
+    // -----------------------------------------------
+    // VALIDATION
+    // -----------------------------------------------
 
     if (
-        nameType === "Husband" &&
-        husbandName === ""
+      englishName === "" ||
+      gujaratiName === "" ||
+      mobile === "" ||
+      village === "" ||
+      service === "" ||
+      transactionId === ""
     ) {
 
-        msg.innerHTML =
-            "❌ પતિનું નામ નાખો";
+      showMessage(
+        "❌ બધી જરૂરી માહિતી ભરો",
+        "red"
+      );
 
-        msg.style.color =
-            "red";
-
-        return;
+      return;
 
     }
 
 
-    // ======================================
-    // FILE VALIDATION
-    // ======================================
+    // -----------------------------------------------
+    // MOBILE
+    // -----------------------------------------------
+
+    if (
+      !/^[0-9]{10}$/.test(
+        mobile
+      )
+    ) {
+
+      showMessage(
+        "❌ Mobile Number 10 digit હોવો જોઈએ",
+        "red"
+      );
+
+      return;
+
+    }
+
+
+    // -----------------------------------------------
+    // HUSBAND VALIDATION
+    // -----------------------------------------------
+
+    if (
+      nameType === "Husband" &&
+      husbandName === ""
+    ) {
+
+      showMessage(
+        "❌ પતિનું નામ દાખલ કરો",
+        "red"
+      );
+
+      return;
+
+    }
+
+
+    // -----------------------------------------------
+    // REQUIRED DOCUMENTS
+    // -----------------------------------------------
 
     if (!aadhaar) {
 
-        msg.innerHTML =
-            "❌ Aadhaar PDF અપલોડ કરો";
+      showMessage(
+        "❌ Aadhaar PDF Upload કરો",
+        "red"
+      );
 
-        msg.style.color =
-            "red";
-
-        return;
+      return;
 
     }
 
 
     if (!ration) {
 
-        msg.innerHTML =
-            "❌ Ration Card PDF અપલોડ કરો";
+      showMessage(
+        "❌ Ration Card PDF Upload કરો",
+        "red"
+      );
 
-        msg.style.color =
-            "red";
-
-        return;
+      return;
 
     }
 
 
     if (!payment) {
 
-        msg.innerHTML =
-            "❌ Payment Screenshot અપલોડ કરો";
+      showMessage(
+        "❌ Payment Screenshot Upload કરો",
+        "red"
+      );
 
-        msg.style.color =
-            "red";
-
-        return;
+      return;
 
     }
 
 
-    // ======================================
-    // AADHAAR PDF CHECK
-    // ======================================
+    // -----------------------------------------------
+    // PDF VALIDATION
+    // -----------------------------------------------
 
     if (
-        aadhaar.type !==
-        "application/pdf"
+      aadhaar.type !==
+      "application/pdf"
     ) {
 
-        msg.innerHTML =
-            "❌ Aadhaar File માત્ર PDF હોવી જોઈએ";
+      showMessage(
+        "❌ Aadhaar PDF જ હોવી જોઈએ",
+        "red"
+      );
 
-        msg.style.color =
-            "red";
-
-        return;
+      return;
 
     }
 
-
-    // ======================================
-    // RATION PDF CHECK
-    // ======================================
 
     if (
-        ration.type !==
-        "application/pdf"
+      ration.type !==
+      "application/pdf"
     ) {
 
-        msg.innerHTML =
-            "❌ Ration Card File માત્ર PDF હોવી જોઈએ";
+      showMessage(
+        "❌ Ration Card PDF જ હોવી જોઈએ",
+        "red"
+      );
 
-        msg.style.color =
-            "red";
-
-        return;
-
-    }
-
-
-    // ======================================
-    // PAYMENT FILE CHECK
-    // ======================================
-
-    const allowedPayment =
-        payment.type.startsWith("image/") ||
-        payment.type === "application/pdf";
-
-
-    if (!allowedPayment) {
-
-        msg.innerHTML =
-            "❌ Payment Screenshot image અથવા PDF હોવો જોઈએ";
-
-        msg.style.color =
-            "red";
-
-        return;
+      return;
 
     }
 
 
-    // ======================================
-    // SHOW LOADING
-    // ======================================
+    // -----------------------------------------------
+    // PAYMENT FILE TYPE
+    // -----------------------------------------------
 
-    msg.innerHTML =
-        "⏳ અરજી તૈયાર થઈ રહી છે...";
+    const allowedPaymentTypes = [
 
-    msg.style.color =
-        "blue";
+      "image/jpeg",
+
+      "image/jpg",
+
+      "image/png",
+
+      "application/pdf"
+
+    ];
 
 
-    if (submitBtn) {
+    if (
+      !allowedPaymentTypes.includes(
+        payment.type
+      )
+    ) {
 
-        submitBtn.disabled =
-            true;
+      showMessage(
+        "❌ Payment Screenshot JPG, PNG અથવા PDF હોવો જોઈએ",
+        "red"
+      );
 
-        submitBtn.innerHTML =
-            "⏳ અરજી મોકલાઈ રહી છે...";
+      return;
 
     }
 
 
-    try {
+    // -----------------------------------------------
+    // START
+    // -----------------------------------------------
 
-        // ==================================
-        // CONVERT FILES
-        // ==================================
-
-        msg.innerHTML =
-            "⏳ Documents upload માટે તૈયાર થઈ રહ્યા છે...";
-
-
-        const aadhaarData =
-            await fileToBase64(
-                aadhaar
-            );
+    showMessage(
+      "⏳ અરજી તૈયાર થઈ રહી છે...",
+      "blue"
+    );
 
 
-        const rationData =
-            await fileToBase64(
-                ration
-            );
+    // -----------------------------------------------
+    // CONVERT FILES
+    // -----------------------------------------------
+
+    const aadhaarData =
+      await fileToBase64(
+        aadhaar
+      );
 
 
-        const paymentData =
-            await fileToBase64(
-                payment
-            );
+    showMessage(
+      "⏳ Aadhaar Upload થઈ રહ્યું છે...",
+      "blue"
+    );
 
 
-        // ==================================
-        // APPLICATION DATA
-        // ==================================
-
-        const data = {
-
-            // IMPORTANT
-            action:
-                "submitApplication",
+    const rationData =
+      await fileToBase64(
+        ration
+      );
 
 
-            englishName:
-                englishName,
+    showMessage(
+      "⏳ Ration Card Upload થઈ રહ્યું છે...",
+      "blue"
+    );
 
 
-            gujaratiName:
-                gujaratiName,
+    const paymentData =
+      await fileToBase64(
+        payment
+      );
 
 
-            finalName:
-                finalName,
+    showMessage(
+      "⏳ Payment Screenshot Upload થઈ રહ્યું છે...",
+      "blue"
+    );
 
 
-            nameType:
-                nameType,
+    // -----------------------------------------------
+    // DATA
+    // -----------------------------------------------
+
+    const data = {
+
+      action:
+        "submitApplication",
+
+      englishName:
+        englishName,
+
+      gujaratiName:
+        gujaratiName,
+
+      finalName:
+        finalName,
+
+      nameType:
+        nameType,
+
+      husbandName:
+        husbandName,
+
+      mobile:
+        mobile,
+
+      village:
+        village,
+
+      taluka:
+        taluka,
+
+      district:
+        district,
+
+      rationCard:
+        rationCard,
+
+      service:
+        service,
+
+      transactionId:
+        transactionId,
+
+      paymentStatus:
+        "Pending",
+
+      aadhaar:
+        aadhaarData,
+
+      ration:
+        rationData,
+
+      payment:
+        paymentData
+
+    };
 
 
-            husbandName:
-                husbandName,
+    // -----------------------------------------------
+    // SEND TO GOOGLE APPS SCRIPT
+    // -----------------------------------------------
+
+    showMessage(
+      "⏳ અરજી Google Server પર મોકલાઈ રહી છે...",
+      "blue"
+    );
 
 
-            mobile:
-                mobile,
+    const response =
+      await fetch(
+        SCRIPT_URL,
+        {
+
+          method:
+            "POST",
+
+          body:
+            JSON.stringify(
+              data
+            )
+
+        }
+      );
 
 
-            village:
-                village,
+    const result =
+      await response.json();
 
 
-            taluka:
-                taluka,
+    // -----------------------------------------------
+    // SUCCESS
+    // -----------------------------------------------
+
+    if (
+      result.status ===
+      "success"
+    ) {
+
+      showMessage(
+        `
+        <div style="
+        padding:15px;
+        border-radius:10px;
+        background:#e8f8ee;
+        ">
+
+        <h3>✅ અરજી સફળતાપૂર્વક મોકલાઈ છે</h3>
+
+        <p>
+        <b>Application ID:</b>
+        ${result.applicationId}
+        </p>
+
+        <p>
+        <b>Final Name:</b>
+        ${result.finalName}
+        </p>
+
+        <p>
+        <b>Payment Status:</b>
+        Pending
+        </p>
+
+        <p>
+        કૃપા કરીને તમારો
+        <b>Application ID</b>
+        સાચવી રાખો.
+        </p>
+
+        <a
+        href="track.html"
+        style="
+        display:inline-block;
+        padding:10px 15px;
+        background:#007bff;
+        color:white;
+        text-decoration:none;
+        border-radius:6px;
+        "
+        >
+        📋 Track Application
+        </a>
+
+        </div>
+        `,
+        "green"
+      );
 
 
-            district:
-                district,
+      // -------------------------------------------
+      // RESET
+      // -------------------------------------------
+
+      document
+        .getElementById(
+          "englishName"
+        ).value = "";
 
 
-            rationCard:
-                rationCard,
+      document
+        .getElementById(
+          "gujaratiName"
+        ).value = "";
 
 
-            service:
-                service,
+      document
+        .getElementById(
+          "mobile"
+        ).value = "";
 
 
-            transactionId:
-                transactionId,
+      document
+        .getElementById(
+          "village"
+        ).value = "";
 
 
-            paymentStatus:
-                "Pending",
+      document
+        .getElementById(
+          "taluka"
+        ).value = "";
 
 
-            applicationStatus:
-                "Pending",
+      document
+        .getElementById(
+          "district"
+        ).value = "";
 
 
-            aadhaar:
-                aadhaarData,
+      document
+        .getElementById(
+          "rationNo"
+        ).value = "";
 
 
-            ration:
-                rationData,
+      document
+        .getElementById(
+          "service"
+        ).value = "";
 
 
-            payment:
-                paymentData
+      document
+        .getElementById(
+          "transactionId"
+        ).value = "";
 
-        };
+
+      document
+        .getElementById(
+          "aadhaar"
+        ).value = "";
 
 
-        // ==================================
-        // SEND TO GOOGLE APPS SCRIPT
-        // ==================================
+      document
+        .getElementById(
+          "ration"
+        ).value = "";
 
-        msg.innerHTML =
-            "⏳ અરજી Google Server પર મોકલાઈ રહી છે...
+
+      document
+        .getElementById(
+          "payment"
+        ).value = "";
+
+
+      const husband =
+        document.getElementById(
+          "husband"
+        );
+
+
+      if (husband) {
+
+        husband.value = "";
+
+      }
+
+
+    }
+
+    else {
+
+      showMessage(
+
+        "❌ " +
+        (
+          result.message ||
+          "અરજી મોકલવામાં સમસ્યા"
+        ),
+
+        "red"
+
+      );
+
+    }
+
+  }
+
+  catch (error) {
+
+    console.error(
+      error
+    );
+
+
+    showMessage(
+
+      "❌ Server Error: " +
+      error.message,
+
+      "red"
+
+    );
+
+  }
+
+}
