@@ -243,21 +243,21 @@ function checkLogin() {
 }
 
 
-// ==========================================
-// LOGOUT
-// ==========================================
+```javascript
+// =====================================
+// ADMIN LOGOUT
+// =====================================
 
-function logout() {
+function logout(){
 
-    const confirmLogout =
-        confirm(
-            "શું તમે Logout કરવા માંગો છો?"
-        );
+    localStorage.removeItem("adminLogin");
 
+    localStorage.removeItem("adminName");
 
-    if (!confirmLogout) {
+    window.location.replace("login.html");
 
-        return;
+}
+```
 
     }
 
